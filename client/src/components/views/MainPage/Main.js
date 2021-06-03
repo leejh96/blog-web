@@ -1,10 +1,15 @@
-import React from 'react'
-
+import React from 'react';
+import Navbar from '../NavBar/Navbar';
+import Footer from '../Footer/Footer';
 function Main() {
     return (
-        <div>
-            
-        </div>
+        <>
+            <Navbar />
+            <div>
+                main
+            </div>
+            <Footer />
+        </>
     )
 }
 
