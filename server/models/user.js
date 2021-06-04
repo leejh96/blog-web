@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     },
     nick : {
         type : String,
-        default : username,
+        required : true,
     },
     role : {
         // 0 일반회원, 1,2는 생각중, 3 관리자
@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true,
         required : true,
+        unique : true,
     },
     token : {
         type: String,

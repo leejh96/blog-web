@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Avatar, Button, CssBaseline, TextField, FormControlLabel,
      Checkbox, Link, Grid, Box, Container, Typography} from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from './section/Copyright';
+import axios from 'axios';
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -24,7 +25,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login() {
+function Login(props) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  const onChangePassword = (e) => {
+    setPassword(e.target.value);
+  }; 
+
+  const onSubmitInfo = (e) => {
+    e.preventDefault();
+    axios.post('/api/login', {
+      email,
+      password
+    })
+    .then(res => {
+      if(res.data.success){
+        return props.history.push('/');
+      }
+      alert(res.data.message);
+      return props.history.push('/login');
+    })
+  }
   const classes = useStyles();
 
   return (
@@ -35,19 +60,20 @@ function Login() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          로그인
         </Typography>
-        <form className={classes.form} noValidate>
+        <form method='post' className={classes.form} noValidate onSubmit={onSubmitInfo}>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="이메일"
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={onChangeEmail}
           />
           <TextField
             variant="outlined"
@@ -55,14 +81,15 @@ function Login() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="비밀번호"
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={onChangePassword}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            label="자동 로그인"
           />
           <Button
             type="submit"
