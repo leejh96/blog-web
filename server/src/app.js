@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const app = express();
 
-const SignupRouter = require('../routes/signup');
-const LoginRouter = require('../routes/login');
+const UserRouter = require('../routes/user');
+
 require('dotenv').config();
 
 mongoose.connect(process.env.mongoURI, {
@@ -27,8 +27,7 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
     res.send('Hi!');
 })
-app.use('/api/signup', SignupRouter);
-app.use('/api/login', LoginRouter);
+app.use('/api/user', UserRouter);
 
 app.listen(process.env.PORT, (req, res) => {
     console.log('server connected ...');

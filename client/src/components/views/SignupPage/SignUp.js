@@ -32,7 +32,7 @@ function Signup(props) {
 
     const onSubmitSignup = (e) => {
         e.preventDefault();
-        axios.post('/api/signup', {
+        axios.post('/api/user/signup', {
             username,
             nick,
             email,

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { withRouter } from 'react-router-dom';
 import {Avatar, Button, CssBaseline, TextField, FormControlLabel,
      Checkbox, Link, Grid, Box, Container, Typography} from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -38,7 +39,7 @@ function Login(props) {
 
   const onSubmitInfo = (e) => {
     e.preventDefault();
-    axios.post('/api/login', {
+    axios.post('/api/user/login', {
       email,
       password
     })
@@ -121,4 +122,4 @@ function Login(props) {
   );
 }
 
-export default Login
+export default withRouter(Login);

@@ -6,4 +6,4 @@
 
 **`2일차 : material UI를 사용해 navbar drawer(sidebar) login signup 페이지를 구성함`**
 
-**`3일차 : [HPM] Error occurred while trying to proxy request /api/signup from localhost:3000 to http://localhost:5000 에러가 떴고 http-proxy-middleware 모듈의 버전 문제였다.`**
+**`3일차 : [HPM] Error occurred while trying to proxy request /api/signup from localhost:3000 to http://localhost:5000 에러가 떴고 http-proxy-middleware 모듈의 버전 문제였다. 로그인 로그아웃 회원가입 기능을 구현하였고, 쿠키를 사용하여 유저의 로그인 상태를 저장하였다.(세션과 쿠키중에 고민하였고 예전에 passport로 구현할 때 세션을 사용해봤기 때문에 이번에는 쿠키로 해봤다) `**

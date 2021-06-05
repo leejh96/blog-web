@@ -1,11 +1,12 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import {AppBar, Toolbar, IconButton, Typography, Badge, MenuItem, Menu} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-
+import axios from 'axios';
 const useStyles = makeStyles((theme) => ({
     grow: {
         flexGrow: 1,
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Navbar() {
+function Navbar(props) {
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -69,6 +70,17 @@ function Navbar() {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
+    const onClickLogout = () => {
+        axios.get('/api/user/logout')
+        .then(res => {
+            if(res.data.success){
+                return props.history.push('/');
+            }
+            if(!res.data.auth){
+                return alert('로그인이 안돼 있음')
+            }
+        })
+    }
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
@@ -82,6 +94,7 @@ function Navbar() {
         >
         <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
         <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+        <MenuItem onClick={onClickLogout}>로그아웃</MenuItem>
         </Menu>
     );
 
@@ -176,4 +189,4 @@ function Navbar() {
     );
 }
 
-export default Navbar;
+export default withRouter(Navbar);
