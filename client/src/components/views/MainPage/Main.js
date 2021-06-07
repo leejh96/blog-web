@@ -8,26 +8,26 @@ import RecentPost from './section/RecentPost';
 import Sidebar from '../SideBar/Sidebar';
 function Main() {
     return (
-        <>
+        <div>
             <Sidebar />
             <Navbar />
-            <div>
-                {/* 소개 하는 섹션 */}
-                <div>
-                   <Intro />
+            <div style={{
+                margin : '20px 50px 20px 50px',
+            }}>
+                <div >
+                    <Intro />
                 </div>
-                {/* 각종 컨텐츠 */}
-                <div style={{display: 'flex'}}>
+                <div style={{display: "Grid"}}>
                     <Notice />
                     <RecentPost />
                 </div>
-                {/* 방명록 */}
                 <div>
                     <Guestbook />
                 </div>
             </div>
+
             <Footer />
-        </>
+        </div>
     )
 }
 

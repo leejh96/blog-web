@@ -2,7 +2,7 @@ import React from 'react'
 
 function Introduce() {
     return (
-        <div style={{textAlign: 'left', marginLeft : '10px', borderBottom : '1px soild black'}}>
+        <div style={{textAlign: 'left', borderBottom : '1px soild black'}}>
             <h2> 간단한 자기소개 </h2>
             <p> 
                 안녕하세요 블로그 개설자 이주혁 입니다.<br />
