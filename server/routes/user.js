@@ -39,6 +39,7 @@ router.post('/login', async(req, res)=>{
         if(TF){
             const token = jwt.sign(user._id.toHexString(), process.env.TOKEN_SECRET)
             user.token = token;
+            await user.save();
             return res
             .status(200)
             .cookie('authCookie', token, {
@@ -71,8 +72,18 @@ router.get('/logout', auth, async(req, res) => {
         console.error(error);
         return ;
     }
-    req.cookies.authCookie
 });
 
+router.get('/token',  async(req, res) => {
+    try {
+        const COOKIE = req.cookies.authCookie;
+        return res.json({
+            token : COOKIE
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+});
 
 module.exports = router;
