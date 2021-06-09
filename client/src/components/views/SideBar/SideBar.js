@@ -1,7 +1,11 @@
+import { Divider } from '@material-ui/core';
 import React from 'react'
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 function Sidebar() {
-  const list = ['NodeJS','React','MongoDB','MySQL','HTML', 'CSS', 'JavaScript']
+  const list1 = ['NodeJS','React','MongoDB','MySQL','HTML', 'CSS', 'JavaScript']
+  const list2 = ['공지사항', '개발일지', '최근이슈'];
+  const list2Link = ['/notice', '/diary', '/issue'];
+  
   return (
     <div style={{
         width : '200px',
@@ -18,9 +22,16 @@ function Sidebar() {
         margin : 0,
         paddingRight : '10px'
       }}>
-        {list.map((val, i) => (
+        {list2.map((val, i) => (
           <li key={i} style={{ marginBottom : '5px'}}>
-            <Link to = {`/${list[i]}`} style ={{
+          <Link to = {list2Link[i]} style ={{
+            textDecoration : 'none', color : 'black'
+          }}>{val}</Link></li>
+        ))}
+        <Divider />
+        {list1.map((val, i) => (
+          <li key={i} style={{ marginBottom : '5px'}}>
+            <Link to = {`/${list1[i]}`} style ={{
               textDecoration : 'none', color : 'black'
             }}>{val}</Link></li>
         ))}

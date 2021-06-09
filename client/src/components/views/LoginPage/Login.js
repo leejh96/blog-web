@@ -45,7 +45,7 @@ function Login(props) {
     })
     .then(res => {
       if(res.data.success){
-        localStorage.setItem('auth', true);
+        localStorage.setItem('auth', res.data.role);
         return props.history.push('/');
       }
       alert(res.data.message);

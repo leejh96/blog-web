@@ -1,5 +1,4 @@
 import React from 'react'
-import {Divider} from '@material-ui/core'
 function Introduce() {
     return (
         <div style={{textAlign: 'left', borderBottom : '1px soild black'}}>
@@ -11,6 +10,10 @@ function Introduce() {
                 그런 블로그가 되었으면 합니다.<br />
                 찾아주셔서 감사드리고 오늘 하루도 좋은 시간 보내셨으면 좋겠습니다~!!
             </p>
+            {localStorage.getItem('auth') === '3' ? <div style={{ display: 'flex', justifyContent : 'space-evenly', marginBottom : '5px'}}>
+                <button>수정</button>
+                <button>삭제</button>
+            </div> : <></>}
         </div>
 
     )

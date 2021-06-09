@@ -47,7 +47,8 @@ router.post('/login', async(req, res)=>{
                 httpOnly: true,
             })
             .json({
-                success : true
+                success : true,
+                role : user.role
             })
         }
         return res.status(200).json({

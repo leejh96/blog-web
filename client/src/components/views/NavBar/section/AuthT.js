@@ -1,7 +1,9 @@
 import axios from 'axios'
 import React from 'react'
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 function authT(props) {
+    const list =  ['내 정보', '로그아웃'];
+    const link = ['/mySetting', '#'];
     const onClickLogout = () => {
         axios.get('/api/user/logout')
         .then(res => {
@@ -13,10 +15,32 @@ function authT(props) {
         })
     }
     return (
-        <>
-            <li><a href="/#">내 정보</a></li>
-            <li><button onClick={onClickLogout}>로그아웃</button></li>  
-        </>
+        <div style={{ display : 'flex',justifyContent : 'flex-end', flexWrap : 'wrap'}}>
+            <ul style= {{
+                display : 'flex',
+                listStyle : 'none',
+                margin: 0,
+                padding : 0,
+            }}>
+                { list.map((value, i) => (
+                    value !== '로그아웃' ? <Link style={{ 
+                        textDecoration : 'none',
+                        color : 'black',
+                        marginRight: '5px', 
+                        fontSize : '6px'
+                    }} key={i} to={link[i]}>
+                        {value}
+                    </Link> : <Link style={{ 
+                        textDecoration : 'none',
+                        color : 'black',
+                        marginRight: '5px', 
+                        fontSize : '6px'
+                    }} key={i} to={link[i]} onClick={onClickLogout}>
+                        {value}
+                    </Link>
+                ))}
+            </ul>
+        </div>
     )
 }
 
