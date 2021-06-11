@@ -2,44 +2,45 @@ import React from 'react';
 import Navbar from '../NavBar/Navbar';
 import Footer from '../Footer/Footer';
 import Intro from './section/Introduce';
-import Guestbook from './section/Guestbook';
 import Notice from './section/Notice';
 import RecentPost from './section/RecentPost';
 import Sidebar from '../SideBar/Sidebar';
 import { Divider } from '@material-ui/core';
+import styled from 'styled-components';
+
+const MainPage = styled.div`
+    margin-left : 10%;
+    margin-right : 10%;
+    display : flex;
+`;
+const ContentArea = styled.div`
+    flex-direction : row;
+    width : calc(100% - 200px);
+    margin-left : 30px;
+`;
+const Content = styled.div`
+    display : flex;
+    margin-top : 10px;
+    padding-bottom : 10px;
+    justify-content : space-around;
+`;
 function Main() {
     return (
         <>
-            {/* header */}
-            <header>
-                <Navbar />
-            </header>
+            <Navbar />
             <Divider />
-            {/* body */}
-            <div style={{ display : 'flex', margin : '0 50px 0 50px'}}>
+            <MainPage>
                 <Sidebar />
-                <div style={{ width : '100%'}}>
-                    <div >
-                        <Intro />
-                    </div>
-                    <Divider style={ { marginBottom : '14px'} }/>
-                    <div style={{display : 'flex', justifyContent : 'space-around'}}>
+                <ContentArea>
+                    <Intro />
+                    <Content>
                         <Notice />
                         <RecentPost />
-                    </div>
-                    <Divider style={ { marginTop : '14px'} }/>
-                    <div>
-                        <Guestbook />
-                    </div>
-                </div>
-            </div>
-            {/* footer */}
-            <Divider style={ {margin : '0 0 14px 0'} }/>
-            <footer>
-                    <Footer />
-            </footer>
+                    </Content>
+                </ContentArea>
+            </MainPage>
+            <Footer />
         </>
     )
 }
-
 export default Main

@@ -6,7 +6,7 @@ function Navbar() {
     let [user, setUser] = useState(localStorage.getItem('auth'));
     
     return (
-        <div align='center'>
+        <div align='center' >
             {user ? <AuthT /> : <AuthF />}
             <h1>
                 <Link to='/' style={{ textDecoration :'none', color :'black'}}>주혁's 블로그</Link>

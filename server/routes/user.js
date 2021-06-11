@@ -43,7 +43,6 @@ router.post('/login', async(req, res)=>{
             return res
             .status(200)
             .cookie('authCookie', token, {
-                maxAge: 30*60*1000,
                 httpOnly: true,
             })
             .json({

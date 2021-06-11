@@ -1,21 +1,28 @@
-import axios from 'axios';
+// import axios from 'axios';
 import React, {useState, useEffect} from 'react'
-import {Link} from  'react-router-dom';
+import { Link } from  'react-router-dom';
+import styled from 'styled-components';
+
+const pagenagtionSection = styled.div`
+    display : flex;
+    justify-content : space-around;
+`;
+
+
 function Pagenation() {
     const [totalPage, setTotalPage] = useState([1,2,3,4]);
-    useEffect(() => {
-        axios.get('api/notice/page')
-        .then(res => {
-            return setTotalPage((prevPage) => { return [...prevPage, res.data.total ]});
-        })
-    },[])
+    // useEffect(() => {
+    //     axios.get('api/notice/page')
+    //     .then(res => {
+    //         return setTotalPage((prevPage) => { return [...prevPage, res.data.total ]});
+    //     })
+    // },[])
     return (
-        <div>
+        <pagenagtionSection>
             {totalPage.map((val, idx) => (
-                <span key={idx}>
-                    <Link to={`/notice/${val}`}>{val}</Link> </span> 
+                <Link key={idx} to={`/notice/${val}`}>{val}</Link>
             ))}         
-        </div>
+        </pagenagtionSection>
     )
 }
 

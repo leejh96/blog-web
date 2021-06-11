@@ -13,3 +13,5 @@
 **`5일차 : 로그인 유지를 어떻게 할까 고민하다가 localStorage를 이용해서 로그인하면 localStorage에 저장하고 로그아웃하면 삭제하는 방식으로 구현했다. `**
 
 **`6일차 : 공지사항 페이지를 구성하는 중이다.`**
+
+**`7일차 : styled-component를 이용하여 css작업을 하였다. TypeError: styled_components__WEBPACK_IMPORTED_MODULE_2__.default.Link is not a function 란 에러를 발견했는데 react-router-dom 태그를 이용할 때에는 styled.xx가 아닌 styled(xx)로 만들어주면 해결되었다. `**
