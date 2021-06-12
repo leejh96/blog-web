@@ -6,7 +6,7 @@ const TableValue = styled(TableCell)`
     text-align : center;
 `;
 
-const TableLink = styled.Link`
+const TableLink = styled(Link)`
     text-decoration : none;
     color : black;
     &:hover{

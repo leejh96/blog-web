@@ -39,7 +39,7 @@ function Sidebar() {
   const category = [
     {
       tag : '공지사항',
-      link : '/notice'
+      link : '/notice?page=1'
     },
     {
       tag : '개발일지',

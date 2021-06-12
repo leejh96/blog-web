@@ -14,7 +14,6 @@ function App() {
             <Route exact path='/login' component={Login} />
             <Route exact path='/signup' component={Signup} />
             <Route exact path='/notice' component={Notice} />
-            <Route path="/notice/:page" component={Notice}/>
           </Switch>
         </BrowserRouter>
       </Suspense>
