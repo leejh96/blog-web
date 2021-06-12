@@ -2,7 +2,12 @@
 import React, {useState, useEffect} from 'react'
 import { Link } from  'react-router-dom';
 import styled from 'styled-components';
+import querystring from 'query-string';
 
+const PagenationArea = styled.div`
+    text-align : center;
+    margin-bottom : 30px;
+`;
 const PagenationLink = styled(Link)`
     text-decoration : none;
     color : black;
@@ -13,7 +18,7 @@ const PagenationLink = styled(Link)`
     };
 `;
 
-function Pagenation() {
+function Pagenation(props) {
     const [totalPage, setTotalPage] = useState([1,2,3,4]);
     // useEffect(() => {
     //     axios.get('api/notice/page')
@@ -22,11 +27,15 @@ function Pagenation() {
     //     })
     // },[])
     return (
-        <div align="center">
+        <PagenationArea>
+            <PagenationLink to={`/notice?page=1`}>{'<<'}</PagenationLink>
+            <PagenationLink to='#'>{'<'}</PagenationLink>
             {totalPage.map((val, idx) => (
                 <PagenationLink key={idx} to={`/notice?page=${val}`}>{val}</PagenationLink>
-            ))}         
-        </div>
+            ))}
+            <PagenationLink to='#'>{'>'}</PagenationLink>
+            <PagenationLink to='#'>{'>>'}</PagenationLink>
+        </PagenationArea>
     )
 }
 

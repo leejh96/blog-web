@@ -4,6 +4,7 @@ import Sidebar from '../SideBar/Sidebar';
 import Footer from '../Footer/Footer';
 import TableSection from './section/TableSection';
 import Pagenation from './section/Pagenation';
+import Search from './section/Search';
 import {Divider} from '@material-ui/core';
 import styled from 'styled-components';
 const MainPage = styled.div`
@@ -35,6 +36,7 @@ function Notice() {
                     <Content>
                         <TableSection />
                         <Pagenation />
+                        <Search />
                     </Content>
                 </ContentArea>
             </MainPage>

@@ -54,9 +54,9 @@ function TableSection() {
             </TableHead>
             <TableBody>
             {posts.map((val, i) => (
-                <TableRow>
+                <TableRow key={i}>
                     <TableValue>{i+1}</TableValue>
-                    <TableValue><TableLink>{val.title}</TableLink></TableValue>
+                    <TableValue><TableLink to='#'>{val.title}</TableLink></TableValue>
                     <TableValue>{val.author}</TableValue>
                     <TableValue>{val.date}</TableValue>
                 </TableRow>

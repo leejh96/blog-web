@@ -96,7 +96,7 @@ function Sidebar() {
       <SideMain>
         <MenuTitle>Study</MenuTitle>
         {study.map((val, i) => (
-          <SideLink key={i} to = {val.link} >
+          <SideLink key={i} to={val.link} >
             {val.tag}
           </SideLink>
         ))}
@@ -105,7 +105,7 @@ function Sidebar() {
       <SideMain>
         <MenuTitle>Notice</MenuTitle>
         {category.map((val, i) => (
-          <SideLink key={i} to = {val.link}>
+          <SideLink key={i} to={val.link}>
             {val.tag}
           </SideLink>
         ))}

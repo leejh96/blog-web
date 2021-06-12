@@ -13,7 +13,9 @@ function App() {
             <Route exact path='/' component={Main} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/signup' component={Signup} />
-            <Route exact path='/notice' component={Notice} />
+            
+            {/* 쿼리스트링 값은 path에 적지 않고 쿼리스트링 전 path만 입력 */}
+            <Route exact path='/notice' component={Notice} /> 
           </Switch>
         </BrowserRouter>
       </Suspense>

@@ -4,7 +4,7 @@ function Copyright() {
     return (
       <Typography component={'span'} variant="body2" color="textSecondary">
         {'Copyright © '}
-        <Link color="inherit" href="/">
+        <Link color="inherit" to="/">
           주혁's 블로그
         </Link>{' '}
         {new Date().getFullYear()}
