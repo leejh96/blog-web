@@ -1,12 +1,18 @@
-import React from 'react'
+import React from 'react';
 import Navbar from '../NavBar/Navbar';
-import Sidebar from '../SideBar/Sidebar';
 import Footer from '../Footer/Footer';
-import TableSection from './section/TableSection';
-import Pagenation from './section/Pagenation';
-import Search from './section/Search';
-import {Divider} from '@material-ui/core';
+import Sidebar from '../SideBar/Sidebar';
+import { Divider } from '@material-ui/core';
 import styled from 'styled-components';
+import Express from './Express/Express';
+import Algorithm from './Algorithm/Algorithm';
+import Css from './CSS/Css';
+import Html from './HTML/Html';
+import Js from './JavaScript/Js';
+import Mongodb from './MongoDB/Mongodb';
+import Mysql from './MySQL/Mysql';
+import ReactJS from './React/React';
+
 const MainPage = styled.div`
     margin-left : 10%;
     margin-right : 10%;
@@ -18,14 +24,11 @@ const ContentArea = styled.div`
     margin-left : 30px;
 `;
 const Content = styled.div`
-    display : flex;
-    flex-direction : column;
     margin-top : 10px;
     padding-bottom : 10px;
-    justify-content : space-around;
 `;
-function Notice({ location }) {
-    console.log(location.search);
+function Study(props) {
+    const study = props.match.params.study;
     return (
         <>
             <Navbar />
@@ -33,11 +36,9 @@ function Notice({ location }) {
             <MainPage>
                 <Sidebar />
                 <ContentArea>
-                    <h2>공지사항</h2>
+                    <h2>{study}</h2>
                     <Content>
-                        <TableSection />
-                        <Pagenation />
-                        <Search />
+                        공부한 내용
                     </Content>
                 </ContentArea>
             </MainPage>
@@ -46,4 +47,4 @@ function Notice({ location }) {
     )
 }
 
-export default Notice
+export default Study

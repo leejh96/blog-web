@@ -61,7 +61,6 @@ function TableSection() {
                     <TableValue>{val.date}</TableValue>
                 </TableRow>
             ))}
-
             </TableBody>
         </Table>
     )

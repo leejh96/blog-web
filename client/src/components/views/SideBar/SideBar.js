@@ -21,6 +21,7 @@ const SideBar = styled.div`
   border : 1px solid #eeeeee;
   border-top : 0 ;
   border-bottom : 0;
+
 `;
 const SideLink = styled(Link)` //react-router-dom 태그는 ()에 넣는다
   text-decoration : none;
@@ -56,8 +57,8 @@ function Sidebar() {
   ];
   const study = [
     {
-      tag : 'NodeJS',
-      link : '/NodeJS'
+      tag : 'Express',
+      link : '/Express'
     },
     {
       tag : 'React',

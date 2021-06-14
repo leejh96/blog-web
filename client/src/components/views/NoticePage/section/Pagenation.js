@@ -2,7 +2,6 @@
 import React, {useState, useEffect} from 'react'
 import { Link } from  'react-router-dom';
 import styled from 'styled-components';
-import querystring from 'query-string';
 
 const PagenationArea = styled.div`
     text-align : center;
@@ -18,7 +17,7 @@ const PagenationLink = styled(Link)`
     };
 `;
 
-function Pagenation(props) {
+function Pagenation() {
     const [totalPage, setTotalPage] = useState([1,2,3,4]);
     // useEffect(() => {
     //     axios.get('api/notice/page')

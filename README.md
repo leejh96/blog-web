@@ -17,3 +17,5 @@
 **`7일차 : styled-component를 이용하여 css작업을 하였다. TypeError: styled_components__WEBPACK_IMPORTED_MODULE_2__.default.Link is not a function 란 에러를 발견했는데 react-router-dom 태그를 이용할 때에는 styled.xx가 아닌 styled(xx)로 만들어주면 해결되었다. `**
 
 **`8일차 : 검색기능을 위해 material-ui의 TextField, Button, Select, MenuItem 등을 사용 `**
+
+**`9일차 : 방명록과 개발일지를 구현 및 라우터 매개변수를 이용한 각 Study 항목 변경을 마침 `**
