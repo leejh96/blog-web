@@ -12,6 +12,8 @@ import Js from './JavaScript/Js';
 import Mongodb from './MongoDB/Mongodb';
 import Mysql from './MySQL/Mysql';
 import ReactJS from './React/React';
+import Markdown from '../Markdown/Markdown';
+import MarkdownEditor from '../Markdown/MarkdownEditor';
 
 const MainPage = styled.div`
     margin-left : 10%;
@@ -38,7 +40,7 @@ function Study(props) {
                 <ContentArea>
                     <h2>{study}</h2>
                     <Content>
-                        공부한 내용
+                        <MarkdownEditor />
                     </Content>
                 </ContentArea>
             </MainPage>
