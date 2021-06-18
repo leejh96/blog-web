@@ -58,35 +58,35 @@ function Sidebar() {
   const study = [
     {
       tag : 'Express',
-      link : '/Express'
+      link : '/study/Express'
     },
     {
       tag : 'React',
-      link : '/React'
+      link : '/study/ReactJS'
     },
     {
       tag : 'MongoDB',
-      link : '/MongoDB'
+      link : '/study/MongoDB'
     },
     {
       tag : 'MySQL',
-      link : '/MySQL'
+      link : '/study/MySQL'
     },
     {
       tag : 'HTML',
-      link : '/HTML'
+      link : '/study/HTML'
     },
     {
       tag : 'CSS',
-      link : '/CSS'
+      link : '/study/CSS'
     },
     {
       tag : 'JavaScript',
-      link : '/JavaScript'
+      link : '/study/JavaScript'
     },
     {
       tag : 'Algorithm',
-      link : '/Alogorithm'
+      link : '/study/Algorithm'
     },
   ];
   return (
