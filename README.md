@@ -21,3 +21,5 @@
 **`9일차 : 방명록과 개발일지를 구현 및 라우터 매개변수를 이용한 각 Study 항목 변경을 마침 `**
 
 **`10일차 : 글 작성시 markdown언어를 사용하기 위해서 react-markdown을 사용 하이라이트를 구현하기 위해서 react-syntax-highlighter를 이용했다. ```를 넣을 때 화면이 사라지는 에러가 났었는데 default 값을 지정해주면 되는 에러였고 ```,```는 잘 되는 것 같은데 ``를 사용할 때 에러가 나고 ``를 사용해도 한라인 전체가 하이라이트 되는 것이 문제다.`**
+
+**`11일차 : react-syntax-highlighter를 사용할 때 블록단위로 background-color가 만들어지는 것을 preTag 속성을 span으로 변경 해주어 글자에만 background-color를 입히는 형식으로 바꿨다. 각 study 항목마다 markdown 되는 text를 하나의 파일로 보관하고 markdown 되는 값을 가져오는 방식으로 각 페이지를 구현 `**

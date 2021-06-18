@@ -31,8 +31,8 @@ function Study(props) {
                 <ContentArea>
                     <h2>{study}</h2>
                     <Content>
-                        {/* <MarkdownSection page={study}/> */}
-                        <MarkdownEditor />
+                        <MarkdownSection page={study}/>
+                        {/* <MarkdownEditor /> */}
                     </Content>
                 </ContentArea>
             </MainPage>

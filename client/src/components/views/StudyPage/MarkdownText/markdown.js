@@ -4,7 +4,6 @@ export let Express = `
 const express = require('express');
 \`\`\`
 `;
-
 export let Algorithm = `
 # Markdown으로 구현한 Algorithm 페이지 입니다.
 ## Python

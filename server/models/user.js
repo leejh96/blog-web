@@ -32,6 +32,6 @@ const userSchema = new mongoose.Schema({
     tokenExp :{
         type: Number
     }
-})
+}, { timestamps : true})
 
 module.exports = userSchema
