@@ -5,10 +5,6 @@ const diarySchema = new mongoose.Schema({
     img : {
         url : String,
     },
-    text : {
-        title : String,
-    }
-
 }, { timestamps : true})
 
 module.exports = diarySchema

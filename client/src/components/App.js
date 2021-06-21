@@ -7,6 +7,7 @@ import Notice from './views/NoticePage/Notice';
 import Diary from './views/DiaryPage/Diary';
 import Guestbook  from './views/GuestbookPage/Guestbook';
 import Study from './views/StudyPage/Study';
+import StudyEdit from './views/EditPage/StudyEdit';
 function App() {
   return (
     <>
@@ -20,7 +21,8 @@ function App() {
             <Route exact path='/notice' component={Notice} />
             <Route exact path='/diary' component={Diary} /> 
             <Route exact path='/guestbook' component={Guestbook} /> 
-            <Route exact path='/study/:study' component={Study} /> 
+            <Route exact path='/study/:study' component={Study} />
+            <Route exact path='/study/:study/edit' component={StudyEdit} />
           </Switch>
         </BrowserRouter>
       </Suspense>

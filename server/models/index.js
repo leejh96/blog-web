@@ -11,4 +11,4 @@ const Guestbook = mongoose.model('Guestbook', guestbookSchema);
 const Study = mongoose.model('Study', studySchema);
 const Diary = mongoose.model('Diary', diarySchema);
 
-module.exports = { User, Notice, Guestbook, Study };
+module.exports = { User, Notice, Guestbook, Study, Diary };

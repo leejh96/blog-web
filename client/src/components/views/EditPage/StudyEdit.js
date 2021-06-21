@@ -4,7 +4,7 @@ import Footer from '../Footer/Footer';
 import Sidebar from '../SideBar/Sidebar';
 import { Divider } from '@material-ui/core';
 import styled from 'styled-components';
-import MarkdownSection from '../Markdown/Markdown';
+import MarkdownEditor from '../Markdown/MarkdownEditor';
 const MainPage = styled.div`
     margin-left : 10%;
     margin-right : 10%;
@@ -20,7 +20,7 @@ const Content = styled.div`
     margin-top : 10px;
     padding-bottom : 10px;
 `;
-function Study(props) {
+function StudyEdit(props) {
     const study = props.match.params.study;
     return (
         <>
@@ -31,7 +31,7 @@ function Study(props) {
                 <ContentArea>
                     <h2>{study}</h2>
                     <Content>
-                        <MarkdownSection page={study}/>
+                        <MarkdownEditor page={study}/>
                     </Content>
                 </ContentArea>
             </MainPage>
@@ -40,4 +40,4 @@ function Study(props) {
     )
 }
 
-export default Study
+export default StudyEdit;

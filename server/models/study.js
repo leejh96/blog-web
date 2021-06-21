@@ -1,8 +1,11 @@
 const mongoose = require('mongoose');
 
 const studySchema = new mongoose.Schema({
-    subject : String,
-    text : String,
+    subject : {
+        type: String,
+        unique : true,
+    },
+    text : String
 }, { timestamps : true})
 
 module.exports = studySchema

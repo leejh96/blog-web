@@ -4,7 +4,8 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 const UserRouter = require('../routes/user');
-
+const StudyRouter = require('../routes/study');
+const GuestbookRouter = require('../routes/guestbook');
 require('dotenv').config();
 
 mongoose.connect(process.env.mongoURI, {
@@ -28,6 +29,8 @@ app.get('/', (req, res) => {
     res.send('Hi!');
 })
 app.use('/api/user', UserRouter);
+app.use('/api/study', StudyRouter);
+app.use('/api/guestbook', GuestbookRouter);
 
 app.listen(process.env.PORT, (req, res) => {
     console.log('server connected ...');

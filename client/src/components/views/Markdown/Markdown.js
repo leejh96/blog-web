@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import { materialLight  } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { Express, Algorithm, CSS, HTML, JavaScript, MarkdownText, MongoDB, MySQL, ReactJS } from '../StudyPage/MarkdownText/markdown'
+import { Button } from '@material-ui/core';
 
 const Markdown = styled(ReactMarkdown)`
-  width : 100%;
-  height : 100vh;
-  padding : 20px;
   outline : none;
   overflow : auto;
 `;
@@ -40,56 +39,45 @@ const Component = ({children, className}) => {
     )
   };
 
-function MarkdownSection({page}) {
-    let text = ''
-    switch(page) {
-        case 'Express':{
-            text = Express;
-            break;
+const Buttons = styled(Button)`
+  font-size: 1.5rem;
+  font-family : Roboto;
+`;
+const ButtonDiv = styled.div`
+  display : flex;
+  justify-content : flex-end;
+`;
+function MarkdownSection({ page }) {
+    const [text, setText] = useState('');
+    let history = useHistory();
+    useEffect(() => {
+      axios.post('/api/study/', {
+        study : page
+      })
+      .then(res => {
+        if(res.data.text){
+          setText(res.data.text);
+        }else{
+          setText('');
         }
-        case 'Algorithm':{
-            text = Algorithm;
-            break;
-        }
-        case 'CSS':{
-            text = CSS;
-            break;
-        }
-        case 'HTML':{
-            text = HTML;
-            break;
-        }
-        case 'JavaScript':{
-            text = JavaScript;
-            break;
-        }
-        case 'MongoDB':{
-            text = MongoDB;
-            break;
-        }
-        case 'MySQL':{
-            text = MySQL;
-            break;
-        }
-        case 'ReactJS':{
-            text = ReactJS;
-            break;
-        }
-        case 'MarkdownText':{
-            text = MarkdownText;
-            break;
-        }
-        default : {
-            text = '# hello';
-        }
-    }
+      })
+    }, [page, text])
+
+
+
+    const onClickWrite = () => {
+      history.push(`/study/${page}/edit`);
+    };
     return( 
         <>
             <Markdown children={text} components= {{
                 code : Component
             }}/>
+            <ButtonDiv>
+                <Buttons variant="contained" onClick={onClickWrite}>{!text ? "글작성" : "글수정"}</Buttons>
+            </ButtonDiv>
         </>
     )
 }
 
-export default MarkdownSection
+export default MarkdownSection;

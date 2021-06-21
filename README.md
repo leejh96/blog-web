@@ -25,3 +25,5 @@
 **`11일차 : react-syntax-highlighter를 사용할 때 블록단위로 background-color가 만들어지는 것을 preTag 속성을 span으로 변경 해주어 글자에만 background-color를 입히는 형식으로 바꿨다. 각 study 항목마다 markdown 되는 text를 하나의 파일로 보관하고 markdown 되는 값을 가져오는 방식으로 각 페이지를 구현 `**
 
 **`12일차 : 각각의 페이지에 필요한 DB를 생성 `**
+
+**`13일차 : 원래는 markdown text를 하나의 파일로 보관하고 수정하는 방식으로 사용하려 했으나 create-react-app은 fs 모듈을 지원하지 않았다. 따라서 DB에 text를 보관하고 가져오는 형식으로 markdown을 구현하였고 방명록을 가져오는 작업을 하는 중이다. React Hook useEffect has a missing dependency: 'page'. Either include it or remove the dependency array. 이란 에러를 발견했는데 useEffect 사용시에 배열에다가 props값을 넣어주니 해결되었고 axios의 delete 메소드를 사용할 시에 body의 값을 넣어서 보내주고 싶을경우 두번째 인자에 전달하고자 하는 값을 {data :  { study : ... }} 형식으로 넣어준다. 그리고 axios의 get방식으로는 body에 data를 넣지 못한다는 것을 알았다.`**
