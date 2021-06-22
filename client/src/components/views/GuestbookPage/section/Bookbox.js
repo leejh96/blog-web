@@ -32,7 +32,7 @@ function Bookbox() {
     };
     return (
         <BookboxDiv>
-            <TextBox placeholder="방명록을 남겨보세요." onChange={onChangeText} variant="outlined" />
+            <TextBox multiline={true} placeholder="방명록을 남겨보세요." onChange={onChangeText} variant="outlined" />
             <Button variant="contained" onClick={onClickBtn}>등록</Button>
         </BookboxDiv>
     )

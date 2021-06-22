@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const moment = require('moment');
 const guestbookSchema = new mongoose.Schema({
     writer : {
         type : mongoose.Schema.Types.ObjectId,
@@ -9,6 +9,10 @@ const guestbookSchema = new mongoose.Schema({
     text : {
         type : String,
     },
-}, {timestamps : true})
+    date: {
+        type: String,
+        default: moment().format("YYYY-MM-DD hh:mm:ss"),
+    },
+})
 
 module.exports = guestbookSchema;

@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const { Guestbook } = require('../models');
 const {auth} = require('../middleware/auth');
+const moment = require('moment');
 
 router.get('/', async(req, res) => {
     try {
-        const guests = await Guestbook.find();
+        const guests = await Guestbook.find().populate('writer').sort('-createdAt'); // -는 내림차순
         return res.json({
             success : true,
             guests
@@ -27,6 +28,7 @@ router.post('/', auth, async(req, res) => {
         if(guestbook){
             return res.json({
                 success : true
+
             })
         }
         return res.json({
@@ -40,4 +42,22 @@ router.post('/', auth, async(req, res) => {
 
 });
 
+router.delete('/', async(req, res) => {
+    try {
+        const guest = await Guestbook.findOneAndDelete({ _id : req.body.id });
+        if(guest){
+            return res.json({
+                success : true
+            })
+        }
+        return res.json({
+            success : false,
+            message : '삭제하는데 실패했습니다.'
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+
+});
 module.exports = router;
