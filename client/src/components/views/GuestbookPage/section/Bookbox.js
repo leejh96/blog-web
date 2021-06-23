@@ -3,26 +3,27 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from  'axios';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 const BookboxDiv = styled.div`
     display : flex;
     justify-content : space-between;
+    padding-bottom : 10px;
 `;
 const TextBox = styled(TextField)`
     width : 90%
 `;
-
-
 
 function Bookbox() {
     const history = useHistory();
     const [text, setText] = useState('');
     const onClickBtn = () => {
         axios.post('/api/guestbook/', {
+            date: moment().format("YYYY-MM-DD hh:mm:ss"),
             text
         })
         .then(res => {
             if(res.data.success){
-                return history.push('/guestbook');
+                return ;
             }
             return alert(res.data.message);
         })

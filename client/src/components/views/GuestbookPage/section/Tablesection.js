@@ -29,6 +29,7 @@ const TableArea = styled.div`
     margin-bottom : 20px;
 
 `;
+
 function Tablesection() {
     const history = useHistory();
     const [guest, setGuest] = useState([]);

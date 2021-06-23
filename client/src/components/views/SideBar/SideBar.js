@@ -13,7 +13,7 @@ const SideMain = styled.div`
   flex-direction : column;
   align-items : flex-start;
   padding-left : 30px;
-  margin-top : 10px;
+  padding-top : 10px;
 `;
 const SideBar = styled.div`
   height : 100vh;

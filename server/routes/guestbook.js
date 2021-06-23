@@ -2,11 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { Guestbook } = require('../models');
 const {auth} = require('../middleware/auth');
-const moment = require('moment');
 
 router.get('/', async(req, res) => {
     try {
-        const guests = await Guestbook.find().populate('writer').sort('-createdAt'); // -는 내림차순
+        const guests = await Guestbook.find().populate('writer').sort('-date'); // -는 내림차순
         return res.json({
             success : true,
             guests
@@ -22,13 +21,13 @@ router.post('/', auth, async(req, res) => {
     try {
         const guestbook = await Guestbook.create({
             writer : req.user._id,
-            text : req.body.text
+            text : req.body.text,
+            date : req.body.date,
         })
     
         if(guestbook){
             return res.json({
                 success : true
-
             })
         }
         return res.json({
