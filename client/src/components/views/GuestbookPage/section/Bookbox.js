@@ -1,9 +1,9 @@
 import { Button, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import axios from  'axios';
-import { useHistory } from 'react-router-dom';
+import { useDispatch, connect } from 'react-redux';
 import moment from 'moment';
+import { createGuestBook } from '../../../../actions/GuestbookAction';
 const BookboxDiv = styled.div`
     display : flex;
     justify-content : space-between;
@@ -13,20 +13,15 @@ const TextBox = styled(TextField)`
     width : 90%
 `;
 
-function Bookbox() {
-    const history = useHistory();
+function Bookbox(props) {
+    // const dispatch = useDispatch();
     const [text, setText] = useState('');
     const onClickBtn = () => {
-        axios.post('/api/guestbook/', {
-            date: moment().format("YYYY-MM-DD hh:mm:ss"),
-            text
-        })
-        .then(res => {
-            if(res.data.success){
-                return ;
-            }
-            return alert(res.data.message);
-        })
+        const data = {
+            text,
+            date : moment().format('YYYY-MM-DD HH:mm:ss')
+        }
+        props.store.dispatch(createGuestBook(data))
     }
     const onChangeText = (e) => {
         setText(e.target.value);
@@ -39,4 +34,4 @@ function Bookbox() {
     )
 }
 
-export default Bookbox
+export default connect()(Bookbox)

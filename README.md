@@ -29,3 +29,5 @@
 **`13일차 : 원래는 markdown text를 하나의 파일로 보관하고 수정하는 방식으로 사용하려 했으나 create-react-app은 fs 모듈을 지원하지 않았다. 따라서 DB에 text를 보관하고 가져오는 형식으로 markdown을 구현하였고 방명록을 가져오는 작업을 하는 중이다. React Hook useEffect has a missing dependency: 'page'. Either include it or remove the dependency array. 이란 에러를 발견했는데 useEffect 사용시에 배열에다가 props값을 넣어주니 해결되었고 axios의 delete 메소드를 사용할 시에 body의 값을 넣어서 보내주고 싶을경우 두번째 인자에 전달하고자 하는 값을 {data :  { study : ... }} 형식으로 넣어준다. 그리고 axios의 get방식으로는 body에 data를 넣지 못한다는 것을 알았다.`**
 
 **`14일차 : timestamps의 값을 UTC에서 Date로 바꿔주는 방법을 고민했지만 찾지못했고 대신 moment 모듈을 사용하여 timestamps를 없애고 date값을 줘서 시간을 기록하는 방식으로 사용하였다. timestamps 값을 바꿔주는 방식을 좀 더 생각해봐야겠다.`**
+
+**`15일차 : react-redux, redux에 대해서 공부중인데 axios와 같이 쓰기 위해서는 다른 방법이 필요한 것 같다. Error: Actions must be plain objects. Use custom middleware for async actions 이러한 에러때문에 react-thunk 같은것도 한 번 공부해야겠다. `**

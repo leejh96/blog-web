@@ -69,7 +69,6 @@ function Tablesection() {
                 </TableHead>
                 <TableBody>
                         {guest.map((val, idx) => {
-                            console.log(val);
                             return (
                                 <TableRow key={idx}>
                                     <Nick>{val.writer.nick}</Nick>

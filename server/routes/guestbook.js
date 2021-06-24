@@ -24,10 +24,10 @@ router.post('/', auth, async(req, res) => {
             text : req.body.text,
             date : req.body.date,
         })
-    
         if(guestbook){
             return res.json({
-                success : true
+                success : true,
+                createContent : guestbook
             })
         }
         return res.json({
