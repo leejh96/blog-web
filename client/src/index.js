@@ -3,13 +3,26 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import reducer from './reducers';
 import { Provider } from 'react-redux';
+
+
+//redux-devtools와 middleware를 같이 사용하기 위해서 사용
+import { composeWithDevTools } from 'redux-devtools-extension';
+
+// 리덕스 관련 정보들을 기록하는 미들웨어로 store 생성시 넣어줌
+import logger from 'redux-logger';
+// 리덕스가 비동기처리를 할 수 있도록 해주는 미들웨어
+import ReduxThunk from 'redux-thunk';
+
+//applyMiddleware()는 스토어에 미들웨어를 적용하려할 때 사용
 const store = createStore(
   reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+  composeWithDevTools(
+    applyMiddleware(ReduxThunk),
+  )
+);
 
 
 // subscribe는 state가 변경될때마다 실행(콜백함수 실행)

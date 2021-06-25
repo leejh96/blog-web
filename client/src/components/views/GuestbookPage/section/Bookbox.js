@@ -1,7 +1,7 @@
 import { Button, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useDispatch, connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { createGuestBook } from '../../../../actions/GuestbookAction';
 const BookboxDiv = styled.div`
@@ -13,15 +13,16 @@ const TextBox = styled(TextField)`
     width : 90%
 `;
 
-function Bookbox(props) {
-    // const dispatch = useDispatch();
+function Bookbox() {
+    const dispatch = useDispatch();
     const [text, setText] = useState('');
     const onClickBtn = () => {
         const data = {
             text,
             date : moment().format('YYYY-MM-DD HH:mm:ss')
         }
-        props.store.dispatch(createGuestBook(data))
+        dispatch(createGuestBook(data))
+        .then(console.log)
     }
     const onChangeText = (e) => {
         setText(e.target.value);
@@ -34,4 +35,4 @@ function Bookbox(props) {
     )
 }
 
-export default connect()(Bookbox)
+export default Bookbox
