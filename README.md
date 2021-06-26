@@ -30,4 +30,4 @@
 
 **`14일차 : timestamps의 값을 UTC에서 Date로 바꿔주는 방법을 고민했지만 찾지못했고 대신 moment 모듈을 사용하여 timestamps를 없애고 date값을 줘서 시간을 기록하는 방식으로 사용하였다. timestamps 값을 바꿔주는 방식을 좀 더 생각해봐야겠다.`**
 
-**`15일차 : react-redux, redux에 대해서 공부중인데 axios와 같이 쓰기 위해서는 다른 방법이 필요한 것 같다. Error: Actions must be plain objects. Use custom middleware for async actions 이러한 에러때문에 react-thunk 같은것도 한 번 공부해야겠다. `**
+**`15일차 : react-redux, redux에 대해서 공부중인데 axios와 같이 쓰기 위해서는 다른 방법이 필요한 것 같다. Error: Actions must be plain objects. Use custom middleware for async actions 이러한 에러때문에 react-thunk 같은 것도 한 번 공부해야겠다. `**
