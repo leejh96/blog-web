@@ -31,3 +31,5 @@
 **`14일차 : timestamps의 값을 UTC에서 Date로 바꿔주는 방법을 고민했지만 찾지못했고 대신 moment 모듈을 사용하여 timestamps를 없애고 date값을 줘서 시간을 기록하는 방식으로 사용하였다. timestamps 값을 바꿔주는 방식을 좀 더 생각해봐야겠다.`**
 
 **`15일차 : react-redux, redux에 대해서 공부중인데 axios와 같이 쓰기 위해서는 다른 방법이 필요한 것 같다. Error: Actions must be plain objects. Use custom middleware for async actions 이러한 에러때문에 react-thunk 같은 것도 한 번 공부해야겠다. `**
+
+**`16일차 : redux-thunk는 함수도 디스패치할 수 있도록 해주는 역할을 해서 비동기 처리를 할 때 액션생성함수가 함수를 리턴할 수 있도록 만들어준다 따라서 액션생성함수가 리턴하는 함수에 axios 및 dispatch를 한번 더 사용함으로써 store 값을 저장할 수 있도록 만든다. 이 과정에서 useDispatch 나 useSelector를 사용하는데 useDispatch는 store.dispatch를 쉽게 사용할 수 있도록 하며 useSelector는 콜백함수로 state 변수를 받는데 이 값은 store에 저장된 reducer들의 변수를 나타낸다.`**

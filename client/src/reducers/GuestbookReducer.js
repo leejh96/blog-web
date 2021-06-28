@@ -11,11 +11,10 @@ const initialState = {
 const GuestbookReducer = (state = initialState, action) => {
     switch (action.type) {
         case CREATE_GUESTBOOK:
-            console.log(action);
             return { ...state, 
-                writer : action.data.writer,
-                text : action.data.text,
-                date : action.data.date
+                writer : action.data.createContent.writer,
+                text : action.data.createContent.text,
+                date : action.data.createContent.date
             }
         default:
             return state;

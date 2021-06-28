@@ -22,7 +22,6 @@ function Bookbox() {
             date : moment().format('YYYY-MM-DD HH:mm:ss')
         }
         dispatch(createGuestBook(data))
-        .then(console.log)
     }
     const onChangeText = (e) => {
         setText(e.target.value);

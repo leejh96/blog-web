@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {Table, TableBody, TableCell, TableHead, TableRow, Button} from '@material-ui/core'
 import styled from 'styled-components';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+
 const Nick = styled(TableCell)`
     width : 15%;
     text-align : center;
@@ -31,30 +31,21 @@ const TableArea = styled.div`
 `;
 
 function Tablesection() {
-    const history = useHistory();
     const [guest, setGuest] = useState([]);
     useEffect(() => {
+        console.log(1);
         axios.get('/api/guestbook/')
         .then(res => {
             if(res.data.success){
-                return setGuest([...res.data.guests]);
+                setGuest((prevGuest)=>([ ...res.data.guests]));
             }
-            return alert(res.data.message);
         })
     }, [])
-
     const onClickDelete = (id) => {
         axios.delete('/api/guestbook/', {
             data : {
                 id
             }
-        })
-        .then(res => {
-            if(res.data.success){
-                return history.push('/guestbook');
-            }
-            alert(res.data.message);
-            return history.push('/guestbook');
         })
     }
     return (
