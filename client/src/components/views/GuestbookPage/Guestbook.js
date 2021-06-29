@@ -7,7 +7,6 @@ import Footer from '../Footer/Footer';
 import Tablesection from './section/Tablesection';
 import Pagenation from '../NoticePage/section/Pagenation';
 import Bookbox from './section/Bookbox';
-import { connect } from 'react-redux';
 
 const MainPage = styled.div`
     margin-left : 10%;

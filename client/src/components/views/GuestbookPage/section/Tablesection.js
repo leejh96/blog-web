@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react'
 import {Table, TableBody, TableCell, TableHead, TableRow, Button} from '@material-ui/core'
 import styled from 'styled-components';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteGuestBook, loadGuestBook } from '../../../../actions/GuestbookAction';
 
 const Nick = styled(TableCell)`
     width : 15%;
@@ -27,26 +29,24 @@ const Delete = styled(TableCell)`
 `;
 const TableArea = styled.div`
     margin-bottom : 20px;
-
 `;
 
 function Tablesection() {
     const [guest, setGuest] = useState([]);
+    //useSelector의 값은 reducer에서의 return 값을 갖는다.
+    const add = useSelector(state => state.GuestbookReducer.addGuestbook);
+    const del = useSelector(state => state.GuestbookReducer.delGuestbook);
+    const dispatch = useDispatch();
     useEffect(() => {
-        console.log(1);
-        axios.get('/api/guestbook/')
+        dispatch(loadGuestBook())
         .then(res => {
-            if(res.data.success){
-                setGuest((prevGuest)=>([ ...res.data.guests]));
-            }
+            setGuest(res.data)
         })
-    }, [])
+    }, [dispatch, add, del])
+
     const onClickDelete = (id) => {
-        axios.delete('/api/guestbook/', {
-            data : {
-                id
-            }
-        })
+        const data = { data : {id} };
+        dispatch(deleteGuestBook(data))
     }
     return (
         <TableArea>

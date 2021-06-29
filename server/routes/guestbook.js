@@ -43,10 +43,11 @@ router.post('/', auth, async(req, res) => {
 
 router.delete('/', async(req, res) => {
     try {
-        const guest = await Guestbook.findOneAndDelete({ _id : req.body.id });
-        if(guest){
+        const guestbook = await Guestbook.findOneAndDelete({ _id : req.body.id });
+        if(guestbook){
             return res.json({
-                success : true
+                success : true,
+                guestbook
             })
         }
         return res.json({

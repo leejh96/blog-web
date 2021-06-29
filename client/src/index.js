@@ -20,7 +20,7 @@ import ReduxThunk from 'redux-thunk';
 const store = createStore(
   reducer,
   composeWithDevTools(
-    applyMiddleware(ReduxThunk, logger),
+    applyMiddleware(ReduxThunk),
   )
 );
 

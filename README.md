@@ -33,3 +33,5 @@
 **`15일차 : react-redux, redux에 대해서 공부중인데 axios와 같이 쓰기 위해서는 다른 방법이 필요한 것 같다. Error: Actions must be plain objects. Use custom middleware for async actions 이러한 에러때문에 react-thunk 같은 것도 한 번 공부해야겠다. `**
 
 **`16일차 : redux-thunk는 함수도 디스패치할 수 있도록 해주는 역할을 해서 비동기 처리를 할 때 액션생성함수가 함수를 리턴할 수 있도록 만들어준다 따라서 액션생성함수가 리턴하는 함수에 axios 및 dispatch를 한번 더 사용함으로써 store 값을 저장할 수 있도록 만든다. 이 과정에서 useDispatch 나 useSelector를 사용하는데 useDispatch는 store.dispatch를 쉽게 사용할 수 있도록 하며 useSelector는 콜백함수로 state 변수를 받는데 이 값은 store에 저장된 reducer들의 변수를 나타낸다.`**
+
+**`17일차 : 방명록에서 원래는 useEffect 자체에서 axios를 사용하려 했으나 redux를 쓰기 때문에 useEffect에서 dispatch를 해주었다. 그리고 방명록 Table에 값이 추가되거나 지워지면 리렌더링 하기 위해서 처음에는 guest 배열을 주었는데 무한 루프처럼 계속 실행되었다. 그래서 추가될 때 추가되는 값을 갖는 add 변수, 지워질 때 지워지는 값을 갖는 del 변수를 주려고 보니 add 변수는 다른컴포넌트인 Bookbox에서 가져와야 했다. 그래서 useSelector를 사용하여 reducer가 가지는 initialState를 add, del에 따라 다르게 값을 갖도록 하였고, 그 값을 useEffect에 넣어주니 해결되었다.`**
