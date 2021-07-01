@@ -20,7 +20,7 @@ function App() {
             {/* 쿼리스트링 값은 path에 적지 않고 쿼리스트링 전 path만 입력 */}
             <Route exact path='/notice' component={Notice} />
             <Route exact path='/diary' component={Diary} /> 
-            <Route exact path='/guestbook' component={Guestbook} /> 
+            <Route exact path='/guestbook/:id' component={Guestbook} /> 
             <Route exact path='/study/:study' component={Study} />
             <Route exact path='/study/:study/edit' component={StudyEdit} />
           </Switch>

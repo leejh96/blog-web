@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CREATE_GUESTBOOK, DELETE_GUESTBOOK, LOAD_GUESTBOOK } from './type';
+import { CREATE_GUESTBOOK, DELETE_GUESTBOOK, LOAD_GUESTBOOK, GUESTBOOK_PAGENATION_COUNT } from './type';
 //camelCase
 export const createGuestBook =  data => async dispatch => {
     try {
@@ -42,5 +42,17 @@ export const loadGuestBook = () => async dispatch => {
         console.error(error);
         return ;
     }
+};
 
+export const pagenation = (url) => async dispatch => {
+    try {
+        const pageCnt = await axios.get(url);
+        return dispatch({
+            type : GUESTBOOK_PAGENATION_COUNT,
+            pageArr : pageCnt.data.pageArr,
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
 };

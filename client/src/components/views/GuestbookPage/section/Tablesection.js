@@ -33,16 +33,19 @@ const TableArea = styled.div`
 
 function Tablesection() {
     const [guest, setGuest] = useState([]);
-    //useSelector의 값은 reducer에서의 return 값을 갖는다.
-    const add = useSelector(state => state.GuestbookReducer.addGuestbook);
-    const del = useSelector(state => state.GuestbookReducer.delGuestbook);
+    //useSelector의 값은 reducer에서의 return 값을 갖는다. 비구조화할당을 할경우 각각의 변수가
+    // state의 뭔 값을 의미하는지 정해주어야 한다. 
+    const {addGuestbook, delGuestbook} = useSelector(state => ({
+        addGuestbook : state.GuestbookReducer.addGuestbook,
+        delGuestbook : state.GuestbookReducer.delGuestbook
+    }));
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(loadGuestBook())
         .then(res => {
             setGuest(res.data)
         })
-    }, [dispatch, add, del])
+    }, [dispatch, addGuestbook, delGuestbook])
 
     const onClickDelete = (id) => {
         const data = { data : {id} };

@@ -52,7 +52,7 @@ function Sidebar() {
     },
     {
       tag : '방명록',
-      link : '/guestbook'
+      link : '/guestbook/1'
     }
   ];
   const study = [

@@ -5,9 +5,8 @@ import {Divider} from '@material-ui/core';
 import Sidebar from '../SideBar/Sidebar';
 import Footer from '../Footer/Footer';
 import Tablesection from './section/Tablesection';
-import Pagenation from '../NoticePage/section/Pagenation';
+import Pagenation from './section/Pagenation';
 import Bookbox from './section/Bookbox';
-
 const MainPage = styled.div`
     margin-left : 10%;
     margin-right : 10%;
