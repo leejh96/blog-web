@@ -21,8 +21,8 @@ router.get('/count', async(req, res) => {
         const GuestbookCnt = guestbook.length;
         let remainder = GuestbookCnt % 10 ? 1 : 0 ;
         let cnt = parseInt(GuestbookCnt / 10) + remainder;
-        const pageArr = [];
-        for(let i = 0; i< cnt; i++){
+        const pageArr = [1];
+        for(let i = 1; i< cnt; i++){
             pageArr.push(i+1);
         }
         return res.json({
@@ -35,20 +35,7 @@ router.get('/count', async(req, res) => {
     }
 });
 
-router.get('/page', async(req, res)=>{
-    const noticeCnt = await Notice.find().length;
-    let remainder = noticeCnt % 10 ? 1 : 0 ;
-    let page = parseInt(noticeCnt / 10) + remainder;
-    const pageList = []
-    for(let i = 1; i<=page; i++){
-        pageList.push(i);
-    }
-    conosole.log(pageList);
-    return res.status(200).json({
-        success : true,
-        total : pageList
-    })
-});
+
 
 router.post('/', auth, async(req, res) => {
     try {

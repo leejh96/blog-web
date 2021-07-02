@@ -1,28 +1,37 @@
 // redux의 reducer 함수는 순수함수여야 한다.
 // 즉 Date 나 random 같이 변하는 값은 사용하면 안되고 DB에 접근하는 것도 안된다.
 
-import { CREATE_GUESTBOOK, DELETE_GUESTBOOK, LOAD_GUESTBOOK, GUESTBOOK_PAGENATION_COUNT } from "../actions/type"
+import { 
+    CREATE_GUESTBOOK, 
+    DELETE_GUESTBOOK, 
+    LOAD_GUESTBOOK, 
+    GUESTBOOK_PAGENATION_COUNT 
+} from "../actions/type"
 
 const initialState = {
-    addGuestbook : {},
-    delGuestbook : {},
+    guestlength : 0,
     guestbook : [],
-    pageCnt : [],
 }
 const GuestbookReducer = (state = initialState, action) => {
     switch (action.type) {
         case CREATE_GUESTBOOK:
-            state.addGuestbook = {...state.addGuestbook, ...action.data};
-            return state;
+            return {
+                ...state,
+                guestlength : state.guestlength + 1,
+            };
         case LOAD_GUESTBOOK:
-            state.guestbook = action.data;
-            return state; 
+            return {
+                ...state,
+                guestbook : action.data,
+                guestlength : action.data.length
+            }; 
         case DELETE_GUESTBOOK:
-            state.delGuestbook = {...state.delGuestbook, ...action.data};
-            return state;
+            return {
+                ...state,
+                guestlength : state.guestlength - 1,
+            }
         case GUESTBOOK_PAGENATION_COUNT:
-            state.pageCnt = [...action.pageArr]
-            return state.pageCnt;
+            return state;
         default:
             return state;
     }

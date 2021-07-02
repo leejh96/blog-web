@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {Table, TableBody, TableCell, TableHead, TableRow, Button} from '@material-ui/core'
 import styled from 'styled-components';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector  } from 'react-redux';
 import { deleteGuestBook, loadGuestBook } from '../../../../actions/GuestbookAction';
 
 const Nick = styled(TableCell)`
@@ -30,22 +29,24 @@ const Delete = styled(TableCell)`
 const TableArea = styled.div`
     margin-bottom : 20px;
 `;
-
-function Tablesection() {
+    
+    // //useSelector의 값은 reducer에서의 return 값을 갖는다. 비구조화할당을 할경우 각각의 변수가
+    // // state의 뭔 값을 의미하는지 정해주어야 한다. 
+    // const {addGuestbook, delGuestbook} = useSelector(state => ({
+    //     addGuestbook : state.GuestbookReducer.addGuestbook,
+    //     delGuestbook : state.GuestbookReducer.delGuestbook
+    // }));
+function Tablesection({ page }) {
+    console.log(page);
     const [guest, setGuest] = useState([]);
-    //useSelector의 값은 reducer에서의 return 값을 갖는다. 비구조화할당을 할경우 각각의 변수가
-    // state의 뭔 값을 의미하는지 정해주어야 한다. 
-    const {addGuestbook, delGuestbook} = useSelector(state => ({
-        addGuestbook : state.GuestbookReducer.addGuestbook,
-        delGuestbook : state.GuestbookReducer.delGuestbook
-    }));
+    const guestbookLength = useSelector(state => state.GuestbookReducer.guestlength);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(loadGuestBook())
         .then(res => {
-            setGuest(res.data)
+            setGuest(res.data);
         })
-    }, [dispatch, addGuestbook, delGuestbook])
+    }, [dispatch, guestbookLength])
 
     const onClickDelete = (id) => {
         const data = { data : {id} };

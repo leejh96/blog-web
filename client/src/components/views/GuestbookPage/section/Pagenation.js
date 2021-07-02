@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import React, {useState, useEffect} from 'react'
 import { Link } from  'react-router-dom';
 import styled from 'styled-components';
@@ -19,27 +18,24 @@ const PagenationLink = styled(Link)`
 `;
 
 function Pagenation() {
-    const dispatch = useDispatch()
-    const [pageArr, setPageArr] = useState([]);
-    const { pageCnt } = useSelector(state => ({
-        pageCnt : state.GuestbookReducer.pageCnt
-    }));
+    const dispatch = useDispatch();
+    const [page, setPage] = useState([]);
+    const guestbookLength = useSelector(state => state.GuestbookReducer.guestlength);
     useEffect(() => {
-        const url = '/api/guestbook/count';
-        dispatch(pagenation(url))
+        dispatch(pagenation('/api/guestbook/count'))
         .then(res => {
-            setPageArr(...res.pageArr);
+            setPage(res.pageArr);
         })
-    }, [dispatch])
+    }, [dispatch, guestbookLength]);
     return (
         <PagenationArea>
             <PagenationLink to={`/guestbook/1`}>{'<<'}</PagenationLink>
             <PagenationLink to='#'>{'<'}</PagenationLink>
-            {pageArr.map((val, idx) => (
+            {page.map((val, idx) => (
                 <PagenationLink key={idx} to={`/guestbook/${val}`}>{val}</PagenationLink>
             ))}
             <PagenationLink to='#'>{'>'}</PagenationLink>
-            <PagenationLink to={`/guestbook/${pageArr[pageArr.length]}`}>{'>>'}</PagenationLink>
+            <PagenationLink to={`/guestbook/${page.length}`}>{'>>'}</PagenationLink>
         </PagenationArea>
     )
 }

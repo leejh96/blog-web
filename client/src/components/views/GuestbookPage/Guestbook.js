@@ -7,6 +7,7 @@ import Footer from '../Footer/Footer';
 import Tablesection from './section/Tablesection';
 import Pagenation from './section/Pagenation';
 import Bookbox from './section/Bookbox';
+import { useParams } from 'react-router-dom';
 const MainPage = styled.div`
     margin-left : 10%;
     margin-right : 10%;
@@ -20,6 +21,7 @@ const ContentArea = styled.div`
 
 
 function Guestbook() {
+    const page = useParams();
     return (
         <>
             <Navbar />
@@ -28,7 +30,7 @@ function Guestbook() {
                 <Sidebar />
                 <ContentArea>
                     <h2>방명록</h2>
-                    <Tablesection />
+                    <Tablesection page={page}/>
                     <Pagenation />
                     <Bookbox />
                 </ContentArea>
