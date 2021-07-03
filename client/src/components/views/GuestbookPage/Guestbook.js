@@ -31,7 +31,7 @@ function Guestbook() {
                 <ContentArea>
                     <h2>방명록</h2>
                     <Tablesection page={page}/>
-                    <Pagenation />
+                    <Pagenation pageNumber={page}/>
                     <Bookbox />
                 </ContentArea>
             </MainPage>

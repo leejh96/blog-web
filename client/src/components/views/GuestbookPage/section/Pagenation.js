@@ -17,7 +17,7 @@ const PagenationLink = styled(Link)`
     };
 `;
 
-function Pagenation() {
+function Pagenation({pageNumber}) {
     const dispatch = useDispatch();
     const [page, setPage] = useState([]);
     const guestbookLength = useSelector(state => state.GuestbookReducer.guestlength);
@@ -30,11 +30,19 @@ function Pagenation() {
     return (
         <PagenationArea>
             <PagenationLink to={`/guestbook/1`}>{'<<'}</PagenationLink>
-            <PagenationLink to='#'>{'<'}</PagenationLink>
+            {parseInt(pageNumber.id) === 1 ?
+                <></>
+            :
+                <PagenationLink to={`${parseInt(pageNumber.id) - 1}`}>{'<'}</PagenationLink> 
+            }
             {page.map((val, idx) => (
                 <PagenationLink key={idx} to={`/guestbook/${val}`}>{val}</PagenationLink>
             ))}
-            <PagenationLink to='#'>{'>'}</PagenationLink>
+            {parseInt(pageNumber.id) === page.length ?
+                <></>
+            :
+                <PagenationLink to={`${parseInt(pageNumber.id) + 1}`}>{'>'}</PagenationLink> 
+            }            
             <PagenationLink to={`/guestbook/${page.length}`}>{'>>'}</PagenationLink>
         </PagenationArea>
     )

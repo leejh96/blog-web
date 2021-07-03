@@ -37,16 +37,17 @@ const TableArea = styled.div`
     //     delGuestbook : state.GuestbookReducer.delGuestbook
     // }));
 function Tablesection({ page }) {
-    console.log(page);
     const [guest, setGuest] = useState([]);
     const guestbookLength = useSelector(state => state.GuestbookReducer.guestlength);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(loadGuestBook())
         .then(res => {
-            setGuest(res.data);
+            //page.id에 따라 slice 하기 시작 : (page.id-1)*10, 끝 : page.id*10 - 1
+            // slice는 끝이 undefined이면 배열 길이만큼만 리턴
+            setGuest(res.data.slice((page.id-1)*10, page.id*10 -1));
         })
-    }, [dispatch, guestbookLength])
+    }, [dispatch, guestbookLength, page.id])
 
     const onClickDelete = (id) => {
         const data = { data : {id} };
