@@ -1,10 +1,10 @@
 import React from 'react';
-import Navbar from '../NavBar/Navbar';
-import Footer from '../Footer/Footer';
-import Sidebar from '../SideBar/Sidebar';
+import Navbar from '../../NavBar/Navbar';
+import Footer from '../../Footer/Footer';
+import Sidebar from '../../SideBar/Sidebar';
 import { Divider } from '@material-ui/core';
 import styled from 'styled-components';
-import MarkdownEditor from '../Markdown/MarkdownEditor';
+import MarkdownEditor from '../../Markdown/MarkdownEditor';
 const MainPage = styled.div`
     margin-left : 10%;
     margin-right : 10%;

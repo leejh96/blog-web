@@ -17,6 +17,16 @@ const PagenationLink = styled(Link)`
     };
 `;
 
+const CurrentPageLink = styled(Link)`
+    text-decoration : underline;
+    color : #3b77af;
+    margin-right : 10px;
+    &:hover{
+        text-decoration : underline;
+        color : #999999;
+    };
+`;
+
 function Pagenation({pageNumber}) {
     const dispatch = useDispatch();
     const [page, setPage] = useState([]);
@@ -36,6 +46,9 @@ function Pagenation({pageNumber}) {
                 <PagenationLink to={`${parseInt(pageNumber.id) - 1}`}>{'<'}</PagenationLink> 
             }
             {page.map((val, idx) => (
+                val === parseInt(pageNumber.id) ? 
+                <CurrentPageLink key={idx} to={`/guestbook/${val}`}>{val}</CurrentPageLink>
+                :
                 <PagenationLink key={idx} to={`/guestbook/${val}`}>{val}</PagenationLink>
             ))}
             {parseInt(pageNumber.id) === page.length ?

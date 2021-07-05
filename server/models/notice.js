@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const noticeSchema = new mongoose.Schema({
     title : {
@@ -7,9 +8,8 @@ const noticeSchema = new mongoose.Schema({
         maxlength : 30,
     },
     author : {
-        type : String,
-        required : true,
-        minlength : 5,
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'User',
     },
     text : {
         type : String,
@@ -19,14 +19,19 @@ const noticeSchema = new mongoose.Schema({
         default : 0,
     },
     img : {
-        type : String
+        type : String,
+        default : '',
     },
     comment : [{
         type : mongoose.Schema.Types.ObjectId,
+        default : [],
         ref : 'Comment',
-    }]
-
+    }],
+    date: {
+        type: String,
+        default: moment().format("YYYY-MM-DD hh:mm:ss"),
+    },
     
-}, {timestamps : true})
+})
 
 module.exports = noticeSchema;

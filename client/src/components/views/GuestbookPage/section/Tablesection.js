@@ -3,6 +3,7 @@ import {Table, TableBody, TableCell, TableHead, TableRow, Button} from '@materia
 import styled from 'styled-components';
 import { useDispatch, useSelector  } from 'react-redux';
 import { deleteGuestBook, loadGuestBook } from '../../../../actions/GuestbookAction';
+import Loading from '../../LoadingPage/Loading';
 
 const Nick = styled(TableCell)`
     width : 15%;
@@ -37,15 +38,18 @@ const TableArea = styled.div`
     //     delGuestbook : state.GuestbookReducer.delGuestbook
     // }));
 function Tablesection({ page }) {
+    const [load, setLoad] = useState(false);
     const [guest, setGuest] = useState([]);
     const guestbookLength = useSelector(state => state.GuestbookReducer.guestlength);
     const dispatch = useDispatch();
     useEffect(() => {
+        setLoad(true);
         dispatch(loadGuestBook())
         .then(res => {
             //page.id에 따라 slice 하기 시작 : (page.id-1)*10, 끝 : page.id*10 - 1
             // slice는 끝이 undefined이면 배열 길이만큼만 리턴
             setGuest(res.data.slice((page.id-1)*10, page.id*10 -1));
+            setLoad(false);
         })
     }, [dispatch, guestbookLength, page.id])
 
@@ -55,28 +59,32 @@ function Tablesection({ page }) {
     }
     return (
         <TableArea>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <Nick>닉네임</Nick>
-                        <Content>내용</Content>
-                        <Time colSpan="2">시간</Time>
-                    </TableRow>    
-                </TableHead>
-                <TableBody>
-                        {guest.map((val, idx) => {
-                            return (
-                                <TableRow key={idx}>
-                                    <Nick>{val.writer.nick}</Nick>
-                                    <Content>{val.text}</Content>
-                                    <Time>{val.date}</Time>
-                                    <Delete><Button onClick={() => onClickDelete(val._id)}>X</Button> </Delete>
-                                </TableRow>
-                            ) 
-                        })}
-                </TableBody>
-            </Table>
-        </TableArea>
+            {load ? 
+            <Loading />
+            :
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <Nick>닉네임</Nick>
+                            <Content>내용</Content>
+                            <Time colSpan="2">작성일</Time>
+                        </TableRow>    
+                    </TableHead>
+                    <TableBody>
+                            {guest.map((val, idx) => {
+                                return (
+                                    <TableRow key={idx}>
+                                        <Nick>{val.writer.nick}</Nick>
+                                        <Content>{val.text}</Content>
+                                        <Time>{val.date}</Time>
+                                        <Delete><Button onClick={() => onClickDelete(val._id)}>X</Button> </Delete>
+                                    </TableRow>
+                                ) 
+                            })}
+                    </TableBody>
+                </Table>
+            }  
+       </TableArea>
     )
 }
 

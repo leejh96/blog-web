@@ -1,9 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {Table, TableHead, TableBody, TableRow, TableCell} from '@material-ui/core';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-const TableValue = styled(TableCell)`
+import Loading from '../../LoadingPage/Loading';
+import { useDispatch } from 'react-redux';
+import { loadNotice } from '../../../../actions/NoticeAction';
+const Number = styled(TableCell)`
     text-align : center;
+    width : 10%;
+`;
+const Title = styled(TableCell)`
+    text-align : center;
+    width : 50%;
+
+`;
+const Author = styled(TableCell)`
+    text-align : center;
+    width : 20%;
+`;
+const Date = styled(TableCell)`
+    text-align : center;
+    width : 20%;
 `;
 
 const TableLink = styled(Link)`
@@ -15,54 +32,44 @@ const TableLink = styled(Link)`
     }
 `;
 function TableSection() {
-    const posts = [
-        {
-            title : '안녕하세요',
-            author : '관리자',
-            date : '20201-06-09',
-        },
-        {
-            title : '어서오세요',
-            author : '관리자',
-            date : '20201-06-10',
-        },
-        {
-            title : '또 오세요',
-            author : '관리자',
-            date : '20201-06-11',
-        },
-        {
-            title : '조심히 가세요',
-            author : '관리자',
-            date : '20201-06-12',
-        }
-        ,        {
-            title : '다시 오세요',
-            author : '관리자',
-            date : '20201-06-13',
-        }
-    ]
+    const dispatch = useDispatch();
+    const [post, setPost] = useState([]);
+    const [load, setLoad] = useState(false);
+    useEffect(() => {
+        setLoad(true);
+        dispatch(loadNotice())
+        .then(res => {
+            setPost(res.data);
+            setLoad(false);
+        })
+    }, [dispatch])
     return (
-        <Table style={{ marginBottom : '30px'}}>
-            <TableHead>
-                <TableRow>
-                    <TableValue>번호</TableValue>
-                    <TableValue>제목</TableValue>
-                    <TableValue>작성자</TableValue>
-                    <TableValue>작성일</TableValue>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-            {posts.map((val, i) => (
-                <TableRow key={i}>
-                    <TableValue>{i+1}</TableValue>
-                    <TableValue><TableLink to='#'>{val.title}</TableLink></TableValue>
-                    <TableValue>{val.author}</TableValue>
-                    <TableValue>{val.date}</TableValue>
-                </TableRow>
-            ))}
-            </TableBody>
-        </Table>
+        <>
+            {load ?
+            <Loading />
+            :
+            <Table style={{ marginBottom : '30px'}}>
+                <TableHead>
+                    <TableRow>
+                        <Number>번호</Number>
+                        <Title>제목</Title>
+                        <Author>작성자</Author>
+                        <Date>작성일</Date>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                {post.map((val, i) => (
+                    <TableRow key={i}>
+                        <Number>{i+1}</Number>
+                        <Title><TableLink to='#'>{val.title}</TableLink></Title>
+                        <Author>{val.author.nick}</Author>
+                        <Date>{val.date}</Date>
+                    </TableRow>
+                ))}
+                </TableBody>
+            </Table>
+            }
+        </>
     )
 }
 

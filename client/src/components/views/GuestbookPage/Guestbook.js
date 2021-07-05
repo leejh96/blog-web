@@ -37,7 +37,6 @@ function Guestbook() {
             </MainPage>
             <Footer />
         </>
-
     )
 }
 

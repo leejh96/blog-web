@@ -5,6 +5,7 @@ import Footer from '../Footer/Footer';
 import TableSection from './section/TableSection';
 import Pagenation from './section/Pagenation';
 import Search from './section/Search';
+import ButtonSection from './section/ButtonSection';
 import {Divider} from '@material-ui/core';
 import styled from 'styled-components';
 const MainPage = styled.div`
@@ -24,8 +25,7 @@ const Content = styled.div`
     padding-bottom : 10px;
     justify-content : space-around;
 `;
-function Notice({ location }) {
-    console.log(location.search);
+function Notice() {
     return (
         <>
             <Navbar />
@@ -36,6 +36,7 @@ function Notice({ location }) {
                     <h2>공지사항</h2>
                     <Content>
                         <TableSection />
+                        <ButtonSection />
                         <Pagenation />
                         <Search />
                     </Content>

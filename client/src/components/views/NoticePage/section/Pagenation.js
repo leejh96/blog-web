@@ -18,20 +18,10 @@ const PagenationLink = styled(Link)`
 `;
 
 function Pagenation() {
-    const [totalPage, setTotalPage] = useState([1,2,3,4]);
-    // useEffect(() => {
-    //     axios.get('api/notice/page')
-    //     .then(res => {
-    //         return setTotalPage((prevPage) => { return [...prevPage, res.data.total ]});
-    //     })
-    // },[])
     return (
         <PagenationArea>
             <PagenationLink to={`/notice?page=1`}>{'<<'}</PagenationLink>
             <PagenationLink to='#'>{'<'}</PagenationLink>
-            {totalPage.map((val, idx) => (
-                <PagenationLink key={idx} to={`/notice?page=${val}`}>{val}</PagenationLink>
-            ))}
             <PagenationLink to='#'>{'>'}</PagenationLink>
             <PagenationLink to='#'>{'>>'}</PagenationLink>
         </PagenationArea>

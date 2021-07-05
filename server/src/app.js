@@ -6,6 +6,7 @@ const app = express();
 const UserRouter = require('../routes/user');
 const StudyRouter = require('../routes/study');
 const GuestbookRouter = require('../routes/guestbook');
+const NoticeRouter = require('../routes/notice');
 require('dotenv').config();
 
 mongoose.connect(process.env.mongoURI, {
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
 app.use('/api/user', UserRouter);
 app.use('/api/study', StudyRouter);
 app.use('/api/guestbook', GuestbookRouter);
+app.use('/api/notice', NoticeRouter);
 
 app.listen(process.env.PORT, (req, res) => {
     console.log('server connected ...');
