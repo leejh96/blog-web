@@ -9,6 +9,7 @@ import Guestbook  from './views/GuestbookPage/Guestbook';
 import Study from './views/StudyPage/Study';
 import StudyEdit from './views/EditPage/Study/StudyEdit';
 import NoticeEdit from './views/EditPage/Notice/NoticeEdit';
+import NoticeDetail from './views/DetailPage/Detail';
 function App() {
   return (
     <>
@@ -21,6 +22,7 @@ function App() {
             {/* 쿼리스트링 값은 path에 적지 않고 쿼리스트링 전 path만 입력 */}
             <Route exact path='/notice' component={Notice} />
             <Route exact path='/notice/edit' component={NoticeEdit} />
+            <Route exact path='/notice/:id' component={NoticeDetail} />
             <Route exact path='/diary' component={Diary} /> 
             <Route exact path='/guestbook/:id' component={Guestbook} /> 
             <Route exact path='/study/:study' component={Study} />

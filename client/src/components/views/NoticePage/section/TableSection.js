@@ -61,7 +61,7 @@ function TableSection() {
                 {post.map((val, i) => (
                     <TableRow key={i}>
                         <Number>{i+1}</Number>
-                        <Title><TableLink to='#'>{val.title}</TableLink></Title>
+                        <Title><TableLink to={`/notice/${val._id}`}>{val.title}</TableLink></Title>
                         <Author>{val.author.nick}</Author>
                         <Date>{val.date}</Date>
                     </TableRow>

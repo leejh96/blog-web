@@ -17,6 +17,21 @@ router.get('/', async(req, res) => {
 
 });
 
+router.get('/:id', async(req, res) => {
+    try {
+        const notice = await Notice.findOne({
+                _id : req.params.id
+        }).populate('author');
+        return res.json({
+            success : true,
+            notice,
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+})
+
 router.post('/', auth, async(req, res)=>{
     try {
         await Notice.create({
@@ -26,6 +41,25 @@ router.post('/', auth, async(req, res)=>{
         })
         return res.json({
             success : true,
+        })
+    }
+        
+    catch (error) {
+        console.error(error);
+        return ;
+    }    
+});
+
+router.update('/:id/addlike', auth, async(req, res)=>{
+    try {
+        const notice = await Notice.findOneAndUpdate({
+            _id : req.body.id
+        },{ $addToSet: { like: { $each: req.user._id } } })
+        
+        console.log(notice);
+        return res.json({
+            success : true,
+            notice,
         })
     }
         

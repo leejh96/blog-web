@@ -7,5 +7,9 @@ export const GUESTBOOK_PAGENATION_COUNT = 'GUESTBOOK_PAGENATION_COUNT';
 
 //Notice
 export const LOAD_NOTICE = 'LOAD_NOTICE';
+export const LOAD_ONE_NOTICE = 'LOAD_NOTICE';
 export const CREATE_NOTICE = 'CREATE_NOTICE';
 export const DELETE_NOTICE = 'DELETE_NOTICE';
+export const LOAD_LIKE = 'LOAD_LIKE';
+export const ADD_LIKE = 'ADD_LIKE';
+export const DELETE_LIKE = 'DELETE_LIKE';

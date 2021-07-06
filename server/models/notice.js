@@ -14,10 +14,10 @@ const noticeSchema = new mongoose.Schema({
     text : {
         type : String,
     },
-    like : {
-        type : Number,
-        default : 0,
-    },
+    like : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'User',
+    }],
     img : {
         type : String,
         default : '',
