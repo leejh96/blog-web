@@ -13,3 +13,4 @@ export const DELETE_NOTICE = 'DELETE_NOTICE';
 export const LOAD_LIKE = 'LOAD_LIKE';
 export const ADD_LIKE = 'ADD_LIKE';
 export const DELETE_LIKE = 'DELETE_LIKE';
+export const CREATE_NOTICE_COMMENT = 'CREATE_NOTICE_COMMENT';

@@ -5,7 +5,8 @@ import {
     CREATE_NOTICE,
     LOAD_LIKE,
     ADD_LIKE,
-    DELETE_LIKE
+    DELETE_LIKE,
+    CREATE_NOTICE_COMMENT
 } from './type';
 //camelCase
 export const loadNotice = () => async dispatch => {
@@ -24,7 +25,6 @@ export const loadNotice = () => async dispatch => {
 export const loadOneNotice = (id) => async dispatch => {
     try {
         const res = await axios.get(`/api/notice/${id}`);
-        console.log(res);
         return dispatch({
             type : LOAD_ONE_NOTICE,
             data : res.data.notice,
@@ -49,12 +49,27 @@ export const createNotice = data => async dispatch => {
     
 }
 
+export const createNoticeComment = data => async dispatch => {
+    try {
+        const res = await axios.put(`/api/notice/comment`, data);
+        return dispatch({
+            type : CREATE_NOTICE_COMMENT,
+            success : res.data.success,
+        });
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+    
+}
+
 export const loadLike = (id) => async dispatch => {
     try {
         const res = await axios.get(`/api/notice/${id}`);
         return dispatch({
             type : LOAD_LIKE,
-            count : res.data.notice.like.length,
+            like : res.data.notice.like,
+            user : res.data.user,
         });
     } catch (error) {
         console.error(error);
@@ -65,10 +80,7 @@ export const loadLike = (id) => async dispatch => {
 
 export const addLike = (id) => async dispatch => {
     try {
-        const res = await axios.update(`/api/notice/${id}/addlike`, {
-            id
-        });
-        console.log(res);
+        const res = await axios.put(`/api/notice/${id}/addlike`);
         return dispatch({
             type : ADD_LIKE,
             data : res.data.notice.like,
@@ -80,12 +92,12 @@ export const addLike = (id) => async dispatch => {
     
 }
 
-export const deleteLike = () => async dispatch => {
+export const deleteLike = (id) => async dispatch => {
     try {
-        const res = await axios.get('/api/notice/');
+        const res = await axios.put(`/api/notice/${id}/deletelike`);
         return dispatch({
-            type : LOAD_NOTICE,
-            data : res.data.notices,
+            type : DELETE_LIKE,
+            data : res.data.notice.like,
         });
     } catch (error) {
         console.error(error);

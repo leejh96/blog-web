@@ -34,6 +34,7 @@ app.use('/api/study', StudyRouter);
 app.use('/api/guestbook', GuestbookRouter);
 app.use('/api/notice', NoticeRouter);
 
+
 app.listen(process.env.PORT, (req, res) => {
     console.log('server connected ...');
 })

@@ -17,7 +17,7 @@ router.get('/', async(req, res) => {
 
 });
 
-router.get('/:id', async(req, res) => {
+router.get('/:id', auth, async(req, res) => {
     try {
         const notice = await Notice.findOne({
                 _id : req.params.id
@@ -25,6 +25,7 @@ router.get('/:id', async(req, res) => {
         return res.json({
             success : true,
             notice,
+            user : req.user._id,
         })
     } catch (error) {
         console.error(error);
@@ -50,13 +51,48 @@ router.post('/', auth, async(req, res)=>{
     }    
 });
 
-router.update('/:id/addlike', auth, async(req, res)=>{
+router.put('/comment', auth, async(req, res)=>{
     try {
         const notice = await Notice.findOneAndUpdate({
             _id : req.body.id
-        },{ $addToSet: { like: { $each: req.user._id } } })
+        },{ '$push': { comment : {
+            user : req.user._id,
+            comment : req.body.comment,
+            date : req.body.date
+        } }})
+        return res.json({
+            success : true,
+        })
+    }
         
-        console.log(notice);
+    catch (error) {
+        console.error(error);
+        return ;
+    }    
+});
+
+router.put('/:id/addlike', auth, async(req, res)=>{
+    try {
+        const notice = await Notice.findOneAndUpdate({
+            _id : req.params.id
+        },{ '$addToSet': { like : req.user._id }})
+        return res.json({
+            success : true,
+            notice,
+        })
+    }
+        
+    catch (error) {
+        console.error(error);
+        return ;
+    }    
+});
+
+router.put('/:id/deletelike', auth, async(req, res)=>{
+    try {
+        const notice = await Notice.findOneAndUpdate({
+            _id : req.params.id
+        },{ '$pull': { like : req.user._id }})
         return res.json({
             success : true,
             notice,

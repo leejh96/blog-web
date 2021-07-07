@@ -23,9 +23,15 @@ const noticeSchema = new mongoose.Schema({
         default : '',
     },
     comment : [{
-        type : mongoose.Schema.Types.ObjectId,
-        default : [],
-        ref : 'Comment',
+        user : {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'User'
+        },
+        comment : {
+            type : String,
+            required : true
+        },
+        date : String
     }],
     date: {
         type: String,
