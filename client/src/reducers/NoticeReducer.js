@@ -4,26 +4,67 @@
 import { 
     LOAD_NOTICE,
     CREATE_NOTICE,
+    LOAD_COMMENT,
+    LOAD_ONE_NOTICE,
+    CREATE_NOTICE_COMMENT,
+    LOAD_LIKE,
+    ADD_LIKE,
+    DELETE_LIKE,
+
 } from "../actions/type"
 
 const initialState = {
-    notice : [],
+    notices : [],
+    commentLength : 0,
+    selectdNotice : {},
+    likeCount : 0,
 }
 const NoticeReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOAD_NOTICE:
             return {
                 ...state,
-                notice : action.data,
+                notices : [...action.data],
+            };
+        case LOAD_ONE_NOTICE:
+            return {
+                ...state,
+                selectdNotice : {...action.data}
+            };
+        case CREATE_NOTICE_COMMENT:
+            return {
+                ...state,
+                commentLength : state.commentLength + 1,
+            }
+        case LOAD_LIKE:
+            return {
+                ...state,
+                likeCount : action.data.length,
+            };
+        case ADD_LIKE:
+            return {
+                ...state,
+                likeCount : action.data,
+            };
+        case DELETE_LIKE:
+            return {
+                ...state,
+                likeCount : action.data,
             };
         case CREATE_NOTICE:
-            return state;
+            return {
+                ...state,
+                notices : [...state.notices, action.data]
+            };
+        case LOAD_COMMENT:
+            return {
+                ...state,
+                commentLength : action.data.length,
+            }
         default:
             return state;
     }
 }
-
-
 
 
 export default NoticeReducer;

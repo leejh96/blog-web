@@ -33,15 +33,36 @@ router.get('/:id', auth, async(req, res) => {
     }
 })
 
+router.get('/:id/comment', auth, async(req, res) => {
+    try {
+        const notice = await Notice.findOne({
+                _id : req.params.id
+        }).populate({
+            path : 'comment',
+            populate : {
+                path : 'user',
+            }
+        })
+        return res.json({
+            success : true,
+            comment : notice.comment,
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+})
+
 router.post('/', auth, async(req, res)=>{
     try {
-        await Notice.create({
+        const notice = await Notice.create({
             title : req.body.title,
             author : req.user._id,
             text :  req.body.text,
         })
         return res.json({
             success : true,
+            notice,
         })
     }
         
@@ -58,7 +79,7 @@ router.put('/comment', auth, async(req, res)=>{
         },{ '$push': { comment : {
             user : req.user._id,
             comment : req.body.comment,
-            date : req.body.date
+            date : req.body.date,
         } }})
         return res.json({
             success : true,
