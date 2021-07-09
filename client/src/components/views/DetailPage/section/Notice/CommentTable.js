@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components';
 import { useDispatch, useSelector  } from 'react-redux';
-import { loadComment } from '../../../../../actions/NoticeAction';
+import { loadComment, deleteNoticeComment } from '../../../../../actions/NoticeAction';
 import { useParams } from 'react-router-dom';
+import {Button} from '@material-ui/core';
+
 const CommentDiv = styled.div`
     width : 70%;
     border : 1px solid #c4c4c4;
@@ -10,6 +12,8 @@ const CommentDiv = styled.div`
     margin-bottom : 20px;
 `;
 const UserInfo = styled.div`
+    display : flex;
+    justify-content : space-between;
     border-bottom : 1px solid #c4c4c4;
     background-color : #f6f8fa;
     color : #5e666f;
@@ -25,6 +29,11 @@ const DIV = styled.div`
     align-items : center;
     flex-direction : column
 `;
+const DeleteBtn = styled(Button)`
+    line-height : 0;
+    min-width : 0;
+    color : #5e669c;
+`;
 
 function CommentTable() {
     const dispatch = useDispatch();
@@ -37,12 +46,26 @@ function CommentTable() {
             setComment(res.data);
         })
     },[dispatch, id, leng])
+
+    const onClickDelete = (commentId, noticeId) => {
+        dispatch(deleteNoticeComment(commentId, noticeId))
+        .then(res => {
+            setComment(res.data);
+        })
+    };
+
     return (
         <DIV>
             { comment.map((val, idx) => (
                 <CommentDiv key={idx}>
                     <UserInfo>
-                        {val.user.nick} {val.date}
+                        <div>
+                            {val.user.nick}
+                        </div>
+                        <div>
+                            {val.date}
+                            <DeleteBtn onClick={() => onClickDelete(val._id, id)}>X</DeleteBtn>
+                        </div>
                     </UserInfo>
                     <Comment>
                         {val.comment.split('\n').map((value, index) => (

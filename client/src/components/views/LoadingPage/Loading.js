@@ -11,7 +11,7 @@ const Load = styled.div`
 function Loading() {
     return (
         <Load>
-            로딩중 ...
+            불러오는중 ...
         </Load>
     )
 }

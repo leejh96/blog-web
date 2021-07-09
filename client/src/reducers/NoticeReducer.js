@@ -10,6 +10,9 @@ import {
     LOAD_LIKE,
     ADD_LIKE,
     DELETE_LIKE,
+    DELETE_NOTICE_COMMENT,
+    UPDATE_NOTICE,
+    DELETE_NOTICE,
 
 } from "../actions/type"
 
@@ -61,6 +64,15 @@ const NoticeReducer = (state = initialState, action) => {
                 ...state,
                 commentLength : action.data.length,
             }
+        case DELETE_NOTICE_COMMENT:
+            return {
+                ...state,
+                commentLength : state.commentLength - 1,
+            }
+        case UPDATE_NOTICE:
+            return state;
+        case DELETE_NOTICE:
+            return state;
         default:
             return state;
     }

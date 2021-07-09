@@ -20,9 +20,10 @@ function App() {
             <Route exact path='/login' component={Login} />
             <Route exact path='/signup' component={Signup} />
             {/* 쿼리스트링 값은 path에 적지 않고 쿼리스트링 전 path만 입력 */}
-            <Route exact path='/notice' component={Notice} />
             <Route exact path='/notice/edit' component={NoticeEdit} />
-            <Route exact path='/notice/:id' component={NoticeDetail} />
+            <Route exact path='/notice/:id/edit' component={NoticeEdit} />
+            <Route exact path='/notice/:page' component={Notice} />
+            <Route exact path='/notice/:page/:id' component={NoticeDetail} />
             <Route exact path='/diary' component={Diary} /> 
             <Route exact path='/guestbook/:id' component={Guestbook} /> 
             <Route exact path='/study/:study' component={Study} />

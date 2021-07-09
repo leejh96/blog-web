@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {Table, TableHead, TableBody, TableRow, TableCell} from '@material-ui/core';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import Loading from '../../LoadingPage/Loading';
 import { useDispatch } from 'react-redux';
 import { loadNotice } from '../../../../actions/NoticeAction';
@@ -32,6 +32,7 @@ const TableLink = styled(Link)`
     }
 `;
 function TableSection() {
+    const page = useParams().page;
     const dispatch = useDispatch();
     const [post, setPost] = useState([]);
     const [load, setLoad] = useState(false);
@@ -61,7 +62,7 @@ function TableSection() {
                 {post.map((val, i) => (
                     <TableRow key={i}>
                         <Number>{i+1}</Number>
-                        <Title><TableLink to={`/notice/${val._id}`}>{val.title}</TableLink></Title>
+                        <Title><TableLink to={`/notice/${page}/${val._id}`}>{val.title}</TableLink></Title>
                         <Author>{val.author.nick}</Author>
                         <Date>{val.date}</Date>
                     </TableRow>

@@ -3,11 +3,14 @@ import {
     LOAD_NOTICE,
     LOAD_ONE_NOTICE,
     CREATE_NOTICE,
+    UPDATE_NOTICE,
     LOAD_LIKE,
     ADD_LIKE,
     DELETE_LIKE,
     CREATE_NOTICE_COMMENT,
-    LOAD_COMMENT
+    LOAD_COMMENT,
+    DELETE_NOTICE_COMMENT,
+    DELETE_NOTICE
 } from './type';
 //camelCase
 export const loadNotice = () => async dispatch => {
@@ -62,8 +65,31 @@ export const createNotice = data => async dispatch => {
     }
     
 }
-
-
+export const updateNotice = data => async dispatch => {
+    try {
+        const res = await axios.put(`/api/notice/${data.id}/updatenotice`,data);
+        return dispatch({
+            type : UPDATE_NOTICE,
+            success : res.data.success,
+            data : res.data.notice,
+        });
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+};
+export const deleteNotice = id => async dispatch => {
+    try {
+        const res = await axios.delete(`/api/notice/${id}/deletenotice`);
+        return dispatch({
+            type : DELETE_NOTICE,
+            data : res.data.success,
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+}
 export const createNoticeComment = data => async dispatch => {
     try {
         const res = await axios.put(`/api/notice/comment`, data);
@@ -119,4 +145,19 @@ export const deleteLike = (id) => async dispatch => {
         return ;
     }
     
+}
+
+export const deleteNoticeComment = (commentId, noticeId) => async dispatch => {
+    try {
+        const res = await axios.put(`/api/notice/${noticeId}/deletecomment`, {
+            id : commentId
+        });
+        return dispatch({
+            type : DELETE_NOTICE_COMMENT,
+            data : res.data.comment
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
 }

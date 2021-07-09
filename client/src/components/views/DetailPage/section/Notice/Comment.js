@@ -25,7 +25,6 @@ function Comment() {
             date : moment().format('YYYY-MM-DD HH:mm:ss')
         }
         dispatch(createNoticeComment(data))
-        .then( console.log(1111));
     }
     const onChangeText = (e) => {
         setComment(e.target.value);

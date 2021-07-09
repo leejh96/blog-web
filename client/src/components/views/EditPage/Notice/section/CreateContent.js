@@ -41,7 +41,7 @@ function CreateContent() {
         dispatch(createNotice(data))
         .then(res => {
             if (res.success){
-                return history.push('/notice');
+                return history.push('/notice/1');
             }
         })
     };

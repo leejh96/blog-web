@@ -72,6 +72,27 @@ router.post('/', auth, async(req, res)=>{
     }    
 });
 
+router.put('/:id/updatenotice', async(req, res) => {
+    try {
+        const notice = await Notice.findOneAndUpdate({_id : req.params.id},{
+            title : req.body.title,
+            text : req.body.text,
+        })
+        if(notice){
+            return res.json({
+                success : true,
+                notice,
+            })
+        }
+        return res.json({
+            success : false,
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+})
+
 router.put('/comment', auth, async(req, res)=>{
     try {
         const notice = await Notice.findOneAndUpdate({
@@ -126,4 +147,45 @@ router.put('/:id/deletelike', auth, async(req, res)=>{
     }    
 });
 
+router.put('/:id/deletecomment', auth, async(req, res) => {
+    try {
+        const notice = await Notice.findOneAndUpdate({
+            _id : req.params.id
+        },{ '$pull': { comment : {
+            _id : req.body.id
+        }}});
+        if(notice){
+            return res.json({
+                success : true,
+                comment : notice.comment,
+            })
+        }
+        return res.json({
+            success : false,
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+});
+
+router.delete('/:id/deletenotice',  auth,async(req, res) => {
+    try {
+        //deleteOne은 리턴값이 삭제된 값이 아니다.
+        const deleteNotice = await Notice.deleteOne({
+            _id : req.params.id
+        });
+        console.log(deleteNotice);
+        if(deleteNotice){
+            return res.json({
+                success : true,
+            })
+        }
+        return res.json({
+            success : false,
+        })
+    } catch (error) {
+        
+    }
+});
 module.exports = router;
