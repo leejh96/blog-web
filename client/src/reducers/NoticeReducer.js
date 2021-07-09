@@ -13,6 +13,7 @@ import {
     DELETE_NOTICE_COMMENT,
     UPDATE_NOTICE,
     DELETE_NOTICE,
+    SEARCH_NOTICE
 
 } from "../actions/type"
 
@@ -21,6 +22,7 @@ const initialState = {
     commentLength : 0,
     selectdNotice : {},
     likeCount : 0,
+    searchNotices : [],
 }
 const NoticeReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -68,6 +70,11 @@ const NoticeReducer = (state = initialState, action) => {
             return {
                 ...state,
                 commentLength : state.commentLength - 1,
+            }
+        case SEARCH_NOTICE:
+            return {
+                ...state,
+                searchNotices : [...action.data],
             }
         case UPDATE_NOTICE:
             return state;

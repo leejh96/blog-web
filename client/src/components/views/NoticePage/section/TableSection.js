@@ -3,7 +3,7 @@ import {Table, TableHead, TableBody, TableRow, TableCell} from '@material-ui/cor
 import styled from 'styled-components';
 import {Link, useParams} from 'react-router-dom';
 import Loading from '../../LoadingPage/Loading';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadNotice } from '../../../../actions/NoticeAction';
 const Number = styled(TableCell)`
     text-align : center;
@@ -36,14 +36,20 @@ function TableSection() {
     const dispatch = useDispatch();
     const [post, setPost] = useState([]);
     const [load, setLoad] = useState(false);
+    const searchNotice = useSelector(state => state.NoticeReducer.searchNotices);
     useEffect(() => {
+        console.log(1);
         setLoad(true);
         dispatch(loadNotice())
         .then(res => {
-            setPost(res.data);
+            setPost(res.data.slice((page-1)*10, page*10 -1));
             setLoad(false);
         })
-    }, [dispatch])
+    }, [dispatch, page])
+
+    useEffect(() => {
+        setPost(searchNotice);
+    },[searchNotice])
     return (
         <>
             {load ?

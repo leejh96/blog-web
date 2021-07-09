@@ -10,7 +10,8 @@ import {
     CREATE_NOTICE_COMMENT,
     LOAD_COMMENT,
     DELETE_NOTICE_COMMENT,
-    DELETE_NOTICE
+    DELETE_NOTICE,
+    SEARCH_NOTICE
 } from './type';
 //camelCase
 export const loadNotice = () => async dispatch => {
@@ -84,6 +85,28 @@ export const deleteNotice = id => async dispatch => {
         return dispatch({
             type : DELETE_NOTICE,
             data : res.data.success,
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+}
+export const searchNotice = (arr, text, type) => async dispatch => {
+    try {
+        let array = [];
+        if(type === 'title'){
+            array = await arr.filter((item) => {
+                return item.title.indexOf(text) > -1;
+            });
+        }
+        if(type === 'author'){
+            array = await arr.filter((item) => {
+                return item.author.nick.indexOf(text) > -1;
+            })
+        }
+        dispatch({
+            type : SEARCH_NOTICE,
+            data : array,
         })
     } catch (error) {
         console.error(error);

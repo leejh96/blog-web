@@ -12,6 +12,7 @@ export const LOAD_COMMENT = 'LOAD_COMMENT';
 export const CREATE_NOTICE = 'CREATE_NOTICE';
 export const DELETE_NOTICE = 'DELETE_NOTICE';
 export const UPDATE_NOTICE = 'UPDATE_NOTICE';
+export const SEARCH_NOTICE = 'SEARCH_NOTICE';
 export const LOAD_LIKE = 'LOAD_LIKE';
 export const ADD_LIKE = 'ADD_LIKE';
 export const DELETE_LIKE = 'DELETE_LIKE';
