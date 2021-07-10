@@ -46,6 +46,7 @@ const Component = ({children, className}) => {
         <SyntaxHighlighter
           language={ className === undefined ? '' : className.substring(9)} //특정언어지정
           style={materialLight}
+          wrapLongLines={true} //한줄이 길어지면 다음줄로 넘어가게함 default false
           children={children}
         /> 
         :
@@ -58,6 +59,7 @@ const Component = ({children, className}) => {
           PreTag = 'span' //pre태그 이름을 바꾸는 것
           language={ className === undefined ? '' : className.substring(9)} //특정언어지정
           children={children}
+          wrapLongLines={true}
         />
       }
     </>

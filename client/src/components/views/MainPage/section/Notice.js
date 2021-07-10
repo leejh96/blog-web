@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { loadNotice } from '../../../../actions/NoticeAction';
 
 const NoticeArea = styled.div`
     border: 1px solid black;
@@ -19,13 +21,14 @@ const NoticeTitle = styled.h2`
 
 const Post = styled.div`
     display : flex;
-    padding : 10px;
-    flex-direction : column;
+    padding : 12px;
+    justify-content : space-between;
+    font-size : 1.25rem;
+
 `;
 
 const PostLink = styled(Link)`
     text-decoration : none;
-    font-size : 1.5rem;
     color : black;
     margin-bottom : 5px;
     &:hover{
@@ -34,30 +37,24 @@ const PostLink = styled(Link)`
 `;
 
 function Notice() {
-    const posts = [
-        {
-            tag : 'title',
-            link : '#',
-        },
-        {
-            tag : 'title2',
-            link : '#',
-        },
-        {
-            tag : 'title3',
-            link : '#',
-        }
-    ]
+    const [posts, setPosts] = useState([]);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(loadNotice())
+        .then(res => {
+            setPosts(res.data.slice(0,7));
+        })
+    },[dispatch])
     return (
         <NoticeArea>
             <NoticeTitle>공지사항</NoticeTitle>
-            <Post>
-                {posts.map((val, i) => (
-                    <PostLink key={i} to={val.link} color="inherit" >{val.tag}</PostLink>
-                ))}
-            </Post>
-            
-
+            {posts.map((val, i) => (
+                <Post key={i}>
+                    <div>{i+1}</div>
+                    <PostLink to={`/notice/1/${val._id}`}  >{val.title}</PostLink>
+                    <div>{val.author.nick}</div>
+                </Post>
+            ))}
         </NoticeArea>
     )
 }

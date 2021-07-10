@@ -59,6 +59,7 @@ router.post('/', auth, async(req, res)=>{
             title : req.body.title,
             author : req.user._id,
             text :  req.body.text,
+            date : req.body.date,
         })
         return res.json({
             success : true,
@@ -175,7 +176,6 @@ router.delete('/:id/deletenotice',  auth,async(req, res) => {
         const deleteNotice = await Notice.deleteOne({
             _id : req.params.id
         });
-        console.log(deleteNotice);
         if(deleteNotice){
             return res.json({
                 success : true,

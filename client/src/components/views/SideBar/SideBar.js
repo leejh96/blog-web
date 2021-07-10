@@ -1,7 +1,8 @@
 import { Divider } from '@material-ui/core';
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { TextField } from '@material-ui/core';
 const SideTitle = styled.h3`
   margin : 0;
   padding : 20px 0 20px 0;
@@ -11,9 +12,7 @@ const SideTitle = styled.h3`
 const SideMain = styled.div`
   display : flex;
   flex-direction : column;
-  align-items : flex-start;
-  padding-left : 30px;
-  padding-top : 10px;
+  padding : 10px 10px 0 30px
 `;
 const SideBar = styled.div`
   height : 100vh;
@@ -33,10 +32,72 @@ const SideLink = styled(Link)` //react-router-dom 태그는 ()에 넣는다
   };
 `;
 const MenuTitle = styled.h4`
+  margin : 0;
+`;
+
+const MenuTitleDiv = styled.div`
+  display : flex;
+  justify-content : space-between;
   margin : 0 0 10px 0;
   padding : 0;
 `;
+const DeleteBtn = styled.button`
+  padding : 0;
+  margin : 0;
+  background-color : white;
+  border :0;
+  cursor : pointer;
+`;
+const PlusBtn = styled.button`
+  padding : 0;
+  margin : 0;
+  background-color : white;
+  border :0;
+  cursor : pointer;
+  &:hover{
+    border : 1.5px groove #eeeeee;
+  }
+`;
+
+const PlusFieldDiv = styled.div`
+  margin-bottom : 10px;
+  display : flex;
+  justify-content : space-between;
+`;
+
+const Text = styled.input`
+  padding : 0;
+  margin :0;
+  width : 70%;
+`;
+
+const CreateBtn = styled.button`
+  padding : 0 2px;
+  margin : 0;
+  cursor : pointer;
+
+  // background-color : white;
+  // border :0;
+  // cursor : pointer;
+  // &:hover{
+  //   border : 1.5px groove #eeeeee;
+  // }
+`;
+
+const StudyDiv = styled.div`
+  display : flex;
+  justify-content : space-between;
+`;
+
+const BoardDiv = styled.div`
+  display : flex;
+  justify-content : space-between;
+`;
+
 function Sidebar() {
+  const [toggle, setToggle] = useState(false);
+  const [text, setText] = useState('');
+
   const category = [
     {
       tag : '공지사항',
@@ -89,26 +150,56 @@ function Sidebar() {
       link : '/study/Algorithm'
     },
   ];
+  const onChangeText = (e) => {
+    setText(e.target.value);
+  }
+
+  const onClickPlusBtn = () => {
+    toggle ? setToggle(false) : setToggle(true)
+  } 
+  const onClickCreateBtn = () => {
+    console.log(1);
+  };
+  const onClickDeleteBtn = () => {
+    console.log(1);
+  };
   return (
     <SideBar>
       <SideTitle>
         메뉴
       </SideTitle>
       <SideMain>
-        <MenuTitle>Study</MenuTitle>
+        <MenuTitleDiv>
+          <MenuTitle>Study</MenuTitle>
+          <PlusBtn variant='text' onClick={onClickPlusBtn}>+</PlusBtn>
+        </MenuTitleDiv>
+        { toggle ?
+          <PlusFieldDiv>
+              <Text onChange={onChangeText}/>
+              <CreateBtn onClick={onClickCreateBtn}>추가</CreateBtn>
+          </PlusFieldDiv>
+          :
+          <></>
+        }
         {study.map((val, i) => (
-          <SideLink key={i} to={val.link} >
-            {val.tag}
-          </SideLink>
+          <StudyDiv key={i}>
+            <SideLink to={val.link} >
+              {val.tag}
+            </SideLink>
+            <DeleteBtn onClick={onClickDeleteBtn}>x</DeleteBtn>
+          </StudyDiv>
         ))}
       </SideMain>
       <Divider style={{margin : '10px 0 10px 0'}}/>
       <SideMain>
-        <MenuTitle>Notice</MenuTitle>
+        <MenuTitleDiv>
+          <MenuTitle>Board</MenuTitle>
+        </MenuTitleDiv>        
         {category.map((val, i) => (
-          <SideLink key={i} to={val.link}>
-            {val.tag}
-          </SideLink>
+          <BoardDiv key={i}>
+            <SideLink to={val.link}>{val.tag} </SideLink>
+            <DeleteBtn onClick={onClickDeleteBtn}>x</DeleteBtn>
+          </BoardDiv>
         ))}
       </SideMain>
      </SideBar> 

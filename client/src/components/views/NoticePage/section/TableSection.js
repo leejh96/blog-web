@@ -38,11 +38,10 @@ function TableSection() {
     const [load, setLoad] = useState(false);
     const searchNotice = useSelector(state => state.NoticeReducer.searchNotices);
     useEffect(() => {
-        console.log(1);
         setLoad(true);
         dispatch(loadNotice())
         .then(res => {
-            setPost(res.data.slice((page-1)*10, page*10 -1));
+            setPost(res.data.slice((page-1)*10, page*10));
             setLoad(false);
         })
     }, [dispatch, page])
@@ -67,7 +66,7 @@ function TableSection() {
                 <TableBody>
                 {post.map((val, i) => (
                     <TableRow key={i}>
-                        <Number>{i+1}</Number>
+                        <Number>{(page-1)*10 + (i+1)}</Number>
                         <Title><TableLink to={`/notice/${page}/${val._id}`}>{val.title}</TableLink></Title>
                         <Author>{val.author.nick}</Author>
                         <Date>{val.date}</Date>

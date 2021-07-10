@@ -62,7 +62,7 @@ function Pagenation() {
             :
                 <PagenationLink to={`${parseInt(pageNumber) + 1}`}>{'>'}</PagenationLink> 
             }  
-            <PagenationLink to={`/notice/${page}`}>{'>>'}</PagenationLink>
+            <PagenationLink to={`/notice/${page.length}`}>{'>>'}</PagenationLink>
         </PagenationArea>
     )
 }
