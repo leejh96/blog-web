@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import { materialLight  } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import {Button} from '@material-ui/core';
 import axios from 'axios';
-
+import { useDispatch } from 'react-redux';
+import { loadOneStudy, updateStudyText, deleteStudyText } from '../../../actions/StudyAction'
 const EditorArea = styled.div`
   display : flex;
   margin-bottom : 20px;
@@ -67,54 +68,28 @@ const Component = ({children, className}) => {
   )
 };
 
-function MarkdownEditor({ page }) {
+function MarkdownEditor() {
+    const page = useParams().study;
     const [text, setText] = useState('');
     const history = useHistory();
-
+    const dispatch = useDispatch();
     useEffect(() => {
-      axios.post('/api/study/', {
-        study : page
-      })
+      dispatch(loadOneStudy(page))
       .then(res => {
-        if(res.data.text){
-          setText(res.data.text)
-        }else{
-          setText('');
-        }
+        setText(res.data.text);
       })
-    }, [page])
+    }, [dispatch, page])
 
     const onChangeText = (e) => {
       setText(e.target.value);
     };
     const onClickUpdate = () => {
-        axios.put(`/api/study/${page}/update`, {
-          text,
-          study : page
-        })
-        .then(res => {
-          if(res.data.success){
-            return history.push(`/study/${page}`);
-          }
-          alert(res.data.message);
-          return history.push(`/study/${page}`);
-        })
+      dispatch(updateStudyText(page, text))
+      .then(history.push(`/study/${page}`))
     };
-    
-    const onClickDelete = () => {
-      axios.delete(`/api/study/${page}/delete`, {
-        data : {
-          study : page
-        }
-      })
-      .then(res => {
-        if(res.data.success){
-          return history.push('/');
-        }
-        return alert(res.data.message);
-      })
-    };
-
+    const onClickCancel = () => {
+      history.push(`/study/${page}`)
+    }
     return (
       <>
         <EditorArea>
@@ -124,8 +99,8 @@ function MarkdownEditor({ page }) {
           }}/>
         </EditorArea>
         <ButtonDiv>
-          <Buttons variant="contained" onClick={onClickUpdate} >저장</Buttons>
-          <Buttons variant="contained" onClick={onClickDelete}>삭제</Buttons>
+          <Buttons variant="contained" onClick={onClickUpdate}>저장</Buttons>
+          <Buttons variant="contained" onClick={onClickCancel}>취소</Buttons>
         </ButtonDiv>
       </>
     )

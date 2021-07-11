@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import { materialLight  } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Button } from '@material-ui/core';
-
+import { Link, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loadOneStudy } from '../../../actions/StudyAction';
 const Markdown = styled(ReactMarkdown)`
   outline : none;
   overflow : auto;
@@ -47,34 +47,28 @@ const ButtonDiv = styled.div`
   display : flex;
   justify-content : flex-end;
 `;
-function MarkdownSection({ page }) {
+const BtnLink = styled(Link)`
+  text-decoration : none;
+  color : black;
+`;
+
+function MarkdownSection() {
+    const page = useParams().study;
+    const dispatch = useDispatch();
     const [text, setText] = useState('');
-    let history = useHistory();
     useEffect(() => {
-      axios.post('/api/study/', {
-        study : page
-      })
+      dispatch(loadOneStudy(page))
       .then(res => {
-        if(res.data.text){
-          setText(res.data.text);
-        }else{
-          setText('');
-        }
+        setText(res.data.text);
       })
-    }, [page, text])
-
-
-
-    const onClickWrite = () => {
-      history.push(`/study/${page}/edit`);
-    };
+    }, [dispatch, page])
     return( 
         <>
             <Markdown children={text} components= {{
                 code : Component
             }}/>
             <ButtonDiv>
-                <Buttons variant="contained" onClick={onClickWrite}>{!text ? "글작성" : "글수정"}</Buttons>
+                <BtnLink to={`/study/${page}/edit`}><Buttons variant="contained" >{!text ? "글작성" : "글수정"}</Buttons></BtnLink>
             </ButtonDiv>
         </>
     )

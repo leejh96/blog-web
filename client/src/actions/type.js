@@ -18,3 +18,11 @@ export const ADD_LIKE = 'ADD_LIKE';
 export const DELETE_LIKE = 'DELETE_LIKE';
 export const CREATE_NOTICE_COMMENT = 'CREATE_NOTICE_COMMENT';
 export const DELETE_NOTICE_COMMENT = 'DELETE_NOTICE_COMMENT';
+
+
+//Study
+export const CREATE_STUDY = 'CREATE_STUDY';
+export const LOAD_STUDY = 'LOAD_STUDY';
+export const DELETE_STUDY = 'DELETE_STUDY';
+export const LOAD_ONE_STUDY = 'LOAD_ONE_STUDY';
+export const UPDATE_STUDY_TEXT ='UPDATE_STUDY_TEXT';

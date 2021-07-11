@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../NavBar/Navbar';
 import Footer from '../Footer/Footer';
 import Sidebar from '../SideBar/Sidebar';
 import { Divider } from '@material-ui/core';
 import styled from 'styled-components';
 import MarkdownSection from '../Markdown/Markdown';
+import { useParams } from 'react-router-dom';
 const MainPage = styled.div`
     margin-left : 10%;
     margin-right : 10%;
@@ -20,8 +21,13 @@ const Content = styled.div`
     margin-top : 10px;
     padding-bottom : 10px;
 `;
-function Study(props) {
-    const study = props.match.params.study;
+function Study() {
+    const { study } = useParams();
+    const [page, setPage] = useState('');
+
+    useEffect(() => {
+        setPage( study );
+    }, [ study ])
     return (
         <>
             <Navbar />
@@ -29,9 +35,9 @@ function Study(props) {
             <MainPage>
                 <Sidebar />
                 <ContentArea>
-                    <h2>{study}</h2>
+                    <h2>{page}</h2>
                     <Content>
-                        <MarkdownSection page={study}/>
+                        <MarkdownSection page={page}/>
                     </Content>
                 </ContentArea>
             </MainPage>
