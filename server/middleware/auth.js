@@ -3,9 +3,12 @@ const jwt = require('jsonwebtoken');
 
 const auth = async(req, res, next) => {
     try {
-        let token = req.cookies.authCookie;
-        if(token === 'undefined'){
-            return res.json({auth : false})
+        const token = req.cookies.authCookie;
+        if(!token){
+            return res.json({ 
+                auth : false,
+                message : '로그인을 해주시기 바랍니다.'
+            })
         }
         const id = await jwt.verify(token, process.env.TOKEN_SECRET);
         if(id){
@@ -16,7 +19,9 @@ const auth = async(req, res, next) => {
                 return next();
             }
         }
-        return res.json({
+        return res
+        .clearCookie('authCookie')
+        .json({
             auth : false
         })
     

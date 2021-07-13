@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {Avatar, Button, CssBaseline, TextField, FormControlLabel,
      Checkbox, Link, Grid, Box, Container, Typography} from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from './section/Copyright';
-import axios from 'axios';
+import { loginUser } from '../../../actions/UserAction';
+import { useDispatch } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -26,7 +27,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login(props) {
+function Login() {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
@@ -39,17 +42,13 @@ function Login(props) {
 
   const onSubmitInfo = (e) => {
     e.preventDefault();
-    axios.post('/api/user/login', {
-      email,
-      password
-    })
+    dispatch(loginUser(email, password))
     .then(res => {
       if(res.data.success){
-        localStorage.setItem('auth', res.data.role);
-        return props.history.push('/');
+        localStorage.setItem('auth', res.data.user.role);
+        return history.push('/');
       }
-      alert(res.data.message);
-      return props.history.push('/login');
+      return alert(res.data.message);
     })
   }
   const classes = useStyles();
@@ -123,4 +122,4 @@ function Login(props) {
   );
 }
 
-export default withRouter(Login);
+export default Login;

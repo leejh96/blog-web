@@ -50,6 +50,7 @@ function Notice() {
             <NoticeTitle>공지사항</NoticeTitle>
             {posts.map((val, i) => (
                 <Post key={i}>
+                    {console.log(val)}
                     <div>{i+1}</div>
                     <PostLink to={`/notice/1/${val._id}`}  >{val.title}</PostLink>
                     <div>{val.author.nick}</div>

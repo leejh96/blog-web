@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom';
 
-function AuthF() {
-    const list = [
+const Lists = () => {
+    return [
         {
             tag : "로그인",
             link : "/login",
@@ -13,6 +13,14 @@ function AuthF() {
         }
 
     ];
+}
+
+function AuthF() {
+    const [list, setList] = useState([]);
+    useEffect(() => {
+        setList(Lists());
+    }, [])
+    
     return (
         <div align="right">
             { list.map((value, i) => (

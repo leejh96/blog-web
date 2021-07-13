@@ -4,6 +4,9 @@ import {Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Container, Typo
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from './section/Copyright';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { registerUser } from '../../../actions/UserAction';
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -24,24 +27,25 @@ const useStyles = makeStyles((theme) => ({
     },
     }));
 
-function Signup(props) {
+function Signup() {
     const [username, setUsername] = useState('');
     const [nick, setNick] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const onSubmitSignup = (e) => {
         e.preventDefault();
-        axios.post('/api/user/signup', {
-            username,
-            nick,
-            email,
-            password
-        })
+        const data = {
+            username, nick, email, password
+        }
+        dispatch(registerUser(data))
         .then(res => {
-            if(res.data.success){
-                props.history.push('/login');
+            if(res.data){
+                history.push('/login');
             }
+            return alert(res.data.message);
         })
     };
 

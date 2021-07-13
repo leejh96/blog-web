@@ -39,7 +39,7 @@ ReactDOM.render(
     너무 복잡해지기 때문에 react-redux 사용 */}
 
     {/* Provider로 감싸고 store를 인수로 주는 방법이 react-redux */}
-    <Provider store={store}>  
+    <Provider store={store}>
       <App />
     </Provider>
   </React.StrictMode>,

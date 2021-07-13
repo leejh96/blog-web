@@ -4,7 +4,6 @@ export const DELETE_GUESTBOOK = 'DELETE_GUESTBOOK';
 export const LOAD_GUESTBOOK = 'LOAD_GUESTBOOK';
 export const GUESTBOOK_PAGENATION_COUNT = 'GUESTBOOK_PAGENATION_COUNT';
 
-
 //Notice
 export const LOAD_NOTICE = 'LOAD_NOTICE';
 export const LOAD_ONE_NOTICE = 'LOAD_ONE_NOTICE';
@@ -19,10 +18,16 @@ export const DELETE_LIKE = 'DELETE_LIKE';
 export const CREATE_NOTICE_COMMENT = 'CREATE_NOTICE_COMMENT';
 export const DELETE_NOTICE_COMMENT = 'DELETE_NOTICE_COMMENT';
 
-
 //Study
 export const CREATE_STUDY = 'CREATE_STUDY';
 export const LOAD_STUDY = 'LOAD_STUDY';
 export const DELETE_STUDY = 'DELETE_STUDY';
 export const LOAD_ONE_STUDY = 'LOAD_ONE_STUDY';
 export const UPDATE_STUDY_TEXT ='UPDATE_STUDY_TEXT';
+
+//User
+export const REGISTER_USER = 'REGISTER_USER';
+export const LOGIN_USER = 'LOGIN_USER';
+export const LOGOUT_USER = 'LOGOUT_USER';
+export const LOAD_COOKIE = 'LOAD_COOKIE';
+export const ERROR = 'ERROR';

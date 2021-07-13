@@ -1,9 +1,9 @@
-import axios from 'axios'
-import React from 'react'
-import { withRouter, Link } from 'react-router-dom';
-
-function authT(props) {
-    const list = [
+import React, { useEffect, useState } from 'react'
+import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '../../../../actions/UserAction';
+const Lists = () => {
+    return [
         {
             tag : "내 정보",
             link : "/mySetting",
@@ -12,16 +12,31 @@ function authT(props) {
             tag : '로그아웃',
             link : '#'
         }
-
     ];
+}
+
+function AuthT() {
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const [list, setList] = useState([]);
+    useEffect(() => {
+        setList(Lists);
+    }, [])
+
     const onClickLogout = () => {
-        axios.get('/api/user/logout')
+        dispatch(logoutUser())
         .then(res => {
             if(res.data.success){
                 localStorage.removeItem('auth');
-                return props.history.push('/login');
+                return history.push('/login');
             }
-            return alert('로그아웃에 실패했습니다.');
+            if(!res.data.auth){
+                localStorage.removeItem('auth');
+                alert(res.data.message);
+                return history.push('/login')
+            }
+            alert(res.data.message);
+            return history.push('/login')
         })
     }
     return (
@@ -50,4 +65,4 @@ function authT(props) {
     )
 }
 
-export default withRouter(authT);
+export default AuthT;

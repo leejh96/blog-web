@@ -28,9 +28,7 @@ const userSchema = new mongoose.Schema({
     },
     token : {
         type: String,
-    },
-    tokenExp :{
-        type: Number
+        default : '',
     }
 }, { timestamps : true})
 

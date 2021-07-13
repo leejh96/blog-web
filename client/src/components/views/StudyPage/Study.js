@@ -37,7 +37,7 @@ function Study() {
                 <ContentArea>
                     <h2>{page}</h2>
                     <Content>
-                        <MarkdownSection page={page}/>
+                        <MarkdownSection />
                     </Content>
                 </ContentArea>
             </MainPage>
