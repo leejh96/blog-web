@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LOAD_COOKIE, LOGIN_USER, LOGOUT_USER, REGISTER_USER, ERROR } from './type';
+import { CONNECT_SESSION, LOGIN_USER, LOGOUT_USER, REGISTER_USER, ERROR } from './type';
 
 export const registerUser = ({ username, nick, email, password }) => async dispatch => {
     const res = await axios.post('/api/user/signup',{
@@ -43,16 +43,21 @@ export const logoutUser = () => async dispatch => {
     })
 };
 
-export const loadCookie =  role  => async dispatch => {
-    if(role){
-        const res = await axios.get('api/user/cookie')
+export const loadCookie = access => async dispatch => {
+    const config = {
+        headers: {
+          authorization: access,
+        }
+      }
+    const res = await axios.get('api/user/token', config);
+    if(res.data.success){
         return dispatch({
-            type : LOAD_COOKIE,
-            data : res.data.token
+            type : CONNECT_SESSION,
+            data : res.data
         });
     }
     return dispatch({
         type : ERROR,
-        data : '',
+        data : res.data,
     })
 }

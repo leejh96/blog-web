@@ -27,11 +27,11 @@ function AuthT() {
         dispatch(logoutUser())
         .then(res => {
             if(res.data.success){
-                localStorage.removeItem('auth');
+                localStorage.removeItem('access');
                 return history.push('/login');
             }
             if(!res.data.auth){
-                localStorage.removeItem('auth');
+                localStorage.removeItem('access');
                 alert(res.data.message);
                 return history.push('/login')
             }

@@ -45,7 +45,7 @@ function Login() {
     dispatch(loginUser(email, password))
     .then(res => {
       if(res.data.success){
-        localStorage.setItem('auth', res.data.user.role);
+        localStorage.setItem('access', res.data.accessToken);
         return history.push('/');
       }
       return alert(res.data.message);

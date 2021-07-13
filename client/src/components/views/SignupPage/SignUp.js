@@ -43,7 +43,7 @@ function Signup() {
         dispatch(registerUser(data))
         .then(res => {
             if(res.data){
-                history.push('/login');
+                return history.push('/login');
             }
             return alert(res.data.message);
         })

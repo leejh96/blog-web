@@ -29,5 +29,5 @@ export const UPDATE_STUDY_TEXT ='UPDATE_STUDY_TEXT';
 export const REGISTER_USER = 'REGISTER_USER';
 export const LOGIN_USER = 'LOGIN_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
-export const LOAD_COOKIE = 'LOAD_COOKIE';
+export const CONNECT_SESSION = 'CONNECT_SESSION';
 export const ERROR = 'ERROR';

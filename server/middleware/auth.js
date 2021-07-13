@@ -3,33 +3,61 @@ const jwt = require('jsonwebtoken');
 
 const auth = async(req, res, next) => {
     try {
-        const token = req.cookies.authCookie;
-        if(!token){
-            return res.json({ 
-                auth : false,
-                message : '로그인을 해주시기 바랍니다.'
-            })
-        }
-        const id = await jwt.verify(token, process.env.TOKEN_SECRET);
-        if(id){
-            const user = await User.findOne({ _id : id })
+        const token = await jwt.verify(req.headers.authorization, process.env.TOKEN_SECRET);
+        if(token){
+            const user = await User.findOne({ _id : token.data })
             if(user){
                 req.user = user;
-                req.token = user.token;
+                req.token = req.headers.authorization;
                 return next();
             }
+            return res.json({
+                success : false,
+                auth : false,
+                message : '액세스 토큰에 대한 유저를 찾을 수 없습니다.'
+            })
         }
-        return res
-        .clearCookie('authCookie')
-        .json({
-            auth : false
+        return res.json({
+            success : false,
+            auth : false,
+            message : '액세스 토큰이 유효하지 않습니다.'
         })
-    
     } catch (error) {
-        console.error(error);
-        return ;
+        try {
+            const token = await jwt.verify(req.cookies.rft, process.env.REFRESH_TOKEN_SECRET);
+            if(token){
+                const user = await User.findOne({ _id : token.data });
+                if(user){
+                    const accessTokenExp = Math.floor(Date.now() / 1000) + (5);    
+                    
+                    const accessToken = await jwt.sign({
+                        exp : accessTokenExp,
+                        data : user._id.toHexString()
+                    }, process.env.TOKEN_SECRET);
+                    
+                    req.user = user;
+                    req.token = accessToken;
+                    return next();
+                }
+                return res.json({
+                    success : false,
+                    auth : false,
+                    message : '리프레시 토큰에 대한 유저를 찾을 수 없습니다.'
+                })
+            }
+            return res.json({
+                success : false,
+                auth : false,
+                message : '리프레시 토큰이 유효하지 않습니다'
+            })
+        } catch (error) {
+            return res.clearCookie('rft').json({
+                success : false,
+                auth : false,
+                message : '세션이 만료되었습니다.'
+            })
+        }
     }
-
 }
 
 module.exports = { auth };

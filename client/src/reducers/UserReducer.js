@@ -1,5 +1,5 @@
 import {
-    LOAD_COOKIE,
+    CONNECT_SESSION,
     LOGIN_USER,
     LOGOUT_USER,
     REGISTER_USER,
@@ -7,7 +7,6 @@ import {
 } from '../actions/type';
 
 const initialState = {
-    role : -1,
     authToken : '',
     error : false
 }
@@ -17,20 +16,18 @@ const UserReducer = (state = initialState, action) => {
         case LOGOUT_USER:
             return {
                 ...state,
-                role : -1,
                 authToken : '',
                 error : false,
             }
         case LOGIN_USER :
             return {
                 ...state,
-                role : action.data.user.role,
                 error : false,
             };
-        case LOAD_COOKIE:
+        case CONNECT_SESSION:
             return {
                 ...state,
-                authToken : action.data,
+                authToken : action.data.token,
                 error : false,
             }
         case ERROR:
@@ -41,7 +38,6 @@ const UserReducer = (state = initialState, action) => {
         case REGISTER_USER:
             return {
                 ...state,
-                role : -1,
                 authToken : '',
                 error : false,
             }

@@ -46,17 +46,32 @@ router.post('/login', async(req, res)=>{
         if(user){
             const TF = await bcrypt.compare(req.body.password, user.password);
             if(TF){
-                const token = jwt.sign(user._id.toHexString(), process.env.TOKEN_SECRET)
-                user.token = token;
+                const refreshTokenExp = Math.floor(Date.now() / 1000) + (60*60);
+                const accessTokenExp = Math.floor(Date.now() / 1000) + (5);
+
+                const accessToken = await jwt.sign({
+                    exp : accessTokenExp,
+                    data : user._id.toHexString()
+                }, process.env.TOKEN_SECRET);
+
+                const refreshToken = await jwt.sign({
+                    exp: refreshTokenExp,
+                    data : user._id.toHexString()
+                }, process.env.REFRESH_TOKEN_SECRET);
+                
+                user.refreshToken = refreshToken;
+                user.refreshTokenExp = refreshTokenExp;
                 await user.save();
-                return res
-                .status(200)
-                .cookie('authCookie', token, {
-                    httpOnly: true,
-                })
-                .json({
+
+                return res.
+                status(200).
+                cookie('rft', refreshToken, {
+                    httpOnly : true,
+                }).
+                json({
                     success : true,
-                    user
+                    user,
+                    accessToken,
                 })
             }
         }
@@ -77,7 +92,7 @@ router.get('/logout', auth, async(req, res) => {
         if(user){
             return res
             .status(200)
-            .clearCookie('authCookie')
+            .clearCookie('rft')
             .json({ success : true });
         }
         return res.json({
@@ -90,16 +105,17 @@ router.get('/logout', auth, async(req, res) => {
     }
 });
 
-router.get('/cookie', auth, async(req, res) => {
+router.get('/token', auth, async(req, res) => {
     try {
-        const COOKIE = req.cookies.authCookie;
-        if(COOKIE){
-            return res.json({
-                token : COOKIE,
+        if(req.user){
+            return res.status(200).json({
+                success : true,
+                token : req.token
             })
         }
         return res.json({
-            token : ''
+            success : false,
+            message : '에러발생',
         })
     } catch (error) {
         console.error(error);
