@@ -28,7 +28,7 @@ router.post('/signup', async (req, res) => {
                 success : true
             });
         }
-        return res.status(200).json({
+        return res.status(404).json({
             success : false,
             message : '회원가입에 실패했습니다.'
         })
@@ -75,7 +75,7 @@ router.post('/login', async(req, res)=>{
                 })
             }
         }
-        return res.status(200).json({
+        return res.json({
             success : false,
             message : '아이디 및 비밀번호를 다시한번 확인해주시기 바랍니다'
         })
@@ -105,16 +105,19 @@ router.get('/logout', auth, async(req, res) => {
     }
 });
 
-router.get('/token', auth, async(req, res) => {
+router.get('/auth', auth, async(req, res) => {
     try {
         if(req.user){
             return res.status(200).json({
                 success : true,
-                token : req.token
+                user :  req.user,
+                token : req.token,
+                auth : true,
             })
         }
         return res.json({
             success : false,
+            auth : false,
             message : '에러발생',
         })
     } catch (error) {

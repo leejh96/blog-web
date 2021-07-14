@@ -11,7 +11,8 @@ import {
     LOAD_COMMENT,
     DELETE_NOTICE_COMMENT,
     DELETE_NOTICE,
-    SEARCH_NOTICE
+    SEARCH_NOTICE,
+    NOTICE_ERROR,
 } from './type';
 //camelCase
 export const loadNotice = () => async dispatch => {
@@ -23,7 +24,9 @@ export const loadNotice = () => async dispatch => {
         });
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : NOTICE_ERROR,
+        });
     }
 }
 
@@ -36,7 +39,9 @@ export const loadOneNotice = (id) => async dispatch => {
         });
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : NOTICE_ERROR,
+        });
     }
 }
 
@@ -49,7 +54,9 @@ export const loadComment = (id) => async dispatch => {
         });
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : NOTICE_ERROR,
+        });
     }
 }
 export const createNotice = data => async dispatch => {
@@ -62,7 +69,9 @@ export const createNotice = data => async dispatch => {
         });
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : NOTICE_ERROR,
+        });
     }
     
 }
@@ -76,7 +85,9 @@ export const updateNotice = data => async dispatch => {
         });
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : NOTICE_ERROR,
+        });
     }
 };
 export const deleteNotice = id => async dispatch => {
@@ -88,7 +99,9 @@ export const deleteNotice = id => async dispatch => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : NOTICE_ERROR,
+        });
     }
 }
 export const searchNotice = (arr, text, type) => async dispatch => {
@@ -104,13 +117,15 @@ export const searchNotice = (arr, text, type) => async dispatch => {
                 return item.author.nick.indexOf(text) > -1;
             })
         }
-        dispatch({
+        return dispatch({
             type : SEARCH_NOTICE,
             data : array,
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : NOTICE_ERROR,
+        });
     }
 }
 export const createNoticeComment = data => async dispatch => {
@@ -122,7 +137,9 @@ export const createNoticeComment = data => async dispatch => {
         });
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : NOTICE_ERROR,
+        });
     }
     
 }

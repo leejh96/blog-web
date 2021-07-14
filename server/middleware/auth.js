@@ -52,6 +52,7 @@ const auth = async(req, res, next) => {
             })
         } catch (error) {
             return res.clearCookie('rft').json({
+                expire : true,
                 success : false,
                 auth : false,
                 message : '세션이 만료되었습니다.'

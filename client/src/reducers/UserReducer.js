@@ -1,14 +1,15 @@
 import {
-    CONNECT_SESSION,
+    AUTH_USER,
     LOGIN_USER,
     LOGOUT_USER,
     REGISTER_USER,
-    ERROR,
+    AUTH_ERROR,
 } from '../actions/type';
 
 const initialState = {
     authToken : '',
-    error : false
+    error : false,
+    user : {},
 }
 
 const UserReducer = (state = initialState, action) => {
@@ -24,13 +25,14 @@ const UserReducer = (state = initialState, action) => {
                 ...state,
                 error : false,
             };
-        case CONNECT_SESSION:
+        case AUTH_USER:
             return {
                 ...state,
                 authToken : action.data.token,
+                user : action.data,
                 error : false,
             }
-        case ERROR:
+        case AUTH_ERROR:
             return {
                 ...state,
                 error : true,
@@ -38,7 +40,6 @@ const UserReducer = (state = initialState, action) => {
         case REGISTER_USER:
             return {
                 ...state,
-                authToken : '',
                 error : false,
             }
         default :

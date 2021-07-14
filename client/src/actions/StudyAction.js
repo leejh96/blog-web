@@ -5,6 +5,7 @@ import {
     DELETE_STUDY, 
     LOAD_ONE_STUDY,
     UPDATE_STUDY_TEXT,
+    STUDY_ERROR,
 } from './type';
 //camelCase
 export const createStudy = text => async dispatch => {
@@ -17,7 +18,9 @@ export const createStudy = text => async dispatch => {
         })
     } catch (error) {
         console.error(error);
-        return;
+        return dispatch({
+            type : STUDY_ERROR,
+        });
     }
 }
 
@@ -30,7 +33,9 @@ export const loadStudy = () => async dispatch => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : STUDY_ERROR,
+        });
     }
 }
 
@@ -43,32 +48,39 @@ export const loadOneStudy = page => async dispatch => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : STUDY_ERROR,
+        });
     }
 }
 
 export const updateStudyText = ( page, text )=> async dispatch => {
     try {
         const data = { text };
-        const res = await axios.put(`/api/study/${page}`, data);
+        await axios.put(`/api/study/${page}`, data);
         return dispatch({
             type : UPDATE_STUDY_TEXT
         })
+
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : STUDY_ERROR
+        })
     }
 };
 
 export const deleteStudy = id => async dispatch => {
     try {
         const data = { data : { id }};
-        const res = await axios.delete('/api/study', data);
+        await axios.delete('/api/study', data);
         return dispatch({
             type : DELETE_STUDY,
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : STUDY_ERROR
+        })
     }
 }

@@ -26,8 +26,8 @@ function Study() {
     const [page, setPage] = useState('');
 
     useEffect(() => {
-        setPage( study );
-    }, [ study ])
+        setPage(study);
+    }, [])
     return (
         <>
             <Navbar />

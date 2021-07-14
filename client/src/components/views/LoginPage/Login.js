@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
-import {Avatar, Button, CssBaseline, TextField, FormControlLabel,
-     Checkbox, Link, Grid, Box, Container, Typography} from '@material-ui/core'
+import {Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Container, Typography} from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from './section/Copyright';
@@ -48,7 +47,9 @@ function Login() {
         localStorage.setItem('access', res.data.accessToken);
         return history.push('/');
       }
-      return alert(res.data.message);
+      if(res.data.expire){
+        return ;
+      }
     })
   }
   const classes = useStyles();
@@ -87,10 +88,6 @@ function Login() {
             id="password"
             autoComplete="current-password"
             onChange={onChangePassword}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="자동 로그인"
           />
           <Button
             type="submit"

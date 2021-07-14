@@ -5,6 +5,7 @@ import Sidebar from '../../SideBar/Sidebar';
 import { Divider } from '@material-ui/core';
 import styled from 'styled-components';
 import MarkdownEditor from '../../Markdown/MarkdownEditor';
+import { useParams } from 'react-router-dom';
 const MainPage = styled.div`
     margin-left : 10%;
     margin-right : 10%;
@@ -20,8 +21,8 @@ const Content = styled.div`
     margin-top : 10px;
     padding-bottom : 10px;
 `;
-function StudyEdit(props) {
-    const study = props.match.params.study;
+function StudyEdit() {
+    const {study} = useParams();
     return (
         <>
             <Navbar />

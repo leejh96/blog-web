@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { CREATE_GUESTBOOK, DELETE_GUESTBOOK, LOAD_GUESTBOOK, GUESTBOOK_PAGENATION_COUNT } from './type';
+import { 
+    CREATE_GUESTBOOK,
+    DELETE_GUESTBOOK,
+    LOAD_GUESTBOOK,
+    GUESTBOOK_PAGENATION_COUNT,
+    GUESTBOOK_ERROR,
+} from './type';
 //camelCase
 export const createGuestBook =  data => async dispatch => {
     try {
@@ -8,10 +14,12 @@ export const createGuestBook =  data => async dispatch => {
         return dispatch({
             type : CREATE_GUESTBOOK,
             data : res.data.createContent,
-        })
+        });
     } catch (error) {
         console.error(error);
-        return;
+        return dispatch({
+            type : GUESTBOOK_ERROR,
+        });
     }
 }
 
@@ -27,7 +35,9 @@ export const deleteGuestBook = data => async dispatch => {
         return alert(res.data.message);
     } catch (error) {
         console.error(error);
-        return;
+        return dispatch({
+            type : GUESTBOOK_ERROR,
+        });
     }
 };
 
@@ -40,7 +50,9 @@ export const loadGuestBook = () => async dispatch => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : GUESTBOOK_ERROR,
+        });
     }
 };
 
@@ -53,6 +65,8 @@ export const pagenation = (url) => async dispatch => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : GUESTBOOK_ERROR,
+        });
     }
 };

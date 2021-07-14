@@ -32,10 +32,8 @@ function AuthT() {
             }
             if(!res.data.auth){
                 localStorage.removeItem('access');
-                alert(res.data.message);
                 return history.push('/login')
             }
-            alert(res.data.message);
             return history.push('/login')
         })
     }

@@ -13,7 +13,8 @@ import {
     DELETE_NOTICE_COMMENT,
     UPDATE_NOTICE,
     DELETE_NOTICE,
-    SEARCH_NOTICE
+    SEARCH_NOTICE,
+    NOTICE_ERROR
 
 } from "../actions/type"
 
@@ -23,6 +24,7 @@ const initialState = {
     selectdNotice : {},
     likeCount : 0,
     searchNotices : [],
+    error : false,
 }
 const NoticeReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -30,56 +32,90 @@ const NoticeReducer = (state = initialState, action) => {
             return {
                 ...state,
                 notices : [...action.data],
+                error : false,
             };
         case LOAD_ONE_NOTICE:
             return {
                 ...state,
-                selectdNotice : {...action.data}
+                selectdNotice : {...action.data},
+                error : false,
+
             };
         case CREATE_NOTICE_COMMENT:
             return {
                 ...state,
                 commentLength : state.commentLength + 1,
+                error : false,
+
             }
         case LOAD_LIKE:
             return {
                 ...state,
                 likeCount : action.data.length,
+                error : false,
+
             };
         case ADD_LIKE:
             return {
                 ...state,
                 likeCount : action.data,
+                error : false,
+
             };
         case DELETE_LIKE:
             return {
                 ...state,
                 likeCount : action.data,
+                error : false,
+
             };
         case CREATE_NOTICE:
             return {
                 ...state,
-                notices : [...state.notices, action.data]
+                notices : [...state.notices, action.data],
+                error : false,
+
             };
         case LOAD_COMMENT:
             return {
                 ...state,
                 commentLength : action.data.length,
+                error : false,
+
             }
         case DELETE_NOTICE_COMMENT:
             return {
                 ...state,
                 commentLength : state.commentLength - 1,
+                error : false,
+
             }
         case SEARCH_NOTICE:
             return {
                 ...state,
                 searchNotices : [...action.data],
+                error : false,
             }
         case UPDATE_NOTICE:
-            return state;
+            return {
+                ...state,
+                error : false,
+            }
         case DELETE_NOTICE:
-            return state;
+            return {
+                ...state,
+                error : false,
+            }
+        case NOTICE_ERROR:
+            return {
+                ...state,
+                notices : [],
+                commentLength : 0,
+                selectdNotice : {},
+                likeCount : 0,
+                searchNotices : [],
+                error : true,
+            }
         default:
             return state;
     }

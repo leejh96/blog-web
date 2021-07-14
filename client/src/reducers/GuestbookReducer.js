@@ -5,12 +5,14 @@ import {
     CREATE_GUESTBOOK, 
     DELETE_GUESTBOOK, 
     LOAD_GUESTBOOK, 
-    GUESTBOOK_PAGENATION_COUNT 
+    GUESTBOOK_PAGENATION_COUNT,
+    GUESTBOOK_ERROR
 } from "../actions/type"
 
 const initialState = {
     guestlength : 0,
     guestbook : [],
+    error : false,
 }
 const GuestbookReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -18,20 +20,36 @@ const GuestbookReducer = (state = initialState, action) => {
             return {
                 ...state,
                 guestlength : state.guestlength + 1,
+                error : false,
+
             };
         case LOAD_GUESTBOOK:
             return {
                 ...state,
                 guestbook : action.data,
-                guestlength : action.data.length
+                guestlength : action.data.length,
+                error : false,
+
             }; 
         case DELETE_GUESTBOOK:
             return {
                 ...state,
                 guestlength : state.guestlength - 1,
+                error : false,
+
             }
         case GUESTBOOK_PAGENATION_COUNT:
-            return state;
+            return {
+                ...state, 
+                error : false,
+            };
+        case GUESTBOOK_ERROR:
+            return {
+                ...state,
+                guestlength : 0,
+                guestbook : [],
+                error : true,
+            }
         default:
             return state;
     }

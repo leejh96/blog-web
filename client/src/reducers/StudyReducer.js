@@ -6,12 +6,14 @@ import {
     DELETE_STUDY, 
     LOAD_STUDY,
     LOAD_ONE_STUDY,
-    UPDATE_STUDY_TEXT
+    UPDATE_STUDY_TEXT,
+    STUDY_ERROR
 } from "../actions/type"
 
 const initialState = {
     studyCount : 0,
     studies : [],
+    error : false,
 }
 const StudyReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -19,20 +21,37 @@ const StudyReducer = (state = initialState, action) => {
             return {
                 ...state,
                 studyCount : state.studyCount + 1,
+                error : false,
             };
         case LOAD_STUDY:
             return {
                 ...state,
                 study : action.data,
-                studyCount : action.data.length
+                studyCount : action.data.length,
+                error : false,
             }
         case DELETE_STUDY:
             return {
                 ...state,
                 studyCount : state.studyCount - 1,
+                error : false,
+            }
+        case STUDY_ERROR:
+            return {
+                studyCount : 0,
+                studies : [],
+                error : true,
             }
         case LOAD_ONE_STUDY:
+            return {
+                ...state,
+                error: false,
+            }
         case UPDATE_STUDY_TEXT:
+            return {
+                ...state,
+                error: false,
+            }
         default:
             return state;
     }
