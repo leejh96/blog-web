@@ -9,7 +9,7 @@ import Guestbook  from './views/GuestbookPage/Guestbook';
 import Study from './views/StudyPage/Study';
 import StudyEdit from './views/EditPage/Study/StudyEdit';
 import NoticeEdit from './views/EditPage/Notice/NoticeEdit';
-import NoticeDetail from './views/DetailPage/Detail';
+import Detail from './views/DetailPage/Detail';
 import Auth from '../hoc/Auth'; //hoc higherOrderComponent
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
             <Route exact path='/notice/edit' component={Auth(NoticeEdit, true, true)} />
             <Route exact path='/notice/:id/edit' component={Auth(NoticeEdit, true, true)} />
             <Route exact path='/notice/:page' component={Notice} />
-            <Route exact path='/notice/:page/:id' component={Auth(NoticeDetail, true, true)} />
+            <Route exact path='/notice/:page/:id' component={Auth(Detail, true)} />
             <Route exact path='/diary' component={Diary} /> 
             <Route exact path='/guestbook/:id' component={Guestbook} /> 
             <Route exact path='/study/:study' component={Study} />

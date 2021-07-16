@@ -1,9 +1,10 @@
 import { Button, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { createGuestBook } from '../../../../actions/GuestbookAction';
+import { useHistory } from 'react-router-dom';
 const BookboxDiv = styled.div`
     display : flex;
     justify-content : space-between;
@@ -16,12 +17,18 @@ const TextBox = styled(TextField)`
 function Bookbox() {
     const dispatch = useDispatch();
     const [text, setText] = useState('');
+    const user = useSelector(state => state.UserReducer.user);
+    const history = useHistory();
     const onClickBtn = () => {
         const data = {
             text,
             date : moment().format('YYYY-MM-DD HH:mm:ss')
         }
-        dispatch(createGuestBook(data))
+        if(user._id){
+            return dispatch(createGuestBook(data))
+        }
+        alert('로그인이 필요합니다');
+        return history.push('/login');
     }
     const onChangeText = (e) => {
         setText(e.target.value);

@@ -42,6 +42,7 @@ function Tablesection({ page }) {
     const [guest, setGuest] = useState([]);
     const guestbookLength = useSelector(state => state.GuestbookReducer.guestlength);
     const dispatch = useDispatch();
+    const user = useSelector(state => state.UserReducer.user);
     useEffect(() => {
         setLoad(true);
         dispatch(loadGuestBook())
@@ -77,7 +78,11 @@ function Tablesection({ page }) {
                                         <Nick>{val.writer.nick}</Nick>
                                         <Content>{val.text}</Content>
                                         <Time>{val.date}</Time>
-                                        <Delete><Button onClick={() => onClickDelete(val._id)}>X</Button> </Delete>
+                                        {user._id === val.writer._id || user.role === 3 ?
+                                            <Delete><Button onClick={() => onClickDelete(val._id)}>X</Button> </Delete>
+                                            :
+                                            <Delete></Delete>
+                                        }
                                     </TableRow>
                                 ) 
                             })}

@@ -21,21 +21,26 @@ const UserReducer = (state = initialState, action) => {
                 error : false,
             }
         case LOGIN_USER :
+            console.log(action);
             return {
                 ...state,
+                user : action.data.user,
+                authToken : action.data.accessToken,
                 error : false,
             };
         case AUTH_USER:
             return {
                 ...state,
                 authToken : action.data.token,
-                user : action.data,
+                user : action.data.user,
                 error : false,
             }
         case AUTH_ERROR:
             return {
                 ...state,
+                authToken : '',
                 error : true,
+                user : {},
             }
         case REGISTER_USER:
             return {

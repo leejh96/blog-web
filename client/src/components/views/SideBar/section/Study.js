@@ -78,6 +78,7 @@ function Study() {
     const { studyCount } = useSelector(state => ({
       studyCount : state.StudyReducer.studyCount
     }))
+    const user = useSelector(state => state.UserReducer.user);
     useEffect(() => {
       dispatch(loadStudy())
       .then(res => {
@@ -109,7 +110,11 @@ function Study() {
         <SideMain>
             <MenuTitleDiv>
             <MenuTitle>Study</MenuTitle>
-            <PlusBtn onClick={onClickPlusBtn}>+</PlusBtn>
+            {user.role === 3 ? 
+              <PlusBtn onClick={onClickPlusBtn}>+</PlusBtn>
+              :
+              <></>
+            }
             </MenuTitleDiv>
             { toggle?
             <PlusFieldDiv>
@@ -124,7 +129,11 @@ function Study() {
                 <SideLink to={val.link} >
                 {val.subject}
                 </SideLink>
-                <DeleteBtn onClick={() => onClickDeleteBtn(val._id)}>x</DeleteBtn>
+                {user.role === 3 ? 
+                  <DeleteBtn onClick={() => onClickDeleteBtn(val._id)}>x</DeleteBtn>
+                  :
+                  <></>
+                }
             </StudyDiv>
             ))}
       </SideMain>

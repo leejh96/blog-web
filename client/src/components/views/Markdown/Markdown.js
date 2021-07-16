@@ -5,7 +5,7 @@ import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import { materialLight  } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Button } from '@material-ui/core';
 import { Link, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadOneStudy } from '../../../actions/StudyAction';
 const Markdown = styled(ReactMarkdown)`
   outline : none;
@@ -56,6 +56,8 @@ function MarkdownSection() {
     const page = useParams().study;
     const dispatch = useDispatch();
     const [text, setText] = useState('');
+    const user = useSelector(state => state.UserReducer.user);
+    
     useEffect(() => {
       dispatch(loadOneStudy(page))
       .then(res => {
@@ -68,7 +70,11 @@ function MarkdownSection() {
                 code : Component
             }}/>
             <ButtonDiv>
+              { user.role === 3 ?                
                 <BtnLink to={`/study/${page}/edit`}><Buttons variant="contained" >{!text ? "글작성" : "글수정"}</Buttons></BtnLink>
+                :
+                <></>
+              }
             </ButtonDiv>
         </>
     )

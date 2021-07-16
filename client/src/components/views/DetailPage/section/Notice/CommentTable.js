@@ -40,6 +40,7 @@ function CommentTable() {
     const [comment, setComment] = useState([]);
     const leng = useSelector(state => state.NoticeReducer.commentLength);
     const id = useParams().id;
+    const user = useSelector(state => state.UserReducer.user);
     useEffect(() => {
         dispatch(loadComment(id))
         .then(res => {
@@ -64,7 +65,11 @@ function CommentTable() {
                         </div>
                         <div>
                             {val.date}
-                            <DeleteBtn onClick={() => onClickDelete(val._id, id)}>X</DeleteBtn>
+                            {user._id === val.user._id || user.role === 3?
+                                <DeleteBtn onClick={() => onClickDelete(val._id, id)}>X</DeleteBtn>
+                                :
+                                <></>
+                            }
                         </div>
                     </UserInfo>
                     <Comment>

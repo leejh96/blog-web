@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadNotice } from '../../../../actions/NoticeAction';
 
 const NoticeArea = styled.div`
@@ -39,6 +39,7 @@ const PostLink = styled(Link)`
 function Notice() {
     const [posts, setPosts] = useState([]);
     const dispatch = useDispatch();
+    const user = useSelector(state =>  state.UserReducer.user);
     useEffect(() => {
         dispatch(loadNotice())
         .then(res => {
@@ -51,7 +52,7 @@ function Notice() {
             {posts.map((val, i) => (
                 <Post key={i}>
                     <div>{i+1}</div>
-                    <PostLink to={`/notice/1/${val._id}`}  >{val.title}</PostLink>
+                    <PostLink to={user._id ? `/notice/1/${val._id}` : '/login'}  >{val.title}</PostLink>
                     <div>{val.author.nick}</div>
                 </Post>
             ))}

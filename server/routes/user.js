@@ -46,8 +46,8 @@ router.post('/login', async(req, res)=>{
         if(user){
             const TF = await bcrypt.compare(req.body.password, user.password);
             if(TF){
-                const refreshTokenExp = Math.floor(Date.now() / 1000) + (60*60);
-                const accessTokenExp = Math.floor(Date.now() / 1000) + (5);
+                const refreshTokenExp = Math.floor(Date.now() / 1000) + (60*60*24*7);
+                const accessTokenExp = Math.floor(Date.now() / 1000) + (60*30);
 
                 const accessToken = await jwt.sign({
                     exp : accessTokenExp,

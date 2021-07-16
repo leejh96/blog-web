@@ -28,7 +28,7 @@ const auth = async(req, res, next) => {
             if(token){
                 const user = await User.findOne({ _id : token.data });
                 if(user){
-                    const accessTokenExp = Math.floor(Date.now() / 1000) + (5);    
+                    const accessTokenExp = Math.floor(Date.now() / 1000) + (60*30);    
                     
                     const accessToken = await jwt.sign({
                         exp : accessTokenExp,
