@@ -3,6 +3,8 @@ import { Divider } from '@material-ui/core';
 import styled from 'styled-components';
 import Study from './section/Study';
 import Board from './section/Board';
+import Setting from './section/Setting'
+import { useLocation } from 'react-router-dom';
 const SideTitle = styled.h3`
   margin : 0;
   padding : 20px 0 20px 0;
@@ -19,14 +21,21 @@ const SideBar = styled.div`
 `;
 
 function Sidebar() {
+  const { pathname } = useLocation();
   return (
     <SideBar>
-      <SideTitle>
-        메뉴
-      </SideTitle>
-      <Study />
-      <Divider style={{margin : '10px 0 10px 0'}}/>
-      <Board />
+    { pathname === '/setting' ?
+      <Setting />
+      :
+      <>
+        <SideTitle>
+          메뉴
+        </SideTitle>
+        <Study />
+        <Divider style={{margin : '10px 0 10px 0'}}/>
+        <Board />
+      </>
+    }
     </SideBar> 
   )
 }

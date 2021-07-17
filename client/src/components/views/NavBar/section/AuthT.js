@@ -6,7 +6,7 @@ const Lists = () => {
     return [
         {
             tag : "내 정보",
-            link : "/mySetting",
+            link : "/setting",
         },
         {
             tag : '로그아웃',

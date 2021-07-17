@@ -34,7 +34,6 @@ const DiaryGrid = styled.div`
     margin-bottom : 5%;
     border-radius : 10%;
     background-repeat: no-repeat;
-    box-sizing:border-box;
     background-size: 100% 100%;
     box-shadow : 10px 10px 5px rgba(0, 0, 0, 0.3);
     transition : all 0.3s;

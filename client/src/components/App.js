@@ -11,6 +11,7 @@ import StudyEdit from './views/EditPage/Study/StudyEdit';
 import NoticeEdit from './views/EditPage/Notice/NoticeEdit';
 import Detail from './views/DetailPage/Detail';
 import Auth from '../hoc/Auth'; //hoc higherOrderComponent
+import Setting from './views/SettingPage/Setting';
 function App() {
   return (
     <>
@@ -29,6 +30,7 @@ function App() {
             <Route exact path='/guestbook/:id' component={Guestbook} /> 
             <Route exact path='/study/:study' component={Study} />
             <Route exact path='/study/:study/edit' component={Auth(StudyEdit, true, true)} />
+            <Route exact path='/setting' component={Auth(Setting, true)} />
           </Switch>
         </BrowserRouter>
       </Suspense>

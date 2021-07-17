@@ -30,25 +30,17 @@ const MenuTitleDiv = styled.div`
 const Category = () => {
   return [
     {
-      tag : '공지사항',
-      link : '/notice/1'
+      tag : '닉네임 변경',
+      link : '/setting/nick'
     },
     {
-      tag : '개발일지',
-      link : '/diary'
-    },
-    {
-      tag : '최근이슈',
-      link : '/issue'
-    },
-    {
-      tag : '방명록',
-      link : '/guestbook/1'
+      tag : '비밀번호 변경',
+      link : '/setting/password'
     }
   ]
 }
 
-function Board() {
+function Setting() {
     const [category, setCategory] = useState([]);
     useEffect(() => {
         setCategory(Category());
@@ -56,7 +48,7 @@ function Board() {
     return (
         <SideMain>
             <MenuTitleDiv>
-            <MenuTitle>Board</MenuTitle>
+                <MenuTitle>목록</MenuTitle>
             </MenuTitleDiv>    
             {category.map((val, i) => (
                 <SideLink key={i} to={val.link}>{val.tag} </SideLink>
@@ -65,4 +57,4 @@ function Board() {
     )
 }
 
-export default Board
+export default Setting
