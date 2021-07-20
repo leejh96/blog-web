@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AUTH_USER, LOGIN_USER, LOGOUT_USER, REGISTER_USER, AUTH_ERROR } from './type';
+import { AUTH_USER, LOGIN_USER, LOGOUT_USER, REGISTER_USER, AUTH_ERROR, UPDATE_ERROR, UPDATE_NICK, UPDATE_PASSWORD } from './type';
 
 export const registerUser = ({ username, nick, email, password }) => async dispatch => {
     try {
@@ -33,6 +33,7 @@ export const loginUser = (email, password) => async dispatch => {
         }
         return dispatch({
             type : AUTH_ERROR,
+            data : res.data,
         })
     } catch (error) {
         console.error(error);
@@ -85,6 +86,46 @@ export const authUser = access => async dispatch => {
         console.error(error);
         return dispatch({
             type : AUTH_ERROR,
+        })
+    }
+}
+
+export const changeNick = text => async dispatch => {
+    try {
+        const res = await axios.put(`/api/user/nick`, { nick : text })
+        console.log(res);
+        if(res.data.success){
+            return dispatch({
+                type : UPDATE_NICK,
+                data : res.data,
+            })
+        }
+    } catch (error) {
+        console.error(error);
+        return dispatch({
+            type : UPDATE_ERROR,
+        })
+    }
+}
+
+export const changePassword = text => async dispatch => {
+    try {
+        const res = await axios.put(`/api/user/password`, { password : text })
+        console.log(res);
+        if(res.data.success){
+            return dispatch({
+                type : UPDATE_PASSWORD,
+                data : res.data,
+            })
+        }
+        return dispatch({
+            type : UPDATE_ERROR,
+            data : res.data,
+        })
+    } catch (error) {
+        console.error(error);
+        return dispatch({
+            type : UPDATE_ERROR,
         })
     }
 }

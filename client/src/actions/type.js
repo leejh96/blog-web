@@ -36,3 +36,6 @@ export const LOGIN_USER = 'LOGIN_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
 export const AUTH_USER = 'AUTH_USER';
 export const AUTH_ERROR = 'AUTH_ERROR';
+export const UPDATE_ERROR = 'UPDATE_ERROR';
+export const UPDATE_NICK = 'UPDATE_NICK';
+export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';

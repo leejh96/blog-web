@@ -24,7 +24,7 @@ function Sidebar() {
   const { pathname } = useLocation();
   return (
     <SideBar>
-    { pathname === '/setting' ?
+    { pathname.indexOf('/setting') !== -1 ?
       <Setting />
       :
       <>

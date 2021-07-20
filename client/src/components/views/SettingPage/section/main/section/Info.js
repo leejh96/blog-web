@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components';
+import { useSelector  } from 'react-redux';
 const InfoBox = styled.div`
     display : flex;
-    box-sizing = border-box;
     height : 400px;
-    border : 1px solid black;
     margin-bottom : 36px;
 `;
 
@@ -27,30 +26,34 @@ const Infomation = styled.div`
 const Text = styled.div`
     padding-left : 10px;
     margin-bottom : 5px;
+    font-size : 1.5rem;
+    font-weight : bold;
+    color : #999999;
 `;
 
 const TextBox = styled.div`
     display : flex;
     align-items : center;
     box-sizing = border-box;
-    border : 1px solid black;
+    border : 1px solid #c4c4c4;
     border-radius : 5px;
-    height : 30px;
+    height : 35px;
     padding :  10px 10px;
 `;
 function Info() {
+    const user = useSelector(state => state.UserReducer.user);
     return (
         <InfoBox>
-            <ImgBox><img src='https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F24283C3858F778CA2EFABE' width='100%' height='100%'></img></ImgBox>
+            <ImgBox><img src='https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F24283C3858F778CA2EFABE' width='100%' height='100%' alt='이미지'></img></ImgBox>
             <Infomation>
                 <Text>이름</Text>
-                <TextBox>이주혁</TextBox>
+                <TextBox>{user.username}</TextBox>
                 <Text>닉네임</Text>
-                <TextBox>leee</TextBox>
+                <TextBox>{user.nick}</TextBox>
                 <Text>이메일</Text>
-                <TextBox>a@a</TextBox>
+                <TextBox>{user.email}</TextBox>
                 <Text>등급</Text>
-                <TextBox>관리자</TextBox>
+                <TextBox>{user.role === 3 ? '관리자' : '일반회원'}</TextBox>
             </Infomation>
         </InfoBox>
     )

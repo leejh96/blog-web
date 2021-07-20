@@ -4,6 +4,9 @@ import {
     LOGOUT_USER,
     REGISTER_USER,
     AUTH_ERROR,
+    UPDATE_ERROR,
+    UPDATE_NICK,
+    UPDATE_PASSWORD,
 } from '../actions/type';
 
 const initialState = {
@@ -21,7 +24,6 @@ const UserReducer = (state = initialState, action) => {
                 error : false,
             }
         case LOGIN_USER :
-            console.log(action);
             return {
                 ...state,
                 user : action.data.user,
@@ -47,6 +49,17 @@ const UserReducer = (state = initialState, action) => {
                 ...state,
                 error : false,
             }
+        case UPDATE_NICK:
+            return {
+                ...state,
+                user : action.data.user,
+            }
+        case UPDATE_PASSWORD:
+            return {
+                ...state,
+                user : action.data.user,
+            }
+        case UPDATE_ERROR:
         default :
             return state;
     }

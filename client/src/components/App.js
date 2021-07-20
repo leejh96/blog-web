@@ -31,6 +31,7 @@ function App() {
             <Route exact path='/study/:study' component={Study} />
             <Route exact path='/study/:study/edit' component={Auth(StudyEdit, true, true)} />
             <Route exact path='/setting' component={Auth(Setting, true)} />
+            <Route exact path='/setting/:change' component={Auth(Setting, true)} />
           </Switch>
         </BrowserRouter>
       </Suspense>

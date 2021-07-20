@@ -36,6 +36,10 @@ const Category = () => {
     {
       tag : '비밀번호 변경',
       link : '/setting/password'
+    },
+    {
+      tag : '회원 탈퇴',
+      link : '/setting/resign'
     }
   ]
 }

@@ -50,6 +50,9 @@ function Login() {
       if(res.data.expire){
         return ;
       }
+      if(!res.data.success){
+        return alert(res.data.message);
+      }
     })
   }
   const classes = useStyles();
