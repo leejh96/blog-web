@@ -24,10 +24,9 @@ const Content = styled.div`
 function Study() {
     const { study } = useParams();
     const [page, setPage] = useState('');
-
     useEffect(() => {
         setPage(study);
-    }, [])
+    }, [study])
     return (
         <>
             <Navbar />

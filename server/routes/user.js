@@ -178,4 +178,33 @@ router.put('/password', auth, async(req, res) => {
     }
 });
 
+router.delete('/', auth, async(req, res) => {
+    try {
+        const user = await User.findOne({ _id : req.user._id});
+        if(user){
+            const TF = await bcrypt.compare(req.body.password, user.password);
+            if(TF){
+                await User.findOneAndDelete({ _id : req.user._id});
+                return res
+                .clearCookie('rft')
+                .json({
+                    success : true,
+                    message : '회원탈퇴가 완료되었습니다.',
+                })
+            }
+            return res.json({
+                success : false,
+                message : '비밀번호가 일치하지 않습니다.',
+            })
+        }
+        return res.json({
+            success : false,
+            message : '회원탈퇴 에러가 발생했습니다.'
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+});
+
 module.exports = router;

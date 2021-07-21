@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Nick from './section/Nick';
 import Password from './section/Password';
+import Resign from './section/Resign';
 function Change() {
     const change = useParams().change;
     const [title, setTitle] = useState('');
@@ -26,7 +27,7 @@ function Change() {
                 change === 'password' ?
                 <Password />
                 :
-                <></>
+                <Resign />
             }
         </>
     )

@@ -5,9 +5,8 @@ import styled from 'styled-components';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import { materialLight  } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import {Button} from '@material-ui/core';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { loadOneStudy, updateStudyText, deleteStudyText } from '../../../actions/StudyAction'
+import { loadOneStudy, updateStudyText } from '../../../actions/StudyAction'
 const EditorArea = styled.div`
   display : flex;
   margin-bottom : 20px;

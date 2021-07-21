@@ -7,6 +7,8 @@ import {
     UPDATE_ERROR,
     UPDATE_NICK,
     UPDATE_PASSWORD,
+    DELETE_USER,
+    DELETE_ERROR,
 } from '../actions/type';
 
 const initialState = {
@@ -59,7 +61,27 @@ const UserReducer = (state = initialState, action) => {
                 ...state,
                 user : action.data.user,
             }
+        case DELETE_USER:
+            return {
+                ...state,
+                authToken : '',
+                error : false,
+                user : {},
+            }
+        case DELETE_ERROR:
+            return {
+                ...state,
+                authToken : '',
+                error : true,
+                user : {},
+            }
         case UPDATE_ERROR:
+            return {
+                ...state,
+                authToken : '',
+                error : true,
+                user : {},
+            }
         default :
             return state;
     }

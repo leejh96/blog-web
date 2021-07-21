@@ -27,12 +27,11 @@ function Nick() {
     const [text, setText] = useState('');
     const user = useSelector(state => state.UserReducer.user);
     const history = useHistory();
-    const [nick, setNick] = useState(user.nick);
     const dispatch = useDispatch();
 
     const onSubmitChange = (e) => {
         e.preventDefault();
-        if(nick === text){
+        if(user.nick === text){
             return alert('기존 닉네임과 같습니다');
         }
         dispatch(changeNick(text))

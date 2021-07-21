@@ -39,3 +39,5 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const UPDATE_ERROR = 'UPDATE_ERROR';
 export const UPDATE_NICK = 'UPDATE_NICK';
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
+export const DELETE_ERROR ='DELETE_ERROR';
+export const DELETE_USER = 'DELETE_USER';

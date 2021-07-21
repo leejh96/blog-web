@@ -8,6 +8,9 @@ import Search from './section/Search';
 import ButtonSection from './section/ButtonSection';
 import {Divider} from '@material-ui/core';
 import styled from 'styled-components';
+
+
+
 const MainPage = styled.div`
     margin-left : 10%;
     margin-right : 10%;

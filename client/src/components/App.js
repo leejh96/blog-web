@@ -12,6 +12,9 @@ import NoticeEdit from './views/EditPage/Notice/NoticeEdit';
 import Detail from './views/DetailPage/Detail';
 import Auth from '../hoc/Auth'; //hoc higherOrderComponent
 import Setting from './views/SettingPage/Setting';
+import Issue from './views/IssuePage/Issue';
+
+
 function App() {
   return (
     <>
@@ -32,6 +35,7 @@ function App() {
             <Route exact path='/study/:study/edit' component={Auth(StudyEdit, true, true)} />
             <Route exact path='/setting' component={Auth(Setting, true)} />
             <Route exact path='/setting/:change' component={Auth(Setting, true)} />
+            <Route exact path='/issue' component={Issue} />
           </Switch>
         </BrowserRouter>
       </Suspense>

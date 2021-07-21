@@ -4,7 +4,7 @@ import Sidebar from '../../SideBar/Sidebar';
 import Footer from '../../Footer/Footer';
 import CreateContent from './section/CreateContent';
 import UpdateContent from './section/UpdateContent';
-import {Divider, TextField} from '@material-ui/core';
+import {Divider} from '@material-ui/core';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 

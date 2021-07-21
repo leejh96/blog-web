@@ -70,7 +70,7 @@ function TableSection() {
                     <TableRow key={i}>
                         <Number>{(page-1)*10 + (i+1)}</Number>
                         <Title><TableLink to={user._id ? `/notice/${page}/${val._id}` : `/login`}>{val.title}</TableLink></Title>
-                        <Author>{val.author.nick}</Author>
+                        <Author>{val.author ? val.author.nick : '알수없음'}</Author>
                         <Date>{val.date}</Date>
                     </TableRow>
                 ))}

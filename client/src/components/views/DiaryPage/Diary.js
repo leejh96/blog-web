@@ -4,7 +4,6 @@ import Navbar from '../NavBar/Navbar';
 import {Divider} from '@material-ui/core';
 import Sidebar from '../SideBar/Sidebar';
 import Footer from '../Footer/Footer';
-import { Link } from 'react-router-dom';
 const MainPage = styled.div`
     margin-left : 10%;
     margin-right : 10%;

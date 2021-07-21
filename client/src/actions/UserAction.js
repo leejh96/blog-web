@@ -1,5 +1,16 @@
 import axios from 'axios';
-import { AUTH_USER, LOGIN_USER, LOGOUT_USER, REGISTER_USER, AUTH_ERROR, UPDATE_ERROR, UPDATE_NICK, UPDATE_PASSWORD } from './type';
+import { 
+    AUTH_USER,
+    LOGIN_USER, 
+    LOGOUT_USER, 
+    REGISTER_USER, 
+    AUTH_ERROR, 
+    UPDATE_ERROR, 
+    UPDATE_NICK, 
+    UPDATE_PASSWORD,
+    DELETE_ERROR,
+    DELETE_USER,
+} from './type';
 
 export const registerUser = ({ username, nick, email, password }) => async dispatch => {
     try {
@@ -128,4 +139,20 @@ export const changePassword = text => async dispatch => {
             type : UPDATE_ERROR,
         })
     }
+}
+
+export const resignUser = password => async dispatch => {
+    try {
+        const res = await axios.delete('/api/user', { data : { password }})
+        return dispatch({
+            type : DELETE_USER,
+            data : res.data,
+        })
+    } catch (error) {
+        console.error(error);
+        return dispatch({
+            type : DELETE_ERROR,
+        })
+    }
+
 }

@@ -7,6 +7,7 @@ import { Button } from '@material-ui/core';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadOneStudy } from '../../../actions/StudyAction';
+import Loading from '../LoadingPage/Loading';
 const Markdown = styled(ReactMarkdown)`
   outline : none;
   overflow : auto;
@@ -57,17 +58,23 @@ function MarkdownSection() {
     const dispatch = useDispatch();
     const [text, setText] = useState('');
     const user = useSelector(state => state.UserReducer.user);
-    
+    const [load, setLoad] = useState(false);
     useEffect(() => {
+      setLoad(true)
       dispatch(loadOneStudy(page))
       .then(res => {
         setText(res.data.text);
+        setLoad(false)
       })
     }, [dispatch, page])
     return( 
         <>
+          {load ? 
+            <Loading />
+          :
+          <>
             <Markdown children={text} components= {{
-                code : Component
+              code : Component
             }}/>
             <ButtonDiv>
               { user.role === 3 ?                
@@ -76,6 +83,8 @@ function MarkdownSection() {
                 <></>
               }
             </ButtonDiv>
+          </>
+          }
         </>
     )
 }

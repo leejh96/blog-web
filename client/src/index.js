@@ -12,7 +12,7 @@ import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 // 리덕스 관련 정보들을 기록하는 미들웨어로 store 생성시 넣어줌
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 // 리덕스가 비동기처리를 할 수 있도록 해주는 미들웨어
 import ReduxThunk from 'redux-thunk';
 

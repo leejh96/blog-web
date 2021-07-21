@@ -54,21 +54,26 @@ function CommentTable() {
             setComment(res.data);
         })
     };
-
     return (
         <DIV>
             { comment.map((val, idx) => (
                 <CommentDiv key={idx}>
                     <UserInfo>
                         <div>
-                            {val.user.nick}
+                            { val.user ? val.user.nick : '알수없음' }
                         </div>
                         <div>
                             {val.date}
-                            {user._id === val.user._id || user.role === 3?
-                                <DeleteBtn onClick={() => onClickDelete(val._id, id)}>X</DeleteBtn>
+                            {val.user ?
+                                user._id === val.user._id || user.role === 3 ?
+                                    <DeleteBtn onClick={() => onClickDelete(val._id, id)}>X</DeleteBtn>
                                 :
-                                <></>
+                                    <></>
+                            :
+                                user.role === 3 ?
+                                    <DeleteBtn onClick={() => onClickDelete(val._id, id)}>X</DeleteBtn>
+                                :
+                                    <></>
                             }
                         </div>
                     </UserInfo>

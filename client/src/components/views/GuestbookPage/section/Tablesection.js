@@ -58,6 +58,7 @@ function Tablesection({ page }) {
         const data = { data : {id} };
         dispatch(deleteGuestBook(data))
     }
+
     return (
         <TableArea>
             {load ? 
@@ -75,13 +76,23 @@ function Tablesection({ page }) {
                             {guest.map((val, idx) => {
                                 return (
                                     <TableRow key={idx}>
-                                        <Nick>{val.writer.nick}</Nick>
+                                        <Nick>{val.writer ? val.writer.nick : '알수없음'}</Nick>
                                         <Content>{val.text}</Content>
                                         <Time>{val.date}</Time>
-                                        {user._id === val.writer._id || user.role === 3 ?
-                                            <Delete><Button onClick={() => onClickDelete(val._id)}>X</Button> </Delete>
+                                        {
+                                            Object.keys(user).length !== 0 ?
+                                                val.writer ?                                                
+                                                    user._id === val.writer._id || user.role === 3?
+                                                        <Delete><Button onClick={() => onClickDelete(val._id)}>X</Button> </Delete>
+                                                    :
+                                                        <></>
+                                                :    
+                                                    user.role === 3 ?
+                                                        <Delete><Button onClick={() => onClickDelete(val._id)}>X</Button> </Delete>
+                                                    :
+                                                        <></>
                                             :
-                                            <Delete></Delete>
+                                                <></>
                                         }
                                     </TableRow>
                                 ) 
