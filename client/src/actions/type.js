@@ -30,7 +30,7 @@ export const LOAD_ONE_STUDY = 'LOAD_ONE_STUDY';
 export const UPDATE_STUDY_TEXT ='UPDATE_STUDY_TEXT';
 export const STUDY_ERROR = 'STUDY_ERROR'
 
-//Auth
+//USER
 export const REGISTER_USER = 'REGISTER_USER';
 export const LOGIN_USER = 'LOGIN_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
@@ -41,3 +41,4 @@ export const UPDATE_NICK = 'UPDATE_NICK';
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
 export const DELETE_ERROR ='DELETE_ERROR';
 export const DELETE_USER = 'DELETE_USER';
+export const UPDATE_IMAGE = 'UPDATE_IMAGE';

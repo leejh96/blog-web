@@ -125,7 +125,7 @@ function Study() {
             <></>
             }
             {study.map((val, i) => (
-            <StudyDiv key={i}>
+            <StudyDiv key={val._id}>
                 <SideLink to={val.link} >
                 {val.subject}
                 </SideLink>

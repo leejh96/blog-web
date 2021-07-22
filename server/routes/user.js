@@ -4,7 +4,23 @@ const { User } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { auth } = require('../middleware/auth');
+const multer = require('multer');
+const path = require('path');
 
+const upload = multer({
+    storage: multer.diskStorage({
+        destination(req, file, cb){
+            // 현재위치가 아닌 맨처음에서 시작하는 듯
+            cb(null, 'upload/');
+        },
+
+        filename(req, file, cb){
+            const ext = path.extname(file.originalname);
+            cb(null, file.originalname.split('.')[0] + Date.now() + ext);    
+        }
+    }),
+    limits: {fileSize: 5 * 1024 *1024}
+});
 
 router.post('/signup', async (req, res) => {
     try {
@@ -171,6 +187,26 @@ router.put('/password', auth, async(req, res) => {
         return res.json({
             success: false,
             message : '유저를 찾을 수 없습니다.'
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+});
+
+router.put('/img', auth, upload.single('file'), async(req, res) => {
+    try {
+        console.log(req.file);
+        const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : req.file.filename});
+        if(user){
+            return res.json({
+                success : true,
+                user,
+            }); 
+        }
+        return res.json({
+            success : false,
+            message : '이미지 변경에 실패했습니다.'
         })
     } catch (error) {
         console.error(error);

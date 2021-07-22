@@ -53,7 +53,7 @@ function Notice() {
                 <Post key={i}>
                     <div>{i+1}</div>
                     <PostLink to={user._id ? `/notice/1/${val._id}` : '/login'}  >{val.title}</PostLink>
-                    <div>{val.author.nick}</div>
+                    <div>{val.author ? val.author.nick : '알수없음'}</div>
                 </Post>
             ))}
         </NoticeArea>

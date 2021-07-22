@@ -75,7 +75,7 @@ function Tablesection({ page }) {
                     <TableBody>
                             {guest.map((val, idx) => {
                                 return (
-                                    <TableRow key={idx}>
+                                    <TableRow key={val._id}>
                                         <Nick>{val.writer ? val.writer.nick : '알수없음'}</Nick>
                                         <Content>{val.text}</Content>
                                         <Time>{val.date}</Time>

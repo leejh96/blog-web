@@ -42,6 +42,7 @@ const DiaryGrid = styled.div`
     }
 `;
 function Diary(props) {
+    // document.title = '다이어리';
     const diary = [
         {
             type : 'Express',

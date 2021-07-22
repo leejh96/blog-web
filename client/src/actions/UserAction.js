@@ -10,6 +10,7 @@ import {
     UPDATE_PASSWORD,
     DELETE_ERROR,
     DELETE_USER,
+    UPDATE_IMAGE,
 } from './type';
 
 export const registerUser = ({ username, nick, email, password }) => async dispatch => {
@@ -81,7 +82,7 @@ export const authUser = access => async dispatch => {
             headers: {
               authorization: access,
             }
-          }
+        }
         const res = await axios.get('/api/user/auth', config);
         if(res.data.success){
             return dispatch({
@@ -122,7 +123,6 @@ export const changeNick = text => async dispatch => {
 export const changePassword = text => async dispatch => {
     try {
         const res = await axios.put(`/api/user/password`, { password : text })
-        console.log(res);
         if(res.data.success){
             return dispatch({
                 type : UPDATE_PASSWORD,
@@ -155,4 +155,26 @@ export const resignUser = password => async dispatch => {
         })
     }
 
+}
+
+export const uploadImage = file => async dispatch => {
+    try {
+        const res = await axios.put('/api/user/img', file, { headers : { "Content-Type": "multipart/form-data" }});
+        if(res.data.success){
+            return dispatch({
+                type : UPDATE_IMAGE,
+                data : res.data,
+            })
+        }
+        return dispatch({
+            type : UPDATE_ERROR,
+            data : res.data,
+        })
+
+    } catch (error) {
+        console.error(error);
+        return dispatch({
+            type : UPDATE_ERROR,
+        })
+    }
 }

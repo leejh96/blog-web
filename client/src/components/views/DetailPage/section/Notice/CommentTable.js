@@ -57,7 +57,7 @@ function CommentTable() {
     return (
         <DIV>
             { comment.map((val, idx) => (
-                <CommentDiv key={idx}>
+                <CommentDiv key={val._id}>
                     <UserInfo>
                         <div>
                             { val.user ? val.user.nick : '알수없음' }

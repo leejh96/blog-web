@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
     refreshTokenExp : {
         type : Number,
         default : 0
+    },
+    img : {
+        type : String,
+        default : '',
     }
     
 }, { timestamps : true})

@@ -67,7 +67,7 @@ function TableSection() {
                 </TableHead>
                 <TableBody>
                 {post.map((val, i) => (
-                    <TableRow key={i}>
+                    <TableRow key={val._id}>
                         <Number>{(page-1)*10 + (i+1)}</Number>
                         <Title><TableLink to={user._id ? `/notice/${page}/${val._id}` : `/login`}>{val.title}</TableLink></Title>
                         <Author>{val.author ? val.author.nick : '알수없음'}</Author>

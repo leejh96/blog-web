@@ -52,7 +52,7 @@ function TextArea() {
                     } value={ notice.title }/>
                     <Author variant='outlined' inputProps={
                         { disabled: true, }
-                    } value={ notice.author.nick || '' }/>
+                    } value={ notice.author ? notice.author.nick : '알수없음' }/>
                     <Text variant='outlined'  rows='30' multiline inputProps={
                         { disabled: true, }
                     } value={ notice.text }/>

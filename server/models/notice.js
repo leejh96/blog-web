@@ -19,8 +19,8 @@ const noticeSchema = new mongoose.Schema({
         ref : 'User',
     }],
     img : {
-        type : String,
-        default : '',
+        type : [String],
+        default : [],
     },
     comment : [{
         user : {
