@@ -7,13 +7,18 @@ import {
     LOAD_STUDY,
     LOAD_ONE_STUDY,
     UPDATE_STUDY_TEXT,
-    STUDY_ERROR
+    STUDY_ERROR,
+    CREATE_STUDY_COMMENT,
+    LOAD_STUDY_COMMENT,
+    DELETE_STUDY_COMMENT,
+    STUDY_COMMENT_ERROR,
 } from "../actions/type"
 
 const initialState = {
     studyCount : 0,
     studies : [],
     error : false,
+    commentLength : 0,
 }
 const StudyReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -51,6 +56,33 @@ const StudyReducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: false,
+            }
+        case LOAD_STUDY_COMMENT:
+            return {
+                ...state,
+                commentLength : action.data.length,
+                error : false,
+            }
+        case CREATE_STUDY_COMMENT:
+            return {
+                ...state,
+                commentLength : state.commentLength + 1,
+                error : false,
+            }
+        case DELETE_STUDY_COMMENT:
+            return {
+                ...state,
+                commentLength : state.commentLength - 1,
+                error : false,
+
+            }
+        case STUDY_COMMENT_ERROR:
+            return {
+                ...state,
+                studyCount : 0,
+                studies : [],
+                error : true,
+                commentLength : 0,
             }
         default:
             return state;

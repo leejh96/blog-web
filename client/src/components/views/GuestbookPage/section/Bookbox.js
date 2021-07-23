@@ -19,23 +19,25 @@ function Bookbox() {
     const [text, setText] = useState('');
     const user = useSelector(state => state.UserReducer.user);
     const history = useHistory();
-    const onClickBtn = () => {
+
+    const onClickBtn = (e) => {
         const data = {
             text,
             date : moment().format('YYYY-MM-DD HH:mm:ss')
         }
         if(user._id){
-            return dispatch(createGuestBook(data))
+            dispatch(createGuestBook(data))
+        }else{
+            alert('로그인이 필요합니다');
+            return history.push('/login');
         }
-        alert('로그인이 필요합니다');
-        return history.push('/login');
     }
     const onChangeText = (e) => {
         setText(e.target.value);
     };
     return (
         <BookboxDiv>
-            <TextBox multiline={true} placeholder="방명록을 남겨보세요." onChange={onChangeText} variant="outlined" />
+            <TextBox placeholder="방명록을 남겨보세요." onChange={onChangeText} variant="outlined" />
             <Button variant="contained" onClick={onClickBtn}>등록</Button>
         </BookboxDiv>
     )

@@ -10,6 +10,8 @@ import {
     DELETE_USER,
     DELETE_ERROR,
     UPDATE_IMAGE,
+    DELETE_IMAGE,
+    DELETE_IMAGE_ERROR,
 } from '../actions/type';
 
 const initialState = {
@@ -80,9 +82,25 @@ const UserReducer = (state = initialState, action) => {
             return{
                 ...state,
                 error : false,
-                user : action.data.user
+                user : {...state.user, img : action.data.file}
             }
         case UPDATE_ERROR:
+            return {
+                ...state,
+                authToken : '',
+                error : true,
+                user : {},
+            }
+        case DELETE_IMAGE:
+            return {
+                ...state,
+                error : false,
+                user : {
+                    ...state.user,
+                    img : action.data.img,
+                }
+            }
+        case DELETE_IMAGE_ERROR:
             return {
                 ...state,
                 authToken : '',

@@ -14,7 +14,8 @@ import {
     UPDATE_NOTICE,
     DELETE_NOTICE,
     SEARCH_NOTICE,
-    NOTICE_ERROR
+    NOTICE_ERROR,
+    LIKE_ERROR,
 
 } from "../actions/type"
 
@@ -107,6 +108,16 @@ const NoticeReducer = (state = initialState, action) => {
                 error : false,
             }
         case NOTICE_ERROR:
+            return {
+                ...state,
+                notices : [],
+                commentLength : 0,
+                selectdNotice : {},
+                likeCount : 0,
+                searchNotices : [],
+                error : true,
+            }
+        case LIKE_ERROR:
             return {
                 ...state,
                 notices : [],

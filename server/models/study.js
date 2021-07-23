@@ -13,7 +13,18 @@ const studySchema = new mongoose.Schema({
     text : {
         type : String,
         default : '',
-    }
+    },
+    comment : [{
+        user : {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'User'
+        },
+        comment : {
+            type : String,
+            required : true
+        },
+        date : String
+    }],
 }, { timestamps : true})
 
 module.exports = studySchema

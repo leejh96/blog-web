@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const { auth } = require('../middleware/auth');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -52,7 +53,6 @@ router.post('/signup', async (req, res) => {
         console.error(error);
         return ;
     }
-
 })
 
 
@@ -196,17 +196,47 @@ router.put('/password', auth, async(req, res) => {
 
 router.put('/img', auth, upload.single('file'), async(req, res) => {
     try {
-        console.log(req.file);
+        fs.unlink(`upload/${req.user.img}`, err => {
+            if (err) {
+                console.error(err);
+                return ;
+            }
+        });
         const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : req.file.filename});
         if(user){
             return res.json({
                 success : true,
-                user,
+                file : req.file.filename,
             }); 
         }
         return res.json({
             success : false,
             message : '이미지 변경에 실패했습니다.'
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+});
+
+router.put('/deleteimg', auth, async(req, res) => {
+    try {
+        fs.unlink(`upload/${req.body.img}`, err => {
+            if (err) {
+                console.error(err);
+                return ;
+            }
+        });
+        const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : ''});
+        if(user){
+            return res.json({
+                success : true,
+                img : '',
+            }); 
+        }
+        return res.json({
+            success : false,
+            message : '이미지 삭제에 실패했습니다.'
         })
     } catch (error) {
         console.error(error);

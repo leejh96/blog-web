@@ -13,7 +13,10 @@ import {
     DELETE_NOTICE,
     SEARCH_NOTICE,
     NOTICE_ERROR,
+    LIKE_ERROR,
 } from './type';
+
+
 //camelCase
 export const loadNotice = () => async dispatch => {
     try {
@@ -154,7 +157,9 @@ export const loadLike = (id) => async dispatch => {
         });
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : LIKE_ERROR,
+        });
     }
     
 }
@@ -168,7 +173,9 @@ export const addLike = (id) => async dispatch => {
         });
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : LIKE_ERROR,
+        });
     }
     
 }
@@ -182,7 +189,9 @@ export const deleteLike = (id) => async dispatch => {
         });
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : LIKE_ERROR,
+        });
     }
     
 }
@@ -198,6 +207,8 @@ export const deleteNoticeComment = (commentId, noticeId) => async dispatch => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return dispatch({
+            type : NOTICE_ERROR,
+        });
     }
 }

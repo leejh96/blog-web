@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { useSelector, useDispatch  } from 'react-redux';
 import { uploadImage } from '../../../../../../actions/UserAction';
-// import upload from '../../../../../../../../server/upload';
-
+import { Button } from '@material-ui/core';
+import { deleteImg } from '../../../../../../actions/UserAction';
 const InfoBox = styled.div`
     display : flex;
     height : 400px;
@@ -14,7 +14,6 @@ const ImgBox = styled.div`
     display : flex;
     flex-direction : column;
     justify-content : space-between;
-    align-items : center;
     width : 40%;
     box-sizing = border-box;
     height : 400px;
@@ -62,36 +61,57 @@ const Label = styled.label`
 
     }
 `;
-
 const BtnDiv = styled.div`
     display : flex;
-    justify-content : space-between;
+    justify-content : space-evenly;
+`;
+
+const Image = styled.div`
+    display : flex;
+    justify-content : center;
+    width : 100%;
+    height : 80%;
 `;
 function Info() {
+    const [path, setPath] = useState('/api/img/basic.png');
     const user = useSelector(state => state.UserReducer.user);
-    const [image, setImage] = useState('');
     const dispatch = useDispatch();
-    const formData = new FormData();
-    const onChangeImage = async(e) => {
-        await setImage(e.target.files[0]);
-        await formData.append('file', image);
-        await dispatch(uploadImage(formData))
+    useEffect(() => {
+        user.img ? setPath(`/api/img/${user.img}`) : setPath(`/api/img/basic.png`)
+    }, [user])
+    const onChangeImage = (e) => {
+        const formData = new FormData();
+        formData.append('file', e.target.files[0]);
+        dispatch(uploadImage(formData))
         .then(res => {
             if(!res.data.success){
                 return alert(res.data.message);
             }
+            return setPath(`/api/img/${res.data.file}`);
         })
     }
-    console.log(user);
+
+    const onClickDelete = () => {
+        dispatch(deleteImg(user.img))
+        .then(res => {
+            if(res.data.success){
+                return setPath('/api/img/basic.png');
+            }
+            return alert(res.data.message);
+        })
+    }
     return (
         <InfoBox>
             <ImgBox>
-                <img src={`/upload/${user.img}`} width='100%' height='80%' alt='이미지'></img>
+                <Image>
+                    <img src={path} alt='이미지'></img>
+                </Image>
                 <div>
-                    <form encType='multipart/form-data'>
+                    <form>
                         <BtnDiv>
                             <Label htmlFor="input-file" id='label'>업로드</Label>
                             <Upload type="file" name='file' id="input-file" onChange={onChangeImage}/>
+                            <Button variant='outlined' onClick={onClickDelete}>이미지 제거</Button>
                         </BtnDiv>
                     </form>
                 </div>

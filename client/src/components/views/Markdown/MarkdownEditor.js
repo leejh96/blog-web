@@ -7,6 +7,8 @@ import { materialLight  } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import {Button} from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { loadOneStudy, updateStudyText } from '../../../actions/StudyAction'
+import gfm from 'remark-gfm'
+
 const EditorArea = styled.div`
   display : flex;
   margin-bottom : 20px;
@@ -53,7 +55,10 @@ const Component = ({children, className}) => {
         <SyntaxHighlighter
           customStyle ={{
             height : 'auto',
-            padding : 0,
+            padding : '5px 5px',
+          }}
+          codeTagProps={{
+            style : { color : '#7f5cc8'}
           }}
           style={materialLight}
           PreTag = 'span' //pre태그 이름을 바꾸는 것
@@ -93,7 +98,7 @@ function MarkdownEditor() {
       <>
         <EditorArea>
           <Textarea value={text} onChange={onChangeText} autoFocus/>
-          <Markdown children={text} components= {{
+          <Markdown remarkPlugins={[gfm, {singleTilde: false}]} children={text} components= {{
             code : Component
           }}/>
         </EditorArea>

@@ -24,6 +24,7 @@ mongoose.connect(process.env.mongoURI, {
 app.use(express.urlencoded({extended : true}));
 app.use(express.json());
 app.use(cookieParser());
+app.use('/api/img', express.static('upload'));
 
 
 app.get('/', (req, res) => {

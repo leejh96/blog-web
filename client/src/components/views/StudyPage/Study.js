@@ -6,6 +6,8 @@ import { Divider } from '@material-ui/core';
 import styled from 'styled-components';
 import MarkdownSection from '../Markdown/Markdown';
 import { useParams } from 'react-router-dom';
+import Comment from './section/Comment';
+import CommentTable from './section/CommentTable';
 const MainPage = styled.div`
     margin-left : 10%;
     margin-right : 10%;
@@ -37,6 +39,8 @@ function Study() {
                     <h2>{page}</h2>
                     <Content>
                         <MarkdownSection />
+                        <CommentTable />
+                        <Comment />
                     </Content>
                 </ContentArea>
             </MainPage>

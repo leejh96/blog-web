@@ -78,6 +78,27 @@ router.get('/:page', async(req, res) => {
         return;
     }
 });
+
+router.get('/:study/comment', async(req, res) => {
+    try {
+        const study = await Study.findOne({
+                subject : req.params.study
+        }).populate({
+            path : 'comment',
+            populate : {
+                path : 'user',
+            }
+        })
+        return res.json({
+            success : true,
+            comment : study.comment,
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+});
+
 router.post('/:study/create', auth, async(req, res) => {
     try {
         const text = await Study.create({
@@ -89,6 +110,26 @@ router.post('/:study/create', auth, async(req, res) => {
         return ;
     }
 });
+
+router.put('/:study/comment', auth, async(req, res)=>{
+    try {
+        await Study.findOneAndUpdate({
+            subject : req.params.study
+        },{ '$push': { comment : {
+            user : req.user._id,
+            comment : req.body.comment,
+            date : req.body.date,
+        } }})
+        return res.json({
+            success : true,
+        })
+    }
+    catch (error) {
+        console.error(error);
+        return ;
+    }    
+});
+
 router.put('/:page', auth, async(req, res)=> {
     try {
         const findStudy = await Study.findOneAndUpdate({ subject : req.params.page }, {
@@ -107,6 +148,28 @@ router.put('/:page', auth, async(req, res)=> {
         return;
     }
 
+});
+
+router.put('/:study/deletecomment', auth, async(req, res) => {
+    try {
+        const study = await Study.findOneAndUpdate({
+            subject : req.params.study
+        },{ '$pull': { comment : {
+            _id : req.body.id
+        }}});
+        if(study){
+            return res.json({
+                success : true,
+                comment : study.comment,
+            })
+        }
+        return res.json({
+            success : false,
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
 });
 
 module.exports = router;

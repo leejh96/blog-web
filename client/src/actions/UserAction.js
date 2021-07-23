@@ -11,6 +11,8 @@ import {
     DELETE_ERROR,
     DELETE_USER,
     UPDATE_IMAGE,
+    DELETE_IMAGE_ERROR,
+    DELETE_IMAGE,
 } from './type';
 
 export const registerUser = ({ username, nick, email, password }) => async dispatch => {
@@ -159,7 +161,7 @@ export const resignUser = password => async dispatch => {
 
 export const uploadImage = file => async dispatch => {
     try {
-        const res = await axios.put('/api/user/img', file, { headers : { "Content-Type": "multipart/form-data" }});
+        const res = await axios.put('/api/user/img', file,{ headers : { "Content-Type": "multipart/form-data" }});
         if(res.data.success){
             return dispatch({
                 type : UPDATE_IMAGE,
@@ -175,6 +177,23 @@ export const uploadImage = file => async dispatch => {
         console.error(error);
         return dispatch({
             type : UPDATE_ERROR,
+        })
+    }
+}
+
+export const deleteImg = img => async dispatch => {
+    try {
+        const res = await axios.put('/api/user/deleteimg', {img});
+        if(res.data.success){
+            return dispatch({
+                type : DELETE_IMAGE,
+                data : res.data,
+            })
+        }
+    } catch (error) {
+        console.error(error);
+        return dispatch({
+            type : DELETE_IMAGE_ERROR,
         })
     }
 }

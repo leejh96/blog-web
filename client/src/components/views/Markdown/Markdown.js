@@ -8,6 +8,8 @@ import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadOneStudy } from '../../../actions/StudyAction';
 import Loading from '../LoadingPage/Loading';
+import gfm from 'remark-gfm'
+
 const Markdown = styled(ReactMarkdown)`
   outline : none;
   overflow : auto;
@@ -27,7 +29,10 @@ const Component = ({children, className}) => {
           <SyntaxHighlighter
             customStyle ={{
               height : 'auto',
-              padding : 0,
+              padding : '5px 5px',
+            }}
+            codeTagProps={{
+              style : { color : '#7f5cc8'}
             }}
             style={materialLight}
             PreTag = 'span' //pre태그 이름을 바꾸는 것
@@ -52,7 +57,9 @@ const BtnLink = styled(Link)`
   text-decoration : none;
   color : black;
 `;
-
+const MarkdownDiv = styled.div`
+  margin-bottom : 30px;
+`;
 function MarkdownSection() {
     const page = useParams().study;
     const dispatch = useDispatch();
@@ -68,12 +75,12 @@ function MarkdownSection() {
       })
     }, [dispatch, page])
     return( 
-        <>
+        <MarkdownDiv>
           {load ? 
             <Loading />
           :
           <>
-            <Markdown children={text} components= {{
+            <Markdown remarkPlugins={[gfm]} children={text} components= {{
               code : Component
             }}/>
             <ButtonDiv>
@@ -85,7 +92,7 @@ function MarkdownSection() {
             </ButtonDiv>
           </>
           }
-        </>
+        </MarkdownDiv>
     )
 }
 
