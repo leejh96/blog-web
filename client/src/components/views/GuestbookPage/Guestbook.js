@@ -21,6 +21,7 @@ const ContentArea = styled.div`
 
 
 function Guestbook() {
+    document.title = 'GUESTBOOK'
     const page = useParams();
     return (
         <>

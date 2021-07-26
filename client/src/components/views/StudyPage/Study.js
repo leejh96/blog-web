@@ -24,6 +24,7 @@ const Content = styled.div`
     padding-bottom : 10px;
 `;
 function Study() {
+    document.title = 'STUDY'
     const { study } = useParams();
     const [page, setPage] = useState('');
     useEffect(() => {

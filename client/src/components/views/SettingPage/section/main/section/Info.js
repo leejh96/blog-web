@@ -92,6 +92,9 @@ function Info() {
     }
 
     const onClickDelete = () => {
+        if(user.img === ''){
+            return ;
+        }
         dispatch(deleteImg(user.img))
         .then(res => {
             if(res.data.success){

@@ -42,7 +42,7 @@ const DiaryGrid = styled.div`
     }
 `;
 function Diary(props) {
-    // document.title = '다이어리';
+    document.title = 'DIARY';
     const diary = [
         {
             type : 'Express',
@@ -93,7 +93,7 @@ function Diary(props) {
                     <DiaryTitle>개발일지</DiaryTitle>
                     <Content>
                         {diary.map((val, idx) => (
-                            <DiaryGrid key={idx}  style={{backgroundImage : `url(${val.img})`}} onClick={() => {return onClickGrid(val.link)}}></DiaryGrid>
+                            <DiaryGrid key={idx}  style={{backgroundImage : `url(${val.img})`}} onClick={() => onClickGrid(val.link)}></DiaryGrid>
                         ))}
                     </Content>
                 </ContentArea>

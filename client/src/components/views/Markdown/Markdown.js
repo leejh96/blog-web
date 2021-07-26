@@ -60,6 +60,15 @@ const BtnLink = styled(Link)`
 const MarkdownDiv = styled.div`
   margin-bottom : 30px;
 `;
+
+const TextDiv = styled.div`
+  display: flex;
+  justify-content : center;
+  align-items : center;
+  width : 100%;
+  height : 100vh;
+  font-size : 2rem;  
+`
 function MarkdownSection() {
     const page = useParams().study;
     const dispatch = useDispatch();
@@ -80,9 +89,13 @@ function MarkdownSection() {
             <Loading />
           :
           <>
-            <Markdown remarkPlugins={[gfm]} children={text} components= {{
-              code : Component
-            }}/>
+            {text ? 
+              <Markdown remarkPlugins={[gfm]} children={text} components= {{
+                code : Component
+              }}/>
+            :
+              <TextDiv>게시물이 없습니다.</TextDiv>
+            }
             <ButtonDiv>
               { user.role === 3 ?                
                 <BtnLink to={`/study/${page}/edit`}><Buttons variant="contained" >{!text ? "글작성" : "글수정"}</Buttons></BtnLink>

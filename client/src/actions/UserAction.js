@@ -13,6 +13,8 @@ import {
     UPDATE_IMAGE,
     DELETE_IMAGE_ERROR,
     DELETE_IMAGE,
+    UPDATE_MOTTO_ERROR,
+    UPDATE_MOTTO,
 } from './type';
 
 export const registerUser = ({ username, nick, email, password }) => async dispatch => {
@@ -194,6 +196,27 @@ export const deleteImg = img => async dispatch => {
         console.error(error);
         return dispatch({
             type : DELETE_IMAGE_ERROR,
+        })
+    }
+}
+
+export const updateMotto = text => async dispatch => {
+    try {
+        const res = await axios.put('/api/user/motto', { text })
+        if(res.data.success){
+            return dispatch({
+                type : UPDATE_MOTTO,
+                data : res.data,
+            })
+        }
+        return dispatch({
+            type : UPDATE_MOTTO_ERROR,
+            data : res.data,
+        })
+    } catch (error) {
+        console.error(error);
+        return dispatch({
+            type : UPDATE_MOTTO_ERROR,
         })
     }
 }

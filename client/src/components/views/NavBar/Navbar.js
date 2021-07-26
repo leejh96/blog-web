@@ -10,7 +10,7 @@ function Navbar() {
         <div align='center' >
             {token ? <AuthT /> : <AuthF />}
             <h1>
-                <Link to='/' style={{ textDecoration :'none', color :'black'}}>주혁's 블로그</Link>
+                <Link to='/' style={{ textDecoration :'none', color :'black'}}>JULOG</Link>
             </h1>
         </div>
     )

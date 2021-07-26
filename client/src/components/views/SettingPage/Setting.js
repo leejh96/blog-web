@@ -18,6 +18,7 @@ const ContentArea = styled.div`
     margin-left : 30px;
 `;
 function Setting() {
+    document.title = 'SETTING'
     const params = useParams();
     return (
         <>

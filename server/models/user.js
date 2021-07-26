@@ -37,6 +37,10 @@ const userSchema = new mongoose.Schema({
     img : {
         type : String,
         default : '',
+    },
+    motto : {
+        type : String,
+        default : '',
     }
     
 }, { timestamps : true})

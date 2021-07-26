@@ -196,12 +196,15 @@ router.put('/password', auth, async(req, res) => {
 
 router.put('/img', auth, upload.single('file'), async(req, res) => {
     try {
-        fs.unlink(`upload/${req.user.img}`, err => {
-            if (err) {
-                console.error(err);
-                return ;
-            }
-        });
+        const userImg = await User.findOne({ _id : req.user._id});
+        if(userImg.img !== ''){
+            fs.unlink(`upload/${req.user.img}`, err => {
+                if (err) {
+                    console.error(err);
+                    return ;
+                }
+            });
+        }
         const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : req.file.filename});
         if(user){
             return res.json({
@@ -227,7 +230,7 @@ router.put('/deleteimg', auth, async(req, res) => {
                 return ;
             }
         });
-        const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : ''});
+        const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : '' });
         if(user){
             return res.json({
                 success : true,
@@ -237,6 +240,25 @@ router.put('/deleteimg', auth, async(req, res) => {
         return res.json({
             success : false,
             message : '이미지 삭제에 실패했습니다.'
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+});
+
+router.put('/motto', auth, async(req, res) => {
+    try {
+        const user = await User.findOneAndUpdate({ _id : req.user._id}, { motto : req.body.text});
+        if(user){
+            return res.json({
+                success : true,
+                motto : req.body.text
+            })
+        }
+        return res.json({
+            success : false,
+            message : '유저를 가져오는데 실패했습니다.',
         })
     } catch (error) {
         console.error(error);

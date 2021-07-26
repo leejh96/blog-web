@@ -12,6 +12,8 @@ import {
     UPDATE_IMAGE,
     DELETE_IMAGE,
     DELETE_IMAGE_ERROR,
+    UPDATE_MOTTO,
+    UPDATE_MOTTO_ERROR
 } from '../actions/type';
 
 const initialState = {
@@ -101,6 +103,22 @@ const UserReducer = (state = initialState, action) => {
                 }
             }
         case DELETE_IMAGE_ERROR:
+            return {
+                ...state,
+                authToken : '',
+                error : true,
+                user : {},
+            }
+        case UPDATE_MOTTO:
+            return {
+                ...state,
+                user : {
+                    ...state.user,
+                    motto : action.data.motto
+                },
+                error : false,
+            }
+        case UPDATE_MOTTO_ERROR:
             return {
                 ...state,
                 authToken : '',

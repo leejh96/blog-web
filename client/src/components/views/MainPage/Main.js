@@ -25,6 +25,7 @@ const Content = styled.div`
     justify-content : space-around;
 `;
 function Main() {
+    document.title = 'JULOG'
     return (
         <>
             <Navbar />

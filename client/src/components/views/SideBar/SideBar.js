@@ -12,12 +12,13 @@ const SideTitle = styled.h3`
   border-bottom : 1px solid #eeeeee
 `;
 const SideBar = styled.div`
+  position : sticky;
+  top : 0;
   height : 100vh;
   width : 200px;
   border : 1px solid #eeeeee;
   border-top : 0 ;
   border-bottom : 0;
-
 `;
 
 function Sidebar() {

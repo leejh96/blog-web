@@ -29,6 +29,7 @@ const Content = styled.div`
     justify-content : space-around;
 `;
 function Notice() {
+    document.title = 'NOTICE'
     return (
         <>
             <Navbar />

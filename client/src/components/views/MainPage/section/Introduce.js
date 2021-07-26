@@ -23,7 +23,7 @@ const IntroText = styled.p`
     margin : 0;
 `;
 function Introduce() {
-    const imgAddress = 'http://monthly.chosun.com/up_fd/Mdaily/2017-09/bimg_thumb/2017042000056_0.jpg'
+    const imgAddress = 'https://officen.azureedge.net/upload/editor/b26ade75-1e49-4082-8a3f-1d95299d86bb.jpg'
     return (
         <IntroArea>
             <IntroTitle> 간단한 자기소개 </IntroTitle>

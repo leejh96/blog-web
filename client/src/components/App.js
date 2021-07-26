@@ -18,7 +18,7 @@ import Issue from './views/IssuePage/Issue';
 function App() {
   return (
     <>
-      <Suspense fallback={<div>로딩중 ...</div>}>
+      <Suspense>
         <BrowserRouter>
           <Switch>
             <Route exact path='/' component={Auth(Main, null)} />
