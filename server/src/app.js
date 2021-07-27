@@ -25,11 +25,6 @@ app.use(express.urlencoded({extended : true}));
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api/img', express.static('upload'));
-
-
-app.get('/', (req, res) => {
-    res.send('Hi!');
-})
 app.use('/api/user', UserRouter);
 app.use('/api/study', StudyRouter);
 app.use('/api/guestbook', GuestbookRouter);

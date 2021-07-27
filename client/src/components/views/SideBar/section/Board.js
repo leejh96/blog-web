@@ -34,14 +34,6 @@ const Category = () => {
       link : '/notice/1'
     },
     {
-      tag : '개발일지',
-      link : '/diary'
-    },
-    {
-      tag : '최근이슈',
-      link : '/issue'
-    },
-    {
       tag : '방명록',
       link : '/guestbook/1'
     }

@@ -35,6 +35,21 @@ const DeleteBtn = styled(Button)`
     color : #5e669c;
 `;
 
+const Img = styled.img`
+    margin-right : 10px;
+    width : 5%;
+`;
+const Info = styled.div`
+    display : flex;
+    align-items : center;
+`;
+
+const DateAndBtn = styled.div`
+    display : flex;
+    align-items : center;
+    justify-content : center;
+`;
+
 function CommentTable() {
     const dispatch = useDispatch();
     const [comment, setComment] = useState([]);
@@ -59,10 +74,15 @@ function CommentTable() {
             { comment.map((val, idx) => (
                 <CommentDiv key={val._id}>
                     <UserInfo>
-                        <div>
+                        <Info>
+                            { val.user.img ? 
+                                <Img src={`/api/img/${val.user.img}`} alt='userImg'/>
+                            :
+                                <Img src={'/api/img/basic.png'} alt='userImg'/>
+                            }
                             { val.user ? val.user.nick : '알수없음' }
-                        </div>
-                        <div>
+                        </Info>
+                        <DateAndBtn>
                             {val.date}
                             {val.user ?
                                 user._id === val.user._id || user.role === 3 ?
@@ -75,7 +95,7 @@ function CommentTable() {
                                 :
                                     <></>
                             }
-                        </div>
+                        </DateAndBtn>
                     </UserInfo>
                     <Comment>
                         {val.comment.split('\n').map((value, index) => (
