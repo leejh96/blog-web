@@ -19,6 +19,9 @@ const SideBar = styled.div`
   border : 1px solid #eeeeee;
   border-top : 0 ;
   border-bottom : 0;
+  @media screen and (max-width : 768px){
+      display : none;
+  }
 `;
 
 function Sidebar() {

@@ -12,6 +12,11 @@ import gfm from 'remark-gfm'
 const EditorArea = styled.div`
   display : flex;
   margin-bottom : 20px;
+  @media screen and (max-width : 768px){
+    display : flex;
+    flex-direction : column;
+    align-items : center;
+  }
 `;
 const Textarea = styled.textarea`
   width : 50%;
@@ -20,6 +25,10 @@ const Textarea = styled.textarea`
   font-size : 1.5rem;
   outline : none;
   resize: none;
+  @media screen and (max-width : 768px){
+    width : calc(100% - 60px);
+    margin-bottom : 30px;    
+  }
 `;
 const Markdown = styled(ReactMarkdown)`
   width : 50%;
@@ -27,6 +36,9 @@ const Markdown = styled(ReactMarkdown)`
   padding : 20px;
   outline : none;
   overflow : auto;
+  @media screen and (max-width : 768px){
+    width : 100%;    
+  }
 `;
 
 const ButtonDiv = styled.div`

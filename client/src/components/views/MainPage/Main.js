@@ -9,6 +9,10 @@ const Content = styled.div`
     margin-top : 10px;
     padding-bottom : 10px;
     justify-content : space-around;
+    @media screen and (max-width : 1200px){
+        flex-direction : column;
+        align-items : center;
+    }
 `;
 
 function Main() {

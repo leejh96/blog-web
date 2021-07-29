@@ -10,6 +10,14 @@ const NoticeArea = styled.div`
     height : 500px;
     border-radius : 25px 25px 25px 25px;
     box-shadow : 5px 5px 5px rgba(0,0,0,0.3);
+    @media screen and (max-width : 1200px){
+        margin-bottom : 20px;
+        width : 60%;
+    }
+    @media screen and (max-width : 900px){
+        margin-bottom : 20px;
+        width : 100%;
+    }
 `;
 
 const NoticeTitle = styled.h2`

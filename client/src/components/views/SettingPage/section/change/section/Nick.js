@@ -16,12 +16,12 @@ const Nickname = styled.div`
 
 const ChangeText = styled(TextField)`
     width : 100%;
-    margin-bottom : 50px;
 `;
 
 const BtnArea = styled.div`
     display : flex;
     justify-content : space-around;
+    margin-top : 50px;
 `;
 function Nick() {
     const [text, setText] = useState('');

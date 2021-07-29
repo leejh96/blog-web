@@ -7,20 +7,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadNotice } from '../../../../actions/NoticeAction';
 const Number = styled(TableCell)`
     text-align : center;
-    width : 10%;
+    // width : 10%;
 `;
 const Title = styled(TableCell)`
     text-align : center;
-    width : 50%;
-
+    // width : 50%;
 `;
 const Author = styled(TableCell)`
     text-align : center;
-    width : 20%;
+    // width : 20%;
 `;
 const Date = styled(TableCell)`
     text-align : center;
-    width : 20%;
+    // width : 20%;
 `;
 
 const TableLink = styled(Link)`
@@ -31,6 +30,11 @@ const TableLink = styled(Link)`
         text-decoration: underline;
     }
 `;
+
+const TABLE = styled(Table)`
+    margin-bottom : 30px;
+`;
+
 function TableSection() {
     const page = useParams().page;
     const dispatch = useDispatch();
@@ -56,7 +60,7 @@ function TableSection() {
             {load ?
             <Loading />
             :
-            <Table style={{ marginBottom : '30px'}}>
+            <TABLE>
                 <TableHead>
                     <TableRow>
                         <Number>번호</Number>
@@ -75,7 +79,7 @@ function TableSection() {
                     </TableRow>
                 ))}
                 </TableBody>
-            </Table>
+            </TABLE>
             }
         </>
     )

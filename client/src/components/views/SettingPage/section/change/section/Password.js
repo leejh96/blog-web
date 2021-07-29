@@ -7,10 +7,12 @@ import { changePassword } from '../../../../../../actions/UserAction';
 
 const ChangeText = styled(TextField)`
     width : 100%;
-    margin-bottom : 50px;
 `;
-
+const PasswordDiv = styled.div`
+    margin-bottom : 30px;
+`;
 const BtnArea = styled.div`
+    margin-top : 50px;
     display : flex;
     justify-content : space-around;
 `;
@@ -46,7 +48,9 @@ function Password() {
     };
     return (
         <form onSubmit={onSubmitChange}>
-            <ChangeText type='password' variant='outlined' onChange={onChangePassword} placeholder='변경할 비밀번호를 입력하세요' required autoComplete='false'/>
+            <PasswordDiv>
+                <ChangeText type='password' variant='outlined' onChange={onChangePassword} placeholder='변경할 비밀번호를 입력하세요' required autoComplete='false'/>
+            </PasswordDiv>
             <ChangeText type='password' variant='outlined' onChange={onChangePasswordConfirm} placeholder='비밀번호를 한번 더 입력하세요' required autoComplete='false'/>
             <BtnArea>
                 <Button type='submit' variant='outlined'>변경</Button>
