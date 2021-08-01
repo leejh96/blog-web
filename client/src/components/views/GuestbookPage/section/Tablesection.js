@@ -7,18 +7,14 @@ import Loading from '../../LoadingPage/Loading';
 
 const Nick = styled(TableCell)`
     width : 15%;
-    text-align : center;
 `;
 
 const Content = styled(TableCell)`
     width : 70%;
-    text-align : center;
-
 `;
 
 const Time = styled(TableCell)`
     width : 15%;
-    text-align : center;
 
 `;
 const Delete = styled(TableCell)`
@@ -30,7 +26,8 @@ const Delete = styled(TableCell)`
 const TableArea = styled.div`
     margin-bottom : 20px;
 `;
-    
+
+
     // //useSelector의 값은 reducer에서의 return 값을 갖는다. 비구조화할당을 할경우 각각의 변수가
     // // state의 뭔 값을 의미하는지 정해주어야 한다. 
     // const {addGuestbook, delGuestbook} = useSelector(state => ({
@@ -67,18 +64,18 @@ function Tablesection({ page }) {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <Nick>닉네임</Nick>
-                            <Content>내용</Content>
-                            <Time colSpan="2">작성일</Time>
+                            <Nick align='center'>닉네임</Nick>
+                            <Content align='center'>내용</Content>
+                            <Time colSpan="2" align='center'>작성일</Time>
                         </TableRow>    
                     </TableHead>
                     <TableBody>
                             {guest.map((val, idx) => {
                                 return (
                                     <TableRow key={val._id}>
-                                        <Nick>{val.writer ? val.writer.nick : '알수없음'}</Nick>
-                                        <Content>{val.text}</Content>
-                                        <Time>{val.date}</Time>
+                                        <Nick align='center'>{val.writer ? val.writer.nick : '알수없음'}</Nick>
+                                        <Content align='center'>{val.text}</Content>
+                                        <Time align='center'>{val.date}</Time>
                                         {
                                             Object.keys(user).length !== 0 ?
                                                 val.writer ?                                                

@@ -6,19 +6,15 @@ import Loading from '../../LoadingPage/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadNotice } from '../../../../actions/NoticeAction';
 const Number = styled(TableCell)`
-    text-align : center;
     // width : 10%;
 `;
 const Title = styled(TableCell)`
-    text-align : center;
     // width : 50%;
 `;
 const Author = styled(TableCell)`
-    text-align : center;
     // width : 20%;
 `;
 const Date = styled(TableCell)`
-    text-align : center;
     // width : 20%;
 `;
 
@@ -63,19 +59,19 @@ function TableSection() {
             <TABLE>
                 <TableHead>
                     <TableRow>
-                        <Number>번호</Number>
-                        <Title>제목</Title>
-                        <Author>작성자</Author>
-                        <Date>작성일</Date>
+                        <Number align='center'>번호</Number>
+                        <Title align='center'>제목</Title>
+                        <Author align='center'>작성자</Author>
+                        <Date align='center'>작성일</Date>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                 {post.map((val, i) => (
                     <TableRow key={val._id}>
-                        <Number>{(page-1)*10 + (i+1)}</Number>
-                        <Title><TableLink to={user._id ? `/notice/${page}/${val._id}` : `/login`}>{val.title}</TableLink></Title>
-                        <Author>{val.author ? val.author.nick : '알수없음'}</Author>
-                        <Date>{val.date}</Date>
+                        <Number align='center'>{(page-1)*10 + (i+1)}</Number>
+                        <Title align='center'><TableLink to={user._id ? `/notice/${page}/${val._id}` : `/login`}>{val.title}</TableLink></Title>
+                        <Author align='center'>{val.author ? val.author.nick : '알수없음'}</Author>
+                        <Date align='center'>{val.date}</Date>
                     </TableRow>
                 ))}
                 </TableBody>

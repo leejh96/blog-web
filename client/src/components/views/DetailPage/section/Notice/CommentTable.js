@@ -83,7 +83,9 @@ function CommentTable() {
                             { val.user ? val.user.nick : '알수없음' }
                         </Info>
                         <DateAndBtn>
-                            {val.date}
+                            <div align='center'>
+                                {val.date}
+                            </div>
                             {val.user ?
                                 user._id === val.user._id || user.role === 3 ?
                                     <DeleteBtn onClick={() => onClickDelete(val._id, id)}>X</DeleteBtn>

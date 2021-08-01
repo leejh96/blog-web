@@ -65,3 +65,5 @@
 **`31일차 : sidebar navbar 이런 중복되는 컴포넌트를 HOC를 통해서 만들어 리팩토링 했고, 댓글에 유저 이미지를 넣었다.`**
 
 **`32일차 : 각 페이지에 미디어쿼리를 통한 반응형 웹페이지를 구현함`**
+
+**`33일차 : material-ui의 컴포넌트를 꾸밀 때 styled-component로 꾸미면 일부 적용안되는 값들이 존재한다. 따라서 material-ui의 @material-ui/core/styles안에 makeStyles를 이용해서 class를 이용한 방법과 styled-component와 비슷한 방법을 사용하기 위해서는 @material-ui/core/styles 안에 styled를 이용해서 기존에 styled-component를 사용하는방법과 유사하게 사용한다. 이때 ``을 사용하지않고 ({ }) 이런식으로 객체로 값을 넣고 -은 대문자로 대체한다.`**

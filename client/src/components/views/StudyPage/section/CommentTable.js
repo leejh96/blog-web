@@ -2,8 +2,19 @@ import React, {useState, useEffect} from 'react'
 import styled from 'styled-components';
 import { useDispatch, useSelector  } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import {Button} from '@material-ui/core';
+import { Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
 import { loadStudyComment, deleteStudyComment } from '../../../../actions/StudyAction';
+
+const useStyles = makeStyles({
+    deleteButton : {
+        height: '100%',
+        minWidth : 0,
+        color : '#5e669c',
+        lineHeight : 0,
+    }
+})
 
 const CommentDiv = styled.div`
     width : 70%;
@@ -29,11 +40,6 @@ const DIV = styled.div`
     align-items : center;
     flex-direction : column
 `;
-const DeleteBtn = styled(Button)`
-    line-height : 0;
-    min-width : 0;
-    color : #5e669c;
-`;
 const Img = styled.img`
     margin-right : 10px;
     width : 5%;
@@ -49,6 +55,7 @@ const DateAndBtn = styled.div`
     justify-content : center;
 `;
 function CommentTable() {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const [comment, setComment] = useState([]);
     const leng = useSelector(state => state.StudyReducer.commentLength);
@@ -62,7 +69,7 @@ function CommentTable() {
         })
     },[dispatch, study, leng])
 
-    const onClickDelete = (commentId, study) => {
+    const onClickDelete = (commentId, study) => () => {
         dispatch(deleteStudyComment(commentId, study))
         .then(res => {
             setComment(res.data);
@@ -82,18 +89,22 @@ function CommentTable() {
                             { val.user ? val.user.nick : '알수없음' }
                         </Info>
                         <DateAndBtn>
-                            {val.date}
-                            {val.user ?
-                                user._id === val.user._id || user.role === 3 ?
-                                    <DeleteBtn onClick={() => onClickDelete(val._id, study)}>X</DeleteBtn>
+                            <div align='center'>
+                                {val.date}
+                            </div>
+                            <div align='center'>
+                                {val.user ?
+                                    user._id === val.user._id || user.role === 3 ?
+                                        <Button className={classes.deleteButton} onClick={onClickDelete(val._id, study)}>X</Button>
+                                    :
+                                        <></>
                                 :
-                                    <></>
-                            :
-                                user.role === 3 ?
-                                    <DeleteBtn onClick={() => onClickDelete(val._id, study)}>X</DeleteBtn>
-                                :
-                                    <></>
-                            }
+                                    user.role === 3 ?
+                                        <Button className={classes.deleteButton} onClick={onClickDelete(val._id, study)}>X</Button>
+                                    :
+                                        <></>
+                                }
+                            </div>
                         </DateAndBtn>
                     </UserInfo>
                     <Comment>
