@@ -13,11 +13,12 @@ import Auth from '../hoc/Auth'; //hoc higherOrderComponent
 import Setting from './views/SettingPage/Setting';
 import Issue from './views/IssuePage/Issue';
 import Frame from '../hoc/Frame';
-
+import { CssBaseline } from '@material-ui/core';
 
 function App() {
   return (
     <>
+      <CssBaseline />
       <Suspense>
         <BrowserRouter>
           <Switch>

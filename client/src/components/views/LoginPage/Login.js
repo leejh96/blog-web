@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
-import {Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Container, Typography} from '@material-ui/core'
+import {Avatar, Button, TextField, Link, Grid, Box, Container, Typography} from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from './section/Copyright';
 import { loginUser } from '../../../actions/UserAction';
 import { useDispatch } from 'react-redux';
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -59,7 +60,6 @@ function Login() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
