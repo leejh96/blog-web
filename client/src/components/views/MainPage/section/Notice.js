@@ -1,50 +1,53 @@
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadNotice } from '../../../../actions/NoticeAction';
+import { Box, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
 
-const NoticeArea = styled.div`
-    border: 1px solid black;
-    width : 40%;
-    height : 500px;
-    border-radius : 25px 25px 25px 25px;
-    box-shadow : 5px 5px 5px rgba(0,0,0,0.3);
-    @media screen and (max-width : 1200px){
-        margin-bottom : 20px;
-        width : 60%;
+
+const useStyles = makeStyles(theme => {
+    return {
+        area : {
+            border: '1px solid black',
+            width : '40%',
+            height : '500px',
+            borderRadius : '25px 25px 25px 25px',
+            boxShadow : '5px 5px 5px rgba(0,0,0,0.3)',
+            [theme.breakpoints.down('md')]: {
+                marginBottom : '20px',
+                width : '60%',
+            },
+            [theme.breakpoints.down('sm')]: {
+                marginBottom : '20px',
+                width : '100%',
+            },
+        },
+        title : {
+            padding : '30px 0 30px 0',
+            align : 'center',
+            borderBottom : '1px solid #eeeeee'
+        },
+
+        post : {
+            padding : '12px',
+            justifyContent : 'space-between',
+            fontSize : '1.25rem',
+        },
+        postLink : {
+            textDecoration : 'none',
+            color : 'black',
+            marginBottom : '5px',
+            '&:hover' : {
+                color : '#999999',
+            },
+        }
     }
-    @media screen and (max-width : 900px){
-        margin-bottom : 20px;
-        width : 100%;
-    }
-`;
+});
 
-const NoticeTitle = styled.h2`
-    margin : 0;
-    padding : 30px 0 30px 0;
-    text-align : center;
-    border-bottom : 1px solid #eeeeee;
-`;
-
-const Post = styled.div`
-    display : flex;
-    padding : 12px;
-    justify-content : space-between;
-    font-size : 1.25rem;
-
-`;
-
-const PostLink = styled(Link)`
-    text-decoration : none;
-    color : black;
-    margin-bottom : 5px;
-    &:hover{
-        color : #999999;
-    };
-`;
 
 function Notice() {
+    const classes = useStyles();
     const [posts, setPosts] = useState([]);
     const dispatch = useDispatch();
     const user = useSelector(state =>  state.UserReducer.user);
@@ -55,16 +58,16 @@ function Notice() {
         })
     },[dispatch])
     return (
-        <NoticeArea>
-            <NoticeTitle>공지사항</NoticeTitle>
+        <Box className={classes.area}>
+            <Typography variant='h5' align='center' className={classes.title}>공지사항</Typography>
             {posts.map((val, i) => (
-                <Post key={i}>
-                    <div>{i+1}</div>
-                    <PostLink to={user._id ? `/notice/1/${val._id}` : '/login'}  >{val.title}</PostLink>
-                    <div>{val.author ? val.author.nick : '알수없음'}</div>
-                </Post>
+                <Box className={classes.post} display='flex' key={i}>
+                    <Box>{i+1}</Box>
+                    <Link className={classes.postLink} to={user._id ? `/notice/1/${val._id}` : '/login'}  >{val.title}</Link>
+                    <Box>{val.author ? val.author.nick : '알수없음'}</Box>
+                </Box>
             ))}
-        </NoticeArea>
+        </Box>
     )
 }
 
