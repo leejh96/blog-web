@@ -3,24 +3,41 @@ import AuthF from './section/AuthF';
 import AuthT from './section/AuthT';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import { Container, Box, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-const Div = styled.div`
-    width : 100%;
-    text-align : center;
-    min-width : 480px;
-    border-bottom : 0.25px solid #dcdcdc;
-`;
+const useStyles = makeStyles(theme => {
+    return {
+        area : {
+            margin : 0,
+            textAlign : 'center',
+            minWidth : '480px',
+            borderBottom : '0.25px solid #dcdcdc',
+        },
+        link : {
+            textDecoration :'none',
+            color :'black',
+        },
+        logoBox : {
+            padding : '1.5rem 0',
+        },
+        logo : {
+            fontWeight : 'bold'
+        }
+    }
+})
 function Navbar() {
     const token = useSelector(state => state.UserReducer.authToken);
-
+    const classes = useStyles();
     return (
-        <Div>
+        <Container className={classes.area} disableGutters maxWidth='xl'>
             {token ? <AuthT /> : <AuthF />}
-            <h1>
-                <Link to='/' style={{ textDecoration :'none', color :'black'}}>JULOG</Link>
-            </h1>
-        </Div>
+            <Box className={classes.logoBox}>
+                <Typography variant='h4' className={classes.logo}>
+                    <Link to='/' className={classes.link}>JULOG</Link>
+                </Typography>
+            </Box>
+        </Container>
     )
 }
 

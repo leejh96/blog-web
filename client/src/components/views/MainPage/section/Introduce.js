@@ -27,7 +27,7 @@ function Introduce() {
     return (
         <Container className={classes.area} disableGutters>
             <Box my={3}>
-                <Typography variant='h5' className={classes.title}><b>간단한 자기소개</b></Typography>
+                <Typography component='h1' variant='h5' className={classes.title}><b>간단한 자기소개</b></Typography>
             </Box>
             <Box display='flex' flexWrap='nowrap'>
                 <Avatar variant='rounded' className={classes.avatar}>

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../../../actions/UserAction';
+import { makeStyles } from '@material-ui/core/styles';
+import { Box } from '@material-ui/core';
 const Lists = () => {
     return [
         {
@@ -14,8 +16,21 @@ const Lists = () => {
         }
     ];
 }
-
+const useStyles = makeStyles(theme => {
+    return {
+        area : {
+            textAlign : 'right',
+        },
+        link : {
+            textDecoration : 'none',
+            color : 'black',
+            marginRight: '5px', 
+            fontSize : '6px'
+        }
+    }
+})
 function AuthT() {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     const [list, setList] = useState([]);
@@ -38,28 +53,18 @@ function AuthT() {
         })
     }
     return (
-        <div align="right">
+        <Box className={classes.area}>
             { list.map((value, i) => (
                 value.tag !== '로그아웃' ? 
-                <Link key={i} to={value.link} style={{
-                    textDecoration : 'none',
-                    color : 'black',
-                    marginRight: '5px', 
-                    fontSize : '6px'
-                }}>
-                        {value.tag}
+                <Link key={i} to={value.link} className={classes.link}>
+                    {value.tag}
                 </Link>
                 : 
-                <Link key={i} to={value.link} onClick={onClickLogout} style={{
-                    textDecoration : 'none',
-                    color : 'black',
-                    marginRight: '5px', 
-                    fontSize : '6px'
-                }}>
+                <Link key={i} to={value.link} onClick={onClickLogout} className={classes.link}>
                     {value.tag}
                 </Link>
             ))}
-        </div>
+        </Box>
     )
 }
 
