@@ -1,30 +1,36 @@
 import React from 'react'
 import TableSection from './section/TableSection';
-import Pagenation from './section/Pagenation';
+import Pagination from './section/Pagination';
 import Search from './section/Search';
 import ButtonSection from './section/ButtonSection';
-import styled from 'styled-components';
+import { makeStyles } from '@material-ui/core/styles';
+import { Container, Box } from '@material-ui/core';
 
-
-const Content = styled.div`
-    display : flex;
-    flex-direction : column;
-    margin-top : 10px;
-    padding-bottom : 10px;
-    justify-content : space-around;
-`;
+const useStyles = makeStyles(theme => {
+    return {
+        area : {
+            display : 'flex',
+            flexDirection : 'column',
+            marginTop : '10px',
+            paddingBottom : '10px',
+            justifyContent : 'space-around',
+        }
+    }
+})
 function Notice() {
     document.title = 'NOTICE'
+    const classes = useStyles();
+
     return (
-        <>
+        <Box>
             <h2>공지사항</h2>
-            <Content>
+            <Container className={classes.area} disableGutters>
                 <TableSection />
                 <ButtonSection />
-                <Pagenation />
+                <Pagination />
                 <Search />
-            </Content>
-        </>
+            </Container>
+        </Box>
     )
 }
 

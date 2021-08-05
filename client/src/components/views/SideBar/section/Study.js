@@ -1,75 +1,71 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom';
-import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { createStudy, loadStudy, deleteStudy } from '../../../../actions/StudyAction';
-
-const SideMain = styled.div`
-  display : flex;
-  flex-direction : column;
-  padding : 10px 10px 0 30px
-`;
-const SideLink = styled(Link)` //react-router-dom 태그는 ()에 넣는다
-  text-decoration : none;
-  margin-bottom : 3px;
-  color : black;
-  &:hover{
-    color : #999999;
-    text-decoration : underline;
-  };
-`;
-const MenuTitle = styled.h4`
-  margin : 0;
-`;
-
-const MenuTitleDiv = styled.div`
-  display : flex;
-  justify-content : space-between;
-  margin : 0 0 10px 0;
-  padding : 0;
-`;
-const DeleteBtn = styled.button`
-  padding : 0;
-  margin : 0;
-  background-color : #ffffff;
-  border :0;
-  cursor : pointer;
-`;
-const PlusBtn = styled.button`
-  padding : 0;
-  margin : 0;
-  background-color : #ffffff;
-  border :0;
-  cursor : pointer;
-  &:hover{
-    border : 1.5px groove #eeeeee;
+import { makeStyles } from '@material-ui/core/styles';
+import { Box, Button, IconButton, TextField, Typography } from '@material-ui/core'
+import { Delete, Create } from '@material-ui/icons'
+const useStyles = makeStyles(theme => {
+  return {
+    area : {
+      display : 'flex',
+      flexDirection : 'column',
+      padding : '10px 10px 0 30px',
+    },
+    link : {
+      textDecoration : 'none',
+      marginBottom : '3px',
+      color : 'black',
+      '&:hover' : {
+        color : '#999999',
+        textDecoration : 'underline',
+      },
+    },
+    title : {
+      margin : 0,
+      fontWeight : 'bold',
+      fontSize : '0.9rem'
+    },
+    titleDiv : {
+      display : 'flex',
+      justifyContent : 'space-between',
+      alignItems : 'center',
+      margin : '0 0 10px 0',
+      padding : 0,
+    },
+    plusBtn : {
+      padding : 0,
+      margin : 0,
+      border :0,
+    },
+    plusField : {
+      marginBottom : '10px',
+      display : 'flex',
+      justifyContent : 'space-between',
+    },
+    deleteBtn : {
+      padding : 0,
+      margin : 0,
+      border : 0,
+    },
+    text : {
+      padding : '0',
+      margin : '0',
+      width : '70%'
+    },
+    createBtn : {
+      padding : '0 2px',
+      margin : 0,
+    },
+    studyDiv : {
+      display : 'flex',
+      justifyContent : 'space-between',
+      alignItems : 'center',
+    }
   }
-`;
-
-const PlusFieldDiv = styled.div`
-  margin-bottom : 10px;
-  display : flex;
-  justify-content : space-between;
-`;
-
-const Text = styled.input`
-  padding : 0;
-  margin :0;
-  width : 70%;
-`;
-
-const CreateBtn = styled.button`
-  padding : 0 2px;
-  margin : 0;
-  cursor : pointer;
-`;
-
-const StudyDiv = styled.div`
-  display : flex;
-  justify-content : space-between;
-`;
-
+})
 function Study() {
+    const classes = useStyles();
     const [toggle, setToggle] = useState(false);
     const [text, setText] = useState('');
     const [study, setStudy] = useState([]);
@@ -107,36 +103,40 @@ function Study() {
     };
 
     return (
-        <SideMain>
-            <MenuTitleDiv>
-            <MenuTitle>Study</MenuTitle>
-            {user.role === 3 ? 
-              <PlusBtn onClick={onClickPlusBtn}>+</PlusBtn>
-              :
-              <></>
-            }
-            </MenuTitleDiv>
+        <Box className={classes.area}>
+            <Box className={classes.titleDiv}>
+              <Typography className={classes.title}>Study</Typography>
+              {user.role === 3 ? 
+                <IconButton size='small' onClick={onClickPlusBtn}>
+                  <Create />
+                </IconButton>
+                :
+                <></>
+              }
+            </Box>
             { toggle?
-            <PlusFieldDiv>
-                <Text onChange={onChangeText} placeholder='추가항목 입력'/>
-                <CreateBtn onClick={onClickStudyCreateBtn}>추가</CreateBtn>
-            </PlusFieldDiv>
+            <Box className={classes.plusField}>
+                <TextField size='small' variant='outlined' className={classes.text} onChange={onChangeText} placeholder='추가항목 입력'/>
+                <Button size='small' variant='outlined' className={classes.createBtn} onClick={onClickStudyCreateBtn}>추가</Button>
+            </Box>
             :
             <></>
             }
             {study.map((val, i) => (
-            <StudyDiv key={val._id}>
-                <SideLink to={val.link} >
-                {val.subject}
-                </SideLink>
+            <Box className={classes.studyDiv} key={val._id}>
+                <Link to={val.link} className={classes.link}>
+                  {val.subject}
+                </Link>
                 {user.role === 3 ? 
-                  <DeleteBtn onClick={() => onClickDeleteBtn(val._id)}>x</DeleteBtn>
+                  <IconButton size='small' onClick={() => onClickDeleteBtn(val._id)}>
+                    <Delete />
+                  </IconButton>
                   :
                   <></>
                 }
-            </StudyDiv>
+            </Box>
             ))}
-      </SideMain>
+      </Box>
     )
 }
 

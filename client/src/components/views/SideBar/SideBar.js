@@ -1,47 +1,59 @@
 import React from 'react'
-import { Divider } from '@material-ui/core';
-import styled from 'styled-components';
+import { Divider, Container, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import Study from './section/Study';
 import Board from './section/Board';
 import Setting from './section/Setting'
 import { useLocation } from 'react-router-dom';
-const SideTitle = styled.h3`
-  margin : 0;
-  padding : 20px 0 20px 0;
-  text-align : center;
-  border-bottom : 1px solid #eeeeee
-`;
-const SideBar = styled.div`
-  position : sticky;
-  top : 0;
-  height : 100vh;
-  width : 200px;
-  border : 1px solid #eeeeee;
-  border-top : 0 ;
-  border-bottom : 0;
-  @media screen and (max-width : 768px){
-      display : none;
-  }
-`;
 
+const useStyles = makeStyles(theme => {
+  return {
+    area : {
+      position : 'sticky',
+      top : '0',
+      height : '100vh',
+      width : '200px',
+      border : '1px solid #eeeeee',
+      borderTop : 0,
+      borderBottom : 0,
+      [theme.breakpoints.down('sm')]: {
+        display : 'none',
+      },
+    },
+    sidetitle : {
+      fontWeight : 'bold',
+      margin : 0,
+      padding : '20px 0 20px 0',
+      textAlign : 'center',
+    },
+    divide1 : {
+      marginBottom : '10px'
+    },
+    divide2 : {
+      margin : '10px 0'
+    },
+  }
+})
 function Sidebar() {
-  const { pathname } = useLocation();
-  return (
-    <SideBar>
-    { pathname.indexOf('/setting') !== -1 ?
-      <Setting />
-      :
-      <>
-        <SideTitle>
-          메뉴
-        </SideTitle>
-        <Study />
-        <Divider style={{margin : '10px 0 10px 0'}}/>
-        <Board />
-      </>
-    }
-    </SideBar> 
-  )
+    const classes = useStyles();
+    const { pathname } = useLocation();
+    return (
+      <Container className={classes.area} disableGutters>
+      { pathname.indexOf('/setting') !== -1 ?
+        <Setting />
+        :
+        <>
+          <Typography className={classes.sidetitle}>
+            Menu
+          </Typography>
+          <Divider className={classes.divide1}/>
+          <Study />
+          <Divider className={classes.divide2}/>
+          <Board />
+        </>
+      }
+      </Container> 
+    )
 }
 
 export default Sidebar

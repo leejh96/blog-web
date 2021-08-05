@@ -1,37 +1,41 @@
 import React, { useState, useEffect } from 'react'
-import {Table, TableHead, TableBody, TableRow, TableCell} from '@material-ui/core';
-import styled from 'styled-components';
+import {Table, TableHead, TableBody, TableRow, TableCell, Box} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import {Link, useParams} from 'react-router-dom';
 import Loading from '../../LoadingPage/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadNotice } from '../../../../actions/NoticeAction';
-const Number = styled(TableCell)`
-    // width : 10%;
-`;
-const Title = styled(TableCell)`
-    // width : 50%;
-`;
-const Author = styled(TableCell)`
-    // width : 20%;
-`;
-const Date = styled(TableCell)`
-    // width : 20%;
-`;
-
-const TableLink = styled(Link)`
-    text-decoration : none;
-    color : black;
-    &:hover{
-        color : #999999;
-        text-decoration: underline;
+const useStyles = makeStyles(theme => {
+    return {
+        table : {
+            marginBottom : '30px',
+        },
+        number : {
+            width : '10%',
+        },
+        title : {
+            width : '50%',
+        },
+        author : {
+            width : '20%',
+        },
+        date : {
+            width : '20%',
+        },
+        link : {
+            textDecoration : 'none',
+            color : 'black',
+            '&:hover' : {
+                color : '#999999',
+                textDecoration: 'underline',
+            }
+        }
     }
-`;
+})
 
-const TABLE = styled(Table)`
-    margin-bottom : 30px;
-`;
 
 function TableSection() {
+    const classes = useStyles();
     const page = useParams().page;
     const dispatch = useDispatch();
     const [post, setPost] = useState([]);
@@ -52,32 +56,32 @@ function TableSection() {
         setPost(searchNotice);
     },[searchNotice])
     return (
-        <>
+        <Box>
             {load ?
             <Loading />
             :
-            <TABLE>
+            <Table className={classes.table}>
                 <TableHead>
                     <TableRow>
-                        <Number align='center'>번호</Number>
-                        <Title align='center'>제목</Title>
-                        <Author align='center'>작성자</Author>
-                        <Date align='center'>작성일</Date>
+                        <TableCell className={classes.number} align='center'>번호</TableCell>
+                        <TableCell className={classes.title} align='center'>제목</TableCell>
+                        <TableCell className={classes.author} align='center'>작성자</TableCell>
+                        <TableCell className={classes.date} align='center'>작성일</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                 {post.map((val, i) => (
                     <TableRow key={val._id}>
-                        <Number align='center'>{(page-1)*10 + (i+1)}</Number>
-                        <Title align='center'><TableLink to={user._id ? `/notice/${page}/${val._id}` : `/login`}>{val.title}</TableLink></Title>
-                        <Author align='center'>{val.author ? val.author.nick : '알수없음'}</Author>
-                        <Date align='center'>{val.date}</Date>
+                        <TableCell align='center'>{(page-1)*10 + (i+1)}</TableCell>
+                        <TableCell align='center'><Link className={classes.link} to={user._id ? `/notice/${page}/${val._id}` : `/login`}>{val.title}</Link></TableCell>
+                        <TableCell align='center'>{val.author ? val.author.nick : '알수없음'}</TableCell>
+                        <TableCell align='center'>{val.date}</TableCell>
                     </TableRow>
                 ))}
                 </TableBody>
-            </TABLE>
+            </Table>
             }
-        </>
+        </Box>
     )
 }
 

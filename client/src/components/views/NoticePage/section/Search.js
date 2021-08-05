@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react'
-import { TextField, Button, Select } from '@material-ui/core';
-import styled from 'styled-components';
+import { Box, TextField, Button, Select } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { searchNotice } from '../../../../actions/NoticeAction';
-const SearchArea = styled.div`
-    display : flex;
-    justify-content : center;
-    align-items : baseline;
-`;
 
-const InputText = styled(TextField)`
-    margin-right : 20px;
-`;
-
-const SelectType = styled(Select)`
-    margin-right : 20px;
-`;
-
+const useStyles = makeStyles(theme => {
+    return {
+        area : {
+            display : 'flex',
+            justifyContent : 'center',
+            alignItems : 'baseline',
+        },
+        text : {
+            marginRight : '20px',
+        },
+        select : {
+            marginRight : '20px',
+        }
+    }
+})
 
 const searchType = () => {
     const searchType = [
@@ -33,6 +35,7 @@ const searchType = () => {
 }
 
 function Search() {
+    const classes = useStyles();
     const [type, setType] = useState([]);
     const [text, setText] = useState('');
     const [selectedType, setSelectedType] = useState('title');
@@ -54,9 +57,10 @@ function Search() {
         dispatch(searchNotice(notices, text, selectedType))
     }
     return (
-        <SearchArea>    
+        <Box className={classes.area}>    
             <form onSubmit={onSubmithandler}>
-                <SelectType
+                <Select
+                    className={classes.select}
                     native
                     value={selectedType}
                     variant="outlined"
@@ -65,11 +69,11 @@ function Search() {
                     {type.map((v, i) => (
                         <option key={v+i} value={v.type}>{v.value}</option>
                     ))} 
-                </SelectType>
-                <InputText onChange={onChangeText} placeholder="검색" variant="outlined" required />
+                </Select>
+                <TextField className={classes.text} onChange={onChangeText} placeholder="검색" variant="outlined" required />
                 <Button type='submit' variant="contained">검색</Button>
             </form>
-        </SearchArea>
+        </Box>
     )
 }
 

@@ -1,39 +1,45 @@
 import React from 'react'
-import styled from 'styled-components';
 import Navbar from '../components/views/NavBar/Navbar';
 import Sidebar from '../components/views/SideBar/Sidebar';
 import Footer from '../components/views/Footer/Footer';
+import { makeStyles } from '@material-ui/core/styles';
+import { Container } from '@material-ui/core';
 
-const MainPage = styled.div`
-    margin-left : 15%;
-    margin-right : 15%;
-    display : flex;
-    min-width : 480px;
-    @media screen and (max-width : 1200px){
-        margin: 0;
+const useStyles = makeStyles(theme => {
+    return {
+        main : {
+            marginLeft : '15%',
+            marginRight : '15%',
+            display : 'flex',
+            minWidth : '480px',
+            [theme.breakpoints.down('md')]: {
+                margin: 0,
+                justifyContent : 'center'
+            },
+        },
+        content : {
+            width : 'calc(100% - 200px)',
+            [theme.breakpoints.down('md')]: {
+                margin: 0,
+                width : '100%',
+            },
+            minWidth : '480px',
+        }
     }
-`;
-const ContentArea = styled.div`
-    flex-direction : row;
-    width : calc(100% - 200px);
-    padding : 0 30px;
-    @media screen and (max-width : 768px){
-        width : 100%;
-    }
-    min-width : 480px;
-`;
+});
 
 function Frame(Component) {
     function WithFrameComponent(){
+        const classes = useStyles();
         return (        
             <>
                 <Navbar />
-                <MainPage>
+                <Container className={classes.main} disableGutters>
                     <Sidebar />
-                    <ContentArea>
+                    <Container className={classes.content}>
                         <Component />
-                    </ContentArea>
-                </MainPage>
+                    </Container>
+                </Container>
                 <Footer />
             </>
         )

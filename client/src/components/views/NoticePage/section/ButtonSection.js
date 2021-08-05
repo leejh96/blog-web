@@ -1,28 +1,32 @@
 import React from 'react'
-import { Button } from '@material-ui/core';
-import styled from 'styled-components';
+import { Button, Box } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-const BtnArea = styled.div`
-    display: flex;
-    justify-content : flex-end;
-`;
+import { makeStyles } from '@material-ui/core/styles';
 
-const BtnLink = styled(Link)`
-    text-decoration : none;
-    color : black;
-`;
-
+const useStyles = makeStyles(theme => {
+    return {
+        area : {
+            display: 'flex',
+            justifyContent : 'flex-end',
+        },
+        link : {
+            textDecoration : 'none',
+            color : 'black',
+        }
+    }
+})
 function ButtonSection() {
+    const classes = useStyles();
     const user = useSelector(state => state.UserReducer.user);
     return (
-        <BtnArea>
+        <Box className={classes.area}>
             { user.role === 3 ?
-                <BtnLink to='/notice/edit'><Button variant="contained">글작성</Button></BtnLink>  
+                <Link className={classes.link} to='/notice/edit'><Button variant="contained">글작성</Button></Link>  
                 :
                 <></>
             }
-        </BtnArea>
+        </Box>
     )
 }
 

@@ -1,30 +1,34 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
-import styled from 'styled-components';
+import { Button, Box } from '@material-ui/core';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { deleteNotice } from '../../../../../actions/NoticeAction';
+import { makeStyles } from '@material-ui/core/styles';
 
-const ButtonDiv = styled.div`
-    display : flex;
-    justify-content : space-evenly;
-    margin-bottom : 40px;
-`;
+const useStyles = makeStyles(theme => {
+    return {
+        area : {
+            display : 'flex',
+            justifyContent : 'space-evenly',
+            marginBottom : '40px',
+        },
+        link : {
+            textDecoration : 'none',
+            color : 'black',
+        }
+    }
+})
 
-const BtnLink = styled(Link)`
-    text-decoration : none;
-    color : black;
-
-`;
 
 
 
 function UpdateAndDeleteBtn() {
+    const classes = useStyles();
     const { id } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const onClickDelete = (id) => {
+    const onClickDelete = (id) => () => {
         dispatch(deleteNotice(id))
         .then(res => {
             if(res.data){
@@ -33,10 +37,10 @@ function UpdateAndDeleteBtn() {
         })
     }
     return (
-        <ButtonDiv>
-            <BtnLink to={`/notice/${id}/edit`}><Button variant='outlined'>수정</Button></BtnLink>
-            <Button variant='outlined' onClick={() => onClickDelete(id)}>삭제</Button>
-        </ButtonDiv>
+        <Box className={classes.area}>
+            <Link className={classes.link} to={`/notice/${id}/edit`}><Button variant='outlined'>수정</Button></Link>
+            <Button variant='outlined' onClick={onClickDelete(id)}>삭제</Button>
+        </Box>
     )
 }
 

@@ -1,28 +1,35 @@
 import React, { useState, useEffect } from 'react'
-import styled from 'styled-components';
-import { Button } from '@material-ui/core';
+import { Box, IconButton } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { addLike, deleteLike } from '../../../../../actions/NoticeAction';
 import { loadLike } from '../../../../../actions/NoticeAction';
-const OnToggleBtn = styled(Button)`
-    background-color : blue;
-    color : white;
-    &:hover{
-        background-color : #87cefa;
-    }
-`;
+import { makeStyles } from '@material-ui/core/styles';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 
-const LikeBtnDiv = styled.div`
-    margin-bottom : 20px;
-    text-align : center;
-`;
+const useStyles = makeStyles(theme => {
+    return {
+        area : {
+            marginBottom : '20px',
+            textAlign : 'center',
+        },
+        onToggle : {
+            '&:hover' : {
+                backgroundColor : '#87cefa',
+            }
+        },
+        icon : {
+            marginRight : '10px'
+        }
+    }
+})
 
 function LikeButton() {
     const id = useParams().id;
     const dispatch = useDispatch();
     const [cnt, setCnt] = useState(0);
     const [toggle, setToggle] = useState(0);
+    const classes = useStyles();
 
     useEffect(() => {
         dispatch(loadLike(id))
@@ -49,14 +56,14 @@ function LikeButton() {
     };
 
     return (
-        <LikeBtnDiv>
+        <Box className={classes.area}>
             { 
                 toggle ? 
-                <OnToggleBtn variant='contained' onClick={onClickLike}>{`좋아요 ${cnt}`}</OnToggleBtn>
+                <IconButton color='primary' className={classes.onToggle} variant='contained' onClick={onClickLike}><ThumbUpIcon className={classes.icon}/>{`${cnt}`}</IconButton>
                 :
-                <Button variant='contained' onClick={onClickLike}>{`좋아요 ${cnt}`}</Button>
+                <IconButton variant='contained' onClick={onClickLike}><ThumbUpIcon className={classes.icon}/>{`${cnt}`}</IconButton>
             }
-        </LikeBtnDiv>
+        </Box>
     )
 }
 
