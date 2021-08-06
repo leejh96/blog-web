@@ -5,7 +5,6 @@ import {
     CREATE_GUESTBOOK, 
     DELETE_GUESTBOOK, 
     LOAD_GUESTBOOK, 
-    GUESTBOOK_PAGENATION_COUNT,
     GUESTBOOK_ERROR
 } from "../actions/type"
 
@@ -38,11 +37,6 @@ const GuestbookReducer = (state = initialState, action) => {
                 error : false,
 
             }
-        case GUESTBOOK_PAGENATION_COUNT:
-            return {
-                ...state, 
-                error : false,
-            };
         case GUESTBOOK_ERROR:
             return {
                 ...state,

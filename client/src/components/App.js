@@ -11,14 +11,11 @@ import NoticeEdit from './views/EditPage/Notice/NoticeEdit';
 import Detail from './views/DetailPage/Detail';
 import Auth from '../hoc/Auth'; //hoc higherOrderComponent
 import Setting from './views/SettingPage/Setting';
-import Issue from './views/IssuePage/Issue';
 import Frame from '../hoc/Frame';
-import { CssBaseline } from '@material-ui/core';
 
 function App() {
   return (
     <>
-      <CssBaseline />
       <Suspense>
         <BrowserRouter>
           <Switch>
@@ -36,7 +33,6 @@ function App() {
             <Route exact path='/study/:study/edit' component={Auth(Frame(StudyEdit), true, true)} />
             <Route exact path='/setting' component={Auth(Frame(Setting), true)} />
             <Route exact path='/setting/:change' component={Auth(Frame(Setting), true)} />
-            <Route exact path='/issue' component={Frame(Issue)} />
           </Switch>
         </BrowserRouter>
       </Suspense>

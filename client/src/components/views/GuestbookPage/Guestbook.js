@@ -1,20 +1,29 @@
 import React from 'react'
 import Tablesection from './section/Tablesection';
-import Pagenation from './section/Pagenation';
+import Pagination from './section/Pagination';
 import Bookbox from './section/Bookbox';
 import { useParams } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import { Box, Typography } from '@material-ui/core';
 
-
+const useStyles = makeStyles(theme => {
+    return {
+        title : {
+            margin : '16px 0',
+            fontWeight : 'bold'
+        }
+    }
+})
 function Guestbook() {
+    const classes = useStyles();
     document.title = 'GUESTBOOK'
     const page = useParams();
     return (
-        <>
-            <h2>방명록</h2>
-            <Tablesection page={page}/>
-            <Pagenation pageNumber={page}/>
+        <Box>
+            <Typography className={classes.title} variant='h5'>방명록</Typography>            <Tablesection page={page}/>
+            <Pagination pageNumber={page}/>
             <Bookbox />
-        </>
+        </Box>
     )
 }
 

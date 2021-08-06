@@ -3,7 +3,18 @@ import { useParams } from 'react-router-dom';
 import Nick from './section/Nick';
 import Password from './section/Password';
 import Resign from './section/Resign';
+import { makeStyles } from '@material-ui/core/styles';
+import { Container, Typography } from '@material-ui/core';
+
+const useStyles = makeStyles(theme => ({
+    title : {
+        margin : '16px 0',
+        fontWeight :'bold'
+    }
+}))
+
 function Change() {
+    const classes = useStyles();
     const change = useParams().change;
     const [title, setTitle] = useState('');
     useEffect(() => {
@@ -19,8 +30,8 @@ function Change() {
     }, [change])
 
     return (
-        <>
-            <h2>{title}</h2>
+        <Container disableGutters>
+            <Typography variant='h5' className={classes.title}>{title}</Typography>
             {change === 'nick' ?
                 <Nick /> 
                 :
@@ -29,7 +40,7 @@ function Change() {
                 :
                 <Resign />
             }
-        </>
+        </Container>
     )
 }
 

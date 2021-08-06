@@ -1,18 +1,27 @@
 import React from 'react'
-import styled from 'styled-components';
-import { Button } from '@material-ui/core';
+import { Button, Box, Typography } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { resignUser } from '../../../../../../actions/UserAction';
 import { useHistory } from 'react-router-dom';
-const Text = styled.div`
-    font-size : 2rem;
-`;
-const ResignDiv = styled.div`
-    display : flex;
-    flex-direction: column;
-    align-items : center;
-`;
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+    area : {
+        display : 'flex',
+        flexDirection: 'column',
+        alignItems : 'center',
+    },
+    text : {
+        fontSize : '2rem'
+    },
+    textArea : {
+        textAlign : 'center',
+        marginBottom : '32px',
+    }
+}))
+
 function Resign() {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     const onClickBtn = () => {
@@ -29,13 +38,15 @@ function Resign() {
         }
     };
     return (
-        <ResignDiv>
-            <Text>
-                <p>그 동안 이용해주셔서 감사합니다.<br />
-                좋은 하루 보내시길 바랍니다.</p>
-            </Text>
+        <Box className={classes.area}>
+            <Box className={classes.textArea}>
+                <Typography className={classes.text} variant='body1'>
+                    그 동안 이용해주셔서 감사합니다.<br />
+                    좋은 하루 보내시길 바랍니다.
+                </Typography>
+            </Box>
             <Button variant="outlined" onClick={onClickBtn}>탈퇴하기</Button>
-        </ResignDiv>
+        </Box>
     )
 }
 

@@ -4,16 +4,18 @@ import Pagination from './section/Pagination';
 import Search from './section/Search';
 import ButtonSection from './section/ButtonSection';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Box } from '@material-ui/core';
+import { Container, Box, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => {
     return {
         area : {
             display : 'flex',
             flexDirection : 'column',
-            marginTop : '10px',
-            paddingBottom : '10px',
             justifyContent : 'space-around',
+        },
+        title : {
+            margin : '16px 0',
+            fontWeight : 'bold'
         }
     }
 })
@@ -23,7 +25,7 @@ function Notice() {
 
     return (
         <Box>
-            <h2>공지사항</h2>
+            <Typography className={classes.title} variant='h5'>공지사항</Typography>
             <Container className={classes.area} disableGutters>
                 <TableSection />
                 <ButtonSection />

@@ -3,7 +3,6 @@ import {
     CREATE_GUESTBOOK,
     DELETE_GUESTBOOK,
     LOAD_GUESTBOOK,
-    GUESTBOOK_PAGENATION_COUNT,
     GUESTBOOK_ERROR,
 } from './type';
 //camelCase
@@ -47,21 +46,6 @@ export const loadGuestBook = () => async dispatch => {
         return dispatch({
             type : LOAD_GUESTBOOK,
             data : res.data.guests
-        })
-    } catch (error) {
-        console.error(error);
-        return dispatch({
-            type : GUESTBOOK_ERROR,
-        });
-    }
-};
-
-export const pagenation = (url) => async dispatch => {
-    try {
-        const res = await axios.get(url);
-        return dispatch({
-            type : GUESTBOOK_PAGENATION_COUNT,
-            pageArr : res.data.pageArr,
         })
     } catch (error) {
         console.error(error);

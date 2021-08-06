@@ -1,45 +1,48 @@
 import React, {useState, useEffect} from 'react'
-import {Table, TableBody, TableCell, TableHead, TableRow, Button} from '@material-ui/core'
-import styled from 'styled-components';
+import { Box, Table, TableBody, TableCell, TableHead, TableRow, Button} from '@material-ui/core'
 import { useDispatch, useSelector  } from 'react-redux';
 import { deleteGuestBook, loadGuestBook } from '../../../../actions/GuestbookAction';
 import Loading from '../../LoadingPage/Loading';
+import { makeStyles } from '@material-ui/core/styles'
+import { useHistory } from 'react-router-dom';
 
-const Nick = styled(TableCell)`
-    width : 15%;
-`;
-
-const Content = styled(TableCell)`
-    width : 70%;
-`;
-
-const Time = styled(TableCell)`
-    width : 15%;
-
-`;
-const Delete = styled(TableCell)`
-    width : auto;
-    $:hover {
-        display : inline;
+const useStyles = makeStyles(theme => ({
+        area : {
+            marginBottom : '20px'
+        },
+        nick : {
+            width : '15%',
+        },
+        content : {
+            width : '70%',
+        },
+        time : {
+            width : '15%',
+        },
+        delete : {
+            width : 'auto',
+            '$:hover' : {
+                display : 'inline',
+            }
+        }
     }
-`;
-const TableArea = styled.div`
-    margin-bottom : 20px;
-`;
+))
 
+// //useSelector의 값은 reducer에서의 return 값을 갖는다. 비구조화할당을 할경우 각각의 변수가
+// // state의 뭔 값을 의미하는지 정해주어야 한다. 
+// const {addGuestbook, delGuestbook} = useSelector(state => ({
+//     addGuestbook : state.GuestbookReducer.addGuestbook,
+//     delGuestbook : state.GuestbookReducer.delGuestbook
+// }));
 
-    // //useSelector의 값은 reducer에서의 return 값을 갖는다. 비구조화할당을 할경우 각각의 변수가
-    // // state의 뭔 값을 의미하는지 정해주어야 한다. 
-    // const {addGuestbook, delGuestbook} = useSelector(state => ({
-    //     addGuestbook : state.GuestbookReducer.addGuestbook,
-    //     delGuestbook : state.GuestbookReducer.delGuestbook
-    // }));
 function Tablesection({ page }) {
+    const classes = useStyles();
     const [load, setLoad] = useState(false);
     const [guest, setGuest] = useState([]);
     const guestbookLength = useSelector(state => state.GuestbookReducer.guestlength);
     const dispatch = useDispatch();
     const user = useSelector(state => state.UserReducer.user);
+    const history = useHistory();
     useEffect(() => {
         setLoad(true);
         dispatch(loadGuestBook())
@@ -54,38 +57,39 @@ function Tablesection({ page }) {
     const onClickDelete = (id) => {
         const data = { data : {id} };
         dispatch(deleteGuestBook(data))
+        .then(history.push('/guestbook/1'))
     }
 
     return (
-        <TableArea>
+        <Box className={classes.area}>
             {load ? 
             <Loading />
             :
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <Nick align='center'>닉네임</Nick>
-                            <Content align='center'>내용</Content>
-                            <Time colSpan="2" align='center'>작성일</Time>
+                            <TableCell className={classes.nick} align='center'>닉네임</TableCell>
+                            <TableCell className={classes.content}align='center'>내용</TableCell>
+                            <TableCell className={classes.date}colSpan="2" align='center'>작성일</TableCell>
                         </TableRow>    
                     </TableHead>
                     <TableBody>
                             {guest.map((val, idx) => {
                                 return (
                                     <TableRow key={val._id}>
-                                        <Nick align='center'>{val.writer ? val.writer.nick : '알수없음'}</Nick>
-                                        <Content align='center'>{val.text}</Content>
-                                        <Time align='center'>{val.date}</Time>
+                                        <TableCell align='center'>{val.writer ? val.writer.nick : '알수없음'}</TableCell>
+                                        <TableCell align='center'>{val.text}</TableCell>
+                                        <TableCell align='center'>{val.date}</TableCell>
                                         {
                                             Object.keys(user).length !== 0 ?
                                                 val.writer ?                                                
                                                     user._id === val.writer._id || user.role === 3?
-                                                        <Delete><Button onClick={() => onClickDelete(val._id)}>X</Button> </Delete>
+                                                        <TableCell className={classes.delete}><Button onClick={() => onClickDelete(val._id)}>X</Button> </TableCell>
                                                     :
                                                         <></>
                                                 :    
                                                     user.role === 3 ?
-                                                        <Delete><Button onClick={() => onClickDelete(val._id)}>X</Button> </Delete>
+                                                        <TableCell className={classes.delete}><Button onClick={() => onClickDelete(val._id)}>X</Button> </TableCell>
                                                     :
                                                         <></>
                                             :
@@ -97,7 +101,7 @@ function Tablesection({ page }) {
                     </TableBody>
                 </Table>
             }  
-       </TableArea>
+       </Box>
     )
 }
 

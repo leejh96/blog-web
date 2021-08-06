@@ -70,3 +70,5 @@
 
 
 **`34일차 : 기존의 styled-component로 꾸몄던 css를 material-ui로 변경중이다.`**
+
+**`35일차 : 기존의 컴포넌트를 material-ui로 변경완료`**

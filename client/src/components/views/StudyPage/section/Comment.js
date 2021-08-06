@@ -1,20 +1,24 @@
 import React, { useState } from 'react'
-import styled from 'styled-components';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, Box } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { createStudyComment } from '../../../../actions/StudyAction';
+import { makeStyles } from '@material-ui/core/styles';
 
-const CommentBox = styled.div`
-    display : flex;
-    justify-content : space-between;
-    padding-bottom : 10px;
-`;
-const TextBox = styled(TextField)`
-    width : 90%
-`;
+const useStyles = makeStyles(theme => ({
+    area : {
+        display : 'flex',
+        justifyContent : 'space-between',
+        paddingBottom : '10px',
+    },
+    text : {
+        width : '90%'
+    }
+}))
+
 function Comment() {
+    const classes = useStyles();
     const user = useSelector(state => state.UserReducer.user);
     const dispatch = useDispatch();
     const { study } = useParams();
@@ -38,10 +42,10 @@ function Comment() {
         setComment(e.target.value);
     };
     return (
-        <CommentBox>
-            <TextBox multiline={true} placeholder="댓글을 남겨보세요" onChange={onChangeText} variant="outlined" required/>
+        <Box className={classes.area}>
+            <TextField className={classes.text} multiline={true} placeholder="댓글을 남겨보세요" onChange={onChangeText} variant="outlined" required/>
             <Button variant="contained" onClick={onClickBtn}>등록</Button>
-        </CommentBox>
+        </Box>
     )
 }
 

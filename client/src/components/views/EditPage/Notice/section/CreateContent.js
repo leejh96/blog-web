@@ -1,24 +1,27 @@
 import React, {useState} from 'react'
-import styled from 'styled-components';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, Box } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { createNotice } from '../../../../../actions/NoticeAction';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
+import { makeStyles } from '@material-ui/core/styles';
 
-const TitleText = styled(TextField)`
-    margin-bottom : 20px;
-    width : 100%;
-`;
-
-const Text = styled(TextField)`
-    width : 100%;
-    margin-bottom : 20px;
-`;
-
+const useStyles = makeStyles(theme => ({
+    title : {
+        marginBottom : '20px',
+    },
+    text : {
+        marginBottom : '20px',
+    },
+    buttonArea : {
+        display : 'flex',
+        justifyContent : 'flex-end'
+    }
+}))
 
 
 function CreateContent() {
+    const classes = useStyles();
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const dispatch = useDispatch();
@@ -48,15 +51,13 @@ function CreateContent() {
 
     return (
         <form onSubmit={onSubmithandler}>
-            <div>
-                <TitleText onChange={onChangeTitle} variant='outlined' placeholder="제목을 입력하세요" required />
-            </div>
-            <div>
-                <Text variant='outlined' onChange={onChangeText} placeholder="내용을 입력하세요" rows='30' multiline required />
-            </div>
-            <div align="right">
+            <Box>
+                <TextField className={classes.title} onChange={onChangeTitle} variant='outlined' placeholder="제목을 입력하세요" required fullWidth/>
+                <TextField className={classes.text} variant='outlined' onChange={onChangeText} placeholder="내용을 입력하세요" rows='30' fullWidth multiline required />
+            </Box>
+            <Box className={classes.buttonArea}>
                 <Button variant="contained" type="submit">작성</Button>
-            </div>
+            </Box>
         </form>
     )
 }

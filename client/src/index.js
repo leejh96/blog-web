@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { createStore, applyMiddleware } from 'redux';
 import reducer from './reducers';
 import { Provider } from 'react-redux';
-
+// import { CssBaseline } from '@material-ui/core'; // material-ui에서 기본 css를 제공함 배경도 포함
 
 //redux-devtools와 middleware를 같이 사용하기 위해서 사용
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -23,7 +23,6 @@ const store = createStore(
     applyMiddleware(ReduxThunk),
   )
 );
-
 
 // subscribe는 state가 변경될때마다 실행(콜백함수 실행)
 // state가 변경될 때마다 console 기록

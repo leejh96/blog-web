@@ -1,33 +1,33 @@
 import React, { useState } from 'react'
-import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { TextField, Button } from '@material-ui/core';
+import { Box, TextField, Button } from '@material-ui/core';
 import { useHistory } from 'react-router';
 import { changeNick } from '../../../../../../actions/UserAction';
-const Nickname = styled.div`
-    box-sizing : border-box;
-    border : 1px solid #c4c4c4;
-    height : 60px;
-    font-size : 1.5rem;
-    padding : 10px;
-    border-radius : 5px;
-    margin-bottom : 30px;
-`;
+import { makeStyles } from '@material-ui/core/styles';
 
-const ChangeText = styled(TextField)`
-    width : 100%;
-`;
+const useStyles = makeStyles(theme => ({
+    nickArea : {
+        boxSizing : 'border-box',
+        border : '1px solid #c4c4c4',
+        height : '60px',
+        fontSize : '1.5rem',
+        padding : '10px',
+        borderRadius : '5px',
+        marginBottom : '30px',
+    },
+    btnArea : {
+        display : 'flex',
+        justifyContent : 'space-around',
+        marginTop : '50px',
+    }
+}))
 
-const BtnArea = styled.div`
-    display : flex;
-    justify-content : space-around;
-    margin-top : 50px;
-`;
 function Nick() {
     const [text, setText] = useState('');
     const user = useSelector(state => state.UserReducer.user);
     const history = useHistory();
     const dispatch = useDispatch();
+    const classes = useStyles();
 
     const onSubmitChange = (e) => {
         e.preventDefault();
@@ -51,12 +51,14 @@ function Nick() {
     };
     return (
         <form onSubmit={onSubmitChange}>
-            <Nickname>{user.nick}</Nickname>
-            <ChangeText variant='outlined' onChange={onChangeNick} placeholder='변경할 닉네임을 입력하세요' required/>
-            <BtnArea>
+            <Box>
+                <Box className={classes.nickArea}>{user.nick}</Box>
+                <TextField fullWidth variant='outlined' onChange={onChangeNick} placeholder='변경할 닉네임을 입력하세요' required/>
+            </Box>
+            <Box className={classes.btnArea}>
                 <Button type='submit' variant='outlined'>변경</Button>
                 <Button variant='outlined' onClick={onClickCancel}>취소</Button>
-            </BtnArea>
+            </Box>
         </form>
     )
 }
