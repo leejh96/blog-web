@@ -59,6 +59,18 @@ export const loginUser = (email, password) => async dispatch => {
     }
 };
 
+export const loginGoogle = () => async dispatch => {
+    try {
+        const res = await axios.get('/api/auth/google');
+        console.log(res);
+    } catch (error) {
+        console.error(error);
+        return dispatch({
+            type : AUTH_ERROR,
+        })
+    }
+}
+
 export const logoutUser = () => async dispatch => {
     try {
         const res = await axios.get('/api/user/logout');

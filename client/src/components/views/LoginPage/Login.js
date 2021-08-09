@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import {Avatar, Button, TextField, Link, Grid, Box, Container, Typography} from '@material-ui/core'
+import {Avatar, Button, TextField, Link, Grid, Box, Container, Typography, Icon, IconButton} from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from './section/Copyright';
-import { loginUser } from '../../../actions/UserAction';
+import { loginUser, loginGoogle } from '../../../actions/UserAction';
 import { useDispatch } from 'react-redux';
+import { loadCSS } from 'fg-loadcss';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -25,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  oauth : {
+    display : 'flex',
+    justifyContent : 'center',
+  }
 }));
 
 function Login() {
@@ -33,6 +38,17 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
+  useEffect(() => {
+    const node = loadCSS(
+      'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
+      document.querySelector('#font-awesome-css'),
+    );
+
+    return () => {
+      node.parentNode.removeChild(node);
+    };
+  }, []);
+
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -57,6 +73,10 @@ function Login() {
     })
   }
   const classes = useStyles();
+
+  const onClickGoogle = () => {
+    dispatch(loginGoogle())
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -101,12 +121,7 @@ function Login() {
           >
             로그인
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                비밀번호 찾기
-              </Link>
-            </Grid>
+          <Grid container style={{ justifyContent : 'flex-end'}}>
             <Grid item>
               <Link href="/signup" variant="body2">
                 회원가입
@@ -115,6 +130,11 @@ function Login() {
           </Grid>
         </form>
       </div>
+      <Box className={classes.oauth} mt={2}>
+        <IconButton onClick={onClickGoogle}>
+          <Icon className='fab fa-google'></Icon>
+        </IconButton>
+      </Box>
       <Box mt={8}>
         <Copyright />
       </Box>

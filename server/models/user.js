@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema({
     },
     password : {
         type : String,
-        required : true,
         minlength : 5,
     },
     nick : {
@@ -23,7 +22,6 @@ const userSchema = new mongoose.Schema({
     email : {
         type: String,
         trim: true,
-        required : true,
         unique : true,
     },
     refreshToken : {
@@ -41,6 +39,14 @@ const userSchema = new mongoose.Schema({
     motto : {
         type : String,
         default : '',
+    },
+    provider : {
+        type : String,
+        default : 'local',
+        required : true,
+    },
+    snsId :{
+        type : String,
     }
     
 }, { timestamps : true})

@@ -72,3 +72,5 @@
 **`34일차 : 기존의 styled-component로 꾸몄던 css를 material-ui로 변경중이다.`**
 
 **`35일차 : 기존의 컴포넌트를 material-ui로 변경완료`**
+
+**`36일차 : 구글 로그인을 구현하기 위해서 passport를 사용하였는데 proxy설정을 해줬음에도 불구하고 google 로그인 라우터로 axios 요청을 보내면 cors 에러가 났다.`**
