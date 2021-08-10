@@ -141,7 +141,24 @@ router.get('/auth', auth, async(req, res) => {
         return ;
     }
 });
-
+router.get('/oauth', async(req, res) => {
+    try {
+        if(req.cookies['connect.sid']){
+            return res.json({
+                success : true,
+                user : req.user,
+            })
+        }
+        return res.json({
+            success : false,
+            auth : false,
+            message : '에러발생',
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+})
 router.put('/nick', auth, async(req, res) => {
     try {
         const user = await User.findOneAndUpdate({ _id : req.user._id }, { nick : req.body.nick});

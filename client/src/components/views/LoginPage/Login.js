@@ -4,7 +4,7 @@ import {Avatar, Button, TextField, Link, Grid, Box, Container, Typography, Icon,
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from './section/Copyright';
-import { loginUser, loginGoogle } from '../../../actions/UserAction';
+import { loginUser } from '../../../actions/UserAction';
 import { useDispatch } from 'react-redux';
 import { loadCSS } from 'fg-loadcss';
 
@@ -74,10 +74,6 @@ function Login() {
   }
   const classes = useStyles();
 
-  const onClickGoogle = () => {
-    dispatch(loginGoogle())
-  }
-
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
@@ -131,7 +127,7 @@ function Login() {
         </form>
       </div>
       <Box className={classes.oauth} mt={2}>
-        <IconButton onClick={onClickGoogle}>
+        <IconButton href='http://localhost:5000/api/auth/google'>{/*axios를 사용하면 오류가 떠서 링크로바꿔줌*/}
           <Icon className='fab fa-google'></Icon>
         </IconButton>
       </Box>

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AuthF from './section/AuthF';
 import AuthT from './section/AuthT';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Container, Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { authOAuth } from '../../../actions/UserAction';
 
 const useStyles = makeStyles(theme => {
     return {
@@ -27,11 +28,15 @@ const useStyles = makeStyles(theme => {
     }
 })
 function Navbar() {
-    const token = useSelector(state => state.UserReducer.authToken);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(authOAuth())
+    }, [dispatch])
+    const user = useSelector(state => state.UserReducer.user);
     const classes = useStyles();
     return (
         <Container className={classes.area} disableGutters maxWidth='xl'>
-            {token ? <AuthT /> : <AuthF />}
+            {user ? <AuthT /> : <AuthF />}
             <Box className={classes.logoBox}>
                 <Typography variant='h4' className={classes.logo}>
                     <Link to='/' className={classes.link}>JULOG</Link>

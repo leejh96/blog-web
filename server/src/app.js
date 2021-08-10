@@ -41,8 +41,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-
 app.use('/api/img', express.static('upload'));
 app.use('/api/user', UserRouter);
 app.use('/api/study', StudyRouter);

@@ -82,7 +82,7 @@ function CommentTable() {
                             { val.user.img ? 
                                 <img className={classes.img} src={`/api/img/${val.user.img}`} alt='userImg'/>
                             :
-                                <img src={'/api/img/basic.png'} alt='userImg'/>
+                                <img className={classes.img} src={'/api/img/basic.png'} alt='userImg'/>
                             }
                             { val.user ? val.user.nick : '알수없음' }
                         </Box>

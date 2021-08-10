@@ -5,26 +5,27 @@ module.exports = (passport) => {
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/auth/google/callback"
+    callbackURL: "http://localhost:5000/api/auth/google/callback",//구글에서 데이터를 보낼 주소
   },
   async (accessToken, refreshToken, profile, cb)  => {
     try {
-      console.log(profile);
-      // const exUser = await User.findOne({
-      //   snsId : profile.id,
-      //   provider : 'google'
-      // });
-
-      // //기존에 구글로 가입한 유저인지 확인
-      // if(exUser){
-      //   cb(null, exUser);
-      // }else{
-      //   const newUser = await User.create({
-      //     snsId : profile.id,
-      //     provider : 'google'
-      //   })
-      //   cb(null, newUser);
-      // }
+      const exUser = await User.findOne({
+        snsId : profile.id,
+        provider : 'google'
+      });
+      //기존에 구글로 가입한 유저인지 확인
+      if(exUser){
+        cb(null, exUser);
+      }else{
+        const newUser = await User.create({
+          snsId : profile.id,
+          provider : 'google',
+          username : profile._json.name,
+          nick : profile._json.family_name,
+          img : profile._json.picture,
+        })
+        cb(null, newUser);
+      }
     } catch (error) {
       console.error(error);
       cb(err);
