@@ -14,7 +14,8 @@ import {
     DELETE_IMAGE_ERROR,
     UPDATE_MOTTO,
     UPDATE_MOTTO_ERROR,
-    OAUTH_USER
+    OAUTH_USER,
+    NOT_AUTH,
 } from '../actions/type';
 
 const initialState = {
@@ -28,6 +29,7 @@ const UserReducer = (state = initialState, action) => {
         case LOGOUT_USER:
             return {
                 ...state,
+                user : {},
                 authToken : '',
                 error : false,
             }
@@ -44,13 +46,20 @@ const UserReducer = (state = initialState, action) => {
                 authToken : action.data.token,
                 user : action.data.user,
                 error : false,
-            }
+            };
+        case NOT_AUTH:
+            return {
+                ...state,
+                authToken : '',
+                error : false,
+                user : {},
+            };
         case OAUTH_USER:
             return {
                 ...state,
+                authToken : '',
                 user : action.data.user,
                 error : false,
-                authToken : '',
             }
         case AUTH_ERROR:
             return {

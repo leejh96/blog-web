@@ -16,6 +16,7 @@ import {
     UPDATE_MOTTO_ERROR,
     UPDATE_MOTTO,
     OAUTH_USER,
+    NOT_AUTH
 } from './type';
 
 export const registerUser = ({ username, nick, email, password }) => async dispatch => {
@@ -106,22 +107,28 @@ export const authUser = access => async dispatch => {
         })
     }
 }
-export const authOAuth = () => async dispatch => {
+
+export const oauthUser = () => async dispatch => {
     try {
         const res = await axios.get('/api/user/oauth');
-        if(res.data.success){
+        if (res.data.success){
             return dispatch({
                 type : OAUTH_USER,
-                data : res.data,
+                data : res.data
             });
         }
+        return dispatch({
+            type : NOT_AUTH,
+            data : res.data,
+        })
     } catch (error) {
         console.error(error);
         return dispatch({
-            type : AUTH_ERROR,
+            type : AUTH_ERROR
         })
     }
 }
+
 export const changeNick = text => async dispatch => {
     try {
         const res = await axios.put(`/api/user/nick`, { nick : text })

@@ -104,17 +104,32 @@ router.post('/login', async(req, res)=>{
 
 router.get('/logout', auth, async(req, res) => {
     try {
-        const user = await User.findOneAndUpdate({_id : req.user._id}, { token: '' });
-        if(user){
-            return res
-            .status(200)
-            .clearCookie('rft')
-            .json({ success : true });
+        if(req.user.provider === 'local'){
+            console.log('local')
+            const user = await User.findOneAndUpdate(
+                {_id : req.user._id}, 
+                { 
+                    refreshToken: '',
+                    refreshTokenExp : 0,
+                }
+            );
+            if(user){
+                return res
+                .status(200)
+                .clearCookie('rft')
+                .json({ success : true });
+            }
+            return res.json({
+                success : false,
+                message : '로그아웃에 실패했습니다.'
+            })
         }
-        return res.json({
-            success : false,
-            message : '로그아웃에 실패했습니다.'
-        })
+        if(req.user.provider === 'google'){            
+            req.logout();
+            return res
+                .clearCookie('connect.sid')
+                .json({ success : true })
+        }
     } catch (error) {
         console.error(error);
         return ;
@@ -141,24 +156,27 @@ router.get('/auth', auth, async(req, res) => {
         return ;
     }
 });
+
 router.get('/oauth', async(req, res) => {
     try {
-        if(req.cookies['connect.sid']){
-            return res.json({
+        //구글 로그인이 된 상황
+        if(req.user){
+            return res.status(200).json({
                 success : true,
                 user : req.user,
+                auth : true,
             })
         }
+        //로컬과 구글 둘 다 로그인이 되지 않은 상황
         return res.json({
             success : false,
             auth : false,
-            message : '에러발생',
         })
     } catch (error) {
         console.error(error);
         return ;
     }
-})
+});
 router.put('/nick', auth, async(req, res) => {
     try {
         const user = await User.findOneAndUpdate({ _id : req.user._id }, { nick : req.body.nick});

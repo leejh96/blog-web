@@ -51,6 +51,7 @@ const auth = async(req, res, next) => {
                 message : '리프레시 토큰이 유효하지 않습니다'
             })
         } catch (error) {
+            console.log('catch catch');
             return res.clearCookie('rft').json({
                 expire : true,
                 success : false,
@@ -60,5 +61,4 @@ const auth = async(req, res, next) => {
         }
     }
 }
-
 module.exports = { auth };

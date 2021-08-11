@@ -18,11 +18,7 @@ function TextArea() {
     const classes = useStyles();
     const id = useParams().id;
     const dispatch = useDispatch();
-    const [notice, setNotice] = useState({ 
-        title : '',
-        author : '',
-        text : ''
-    });
+    const [notice, setNotice] = useState({});
     const [load, setLoad] = useState(false);
 
     useEffect(() => {
@@ -39,15 +35,16 @@ function TextArea() {
                 <Loading />
             :
                 <Box>
+                    {console.log(notice)}
                     <TextField className={classes.text} fullWidth variant='outlined' inputProps={
                         { disabled: true, }
-                    } value={ notice.title }/>
+                    } value={ notice.title || ''}/>
                     <TextField className={classes.text} fullWidth variant='outlined' inputProps={
                         { disabled: true, }
                     } value={ notice.author ? notice.author.nick : '알수없음' }/>
                     <TextField className={classes.text} fullWidth variant='outlined'  rows='30' multiline inputProps={
                         { disabled: true, }
-                    } value={ notice.text }/>
+                    } value={ notice.text || ''}/>
                 </Box>
             }
         </>

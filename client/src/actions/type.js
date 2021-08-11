@@ -52,4 +52,5 @@ export const DELETE_IMAGE_ERROR = 'DELETE_IMAGE_ERROR';
 export const DELETE_IMAGE = 'DELETE_IMAGE'
 export const UPDATE_MOTTO_ERROR = 'UPDATE_MOTTO_ERROR';
 export const UPDATE_MOTTO = 'UPDATE_MOTTO';
-export const OAUTH_USER = 'OAUTH_USER'; 
+export const OAUTH_USER = 'OAUTH_USER';
+export const NOT_AUTH = 'NOT_AUTH';
