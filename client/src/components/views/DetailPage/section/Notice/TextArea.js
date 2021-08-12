@@ -35,7 +35,6 @@ function TextArea() {
                 <Loading />
             :
                 <Box>
-                    {console.log(notice)}
                     <TextField className={classes.text} fullWidth variant='outlined' inputProps={
                         { disabled: true, }
                     } value={ notice.title || ''}/>

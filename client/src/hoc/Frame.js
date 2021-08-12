@@ -8,8 +8,6 @@ import { Container } from '@material-ui/core';
 const useStyles = makeStyles(theme => {
     return {
         main : {
-            marginLeft : '15%',
-            marginRight : '15%',
             display : 'flex',
             minWidth : '480px',
             [theme.breakpoints.down('md')]: {

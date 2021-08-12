@@ -15,7 +15,7 @@ import {
     UPDATE_MOTTO,
     UPDATE_MOTTO_ERROR,
     OAUTH_USER,
-    NOT_AUTH,
+    NOT_LOGIN,
 } from '../actions/type';
 
 const initialState = {
@@ -47,7 +47,7 @@ const UserReducer = (state = initialState, action) => {
                 user : action.data.user,
                 error : false,
             };
-        case NOT_AUTH:
+        case NOT_LOGIN:
             return {
                 ...state,
                 authToken : '',

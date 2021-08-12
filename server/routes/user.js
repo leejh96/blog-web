@@ -101,11 +101,9 @@ router.post('/login', async(req, res)=>{
     }
 
 });
-
 router.get('/logout', auth, async(req, res) => {
     try {
         if(req.user.provider === 'local'){
-            console.log('local')
             const user = await User.findOneAndUpdate(
                 {_id : req.user._id}, 
                 { 
@@ -124,7 +122,7 @@ router.get('/logout', auth, async(req, res) => {
                 message : '로그아웃에 실패했습니다.'
             })
         }
-        if(req.user.provider === 'google'){            
+        if(req.user.provider === 'google'){
             req.logout();
             return res
                 .clearCookie('connect.sid')
@@ -157,7 +155,7 @@ router.get('/auth', auth, async(req, res) => {
     }
 });
 
-router.get('/oauth', async(req, res) => {
+router.get('/logged', async(req, res) => {
     try {
         //구글 로그인이 된 상황
         if(req.user){
@@ -169,7 +167,7 @@ router.get('/oauth', async(req, res) => {
         }
         //로컬과 구글 둘 다 로그인이 되지 않은 상황
         return res.json({
-            success : false,
+            success : true,
             auth : false,
         })
     } catch (error) {

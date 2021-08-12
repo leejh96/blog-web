@@ -22,7 +22,7 @@ module.exports = (passport) => {
           provider : 'google',
           username : profile._json.name,
           nick : profile._json.family_name,
-          img : profile._json.picture,
+          email : profile.emails[0].value
         })
         cb(null, newUser);
       }

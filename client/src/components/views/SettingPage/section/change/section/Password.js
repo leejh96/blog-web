@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TextField, Button, Box } from '@material-ui/core';
 import { useHistory } from 'react-router';
 import { changePassword } from '../../../../../../actions/UserAction';
@@ -13,10 +13,16 @@ const useStyles = makeStyles(theme => ({
         marginTop : '50px',
         display : 'flex',
         justifyContent : 'space-around',
+    },
+    msg : {
+        textAlign :'center',
+        margin : '450px 0',
+        fontSize : '3rem'
     }
 }))
 
 function Password() {
+    const user = useSelector(state => state.UserReducer.user);
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
     const history = useHistory();
@@ -47,16 +53,25 @@ function Password() {
         setConfirm(e.target.value);
     };
     return (
-        <form onSubmit={onSubmitChange}>
-            <Box>
-                <TextField className={classes.password}type='password' variant='outlined' onChange={onChangePassword} placeholder='변경할 비밀번호를 입력하세요' required autoComplete='false' fullWidth/>
-                <TextField type='password' variant='outlined' onChange={onChangePasswordConfirm} placeholder='비밀번호를 한번 더 입력하세요' required autoComplete='false' fullWidth/>
-            </Box>
-            <Box className={classes.btnArea}>
-                <Button type='submit' variant='outlined'>변경</Button>
-                <Button variant='outlined' onClick={onClickCancel}>취소</Button>
-            </Box>
-        </form>
+        <>
+            { 
+                user.provider === 'local' ?
+                <form onSubmit={onSubmitChange}>
+                    <Box>
+                        <TextField className={classes.password}type='password' variant='outlined' onChange={onChangePassword} placeholder='변경할 비밀번호를 입력하세요' required autoComplete='false' fullWidth/>
+                        <TextField type='password' variant='outlined' onChange={onChangePasswordConfirm} placeholder='비밀번호를 한번 더 입력하세요' required autoComplete='false' fullWidth/>
+                    </Box>
+                    <Box className={classes.btnArea}>
+                        <Button type='submit' variant='outlined'>변경</Button>
+                        <Button variant='outlined' onClick={onClickCancel}>취소</Button>
+                    </Box>
+                </form>
+            :
+                <Box className={classes.msg}>
+                    비밀번호 변경이 가능한 아이디가 아닙니다.
+                </Box>
+            }
+        </>
     )
 }
 

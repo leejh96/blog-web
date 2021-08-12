@@ -39,8 +39,19 @@ function AuthT() {
     }, [])
 
     const onClickLogout = () => {
+        // //구글로그아웃
+        // dispatch(oauthLogout())
+        // .then(res => {
+
+        // })
+        
+        //로컬로그아웃
         dispatch(logoutUser())
         .then(res => {
+            if(res.data.success && !localStorage.getItem('access')){
+                //google 
+                return history.push('/login');
+            }
             if(res.data.success){
                 localStorage.removeItem('access');
                 return history.push('/login');

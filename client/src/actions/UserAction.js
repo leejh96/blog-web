@@ -16,7 +16,7 @@ import {
     UPDATE_MOTTO_ERROR,
     UPDATE_MOTTO,
     OAUTH_USER,
-    NOT_AUTH
+    NOT_LOGIN
 } from './type';
 
 export const registerUser = ({ username, nick, email, password }) => async dispatch => {
@@ -108,17 +108,19 @@ export const authUser = access => async dispatch => {
     }
 }
 
-export const oauthUser = () => async dispatch => {
+export const isLoggedIn = () => async dispatch => {
     try {
-        const res = await axios.get('/api/user/oauth');
-        if (res.data.success){
+        const res = await axios.get('/api/user/logged');
+        //구글 로그인이 된 상황
+        if (res.data.auth){
             return dispatch({
                 type : OAUTH_USER,
                 data : res.data
             });
         }
+        // 로그인이 되지 않은 상황
         return dispatch({
-            type : NOT_AUTH,
+            type : NOT_LOGIN,
             data : res.data,
         })
     } catch (error) {
