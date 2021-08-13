@@ -1,8 +1,9 @@
-import React from 'react'
-import {Link} from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Box } from '@material-ui/core';
-
+import { loadRecentStudy } from '../../../../actions/StudyAction';
 const useStyles = makeStyles( theme => {
     return {
         area : {
@@ -27,45 +28,39 @@ const useStyles = makeStyles( theme => {
         },
 
         post : {
+            alignItems :'center',
             padding : '12px',
-            justifyContent : 'space-between',
             fontSize : '1.25rem',
         },
         postLink : {
+            margin : '0 auto',
             textDecoration : 'none',
             color : 'black',
-            marginBottom : '5px',
             '&:hover' : {
                 color : '#999999',
             },
-        }
+        },
     }
 })
 
 function RecentPost() {
     const classes = useStyles();
-    const posts = [
-        {
-            tag : 'title',
-            link : '#',
-        },
-        {
-            tag : 'title2',
-            link : '#',
-        },
-        {
-            tag : 'title3',
-            link : '#',
-        }
-    ]
+    const [posts, setPosts] = useState([]);
+    const dispatch = useDispatch();
+    const studyCount = useSelector(state => state.StudyReducer.studyCount);
+    useEffect(() => {
+        dispatch(loadRecentStudy())
+        .then(res => {
+            setPosts(res.data);
+        })
+    }, [dispatch, studyCount])
     return (
         <Box className={classes.area}>
             <Typography variant='h5' align='center' className={classes.title}> 최근 게시물 </Typography>
             {posts.map((val, i) => (
                 <Box className={classes.post} display='flex'  key={i}>
-                    <Box>{i+1}</Box>
-                    <Link className={classes.postLink} to={val.link} >{val.tag}</Link>
-                    <Box>{val.author ? val.author.nick : '알수없음'}</Box>
+                    <Box className={classes.number}>{i+1}</Box>
+                    <Link className={classes.postLink} to={val.link} >{val.subject}</Link>
                 </Box>
             ))}
         </Box>

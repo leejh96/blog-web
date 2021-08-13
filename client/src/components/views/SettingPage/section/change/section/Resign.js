@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Box, Typography } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
-import { resignUser } from '../../../../../../actions/UserAction';
+import { useDispatch, useSelector } from 'react-redux';
+import { resignUser, resignOAuthUser } from '../../../../../../actions/UserAction';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -24,17 +24,32 @@ function Resign() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
+    const user = useSelector(state => state.UserReducer.user);
     const onClickBtn = () => {
         if(window.confirm('정말로 탈퇴하시겠습니까?')){
-            dispatch(resignUser(window.prompt('탈퇴를 위한 아이디의 비밀번호를 입력해주시기 바랍니다.')))
-            .then(res => {
-                if(res.data.success){
-                    alert(res.data.message);
-                    localStorage.removeItem('access');
-                    return history.push('/');
+            if( user.provider === 'local'){
+                const password = window.prompt('탈퇴를 위한 아이디의 비밀번호를 입력해주시기 바랍니다.')
+                if(password !== null){
+                    dispatch(resignUser(password))
+                    .then(res => {
+                        if(res.data.success){
+                            alert(res.data.message);
+                            localStorage.removeItem('access');
+                            return history.push('/');
+                        }
+                        return alert(res.data.message);
+                    })
                 }
-                return alert(res.data.message);
-            })
+            }else{
+                dispatch(resignOAuthUser())
+                .then(res => {
+                    if(res.data.success){
+                        alert(res.data.message);
+                        return history.push('/');
+                    }
+                    return alert('회원탈퇴를 실패했습니다');
+                })
+            }
         }
     };
     return (

@@ -12,6 +12,7 @@ import {
     LOAD_STUDY_COMMENT,
     DELETE_STUDY_COMMENT,
     STUDY_COMMENT_ERROR,
+    LOAD_RECENT_STUDY,
 } from "../actions/type"
 
 const initialState = {
@@ -75,6 +76,11 @@ const StudyReducer = (state = initialState, action) => {
                 commentLength : state.commentLength - 1,
                 error : false,
 
+            }
+        case LOAD_RECENT_STUDY:
+            return {
+                ...state,
+                error : false,
             }
         case STUDY_COMMENT_ERROR:
             return {

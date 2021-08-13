@@ -16,7 +16,8 @@ import {
     UPDATE_MOTTO_ERROR,
     UPDATE_MOTTO,
     OAUTH_USER,
-    NOT_LOGIN
+    NOT_LOGIN,
+    SAME_PASSWORD
 } from './type';
 
 export const registerUser = ({ username, nick, email, password }) => async dispatch => {
@@ -134,7 +135,6 @@ export const isLoggedIn = () => async dispatch => {
 export const changeNick = text => async dispatch => {
     try {
         const res = await axios.put(`/api/user/nick`, { nick : text })
-        console.log(res);
         if(res.data.success){
             return dispatch({
                 type : UPDATE_NICK,
@@ -159,7 +159,7 @@ export const changePassword = text => async dispatch => {
             })
         }
         return dispatch({
-            type : UPDATE_ERROR,
+            type : SAME_PASSWORD,
             data : res.data,
         })
     } catch (error) {
@@ -183,7 +183,21 @@ export const resignUser = password => async dispatch => {
             type : DELETE_ERROR,
         })
     }
+}
 
+export const resignOAuthUser = () => async dispatch => {
+    try {
+        const res = await axios.delete('/api/user/oauth')
+        return dispatch({
+            type : DELETE_USER,
+            data : res.data,
+        })
+    } catch (error) {
+        console.error(error);
+        return dispatch({
+            type : DELETE_ERROR,
+        })
+    }
 }
 
 export const uploadImage = file => async dispatch => {

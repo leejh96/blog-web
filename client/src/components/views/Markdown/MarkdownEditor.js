@@ -1,55 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router';
 import ReactMarkdown from 'react-markdown';
-import styled from 'styled-components';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import { materialLight  } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import {Button} from '@material-ui/core';
+import { Button, Box, TextareaAutosize  } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { loadOneStudy, updateStudyText } from '../../../actions/StudyAction'
 import gfm from 'remark-gfm'
+import { makeStyles } from '@material-ui/core/styles';
 
-const EditorArea = styled.div`
-  display : flex;
-  margin-bottom : 20px;
-  @media screen and (max-width : 768px){
-    display : flex;
-    flex-direction : column;
-    align-items : center;
-  }
-`;
-const Textarea = styled.textarea`
-  width : 50%;
-  height : 100vh;
-  padding : 20px;
-  font-size : 1.5rem;
-  outline : none;
-  resize: none;
-  @media screen and (max-width : 768px){
-    width : calc(100% - 60px);
-    margin-bottom : 30px;    
-  }
-`;
-const Markdown = styled(ReactMarkdown)`
-  width : 50%;
-  height : 100vh;
-  padding : 20px;
-  outline : none;
-  overflow : auto;
-  @media screen and (max-width : 768px){
-    width : 100%;    
-  }
-`;
+const useStyles = makeStyles(theme => ({
+    edit : {
+      display : 'flex',
+      marginBottom : '20px',
+      [theme.breakpoints.down('md')]: {
+        display : 'flex',
+        flexDirection : 'column',
+        alignItems : 'center',
+      }
+    },
+    text : {
+      width : '50%',
+      padding : '20px',
+      fontSize : '1rem',
+      resize: 'none',
+      [theme.breakpoints.down('md')]: {
+        width : '100%',    
+      }
+    },
+    markdown : {
+      width : '50%',
+      padding : '0 20px',
+      overflow : 'auto',
+      [theme.breakpoints.down('md')]: {
+        width : '100%',    
+      }
+    },
+    buttonDiv :{
+      display : 'flex',
+      justifyContent : 'space-around',
+    },
+    btn : {
+      fontSize: '1.5rem',
+    }
+}))
 
-const ButtonDiv = styled.div`
-  display : flex;
-  justify-content : space-around;
-`;
-
-const Buttons = styled(Button)`
-  font-size: 1.5rem;
-  font-family : Roboto;
-`;
 
 
 const Component = ({children, className}) => {
@@ -85,6 +80,7 @@ const Component = ({children, className}) => {
 };
 
 function MarkdownEditor() {
+    const classes = useStyles();
     const page = useParams().study;
     const [text, setText] = useState('');
     const history = useHistory();
@@ -108,16 +104,16 @@ function MarkdownEditor() {
     }
     return (
       <>
-        <EditorArea>
-          <Textarea value={text} onChange={onChangeText} autoFocus/>
-          <Markdown remarkPlugins={[gfm, {singleTilde: false}]} children={text} components= {{
+        <Box className={classes.edit}>
+          <TextareaAutosize  className={classes.text} variant='outlined' multiline={true} value={text} onChange={onChangeText} autoFocus />
+          <ReactMarkdown className={classes.markdown} remarkPlugins={[gfm, {singleTilde: false}]} children={text} components= {{
             code : Component
           }}/>
-        </EditorArea>
-        <ButtonDiv>
-          <Buttons variant="contained" onClick={onClickUpdate}>저장</Buttons>
-          <Buttons variant="contained" onClick={onClickCancel}>취소</Buttons>
-        </ButtonDiv>
+        </Box>
+        <Box className={classes.buttonDiv}>
+          <Button className={classes.btn} variant="contained" onClick={onClickUpdate}>저장</Button>
+          <Button className={classes.btn} variant="contained" onClick={onClickCancel}>취소</Button>
+        </Box>
       </>
     )
 }

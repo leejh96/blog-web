@@ -26,6 +26,9 @@ function Comment() {
     const history = useHistory();
 
     const onClickBtn = () => {
+        if(!comment){
+            return alert('댓글을 입력하세요');
+        }
         const data = {
             comment,
             study,
@@ -33,7 +36,10 @@ function Comment() {
         }
         if(user._id){
             return dispatch(createStudyComment(data))
-            .then(setComment(''));
+            .then(
+                document.querySelector('#comment').value = '',
+                setComment('')
+            );
         }
         alert('로그인이 필요합니다');
         return history.push('/login');
@@ -43,7 +49,7 @@ function Comment() {
     };
     return (
         <Box className={classes.area}>
-            <TextField className={classes.text} multiline={true} placeholder="댓글을 남겨보세요" onChange={onChangeText} variant="outlined" required/>
+            <TextField className={classes.text} multiline={true} placeholder="댓글을 남겨보세요" onChange={onChangeText} variant="outlined" id='comment'/>
             <Button variant="contained" onClick={onClickBtn}>등록</Button>
         </Box>
     )

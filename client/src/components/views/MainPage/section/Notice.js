@@ -32,12 +32,12 @@ const useStyles = makeStyles(theme => {
         post : {
             padding : '12px',
             justifyContent : 'space-between',
+            alignItems :'center',
             fontSize : '1.25rem',
         },
         postLink : {
             textDecoration : 'none',
             color : 'black',
-            marginBottom : '5px',
             '&:hover' : {
                 color : '#999999',
             },
@@ -54,7 +54,7 @@ function Notice() {
     useEffect(() => {
         dispatch(loadNotice())
         .then(res => {
-            setPosts(res.data.slice(0,7));
+            setPosts(res.data.slice(0,8));
         })
     },[dispatch])
     return (

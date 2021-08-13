@@ -1,10 +1,10 @@
 import React, { useState} from 'react';
-import {Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Container, Typography} from '@material-ui/core'
+import {Avatar, Button, TextField, Grid, Box, Container, Typography} from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from './section/Copyright';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { registerUser } from '../../../actions/UserAction';
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -24,6 +24,14 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    login : {
+        textDecoration : 'none',
+        color : '#757575',
+        '&:hover' : {
+            textDecoration : 'underline',
+            color : '#ababab'
+        }
+    }
     }));
 
 function Signup() {
@@ -56,16 +64,13 @@ function Signup() {
     };
     const onChangeEmail = (e) => {
         setEmail(e.target.value);
-        
     };
     const onChangePassword = (e) => {
         setPassword(e.target.value);
-        
     };
     const classes = useStyles();
     return (
         <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <div className={classes.paper}>
             <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
@@ -135,9 +140,9 @@ function Signup() {
                 >
                     회원가입
                 </Button>
-                <Grid container justify="flex-end">
+                <Grid container justifyContent="flex-end">
                     <Grid item>
-                    <Link href="/login" variant="body2">
+                    <Link to="/login" className={classes.login}>
                         로그인
                     </Link>
                     </Grid>

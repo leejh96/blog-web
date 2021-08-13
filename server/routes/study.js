@@ -21,6 +21,24 @@ router.get('/', async(req, res) => {
     }
 });
 
+router.get('/recent', async(req, res) => {
+    try {
+        const studies = await Study.find().sort({ 'updatedAt' : -1}).limit(8);
+        if(studies){
+            return res.json({
+                success : true,
+                studies,
+            })
+        }
+        return res.json({
+            success : false,
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+});
+
 router.post('/', auth, async(req, res) => {
     try {
         const study = await Study.create({

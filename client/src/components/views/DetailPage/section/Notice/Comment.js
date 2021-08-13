@@ -25,19 +25,26 @@ function Comment() {
     const id = useParams().id;
     const [comment, setComment] = useState('');
     const onClickBtn = () => {
+        if (comment === ''){
+            return alert('댓글을 입력하세요');
+        }
         const data = {
             comment,
             id,
             date : moment().format('YYYY-MM-DD HH:mm:ss')
         }
         dispatch(createNoticeComment(data))
+        .then(
+            document.querySelector('#comment').value = '',
+            setComment('')
+        );
     }
     const onChangeText = (e) => {
         setComment(e.target.value);
     };
     return (
         <Box className={classes.area}>
-            <TextField className={classes.text} multiline={true} placeholder="댓글을 남겨보세요" onChange={onChangeText} variant="outlined" />
+            <TextField className={classes.text} multiline={true} placeholder="댓글을 남겨보세요" onChange={onChangeText} variant="outlined" id='comment'/>
             <Button size='small' variant="contained" onClick={onClickBtn}>등록</Button>
         </Box>
     )

@@ -1,20 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import styled from 'styled-components';
-import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { materialLight  } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { Button } from '@material-ui/core';
+import { Button, Box, Typography } from '@material-ui/core';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadOneStudy } from '../../../actions/StudyAction';
 import Loading from '../LoadingPage/Loading';
 import gfm from 'remark-gfm'
+import { makeStyles } from '@material-ui/core/styles';
 
-const Markdown = styled(ReactMarkdown)`
-  outline : none;
-  overflow : auto;
-`;
+const useStyles = makeStyles(theme => ({
+  markdown : {
+    outline : 'none',
+    overflow : 'auto',
+  },
+  btn : {
+    fontSize: '1.5rem',
+  },
+  buttonDiv : {
+    display : 'flex',
+    justifyContent : 'flex-end',
+  },
+  link : {
+    textDecoration : 'none',
+    color : 'black',
+  },
+  markdownDiv : {
+    marginBottom : '30px',
+  },
+  textDiv : {
+    display: 'flex',
+    justifyContent : 'center',
+    alignItems : 'center',
+    width : '100%',
+    height : '100vh',
+    fontSize : '2rem',
+  }
 
+}))
 const Component = ({children, className}) => {
     return (
       <>
@@ -45,31 +69,8 @@ const Component = ({children, className}) => {
     )
   };
 
-const Buttons = styled(Button)`
-  font-size: 1.5rem;
-  font-family : Roboto;
-`;
-const ButtonDiv = styled.div`
-  display : flex;
-  justify-content : flex-end;
-`;
-const BtnLink = styled(Link)`
-  text-decoration : none;
-  color : black;
-`;
-const MarkdownDiv = styled.div`
-  margin-bottom : 30px;
-`;
-
-const TextDiv = styled.div`
-  display: flex;
-  justify-content : center;
-  align-items : center;
-  width : 100%;
-  height : 100vh;
-  font-size : 2rem;  
-`
 function MarkdownSection() {
+    const classes = useStyles();
     const page = useParams().study;
     const dispatch = useDispatch();
     const [text, setText] = useState('');
@@ -84,28 +85,28 @@ function MarkdownSection() {
       })
     }, [dispatch, page])
     return( 
-        <MarkdownDiv>
+        <Box className={classes.markdownDiv}>
           {load ? 
             <Loading />
           :
           <>
             {text ? 
-              <Markdown remarkPlugins={[gfm]} children={text} components= {{
+              <ReactMarkdown className={classes.markdown} remarkPlugins={[gfm]} children={text} components= {{
                 code : Component
               }}/>
             :
-              <TextDiv>게시물이 없습니다.</TextDiv>
+              <Box className={classes.textDiv}><Typography variant='h3'>게시물이 없습니다.</Typography></Box>
             }
-            <ButtonDiv>
+            <Box className={classes.buttonDiv}>
               { user.role === 3 ?                
-                <BtnLink to={`/study/${page}/edit`}><Buttons variant="contained" >{!text ? "글작성" : "글수정"}</Buttons></BtnLink>
+                <Link className={classes.link} to={`/study/${page}/edit`}><Button className={classes.btn} variant="contained" >{!text ? "글작성" : "글수정"}</Button></Link>
                 :
                 <></>
               }
-            </ButtonDiv>
+            </Box>
           </>
           }
-        </MarkdownDiv>
+        </Box>
     )
 }
 

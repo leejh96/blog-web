@@ -16,6 +16,7 @@ import {
     UPDATE_MOTTO_ERROR,
     OAUTH_USER,
     NOT_LOGIN,
+    SAME_PASSWORD,
 } from '../actions/type';
 
 const initialState = {
@@ -82,6 +83,10 @@ const UserReducer = (state = initialState, action) => {
             return {
                 ...state,
                 user : action.data.user,
+            }
+        case SAME_PASSWORD:
+            return {
+                ...state,
             }
         case DELETE_USER:
             return {

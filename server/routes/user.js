@@ -305,6 +305,17 @@ router.delete('/', auth, async(req, res) => {
         if(user){
             const TF = await bcrypt.compare(req.body.password, user.password);
             if(TF){
+                if(req.user.img){
+                    fs.unlink(`upload/${req.user.img}`, err => {
+                        if (err) {
+                            console.error(err);
+                            return res.json({
+                                success : false,
+                                message : '이미지 제거에 실패했습니다.'
+                            });
+                        }
+                    });
+                }
                 await User.findOneAndDelete({ _id : req.user._id});
                 return res
                 .clearCookie('rft')
@@ -327,5 +338,32 @@ router.delete('/', auth, async(req, res) => {
         return ;
     }
 });
+
+router.delete('/oauth', async(req, res) => {
+    try {
+        if(req.user.img){
+            fs.unlink(`upload/${req.user.img}`, err => {
+                if (err) {
+                    console.error(err);
+                    return res.json({
+                        success : false,
+                        message : '이미지 제거에 실패했습니다.'
+                    });
+                }
+            });
+        }
+        await User.findOneAndDelete({ _id : req.user._id });
+        req.logout();
+        return res
+            .clearCookie('connect.sid')
+            .json({
+                success : true,
+                message : '회원탈퇴가 완료되었습니다.',
+            })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+})
 
 module.exports = router;

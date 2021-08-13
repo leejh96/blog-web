@@ -79,10 +79,13 @@ function CommentTable() {
                 <Box className={classes.commentArea} key={val._id}>
                     <Box className={classes.user}>
                         <Box className={classes.info}>
-                            { val.user.img ? 
-                                <img className={classes.img} src={`/api/img/${val.user.img}`} alt='userImg'/>
+                            { val.user ?
+                                val.user.img ? 
+                                    <img className={classes.img} src={`/api/img/${val.user.img}`} alt='userImg'/>
+                                :
+                                    <img className={classes.img} src={'/api/img/basic.png'} alt='userImg'/>
                             :
-                                <img className={classes.img} src={'/api/img/basic.png'} alt='userImg'/>
+                                <></>
                             }
                             { val.user ? val.user.nick : '알수없음' }
                         </Box>

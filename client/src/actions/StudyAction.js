@@ -10,6 +10,7 @@ import {
     DELETE_STUDY_COMMENT,
     LOAD_STUDY_COMMENT,
     STUDY_COMMENT_ERROR,
+    LOAD_RECENT_STUDY,
 } from './type';
 //camelCase
 export const createStudy = text => async dispatch => {
@@ -33,6 +34,21 @@ export const loadStudy = () => async dispatch => {
         const res = await axios.get('/api/study');
         return dispatch({
             type : LOAD_STUDY,
+            data : res.data.studies,
+        })
+    } catch (error) {
+        console.error(error);
+        return dispatch({
+            type : STUDY_ERROR,
+        });
+    }
+}
+
+export const loadRecentStudy = () => async dispatch => {
+    try {
+        const res = await axios.get('/api/study/recent');
+        return dispatch({
+            type : LOAD_RECENT_STUDY,
             data : res.data.studies,
         })
     } catch (error) {

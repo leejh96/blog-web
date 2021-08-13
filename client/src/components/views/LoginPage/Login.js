@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import {Avatar, Button, TextField, Link, Grid, Box, Container, Typography, Icon, IconButton} from '@material-ui/core'
+import { useHistory, Link } from 'react-router-dom';
+import { Avatar, Button, TextField, Grid, Box, Container, Typography, Icon, IconButton } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from './section/Copyright';
@@ -29,6 +29,14 @@ const useStyles = makeStyles((theme) => ({
   oauth : {
     display : 'flex',
     justifyContent : 'center',
+  },
+  signup : {
+    textDecoration : 'none',
+    color : '#757575',
+    '&:hover' : {
+      textDecoration : 'underline',
+      color : '#ababab'
+    }
   }
 }));
 
@@ -119,7 +127,7 @@ function Login() {
           </Button>
           <Grid container style={{ justifyContent : 'flex-end'}}>
             <Grid item>
-              <Link href="/signup" variant="body2">
+              <Link to="/signup" className={classes.signup}>
                 회원가입
               </Link>
             </Grid>
