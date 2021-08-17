@@ -3,7 +3,7 @@ import { useHistory, Link } from 'react-router-dom';
 import { Avatar, Button, TextField, Grid, Box, Container, Typography, Icon, IconButton } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
-import Copyright from './section/Copyright';
+import Copyright from '../Copyright/Copyright';
 import { loginUser } from '../../../actions/UserAction';
 import { useDispatch } from 'react-redux';
 import { loadCSS } from 'fg-loadcss';
@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
       textDecoration : 'underline',
       color : '#ababab'
     }
+  },
+  copyright : {
+    textAlign : 'center',
   }
 }));
 
@@ -125,10 +128,15 @@ function Login() {
           >
             로그인
           </Button>
-          <Grid container style={{ justifyContent : 'flex-end'}}>
+          <Grid container style={{ justifyContent : 'space-between'}}>
             <Grid item>
               <Link to="/signup" className={classes.signup}>
                 회원가입
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link to="/findPassword" className={classes.signup}>
+                비밀번호 찾기
               </Link>
             </Grid>
           </Grid>
@@ -139,7 +147,7 @@ function Login() {
           <Icon className='fab fa-google'></Icon>
         </IconButton>
       </Box>
-      <Box mt={8}>
+      <Box className={classes.copyright}mt={8}>
         <Copyright />
       </Box>
     </Container>

@@ -37,7 +37,7 @@ function TextArea() {
                 <Box>
                     <TextField className={classes.text} fullWidth variant='outlined' inputProps={
                         { disabled: true, }
-                    } value={ notice.title || ''}/>
+                    } value={ notice.title || ' '}/>
                     <TextField className={classes.text} fullWidth variant='outlined' inputProps={
                         { disabled: true, }
                     } value={ notice.author ? notice.author.nick : '알수없음' }/>

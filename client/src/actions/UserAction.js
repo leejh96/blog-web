@@ -17,7 +17,13 @@ import {
     UPDATE_MOTTO,
     OAUTH_USER,
     NOT_LOGIN,
-    SAME_PASSWORD
+    SAME_PASSWORD,
+    FIND_PASSWORD,
+    FIND_PASSWORD_ERROR,
+    NOT_FIND_PASSWORD,
+    NEW_PASSWORD,
+    NEW_PASSWORD_FAIL,
+    NEW_PASSWORD_ERROR
 } from './type';
 
 export const registerUser = ({ username, nick, email, password }) => async dispatch => {
@@ -256,6 +262,48 @@ export const updateMotto = text => async dispatch => {
         console.error(error);
         return dispatch({
             type : UPDATE_MOTTO_ERROR,
+        })
+    }
+}
+
+export const findPassword = (name, email) => async dispatch => {
+    try {
+        const res = await axios.post('/api/user/findpassword', { email, name });
+        if(res.data.success){
+            return dispatch({
+                type : FIND_PASSWORD,
+                data : res.data,
+            })
+        }
+        return dispatch({
+            type : NOT_FIND_PASSWORD,
+            data : res.data
+        })
+    } catch (error) {
+        console.error(error);
+        return dispatch({
+            type : FIND_PASSWORD_ERROR,
+        })
+    }
+}
+
+export const newPassword = (password, id) => async dispatch => {
+    try {
+        const res = await axios.post('/api/user/newpassword', { password, id });
+        if(res.data.success){
+            return dispatch({
+                type : NEW_PASSWORD,
+                data : res.data,
+            })
+        }
+        return dispatch({
+            type : NEW_PASSWORD_FAIL,
+            data : res.data
+        })
+    } catch (error) {
+        console.error(error);
+        return dispatch({
+            type : NEW_PASSWORD_ERROR,
         })
     }
 }

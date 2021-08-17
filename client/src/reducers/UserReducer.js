@@ -17,6 +17,12 @@ import {
     OAUTH_USER,
     NOT_LOGIN,
     SAME_PASSWORD,
+    FIND_PASSWORD,
+    FIND_PASSWORD_ERROR,
+    NOT_FIND_PASSWORD,
+    NEW_PASSWORD,
+    NEW_PASSWORD_ERROR,
+    NEW_PASSWORD_FAIL
 } from '../actions/type';
 
 const initialState = {
@@ -146,6 +152,34 @@ const UserReducer = (state = initialState, action) => {
                 authToken : '',
                 error : true,
                 user : {},
+            }
+        case FIND_PASSWORD:
+            return {
+                ...state,
+                error : false,
+            }
+        case FIND_PASSWORD_ERROR:
+            return {
+                ...state,
+                error : true,
+            }
+        case NOT_FIND_PASSWORD:
+            return {
+                ...state,
+            }
+        case NEW_PASSWORD:
+            return {
+                ...state,
+                error : false,
+            }
+        case NEW_PASSWORD_FAIL:
+            return {
+                ...state,
+            }
+        case NEW_PASSWORD_ERROR:
+            return {
+                ...state,
+                error : true,
             }
         default :
             return state;

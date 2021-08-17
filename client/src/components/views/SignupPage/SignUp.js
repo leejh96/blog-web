@@ -2,7 +2,7 @@ import React, { useState} from 'react';
 import {Avatar, Button, TextField, Grid, Box, Container, Typography} from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
-import Copyright from './section/Copyright';
+import Copyright from '../Copyright/Copyright';
 import { useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import { registerUser } from '../../../actions/UserAction';
@@ -31,8 +31,11 @@ const useStyles = makeStyles((theme) => ({
             textDecoration : 'underline',
             color : '#ababab'
         }
+    },
+    copyright : {
+        textAlign : 'center',
     }
-    }));
+}));
 
 function Signup() {
     const [username, setUsername] = useState('');
@@ -149,7 +152,7 @@ function Signup() {
                 </Grid>
             </form>
         </div>
-        <Box mt={5}>
+        <Box className={classes.copyright} mt={5}>
             <Copyright />
         </Box>
         </Container>

@@ -12,6 +12,8 @@ import Detail from './views/DetailPage/Detail';
 import Auth from '../hoc/Auth'; //hoc higherOrderComponent
 import Setting from './views/SettingPage/Setting';
 import Frame from '../hoc/Frame';
+import FindPage from './views/FindPage/FindPage';
+import Newpassword from './views/NewPasswordPage/Newpassword';
 
 function App() {
   return (
@@ -25,14 +27,15 @@ function App() {
             {/* 쿼리스트링 값은 path에 적지 않고 쿼리스트링 전 path만 입력 */}
             <Route exact path='/notice/edit' component={Auth(Frame(NoticeEdit), true, true)} />
             <Route exact path='/notice/:id/edit' component={Auth(Frame(NoticeEdit), true, true)} />
-            <Route exact path='/notice/:page' component={Frame(Notice)} />
+            <Route exact path='/notice/:page' component={Auth(Frame(Notice), null)} />
             <Route exact path='/notice/:page/:id' component={Auth(Frame(Detail), true)} />
-            <Route exact path='/diary/:study' component={Frame(Detail)} />
-            <Route exact path='/guestbook/:id' component={Frame(Guestbook)} /> 
-            <Route exact path='/study/:study' component={Frame(Study)} />
+            <Route exact path='/guestbook/:id' component={Auth(Frame(Guestbook), null)} /> 
+            <Route exact path='/study/:study' component={Auth(Frame(Study), null)} />
             <Route exact path='/study/:study/edit' component={Auth(Frame(StudyEdit), true, true)} />
             <Route exact path='/setting' component={Auth(Frame(Setting), true)} />
             <Route exact path='/setting/:change' component={Auth(Frame(Setting), true)} />
+            <Route exact path='/findPassword' component={Auth(FindPage, false)} />
+            <Route exact path='/newPassword' component={Auth(Newpassword, false)} />
           </Switch>
         </BrowserRouter>
       </Suspense>

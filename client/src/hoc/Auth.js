@@ -13,29 +13,6 @@ function Auth(Component, option, adminRoute = null) {
         const history = useHistory();
         useEffect(() => {
             if(localStorage.getItem('access')){
-                // dispatch(authUser(localStorage.getItem('access')))
-                // .then(res => {
-                //     //로그인하지 않은 상태
-                //     if(!res.data.auth){
-                //         if(res.data.expire){
-                //             localStorage.clear();
-                //         }
-                //         if(option){
-                //             return history.push('/login')
-                //         }
-                //     //로그인 상태
-                //     }else{
-                //         localStorage.setItem('access', res.data.token);
-                //         //로그인 한 상태 중 관리자가 아닌사람이
-                //         //adminpage를 들어가려할때
-                //         if(adminRoute && res.data.user.role !== 3){
-                //             return history.push('/');
-                //         }
-                //         if(option === false){
-                //             return history.push('/');
-                //         }
-                //     }
-                // })
                 dispatch(authUser(localStorage.getItem('access')))
                 .then(res => {
                     localStorage.setItem('access', res.data.token);

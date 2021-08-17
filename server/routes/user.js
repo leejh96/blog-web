@@ -55,6 +55,46 @@ router.post('/signup', async (req, res) => {
     }
 })
 
+router.post('/findpassword', async(req, res)=>{
+    try {
+        const user = await User.findOne({
+            email : req.body.email,
+            username :  req.body.name,
+        })
+        if(user){
+            return res.json({
+                success : true,
+                user : user._id
+            });
+        }
+        return res.json({
+            success : false,
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+})
+
+router.post('/newpassword', async(req, res)=>{
+    try {
+        const saltRounds = 10;
+        const hash = await bcrypt.hash(req.body.password, saltRounds);
+        const user = await User.findOneAndUpdate({ _id : req.body.id}, { password : hash})
+        if(user){
+            return res.json({
+                success : true,
+            });
+        }
+        return res.json({
+            success : false,
+            message : '비밀번호 변경에 실패했습니다'
+        })
+    } catch (error) {
+        console.error(error);
+        return ;
+    }
+})
 
 router.post('/login', async(req, res)=>{
     try {

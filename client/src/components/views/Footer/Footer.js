@@ -1,5 +1,5 @@
 import React from 'react';
-import Copyright from './section/Copyright';
+import Copyright from '../Copyright/Copyright';
 import styled from 'styled-components';
 
 const FooterArea = styled.div`
