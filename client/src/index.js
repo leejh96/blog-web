@@ -18,10 +18,10 @@ import ReduxThunk from 'redux-thunk';
 
 //applyMiddleware()는 스토어에 미들웨어를 적용하려할 때 사용
 const store = createStore(
-  reducer,
-  composeWithDevTools(
-    applyMiddleware(ReduxThunk),
-  )
+    reducer,
+    composeWithDevTools(
+        applyMiddleware(ReduxThunk),
+    )
 );
 // subscribe는 state가 변경될때마다 실행(콜백함수 실행)
 // state가 변경될 때마다 console 기록
@@ -32,16 +32,16 @@ const store = createStore(
 // unsubscribe(); // subscribe 실행 x
 
 ReactDOM.render(
-  <React.StrictMode>
-    {/* <App store={store}/> 이런식으로 props로 줘도 되지만
-    너무 복잡해지기 때문에 react-redux 사용 */}
+    <React.StrictMode>
+        {/* <App store={store}/> 이런식으로 props로 줘도 되지만
+        너무 복잡해지기 때문에 react-redux 사용 */}
 
-    {/* Provider로 감싸고 store를 인수로 주는 방법이 react-redux */}
-    <Provider store={store}>
-        <App />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+        {/* Provider로 감싸고 store를 인수로 주는 방법이 react-redux */}
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 reportWebVitals();

@@ -1,157 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory, Link } from 'react-router-dom';
-import { Avatar, Button, TextField, Grid, Box, Container, Typography, Icon, IconButton } from '@material-ui/core'
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import React, { useEffect } from 'react';
+import { Box, Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from '../Copyright/Copyright';
-import { loginUser } from '../../../actions/UserAction';
-import { useDispatch } from 'react-redux';
 import { loadCSS } from 'fg-loadcss';
+import Title from './section/Title';
+import Form from './section/Form';
+import OAuth from './section/OAuth';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  oauth : {
-    display : 'flex',
-    justifyContent : 'center',
-  },
-  signup : {
-    textDecoration : 'none',
-    color : '#757575',
-    '&:hover' : {
-      textDecoration : 'underline',
-      color : '#ababab'
+const useStyles = makeStyles(theme => ({
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    copyright : {
+        textAlign : 'center',
     }
-  },
-  copyright : {
-    textAlign : 'center',
-  }
 }));
 
 function Login() {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  
-  useEffect(() => {
-    const node = loadCSS(
-      'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
-      document.querySelector('#font-awesome-css'),
+    const classes = useStyles();
+
+    useEffect(() => {
+        const node = loadCSS(
+            'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
+            document.querySelector('#font-awesome-css'),
+        );
+        return () => {
+            node.parentNode.removeChild(node);
+        };
+    }, []);
+
+    return (
+        <Container component="main" maxWidth="xs">
+            <Box className={classes.paper}>
+                <Title />
+                <Form />
+            </Box>
+            <OAuth />
+            <Box className={classes.copyright}mt={8}>
+                <Copyright />
+            </Box>
+        </Container>
     );
-
-    return () => {
-      node.parentNode.removeChild(node);
-    };
-  }, []);
-
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  }; 
-
-  const onSubmitInfo = (e) => {
-    e.preventDefault();
-    dispatch(loginUser(email, password))
-    .then(res => {
-      if(res.data.success){
-        localStorage.setItem('access', res.data.accessToken);
-        return history.push('/');
-      }
-      if(res.data.expire){
-        return ;
-      }
-      if(!res.data.success){
-        return alert(res.data.message);
-      }
-    })
-  }
-  const classes = useStyles();
-
-  return (
-    <Container component="main" maxWidth="xs">
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          로그인
-        </Typography>
-        <form method='post' className={classes.form} noValidate onSubmit={onSubmitInfo}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="이메일"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={onChangeEmail}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="비밀번호"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={onChangePassword}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            로그인
-          </Button>
-          <Grid container style={{ justifyContent : 'space-between'}}>
-            <Grid item>
-              <Link to="/signup" className={classes.signup}>
-                회원가입
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link to="/findPassword" className={classes.signup}>
-                비밀번호 찾기
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box className={classes.oauth} mt={2}>
-        <IconButton href='http://localhost:5000/api/auth/google'>{/*axios를 사용하면 오류가 떠서 링크로바꿔줌*/}
-          <Icon className='fab fa-google'></Icon>
-        </IconButton>
-      </Box>
-      <Box className={classes.copyright}mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
-  );
 }
 
 export default Login;

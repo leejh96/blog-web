@@ -11,33 +11,32 @@ import gfm from 'remark-gfm'
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  markdown : {
-    outline : 'none',
-    overflow : 'auto',
-  },
-  btn : {
-    fontSize: '1.5rem',
-  },
-  buttonDiv : {
-    display : 'flex',
-    justifyContent : 'flex-end',
-  },
-  link : {
-    textDecoration : 'none',
-    color : 'black',
-  },
-  markdownDiv : {
-    marginBottom : '30px',
-  },
-  textDiv : {
-    display: 'flex',
-    justifyContent : 'center',
-    alignItems : 'center',
-    width : '100%',
-    height : '100vh',
-    fontSize : '2rem',
-  }
-
+    markdown : {
+        outline : 'none',
+        overflow : 'auto',
+    },
+    btn : {
+        fontSize: '1.5rem',
+    },
+    buttonDiv : {
+        display : 'flex',
+        justifyContent : 'flex-end',
+    },
+    link : {
+        textDecoration : 'none',
+        color : 'black',
+    },
+    markdownDiv : {
+        marginBottom : '30px',
+    },
+    textDiv : {
+        display: 'flex',
+        justifyContent : 'center',
+        alignItems : 'center',
+        width : '100%',
+        height : '100vh',
+        fontSize : '2rem',
+    }
 }))
 const Component = ({children, className}) => {
     return (

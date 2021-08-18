@@ -15,14 +15,14 @@ const useStyles = makeStyles(theme => ({
 function Copyright() {
     const classes = useStyles();
     return (
-      <Typography component={'span'} variant="body2" color="textSecondary">
-        {'Copyright © '}
-        <Link className={classes.link} to="/">
-          주혁's 블로그
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
+        <Typography component={'span'} variant="body2" color="textSecondary">
+            {'Copyright © '}
+            <Link className={classes.link} to="/">
+            주혁's 블로그
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
     );
 }
 

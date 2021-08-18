@@ -3,48 +3,48 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Typography } from '@material-ui/core';
 
-const useStyles = makeStyles(theme => {
-  return {
-    area : {
-      display : 'flex',
-      flexDirection : 'column',
-      padding : '10px 10px 0 30px',
-    },
-    link : {
-      textDecoration : 'none',
-      marginBottom : '3px',
-      color : 'black',
-      '&:hover' : {
-        color : '#999999',
-        textDecoration : 'underline',
-      },
-    },
-    title : {
-      margin : 0,
-      fontSize : '0.9rem',
-      fontWeight : 'bold'
-    },
-    titleDiv : {
-      display : 'flex',
-      justifyContent : 'space-between',
-      margin : '0 0 10px 0',
-      padding : 0,
-    },
+const useStyles = makeStyles( theme => {
+    return {
+        area : {
+            display : 'flex',
+            flexDirection : 'column',
+            padding : '10px 10px 0 30px',
+        },
+        link : {
+            textDecoration : 'none',
+            marginBottom : '3px',
+            color : 'black',
+            '&:hover' : {
+                color : '#999999',
+                textDecoration : 'underline',
+            },
+        },
+        title : {
+            margin : 0,
+            fontSize : '0.9rem',
+            fontWeight : 'bold'
+        },
+        titleDiv : {
+            display : 'flex',
+            justifyContent : 'space-between',
+            margin : '0 0 10px 0',
+            padding : 0,
+        },
 
-  }
+    }
 })
 
 const Category = () => {
-  return [
-    {
-      tag : '공지사항',
-      link : '/notice/1'
-    },
-    {
-      tag : '방명록',
-      link : '/guestbook/1'
-    }
-  ]
+    return [
+        {
+            tag : '공지사항',
+            link : '/notice/1'
+        },
+        {
+            tag : '방명록',
+            link : '/guestbook/1'
+        }
+    ]
 }
 
 function Board() {
