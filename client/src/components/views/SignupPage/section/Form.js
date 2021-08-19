@@ -22,6 +22,20 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+const checkPassword = password => {
+    const blank = /\s/
+    const regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+    if(!blank.test(password)){
+        if(regex.test(password)){
+            return true
+        }else{
+            return false
+        }
+    }else{
+        return false
+    }
+}
+
 function Form() {
     const [username, setUsername] = useState('');
     const [nick, setNick] = useState('');
@@ -32,16 +46,20 @@ function Form() {
 
     const onSubmitSignup = (e) => {
         e.preventDefault();
-        const data = {
-            username, nick, email, password
-        }
-        dispatch(registerUser(data))
-        .then(res => {
-            if(res.data){
-                return history.push('/login');
+        if(checkPassword(password)){
+            const data = {
+                username, nick, email, password
             }
-            return alert(res.data.message);
-        })
+            dispatch(registerUser(data))
+            .then(res => {
+                if(res.data){
+                    return history.push('/login');
+                }
+                return alert(res.data.message);
+            })
+        }else{
+            return alert('비밀번호는 공백을 제외한 영문과 특수문자를 포함한 최소8자, 최대16자 입니다')
+        }
     };
 
     const onChangeUsername = (e) => {

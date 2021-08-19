@@ -31,6 +31,21 @@ const useStyles = makeStyles(theme => ({
         justifyContent : 'space-evenly'
     }
 }))
+
+const checkPassword = password => {
+    const blank = /\s/
+    const regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+    if(!blank.test(password)){
+        if(regex.test(password)){
+            return true
+        }else{
+            return false
+        }
+    }else{
+        return false
+    }
+}
+
 function Password() {
     const location = useLocation();
     const classes = useStyles();
@@ -48,16 +63,20 @@ function Password() {
 
     const onSubmitData = (e) => {
         e.preventDefault();
-        if(password !== confirm){
-            return alert('비밀번호가 일치하지 않습니다');
-        }
-        dispatch(newPassword(password, location.state.userId))
-        .then(res => {
-            if(res.data.success){
-                return history.push('/login')
+        if(checkPassword(password)){
+            if(password !== confirm){
+                return alert('비밀번호가 일치하지 않습니다');
             }
-            return alert(res.data.message);
-        })
+            dispatch(newPassword(password, location.state.userId))
+            .then(res => {
+                if(res.data.success){
+                    return history.push('/login')
+                }
+                return alert(res.data.message);
+            })
+        }else{
+            return alert('비밀번호는 공백을 제외한 영문과 특수문자를 포함한 최소8자, 최대16자 입니다')
+        }
     }
 
     const onChangePassword = (e) => {

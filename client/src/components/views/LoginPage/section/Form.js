@@ -22,6 +22,7 @@ const useStyles = makeStyles(theme => ({
       }
     },
 }));
+
 function Form() {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -35,22 +36,22 @@ function Form() {
         setPassword(e.target.value);
       }; 
     
-      const onSubmitInfo = (e) => {
+    const onSubmitInfo = (e) => {
         e.preventDefault();
         dispatch(loginUser(email, password))
         .then(res => {
-          if(res.data.success){
-            localStorage.setItem('access', res.data.accessToken);
-            return history.push('/');
-          }
-          if(res.data.expire){
-            return ;
-          }
-          if(!res.data.success){
-            return alert(res.data.message);
-          }
+            if(res.data.success){
+                localStorage.setItem('access', res.data.accessToken);
+                return history.push('/');
+            }
+            if(res.data.expire){
+                return ;
+            }
+            if(!res.data.success){
+                return alert(res.data.message);
+            }
         })
-      }
+    }
     return (
         <Box>
             <form method='post' className={classes.form} noValidate onSubmit={onSubmitInfo}>

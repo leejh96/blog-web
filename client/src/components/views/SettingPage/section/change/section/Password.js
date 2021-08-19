@@ -21,6 +21,20 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
+const checkPassword = password => {
+    const blank = /\s/
+    const regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+    if(!blank.test(password)){
+        if(regex.test(password)){
+            return true
+        }else{
+            return false
+        }
+    }else{
+        return false
+    }
+}
+
 function Password() {
     const user = useSelector(state => state.UserReducer.user);
     const [password, setPassword] = useState('');
@@ -30,18 +44,21 @@ function Password() {
     const classes = useStyles();
     const onSubmitChange = (e) => {
         e.preventDefault();
-        if(password !== confirm){
-            return alert('비밀번호를 확인해주세요');
-        }
-        dispatch(changePassword(password))
-        .then(res => {
-            if(res.data.success){
-                alert(res.data.message);
-                return history.push('/setting');
+        if(checkPassword(password)){
+            if(password !== confirm){
+                return alert('비밀번호를 확인해주세요');
             }
-            return alert(res.data.message);
-        })
-
+            dispatch(changePassword(password))
+            .then(res => {
+                if(res.data.success){
+                    alert(res.data.message);
+                    return history.push('/setting');
+                }
+                return alert(res.data.message);
+            })
+        }else{
+            return alert('비밀번호는 공백을 제외한 영문과 특수문자를 포함한 최소8자, 최대16자 입니다')
+        }
     }
     const onClickCancel = () => {
         return history.push('/setting');
