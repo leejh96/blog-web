@@ -14,7 +14,7 @@ import Setting from './views/SettingPage/Setting';
 import Frame from '../hoc/Frame';
 import FindPage from './views/FindPage/FindPage';
 import Newpassword from './views/NewPasswordPage/Newpassword';
-
+import Error from './views/ErrorPage/Error';
 function App() {
     return (
         <Suspense>
@@ -35,6 +35,7 @@ function App() {
                     <Route exact path='/setting/:change' component={Auth(Frame(Setting), true)} />
                     <Route exact path='/findPassword' component={Auth(FindPage, false)} />
                     <Route exact path='/newPassword' component={Auth(Newpassword, false)} />
+                    <Route component={Auth(Error, null)} />
                 </Switch>
             </BrowserRouter>
         </Suspense>

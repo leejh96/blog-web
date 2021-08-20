@@ -45,13 +45,17 @@ router.post('/signup', async (req, res) => {
                 success : true
             });
         }
-        return res.status(404).json({
+        return res.json({
             success : false,
             message : '회원가입에 실패했습니다.'
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버에러!',
+            error,
+        });
     }
 })
 
@@ -72,7 +76,11 @@ router.post('/findpassword', async(req, res)=>{
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버에러!',
+            error,
+        });
     }
 })
 
@@ -92,7 +100,11 @@ router.post('/newpassword', async(req, res)=>{
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버에러!',
+            error,
+        });
     }
 })
 
@@ -107,12 +119,11 @@ router.post('/login', async(req, res)=>{
 
                 const accessToken = await jwt.sign({
                     exp : accessTokenExp,
-                    data : user._id.toHexString()
+                    data : user._id.toString()
                 }, process.env.TOKEN_SECRET);
-
                 const refreshToken = await jwt.sign({
                     exp: refreshTokenExp,
-                    data : user._id.toHexString()
+                    data : user._id.toString()
                 }, process.env.REFRESH_TOKEN_SECRET);
                 
                 user.refreshToken = refreshToken;
@@ -130,14 +141,23 @@ router.post('/login', async(req, res)=>{
                     accessToken,
                 })
             }
+            return res.json({
+                success : false,
+                message : '아이디 및 비밀번호를 다시한번 확인해주시기 바랍니다'
+            })
         }
         return res.json({
             success : false,
-            message : '아이디 및 비밀번호를 다시한번 확인해주시기 바랍니다'
+            message : '해당하는 유저가 없습니다',
         })
+
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버에러!',
+            error,
+        });
     }
 
 });
@@ -170,7 +190,11 @@ router.get('/logout', auth, async(req, res) => {
         }
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버에러!',
+            error,
+        });
     }
 });
 
@@ -191,7 +215,11 @@ router.get('/auth', auth, async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버에러!',
+            error,
+        });
     }
 });
 
@@ -212,7 +240,11 @@ router.get('/logged', async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버에러!',
+            error,
+        });
     }
 });
 router.put('/nick', auth, async(req, res) => {
@@ -231,7 +263,11 @@ router.put('/nick', auth, async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버에러!',
+            error,
+        });
     }
 });
 
@@ -263,7 +299,11 @@ router.put('/password', auth, async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버에러!',
+            error,
+        });
     }
 });
 
@@ -274,7 +314,11 @@ router.put('/img', auth, upload.single('file'), async(req, res) => {
             fs.unlink(`upload/${req.user.img}`, err => {
                 if (err) {
                     console.error(err);
-                    return ;
+                    return res.json({
+                        success : false,
+                        message : '이미지 삭제 에러!',
+                        err,
+                    });
                 }
             });
         }
@@ -291,7 +335,11 @@ router.put('/img', auth, upload.single('file'), async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버에러!',
+            error,
+        });
     }
 });
 
@@ -300,7 +348,11 @@ router.put('/deleteimg', auth, async(req, res) => {
         fs.unlink(`upload/${req.body.img}`, err => {
             if (err) {
                 console.error(err);
-                return ;
+                return res.json({
+                    success : false,
+                    message : '이미지 삭제 에러!',
+                    err,
+                });
             }
         });
         const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : '' });
@@ -316,7 +368,11 @@ router.put('/deleteimg', auth, async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버에러!',
+            error,
+        });
     }
 });
 
@@ -335,7 +391,11 @@ router.put('/motto', auth, async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버에러!',
+            error,
+        });
     }
 });
 
@@ -351,7 +411,8 @@ router.delete('/', auth, async(req, res) => {
                             console.error(err);
                             return res.json({
                                 success : false,
-                                message : '이미지 제거에 실패했습니다.'
+                                message : '이미지 제거에 실패했습니다.',
+                                err,
                             });
                         }
                     });
@@ -375,7 +436,11 @@ router.delete('/', auth, async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버에러!',
+            error,
+        });
     }
 });
 
@@ -402,7 +467,11 @@ router.delete('/oauth', async(req, res) => {
             })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버에러!',
+            error,
+        });
     }
 })
 

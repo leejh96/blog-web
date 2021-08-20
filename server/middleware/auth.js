@@ -8,58 +8,43 @@ const auth = async(req, res, next) => {
             return next();
         }
         const token = await jwt.verify(req.headers.authorization, process.env.TOKEN_SECRET);
-        if(token){
-            const user = await User.findOne({ _id : token.data })
+        const user = await User.findOne({ _id : token.data })
+        if(user){
+            req.user = user;
+            req.token = req.headers.authorization;
+            return next();
+        }
+        return res.json({
+            success : false,
+            auth : false,
+            message : '유저를 찾을 수 없습니다'
+        })    
+    } catch (error) {
+        try {
+            const token = await jwt.verify(req.cookies.rft, process.env.REFRESH_TOKEN_SECRET);
+            const user = await User.findOne({ _id : token.data });
             if(user){
+                const accessTokenExp = Math.floor(Date.now() / 1000) + (60*30);    
+                const accessToken = await jwt.sign({
+                    exp : accessTokenExp,
+                    data : user._id.toString()
+                }, process.env.TOKEN_SECRET);
+                
                 req.user = user;
-                req.token = req.headers.authorization;
+                req.token = accessToken;
                 return next();
             }
             return res.json({
                 success : false,
                 auth : false,
-                message : '액세스 토큰에 대한 유저를 찾을 수 없습니다.'
-            })
-        }
-        return res.json({
-            success : false,
-            auth : false,
-            message : '액세스 토큰이 유효하지 않습니다.'
-        })
-    } catch (error) {
-        try {
-            const token = await jwt.verify(req.cookies.rft, process.env.REFRESH_TOKEN_SECRET);
-            if(token){
-                const user = await User.findOne({ _id : token.data });
-                if(user){
-                    const accessTokenExp = Math.floor(Date.now() / 1000) + (60*30);    
-                    
-                    const accessToken = await jwt.sign({
-                        exp : accessTokenExp,
-                        data : user._id.toHexString()
-                    }, process.env.TOKEN_SECRET);
-                    
-                    req.user = user;
-                    req.token = accessToken;
-                    return next();
-                }
-                return res.json({
-                    success : false,
-                    auth : false,
-                    message : '리프레시 토큰에 대한 유저를 찾을 수 없습니다.'
-                })
-            }
-            return res.json({
-                success : false,
-                auth : false,
-                message : '리프레시 토큰이 유효하지 않습니다'
+                message : '유저를 찾을 수 없습니다'
             })
         } catch (error) {
             return res.clearCookie('rft').json({
                 expire : true,
                 success : false,
                 auth : false,
-                message : '세션이 만료되었습니다.'
+                message : '로그인이 필요합니다'
             })
         }
     }

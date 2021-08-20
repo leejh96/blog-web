@@ -15,6 +15,11 @@ function Auth(Component, option, adminRoute = null) {
             if(localStorage.getItem('access')){
                 dispatch(authUser(localStorage.getItem('access')))
                 .then(res => {
+                    if(res.data.expire){
+                        localStorage.clear();
+                        alert('세션 만료! 재로그인 해주세요');
+                        return history.push('/login');
+                    }
                     localStorage.setItem('access', res.data.token);
                     //로그인 한 상태 중 관리자가 아닌사람이
                     //adminpage를 들어가려할때

@@ -12,7 +12,11 @@ router.get('/', async(req, res) => {
         })            
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버 에러!',
+            error,
+        });
     }
 });
 router.get('/count', async(req, res) => {
@@ -31,7 +35,11 @@ router.get('/count', async(req, res) => {
         })            
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버 에러!',
+            error,
+        });
     }
 });
 
@@ -56,7 +64,11 @@ router.post('/', auth, async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버 에러!',
+            error,
+        });
     }
 
 });
@@ -76,7 +88,11 @@ router.delete('/', async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버 에러!',
+            error,
+        });
     }
 
 });

@@ -17,7 +17,11 @@ router.get('/', async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버 에러!',
+            error,
+        });
     }
 });
 
@@ -35,7 +39,11 @@ router.get('/recent', async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버 에러!',
+            error,
+        });
     }
 });
 
@@ -56,7 +64,11 @@ router.post('/', auth, async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버 에러!',
+            error,
+        });
     }
 })
 
@@ -75,7 +87,11 @@ router.delete('/', auth, async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버 에러!',
+            error,
+        });
     }
 });
 
@@ -93,7 +109,11 @@ router.get('/:page', async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return;
+        return res.json({
+            success : false,
+            message : '서버 에러!',
+            error,
+        });
     }
 });
 
@@ -113,7 +133,11 @@ router.get('/:study/comment', async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버 에러!',
+            error,
+        });
     }
 });
 
@@ -125,7 +149,11 @@ router.post('/:study/create', auth, async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버 에러!',
+            error,
+        });
     }
 });
 
@@ -144,7 +172,11 @@ router.put('/:study/comment', auth, async(req, res)=>{
     }
     catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버 에러!',
+            error,
+        });
     }    
 });
 
@@ -163,7 +195,11 @@ router.put('/:page', auth, async(req, res)=> {
         })
     } catch (error) {
         console.error(error);
-        return;
+        return res.json({
+            success : false,
+            message : '서버 에러!',
+            error,
+        });
     }
 
 });
@@ -186,7 +222,11 @@ router.put('/:study/deletecomment', auth, async(req, res) => {
         })
     } catch (error) {
         console.error(error);
-        return ;
+        return res.json({
+            success : false,
+            message : '서버 에러!',
+            error,
+        });
     }
 });
 
