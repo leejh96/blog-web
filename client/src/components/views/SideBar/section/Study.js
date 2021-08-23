@@ -77,29 +77,34 @@ function Study() {
     const user = useSelector(state => state.UserReducer.user);
     useEffect(() => {
       dispatch(loadStudy())
-      .then(res => {
-        setStudy(res.data);
-      })
+        .then(res => {
+            setStudy(res.data);
+        })
+        return () => {
+            setToggle(false)
+            setText('')
+            setStudy([])
+        }
     }, [dispatch, studyCount])
 
     const onChangeText = (e) => {
-      setText(e.target.value);
+        setText(e.target.value);
     }
     const onClickPlusBtn = () => {
-      toggle ? 
-      setToggle(false)
-      :
-       setToggle(true)
+        toggle ? 
+        setToggle(false)
+        :
+        setToggle(true)
     }
     const onClickStudyCreateBtn = () => {
-      dispatch(createStudy(text))
-      .then(setToggle(false))
+        dispatch(createStudy(text))
+        .then(setToggle(false))
     };
     const onClickDeleteBtn = (id) => {
-      if(window.confirm('삭제 하시겠습니까?')){ 
-        return dispatch(deleteStudy(id))
-        .then(history.push('/'))      
-      }
+        if(window.confirm('삭제 하시겠습니까?')){ 
+            return dispatch(deleteStudy(id))
+            .then(history.push('/'))      
+        }
     };
 
     return (

@@ -21,12 +21,13 @@ const useStyles = makeStyles(theme => ({
     },
     text : {
       width : '50%',
-      padding : '20px',
       fontSize : '1rem',
       resize: 'none',
+      boxSizing: 'border-box',
+      padding : '20px',
       [theme.breakpoints.down('md')]: {
         width : '100%',    
-      }
+      },
     },
     markdown : {
       width : '50%',
@@ -105,7 +106,7 @@ function MarkdownEditor() {
     return (
       <>
         <Box className={classes.edit}>
-          <TextareaAutosize  className={classes.text} variant='outlined' multiline={true} value={text} onChange={onChangeText} autoFocus />
+          <TextareaAutosize  className={classes.text} variant='outlined' value={text} onChange={onChangeText} autoFocus />
           <ReactMarkdown className={classes.markdown} remarkPlugins={[gfm, {singleTilde: false}]} children={text} components= {{
             code : Component
           }}/>

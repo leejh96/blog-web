@@ -21,7 +21,7 @@ router.get('/', async(req, res) => {
 
 });
 
-router.get('/:id', auth, async(req, res) => {
+router.get('/:id', auth, async(req, res, next) => {
     try {
         const notice = await Notice.findOne({
                 _id : req.params.id
@@ -32,12 +32,10 @@ router.get('/:id', auth, async(req, res) => {
             user : req.user._id,
         })
     } catch (error) {
-        console.error(error);
-        return res.json({
-            success : false,
-            message : '서버 에러!',
-            error,
-        });
+        console.log(error.message);
+        return res
+        .status( error.status || 500 )
+        .send(`${error.status} 에러!`)
     }
 })
 

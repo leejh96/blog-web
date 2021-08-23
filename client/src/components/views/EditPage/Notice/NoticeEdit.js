@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles( theme => ({
     area : {
         display : 'flex',
         flexDirection : 'column',
@@ -23,7 +23,7 @@ function NoticeEdit() {
     const params = useParams();
     return (
         <>
-            {params.id === undefined ?
+            {!params.id ?
             <Box>
                 <Typography variant='h5' className={classes.title}>공지사항 작성</Typography>
                 <Box className={classes.area}>

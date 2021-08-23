@@ -86,3 +86,5 @@
 **`41일차 : 비밀번호에 정규표현식을 적용하여 보안을 더욱 높힘`**
 
 **`42일차 : access토큰이 만료되고 refresh토큰을 통해 다시 토큰을 발급받을 경우에 access토큰이 undefined으로 되버리는 오류를 수정하였다.`**
+
+**`43일차 : sidebar 컴포넌트에서 cleanup function을 사용해서 state들을 초기값으로 바꿔줬더니 Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function. 에러가 해결되었다.`**

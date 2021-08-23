@@ -73,7 +73,7 @@ function UpdateContent() {
             <form onSubmit={onSubmithandler}>
                 <Box>
                     <TextField className={classes.title} onChange={onChangeTitle} variant='outlined' placeholder="제목을 입력하세요" required fullWidth/>
-                    <TextField className={classes.text} variant='outlined' onChange={onChangeText} placeholder="내용을 입력하세요" rows='30' fullWidth multiline required />
+                    <TextField className={classes.text} variant='outlined' onChange={onChangeText} placeholder="내용을 입력하세요" rows='30' fullWidth multiline={true} required />
                 </Box>
                 <Box className={classes.buttonArea}>
                     <Button variant="contained" type="submit">수정</Button>

@@ -1,21 +1,17 @@
 import React from 'react';
-import styled from 'styled-components';
 import MarkdownEditor from '../../Markdown/MarkdownEditor';
 import { useParams } from 'react-router-dom';
-const Content = styled.div`
-    width : 100%;
-    margin-top : 10px;
-    padding-bottom : 10px;
-`;
+import { Box, Container } from '@material-ui/core';
+
 function StudyEdit() {
     const {study} = useParams();
     return (
-        <>
+        <Container disableGutters>
             <h2>{study}</h2>
-            <Content>
+            <Box>
                 <MarkdownEditor page={study}/>
-            </Content>
-        </>
+            </Box>
+        </Container>
     )
 }
 

@@ -35,7 +35,7 @@ function App() {
                     <Route exact path='/setting/:change' component={Auth(Frame(Setting), true)} />
                     <Route exact path='/findPassword' component={Auth(FindPage, false)} />
                     <Route exact path='/newPassword' component={Auth(Newpassword, false)} />
-                    <Route component={Auth(Error, null)} />
+                    <Route component={Error} />
                 </Switch>
             </BrowserRouter>
         </Suspense>

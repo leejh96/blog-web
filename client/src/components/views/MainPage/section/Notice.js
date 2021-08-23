@@ -24,9 +24,10 @@ const useStyles = makeStyles(theme => {
             },
         },
         title : {
-            padding : '30px 0 30px 0',
+            padding : '30px 12px 30px 12px',
             align : 'center',
             borderBottom : '1px solid #eeeeee'
+
         },
 
         post : {
@@ -41,7 +42,19 @@ const useStyles = makeStyles(theme => {
             '&:hover' : {
                 color : '#999999',
             },
-        }
+        },
+        number : {
+            textAlign :'center',
+            width : '10%'
+        },
+        author : {
+            textAlign :'center',
+            width : '20%'
+        },
+        titleName : {
+            textAlign :'center',
+            width : '70%'
+        },
     }
 });
 
@@ -62,9 +75,9 @@ function Notice() {
             <Typography variant='h5' align='center' className={classes.title}>공지사항</Typography>
             {posts.map((val, i) => (
                 <Box className={classes.post} display='flex' key={i}>
-                    <Box>{i+1}</Box>
-                    <Link className={classes.postLink} to={user._id ? `/notice/1/${val._id}` : '/login'}  >{val.title}</Link>
-                    <Box>{val.author ? val.author.nick : '알수없음'}</Box>
+                    <Box className={classes.number}>{i+1}</Box>
+                    <Box className={classes.titleName}><Link className={classes.postLink} to={user._id ? `/notice/1/${val._id}` : '/login'}  >{val.title}</Link></Box>
+                    <Box className={classes.author}>{val.author ? val.author.nick : '알수없음'}</Box>
                 </Box>
             ))}
         </Box>

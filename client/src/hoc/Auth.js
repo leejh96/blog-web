@@ -35,16 +35,17 @@ function Auth(Component, option, adminRoute = null) {
                 dispatch(isLoggedIn())
                 .then(res => {
                     if(!res.data.auth){
-                        if(option){
+                        if(option || adminRoute){
                             return history.push('/login');
                         }
                     }else{
-                        if(option === false){
+                        if(option === false || adminRoute){
                             return history.push('/');
                         }
                     }
                 })
             }
+            return () => {}
         }, [dispatch, history])
 
         return (

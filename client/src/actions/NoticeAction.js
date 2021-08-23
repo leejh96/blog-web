@@ -41,6 +41,7 @@ export const loadOneNotice = (id) => async dispatch => {
             data : res.data.notice,
         });
     } catch (error) {
+        console.log(error.message);
         console.error(error);
         return dispatch({
             type : NOTICE_ERROR,
