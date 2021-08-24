@@ -44,8 +44,8 @@ const useStyles = makeStyles(theme => {
             },
         },
         number : {
-            textAlign :'center',
-            width : '10%'
+            textAlign :'left',
+            width : '5%'
         },
         author : {
             textAlign :'center',
@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => {
         },
         titleName : {
             textAlign :'center',
-            width : '70%'
+            width : '75%'
         },
     }
 });

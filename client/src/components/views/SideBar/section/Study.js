@@ -6,63 +6,63 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, IconButton, TextField, Typography } from '@material-ui/core'
 import { Delete, Create } from '@material-ui/icons'
 const useStyles = makeStyles(theme => {
-  return {
-    area : {
-      display : 'flex',
-      flexDirection : 'column',
-      padding : '10px 10px 0 30px',
-    },
-    link : {
-      textDecoration : 'none',
-      marginBottom : '3px',
-      color : 'black',
-      '&:hover' : {
-        color : '#999999',
-        textDecoration : 'underline',
-      },
-    },
-    title : {
-      margin : 0,
-      fontWeight : 'bold',
-      fontSize : '0.9rem'
-    },
-    titleDiv : {
-      display : 'flex',
-      justifyContent : 'space-between',
-      alignItems : 'center',
-      margin : '0 0 10px 0',
-      padding : 0,
-    },
-    plusBtn : {
-      padding : 0,
-      margin : 0,
-      border :0,
-    },
-    plusField : {
-      marginBottom : '10px',
-      display : 'flex',
-      justifyContent : 'space-between',
-    },
-    deleteBtn : {
-      padding : 0,
-      margin : 0,
-      border : 0,
-    },
-    text : {
-      padding : '0',
-      margin : '0',
-      width : '70%'
-    },
-    createBtn : {
-      padding : '0 2px',
-      margin : 0,
-    },
-    studyDiv : {
-      display : 'flex',
-      justifyContent : 'space-between',
-      alignItems : 'center',
+    return {
+        area : {
+            display : 'flex',
+            flexDirection : 'column',
+            padding : '10px 10px 0 30px',
+        },
+        link : {
+            textDecoration : 'none',
+            marginBottom : '3px',
+            color : 'black',
+            '&:hover' : {
+                color : '#999999',
+                textDecoration : 'underline',
+        },
+        },
+        title : {
+            margin : 0,
+            fontWeight : 'bold',
+            fontSize : '0.9rem'
+        },
+        titleDiv : {
+            display : 'flex',
+            justifyContent : 'space-between',
+            alignItems : 'center',
+            margin : '0 0 10px 0',
+            padding : 0,
+        },
+        plusBtn : {
+            padding : 0,
+            margin : 0,
+            border :0,
+        },
+        plusField : {
+            marginBottom : '10px',
+            display : 'flex',
+            justifyContent : 'space-between',
+        },
+        deleteBtn : {
+            padding : 0,
+            margin : 0,
+            border : 0,
+        },
+        text : {
+            padding : '0',
+            margin : '0',
+            width : '70%'
+        },
+        createBtn : {
+            padding : '0 2px',
+            margin : 0,
+        },
+        studyDiv : {
+            display : 'flex',
+            justifyContent : 'space-between',
+            alignItems : 'center',
+        }
     }
-  }
 })
 function Study() {
     const classes = useStyles();

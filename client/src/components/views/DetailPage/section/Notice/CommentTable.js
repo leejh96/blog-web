@@ -60,7 +60,9 @@ function CommentTable() {
     useEffect(() => {
         dispatch(loadComment(id))
         .then(res => {
-            setComment(res.data);
+            if(res.data.success){
+                return setComment(res.data.comment);
+            }
         })
     },[dispatch, id, leng])
 

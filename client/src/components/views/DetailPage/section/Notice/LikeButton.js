@@ -34,8 +34,10 @@ function LikeButton() {
     useEffect(() => {
         dispatch(loadLike(id))
         .then(res => {
-            setCnt(res.data.length);
-            res.data.includes(res.user) ? setToggle(1) : setToggle(0);
+            if(res.data.success){
+                setCnt(res.data.like.length);
+                res.data.like.includes(res.data.user) ? setToggle(1) : setToggle(0);
+            }
         })
     },[dispatch, toggle, id])
 

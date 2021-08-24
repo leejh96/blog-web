@@ -16,6 +16,8 @@ import {
     SEARCH_NOTICE,
     NOTICE_ERROR,
     LIKE_ERROR,
+    LOAD_COMMENT_ERROR,
+    LOAD_LIKE_ERROR,
 
 } from "../actions/type"
 
@@ -117,7 +119,27 @@ const NoticeReducer = (state = initialState, action) => {
                 searchNotices : [],
                 error : true,
             }
+        case LOAD_COMMENT_ERROR:
+            return {
+                ...state,
+                notices : [],
+                commentLength : 0,
+                selectdNotice : {},
+                likeCount : 0,
+                searchNotices : [],
+                error : true,
+            }
         case LIKE_ERROR:
+            return {
+                ...state,
+                notices : [],
+                commentLength : 0,
+                selectdNotice : {},
+                likeCount : 0,
+                searchNotices : [],
+                error : true,
+            }
+        case LOAD_LIKE_ERROR:
             return {
                 ...state,
                 notices : [],

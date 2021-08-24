@@ -20,7 +20,8 @@ function Guestbook() {
     const page = useParams();
     return (
         <Box>
-            <Typography className={classes.title} variant='h5'>방명록</Typography>            <Tablesection page={page}/>
+            <Typography className={classes.title} variant='h5'>방명록</Typography>
+            <Tablesection page={page}/>
             <Pagination pageNumber={page}/>
             <Bookbox />
         </Box>

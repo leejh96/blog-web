@@ -11,6 +11,8 @@ import {
     LOAD_STUDY_COMMENT,
     STUDY_COMMENT_ERROR,
     LOAD_RECENT_STUDY,
+    LOAD_ONE_STUDY_ERROR,
+    LOAD_STUDY_COMMENT_ERROR,
 } from './type';
 //camelCase
 export const createStudy = text => async dispatch => {
@@ -62,12 +64,17 @@ export const loadRecentStudy = () => async dispatch => {
 export const loadOneStudy = page => async dispatch => {
     try {
         const res = await axios.get(`/api/study/${page}`);
+        if(res.data.success){
+            return dispatch({
+                type : LOAD_ONE_STUDY,
+                data : res.data,
+            })
+        }
         return dispatch({
-            type : LOAD_ONE_STUDY,
-            data : res.data.page,
+            type : LOAD_ONE_STUDY_ERROR,
+            data : res.data
         })
     } catch (error) {
-        console.error(error);
         return dispatch({
             type : STUDY_ERROR,
         });
@@ -108,10 +115,16 @@ export const deleteStudy = id => async dispatch => {
 export const loadStudyComment = study => async dispatch => {
     try {
         const res = await axios.get(`/api/study/${study}/comment`);
+        if(res.data.success){
+            return dispatch({
+                type : LOAD_STUDY_COMMENT,
+                data : res.data,
+            });
+        }
         return dispatch({
-            type : LOAD_STUDY_COMMENT,
-            data : res.data.comment 
-        });
+            type : LOAD_STUDY_COMMENT_ERROR,
+            data : res.data,
+        })
     } catch (error) {
         console.error(error);
         return dispatch({

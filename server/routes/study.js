@@ -104,16 +104,12 @@ router.get('/:page', async(req, res) => {
                 page
             })
         }
-        return res.json({
+        return res
+        .json({
             success : false,
         })
     } catch (error) {
-        console.error(error);
-        return res.json({
-            success : false,
-            message : '서버 에러!',
-            error,
-        });
+        next(error);
     }
 });
 
@@ -127,17 +123,17 @@ router.get('/:study/comment', async(req, res) => {
                 path : 'user',
             }
         })
-        return res.json({
-            success : true,
-            comment : study.comment,
-        })
-    } catch (error) {
-        console.error(error);
+        if(study){
+            return res.json({
+                success : true,
+                comment : study.comment,
+            })
+        }
         return res.json({
             success : false,
-            message : '서버 에러!',
-            error,
-        });
+        })
+    } catch (error) {
+        next(error);
     }
 });
 

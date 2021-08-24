@@ -48,6 +48,15 @@ app.use('/api/guestbook', GuestbookRouter);
 app.use('/api/notice', NoticeRouter);
 app.use('/api/auth', AuthRouter);
 
+
+app.use((err, req, res, next) => {
+    console.error(err);
+    return res
+    .status(500)
+    .json({
+        error : err,
+    })
+})
 app.listen(process.env.PORT, (req, res) => {
     console.log('server connected ...');
 })

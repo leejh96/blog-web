@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Notice } = require('../models');
 const { auth } = require('../middleware/auth');
-
+const mongoose = require('mongoose')
 router.get('/', async(req, res) => {
     try {
         const notices = await Notice.find().populate('author').sort('-date');
@@ -23,43 +23,82 @@ router.get('/', async(req, res) => {
 
 router.get('/:id', auth, async(req, res, next) => {
     try {
+        const oid = mongoose.Types.ObjectId.isValid(req.params.id)
+        if(!oid){
+            return res.json({
+                success : false,
+            })
+        }
         const notice = await Notice.findOne({
-                _id : req.params.id
+            _id : req.params.id,
         }).populate('author');
+        if(notice){
+            return res.json({
+                success : true,
+                notice,
+            })
+        }
         return res.json({
-            success : true,
-            notice,
-            user : req.user._id,
+            success : false,
         })
     } catch (error) {
-        console.log(error.message);
-        return res
-        .status( error.status || 500 )
-        .send(`${error.status} 에러!`)
+        next(error);
     }
 })
 
-router.get('/:id/comment', auth, async(req, res) => {
+router.get('/:id/like', auth, async(req, res, next) => {
     try {
+        const oid = mongoose.Types.ObjectId.isValid(req.params.id)
+        if(!oid){
+            return res.json({
+                success : false,
+            })
+        }
         const notice = await Notice.findOne({
-                _id : req.params.id
+            _id : req.params.id,
+        }).populate('author');
+        if(notice){
+            return res.json({
+                success : true,
+                like : notice.like,
+                user : req.user._id,
+            })
+        }
+        return res.json({
+            success : false,
+        })
+    } catch (error) {
+        next(error);
+    }
+})
+
+router.get('/:id/comment', auth, async(req, res, next) => {
+    try {
+        const oid = mongoose.Types.ObjectId.isValid(req.params.id)
+        if(!oid){
+            return res.json({
+                success : false,
+            })
+        }
+        const notice = await Notice.findOne({
+            _id : req.params.id
         }).populate({
             path : 'comment',
             populate : {
                 path : 'user',
             }
         })
-        return res.json({
-            success : true,
-            comment : notice.comment,
-        })
-    } catch (error) {
-        console.error(error);
+        if(notice){
+            return res.json({
+                success : true,
+                comment : notice.comment,
+            })
+        }
         return res.json({
             success : false,
-            message : '서버 에러!',
-            error,
-        });
+        })
+    } catch (error) {
+        next(error);
     }
 })
 

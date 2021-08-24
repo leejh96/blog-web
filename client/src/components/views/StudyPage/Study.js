@@ -7,7 +7,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Container, Box, Typography, Fab } from '@material-ui/core';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-
 const useStyles = makeStyles(theme => {
     return {
         area : {
@@ -36,11 +35,11 @@ function Study() {
     const classes = useStyles();
     document.title = 'STUDY'
     const { study } = useParams();
-    const [page, setPage] = useState('');    
+    const [page, setPage] = useState('');
     const handleTop = () => {
         window.scrollTo({
-          top: 0,
-          behavior: "smooth",
+            top: 0,
+            behavior: "smooth",
         });
     };
 

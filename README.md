@@ -88,3 +88,5 @@
 **`42일차 : access토큰이 만료되고 refresh토큰을 통해 다시 토큰을 발급받을 경우에 access토큰이 undefined으로 되버리는 오류를 수정하였다.`**
 
 **`43일차 : sidebar 컴포넌트에서 cleanup function을 사용해서 state들을 초기값으로 바꿔줬더니 Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function. 에러가 해결되었다.`**
+
+**`44일차 : Cast to ObjectId failed for value 이란 오류를 발견했는데 찾아보니 req.params로 받은 값이 ObjectId가 아니기 때문에 나오는 오류였다 따라서 req.params 값을 mongoose에 있는 ObjectId.isValid 를 사용해서 ObjectId값이 아니라면 404 오류를 나타내도록 오류처리를 하였다.`**

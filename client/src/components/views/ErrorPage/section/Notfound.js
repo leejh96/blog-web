@@ -13,20 +13,32 @@ const useStlyes = makeStyles(theme => ({
         flexDirection : 'column',
         backgroundColor : 'black',
         color : 'white',
+    },
+    btnArea : {
+        marginTop : '24px',
+        display :'flex',
+        width : '50%',
+        justifyContent : 'space-evenly'
     }
 }))
 
 function Notfound() {
     const classes = useStlyes();
     const history = useHistory();
-    const onClickBtn = () => {
+    const onClickHome = () => {
+        history.push('/');
+    }
+    const onClickBack = () => {
         history.goBack();
     }
     return (
         <Box className={classes.area}>
             <Typography variant='h5'>NOT FOUND(404)</Typography>
             <Typography variant='h2'>페이지가 존재하지 않습니다</Typography>
-            <Button variant='contained' color='primary' onClick={onClickBtn}>뒤로가기</Button>
+            <Box className={classes.btnArea}>
+                <Button  variant='contained' color='primary' onClick={onClickHome}>홈으로</Button>
+                <Button variant='contained' color='primary' onClick={onClickBack}>뒤로가기</Button>
+            </Box>
         </Box>
     )
 }

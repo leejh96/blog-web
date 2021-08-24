@@ -14,6 +14,9 @@ import {
     SEARCH_NOTICE,
     NOTICE_ERROR,
     LIKE_ERROR,
+    LOAD_ONE_NOTICE_ERROR,
+    LOAD_COMMENT_ERROR,
+    LOAD_LIKE_ERROR,
 } from './type';
 
 
@@ -26,7 +29,6 @@ export const loadNotice = () => async dispatch => {
             data : res.data.notices,
         });
     } catch (error) {
-        console.error(error);
         return dispatch({
             type : NOTICE_ERROR,
         });
@@ -36,15 +38,22 @@ export const loadNotice = () => async dispatch => {
 export const loadOneNotice = (id) => async dispatch => {
     try {
         const res = await axios.get(`/api/notice/${id}`);
+        if(res.data.success){
+            return dispatch({
+                type : LOAD_ONE_NOTICE,
+                data : res.data,
+            });
+        }
         return dispatch({
-            type : LOAD_ONE_NOTICE,
-            data : res.data.notice,
-        });
+            type : LOAD_ONE_NOTICE_ERROR,
+            data : res.data,
+        })
     } catch (error) {
-        console.log(error.message);
-        console.error(error);
         return dispatch({
             type : NOTICE_ERROR,
+            data : {
+                success : false,
+            }
         });
     }
 }
@@ -52,14 +61,22 @@ export const loadOneNotice = (id) => async dispatch => {
 export const loadComment = (id) => async dispatch => {
     try {
         const res = await axios.get(`/api/notice/${id}/comment`);
+        if(res.data.success){
+            return dispatch({
+                type : LOAD_COMMENT,
+                data : res.data 
+            });
+        }
         return dispatch({
-            type : LOAD_COMMENT,
-            data : res.data.comment 
-        });
+            type : LOAD_COMMENT_ERROR,
+            data : res.data 
+        })
     } catch (error) {
-        console.error(error);
         return dispatch({
             type : NOTICE_ERROR,
+            data : {
+                success : false,
+            }
         });
     }
 }
@@ -150,16 +167,23 @@ export const createNoticeComment = data => async dispatch => {
 
 export const loadLike = (id) => async dispatch => {
     try {
-        const res = await axios.get(`/api/notice/${id}`);
+        const res = await axios.get(`/api/notice/${id}/like`);
+        if(res.data.success){
+            return dispatch({
+                type : LOAD_LIKE,
+                data : res.data,
+            });
+        }
         return dispatch({
-            type : LOAD_LIKE,
-            data : res.data.notice.like,
-            user : res.data.user,
-        });
+            type : LOAD_LIKE_ERROR,
+            data : res.data,
+        })
     } catch (error) {
-        console.error(error);
         return dispatch({
             type : LIKE_ERROR,
+            data : {
+                success : false,
+            }
         });
     }
     

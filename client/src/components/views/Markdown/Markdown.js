@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { materialLight  } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Button, Box, Typography } from '@material-ui/core';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadOneStudy } from '../../../actions/StudyAction';
 import Loading from '../LoadingPage/Loading';
@@ -72,39 +72,48 @@ function MarkdownSection() {
     const classes = useStyles();
     const page = useParams().study;
     const dispatch = useDispatch();
+    const history = useHistory();
     const [text, setText] = useState('');
     const user = useSelector(state => state.UserReducer.user);
     const [load, setLoad] = useState(false);
     useEffect(() => {
-      setLoad(true)
-      dispatch(loadOneStudy(page))
-      .then(res => {
-        setText(res.data.text);
-        setLoad(false)
-      })
-    }, [dispatch, page])
+        setLoad(true)
+        dispatch(loadOneStudy(page))
+        .then(res => {
+            if(!res.data.success){
+                return history.push('/Notfound')
+            }
+            setText(res.data.page.text);
+            setLoad(false)
+        })
+        return () => {
+            setLoad(false);
+            setText('');
+        }
+    }, [dispatch, page, history])
     return( 
         <Box className={classes.markdownDiv}>
-          {load ? 
-            <Loading />
-          :
-          <>
-            {text ? 
-              <ReactMarkdown className={classes.markdown} remarkPlugins={[gfm]} children={text} components= {{
-                code : Component
-              }}/>
+            {
+            load ? 
+                <Loading />
             :
-              <Box className={classes.textDiv}><Typography variant='h3'>게시물이 없습니다.</Typography></Box>
-            }
-            <Box className={classes.buttonDiv}>
-              { user.role === 3 ?                
-                <Link className={classes.link} to={`/study/${page}/edit`}><Button className={classes.btn} variant="contained" >{!text ? "글작성" : "글수정"}</Button></Link>
+            <>
+                {text ? 
+                <ReactMarkdown className={classes.markdown} remarkPlugins={[gfm]} children={text} components= {{
+                    code : Component
+                }}/>
                 :
-                <></>
-              }
-            </Box>
-          </>
-          }
+                <Box className={classes.textDiv}><Typography variant='h3'>게시물이 없습니다.</Typography></Box>
+                }
+                <Box className={classes.buttonDiv}>
+                { user.role === 3 ?                
+                    <Link className={classes.link} to={`/study/${page}/edit`}><Button className={classes.btn} variant="contained" >{!text ? "글작성" : "글수정"}</Button></Link>
+                    :
+                    <></>
+                }
+                </Box>
+            </>
+            }
         </Box>
     )
 }

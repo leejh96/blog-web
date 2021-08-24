@@ -13,6 +13,8 @@ import {
     DELETE_STUDY_COMMENT,
     STUDY_COMMENT_ERROR,
     LOAD_RECENT_STUDY,
+    LOAD_ONE_STUDY_ERROR,
+    LOAD_STUDY_COMMENT_ERROR
 } from "../actions/type"
 
 const initialState = {
@@ -42,8 +44,16 @@ const StudyReducer = (state = initialState, action) => {
                 studyCount : state.studyCount - 1,
                 error : false,
             }
+        case LOAD_ONE_STUDY_ERROR:
+            return {
+                ...state,
+                studyCount : 0,
+                studies : [],
+                error : true,
+            }
         case STUDY_ERROR:
             return {
+                ...state,
                 studyCount : 0,
                 studies : [],
                 error : true,
@@ -89,6 +99,13 @@ const StudyReducer = (state = initialState, action) => {
                 studies : [],
                 error : true,
                 commentLength : 0,
+            }
+        case LOAD_STUDY_COMMENT_ERROR:
+            return {
+                ...state,
+                studyCount : 0,
+                studies : [],
+                error : true,
             }
         default:
             return state;

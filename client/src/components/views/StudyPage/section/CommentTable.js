@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector  } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Button, Container, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -59,13 +59,16 @@ function CommentTable() {
     const leng = useSelector(state => state.StudyReducer.commentLength);
     const { study } = useParams();
     const user = useSelector(state => state.UserReducer.user);
-    
+    const history = useHistory();
+
     useEffect(() => {
         dispatch(loadStudyComment(study))
         .then(res => {
-            setComment(res.data);
+            if(res.data.success){
+                setComment(res.data.comment);
+            }
         })
-    },[dispatch, study, leng])
+    },[dispatch, study, leng, history])
 
     const onClickDelete = (commentId, study) => () => {
         dispatch(deleteStudyComment(commentId, study))
