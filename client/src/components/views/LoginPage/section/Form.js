@@ -4,7 +4,7 @@ import { Button, TextField, Grid, Box, } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { loginUser } from '../../../../actions/UserAction';
 import { useDispatch } from 'react-redux';
-
+import { SERVER_ERROR } from '../../../../actions/type';
 const useStyles = makeStyles(theme => ({
     form: {
       width: '100%',
@@ -43,12 +43,12 @@ function Form() {
             if(res.data.success){
                 localStorage.setItem('access', res.data.accessToken);
                 return history.push('/');
-            }
-            if(res.data.expire){
-                return ;
-            }
-            if(!res.data.success){
-                return alert(res.data.message);
+            }else{
+                if(res.type === SERVER_ERROR){
+                    return history.push('/error/500')
+                }else{
+                    return alert(res.data.message);
+                }
             }
         })
     }

@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { findPassword } from '../../../../actions/UserAction';
 import { useHistory } from 'react-router-dom';
+import { FIND_PASSWORD, NOT_FIND_PASSWORD, SERVER_ERROR } from '../../../../actions/type';
 const useStyles = makeStyles(theme => ({
     form : {
         display : 'flex',
@@ -42,12 +43,17 @@ function Input() {
         e.preventDefault();
         dispatch(findPassword(name, email))
         .then(res => {
-            if(res.data.success){
+            if(res.type === FIND_PASSWORD){
                 return history.push('/newPassword', {
                     userId : res.data.user
                 })
             }
-            return alert('해당하는 유저가 없습니다');
+            if(res.type === NOT_FIND_PASSWORD){
+                return alert(res.data.message);
+            }
+            if(res.type === SERVER_ERROR){
+                history.push('/error/500');
+            }
         })
     }
 

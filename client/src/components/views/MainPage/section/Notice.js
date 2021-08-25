@@ -69,6 +69,10 @@ function Notice() {
         .then(res => {
             setPosts(res.data.slice(0,8));
         })
+
+        return () => {
+            setPosts([]);
+        }
     },[dispatch])
     return (
         <Box className={classes.area}>

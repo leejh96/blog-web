@@ -4,25 +4,25 @@ import {
     LOGOUT_USER,
     REGISTER_USER,
     AUTH_ERROR,
-    UPDATE_ERROR,
     UPDATE_NICK,
     UPDATE_PASSWORD,
     DELETE_USER,
-    DELETE_ERROR,
     UPDATE_IMAGE,
     DELETE_IMAGE,
     DELETE_IMAGE_ERROR,
     UPDATE_MOTTO,
     UPDATE_MOTTO_ERROR,
-    OAUTH_USER,
-    NOT_LOGIN,
-    SAME_PASSWORD,
     FIND_PASSWORD,
-    FIND_PASSWORD_ERROR,
     NOT_FIND_PASSWORD,
     NEW_PASSWORD,
-    NEW_PASSWORD_ERROR,
-    NEW_PASSWORD_FAIL
+    NEW_PASSWORD_FAIL,
+    REGISTER_USER_ERROR,
+    LOGIN_ERROR,
+    LOGOUT_ERROR,
+    UPDATE_NICK_ERROR,
+    UPDATE_PASSWORD_ERROR,
+    DELETE_USER_ERROR,
+    UPDATE_IMAGE_ERROR,
 } from '../actions/type';
 
 const initialState = {
@@ -54,20 +54,6 @@ const UserReducer = (state = initialState, action) => {
                 user : action.data.user,
                 error : false,
             };
-        case NOT_LOGIN:
-            return {
-                ...state,
-                authToken : '',
-                error : false,
-                user : {},
-            };
-        case OAUTH_USER:
-            return {
-                ...state,
-                authToken : '',
-                user : action.data.user,
-                error : false,
-            }
         case AUTH_ERROR:
             return {
                 ...state,
@@ -90,10 +76,6 @@ const UserReducer = (state = initialState, action) => {
                 ...state,
                 user : action.data.user,
             }
-        case SAME_PASSWORD:
-            return {
-                ...state,
-            }
         case DELETE_USER:
             return {
                 ...state,
@@ -101,25 +83,11 @@ const UserReducer = (state = initialState, action) => {
                 error : false,
                 user : {},
             }
-        case DELETE_ERROR:
-            return {
-                ...state,
-                authToken : '',
-                error : true,
-                user : {},
-            }
         case UPDATE_IMAGE:
             return{
                 ...state,
                 error : false,
                 user : {...state.user, img : action.data.file}
-            }
-        case UPDATE_ERROR:
-            return {
-                ...state,
-                authToken : '',
-                error : true,
-                user : {},
             }
         case DELETE_IMAGE:
             return {
@@ -146,6 +114,13 @@ const UserReducer = (state = initialState, action) => {
                 },
                 error : false,
             }
+        case REGISTER_USER_ERROR:
+            return {
+                ...state,
+                authToken : '',
+                error : true,
+                user : {},
+            }
         case UPDATE_MOTTO_ERROR:
             return {
                 ...state,
@@ -157,11 +132,6 @@ const UserReducer = (state = initialState, action) => {
             return {
                 ...state,
                 error : false,
-            }
-        case FIND_PASSWORD_ERROR:
-            return {
-                ...state,
-                error : true,
             }
         case NOT_FIND_PASSWORD:
             return {
@@ -176,9 +146,46 @@ const UserReducer = (state = initialState, action) => {
             return {
                 ...state,
             }
-        case NEW_PASSWORD_ERROR:
+        case LOGIN_ERROR:
             return {
                 ...state,
+                authToken : '',
+                user : {},
+                error : true,
+            }
+        case LOGOUT_ERROR:
+            return {
+                ...state,
+                authToken : '',
+                user : {},
+                error : true,
+            }
+        case UPDATE_NICK_ERROR:
+            return {
+                ...state,
+                authToken : '',
+                user : {},
+                error : true,
+            }
+        case UPDATE_PASSWORD_ERROR:
+            return {
+                ...state,
+                authToken : '',
+                user : {},
+                error : true,
+            }
+        case DELETE_USER_ERROR:
+            return {
+                ...state,
+                authToken : '',
+                user : {},
+                error : true,
+            }
+        case UPDATE_IMAGE_ERROR:
+            return {
+                ...state,
+                authToken : '',
+                user : {},
                 error : true,
             }
         default :

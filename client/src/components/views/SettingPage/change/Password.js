@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { TextField, Button, Box } from '@material-ui/core';
+import { TextField, Button, Box, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router';
-import { changePassword } from '../../../../../../actions/UserAction';
+import { changePassword } from '../../../../actions/UserAction';
 import { makeStyles } from '@material-ui/core/styles';
+import { AUTH_ERROR, SERVER_ERROR, UPDATE_PASSWORD, UPDATE_PASSWORD_ERROR } from '../../../../actions/type';
 
 const useStyles = makeStyles(theme => ({
+    title : {
+        margin : '16px 0',
+        fontWeight : 'bold'
+    },
     password : {
         marginBottom : '32px'
     },
@@ -50,11 +55,20 @@ function Password() {
             }
             dispatch(changePassword(password))
             .then(res => {
-                if(res.data.success){
+                if(res.type === UPDATE_PASSWORD){
                     alert(res.data.message);
                     return history.push('/setting');
                 }
-                return alert(res.data.message);
+                if(res.type === UPDATE_PASSWORD_ERROR){
+                    return alert(res.data.message);
+                }
+                if(res.type === AUTH_ERROR){
+                    alert(res.data.message);
+                    return history.push('/login');
+                }
+                if(res.type === SERVER_ERROR){
+                    return history.push('/error/500')
+                }
             })
         }else{
             return alert('비밀번호는 공백을 제외한 영문과 특수문자를 포함한 최소8자, 최대16자 입니다')
@@ -70,7 +84,8 @@ function Password() {
         setConfirm(e.target.value);
     };
     return (
-        <>
+        <Box>
+            <Typography variant='h5' className={classes.title}>비밀번호 변경</Typography>
             { 
                 user.provider === 'local' ?
                 <form onSubmit={onSubmitChange}>
@@ -88,7 +103,7 @@ function Password() {
                     비밀번호 변경이 가능한 아이디가 아닙니다.
                 </Box>
             }
-        </>
+        </Box>
     )
 }
 

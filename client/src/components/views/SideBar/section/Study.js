@@ -76,7 +76,7 @@ function Study() {
     }))
     const user = useSelector(state => state.UserReducer.user);
     useEffect(() => {
-      dispatch(loadStudy())
+        dispatch(loadStudy())
         .then(res => {
             setStudy(res.data);
         })

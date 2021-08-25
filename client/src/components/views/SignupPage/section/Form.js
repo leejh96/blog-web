@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import { registerUser } from '../../../../actions/UserAction';
+import { SERVER_ERROR } from '../../../../actions/type';
 const useStyles = makeStyles(theme => ({
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -52,10 +53,15 @@ function Form() {
             }
             dispatch(registerUser(data))
             .then(res => {
-                if(res.data){
+                if(res.data.success){
                     return history.push('/login');
+                }else{
+                    if(res.type === SERVER_ERROR){
+                        return history.push('/error/500')
+                    }else{
+                        return alert(res.data.message);
+                    }
                 }
-                return alert(res.data.message);
             })
         }else{
             return alert('비밀번호는 공백을 제외한 영문과 특수문자를 포함한 최소8자, 최대16자 입니다')

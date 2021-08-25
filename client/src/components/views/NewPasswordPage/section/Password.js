@@ -5,6 +5,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { newPassword } from '../../../../actions/UserAction';
+import { NEW_PASSWORD, NEW_PASSWORD_FAIL, SERVER_ERROR } from '../../../../actions/type';
 
 const useStyles = makeStyles(theme => ({
     form : {
@@ -69,10 +70,15 @@ function Password() {
             }
             dispatch(newPassword(password, location.state.userId))
             .then(res => {
-                if(res.data.success){
+                if(res.type === NEW_PASSWORD){
                     return history.push('/login')
                 }
-                return alert(res.data.message);
+                if(res.type === NEW_PASSWORD_FAIL){
+                    return alert(res.data.message);
+                }
+                if(res.type === SERVER_ERROR){
+                    return history.push('/error/500');
+                }
             })
         }else{
             return alert('비밀번호는 공백을 제외한 영문과 특수문자를 포함한 최소8자, 최대16자 입니다')

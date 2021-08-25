@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Link } from  'react-router-dom';
+import { Link, useHistory, useParams } from  'react-router-dom';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
@@ -25,11 +25,19 @@ function Pagination() {
     const [page, setPage] = useState(1);
     const [pageCnt , setPageCnt] = useState(1);
     const guestbookLength = useSelector(state => state.GuestbookReducer.guestlength);
-    
+    const paramsPage = parseInt(useParams().id);
+    const history = useHistory();
+
     useEffect(() => {
-        setPageCnt(pageCount(guestbookLength))
-        setPage(1);
-    }, [guestbookLength]);
+        const pages = pageCount(guestbookLength);
+        if(pages !== 0 && (paramsPage > pages || isNaN(paramsPage))){
+            return history.push('/Notfound');
+        }
+        if(pages !== 0 && paramsPage === 0){
+            return history.push('/guestbook/1')
+        }
+        setPageCnt(pages)
+    }, [guestbookLength, paramsPage, history]);
 
     const onChangeButton = (e, v) => {
         setPage(v);

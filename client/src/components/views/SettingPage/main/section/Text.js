@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Container, TextField, Box } from '@material-ui/core';
-import { updateMotto } from '../../../../../../actions/UserAction';
+import { updateMotto } from '../../../../../actions/UserAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
+import { AUTH_ERROR, SERVER_ERROR, UPDATE_MOTTO, UPDATE_MOTTO_ERROR } from '../../../../../actions/type';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     area : {
@@ -24,7 +26,7 @@ function Text() {
     const dispatch = useDispatch();
     const [text, setText] = useState('');
     const [toggle, setToggle] = useState(false);
-
+    const history = useHistory();
     useEffect(() => {
         setText(user.motto);
     }, [user.motto]);
@@ -40,10 +42,19 @@ function Text() {
         }
         dispatch(updateMotto(text))
         .then(res => {
-            if(!res.data.success){
-                alert(res.data.message);
+            if(res.type === UPDATE_MOTTO){
+                return setToggle((tog) => (!tog));
             }
-            return setToggle((tog) => (!tog));
+            if(res.type === UPDATE_MOTTO_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === AUTH_ERROR){
+                alert(res.data.message);
+                return history.push('/login');
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
+            }
         })
     }
     return (

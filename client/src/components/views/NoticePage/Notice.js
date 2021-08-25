@@ -22,7 +22,6 @@ const useStyles = makeStyles(theme => {
 function Notice() {
     document.title = 'NOTICE'
     const classes = useStyles();
-
     return (
         <Box>
             <Typography className={classes.title} variant='h5'>공지사항</Typography>

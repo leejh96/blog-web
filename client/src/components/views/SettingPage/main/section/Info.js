@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch  } from 'react-redux';
-import { uploadImage } from '../../../../../../actions/UserAction';
+import { uploadImage } from '../../../../../actions/UserAction';
 import { Button, Container, Box } from '@material-ui/core';
-import { deleteImg } from '../../../../../../actions/UserAction';
+import { deleteImg } from '../../../../../actions/UserAction';
 import { makeStyles } from '@material-ui/core/styles';
+import { AUTH_ERROR, SERVER_ERROR, UPDATE_IMAGE, UPDATE_IMAGE_ERROR } from '../../../../../actions/type';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     area : {
@@ -73,6 +75,7 @@ function Info() {
     const [path, setPath] = useState('/api/img/basic.png');
     const user = useSelector(state => state.UserReducer.user);
     const dispatch = useDispatch();
+    const history = useHistory();
     useEffect(() => {
         user.img ? setPath(`/api/img/${user.img}`) : setPath(`/api/img/basic.png`)
     }, [user])
@@ -81,10 +84,19 @@ function Info() {
         formData.append('file', e.target.files[0]);
         dispatch(uploadImage(formData))
         .then(res => {
-            if(!res.data.success){
+            if(res.type === UPDATE_IMAGE){
+                return setPath(`/api/img/${res.data.file}`);
+            }
+            if(res.type === UPDATE_IMAGE_ERROR){
                 return alert(res.data.message);
             }
-            return setPath(`/api/img/${res.data.file}`);
+            if(res.type === AUTH_ERROR){
+                alert(res.data.message);
+                return history.push('/login');
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
+            }
         })
     }
 

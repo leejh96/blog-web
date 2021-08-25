@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { authUser, isLoggedIn } from '../actions/UserAction';
+import { AUTH_ERROR, AUTH_USER, SERVER_ERROR } from '../actions/type';
+import { authUser } from '../actions/UserAction';
 function Auth(Component, option, adminRoute = null) {
     //component => hoc를 적용할 컴포넌트
     //option => null: 아무나 출입,
@@ -12,15 +13,17 @@ function Auth(Component, option, adminRoute = null) {
         const dispatch = useDispatch();
         const history = useHistory();
         useEffect(() => {
-            if(localStorage.getItem('access')){
-                dispatch(authUser(localStorage.getItem('access')))
-                .then(res => {
-                    if(res.data.expire){
-                        localStorage.clear();
-                        alert('세션 만료! 재로그인 해주세요');
-                        return history.push('/login');
+            let access = localStorage.getItem('access');
+            if(!access){
+                access = '';
+            }
+            dispatch(authUser(access))
+            .then(res => {
+                if(res.type === AUTH_USER){
+                    //재발급 시 토큰 교체
+                    if(res.token !== access){
+                        localStorage.setItem('access', res.data.token);
                     }
-                    localStorage.setItem('access', res.data.token);
                     //로그인 한 상태 중 관리자가 아닌사람이
                     //adminpage를 들어가려할때
                     if(adminRoute && res.data.user.role !== 3){
@@ -29,23 +32,22 @@ function Auth(Component, option, adminRoute = null) {
                     if(option === false){
                         return history.push('/');
                     }
-                })
-            }
-            else{
-                dispatch(isLoggedIn())
-                .then(res => {
-                    if(!res.data.auth){
-                        if(option || adminRoute){
+                }
+                if(res.type === AUTH_ERROR){
+                    localStorage.removeItem('access');
+                    if(res.data.expire){
+                        alert(res.data.message);
+                        return history.push('/login');
+                    }else{
+                        if(option){
                             return history.push('/login');
                         }
-                    }else{
-                        if(option === false || adminRoute){
-                            return history.push('/');
-                        }
                     }
-                })
-            }
-            return () => {}
+                }
+                if(res.type === SERVER_ERROR){
+                    return history.push('/error/500');
+                }
+            })
         }, [dispatch, history])
 
         return (

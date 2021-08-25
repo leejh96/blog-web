@@ -52,6 +52,10 @@ function Tablesection({ page }) {
             setGuest(res.data.slice((page.id-1)*10, page.id*10 -1));
             setLoad(false);
         })
+        return () => {
+            setLoad(false);
+            setGuest([]);
+        }
     }, [dispatch, guestbookLength, page.id])
 
     const onClickDelete = (id) => {

@@ -10,11 +10,15 @@ import StudyEdit from './views/EditPage/Study/StudyEdit';
 import NoticeEdit from './views/EditPage/Notice/NoticeEdit';
 import Detail from './views/DetailPage/Detail';
 import Auth from '../hoc/Auth'; //hoc higherOrderComponent
-import Setting from './views/SettingPage/Setting';
 import Frame from '../hoc/Frame';
 import FindPage from './views/FindPage/FindPage';
 import Newpassword from './views/NewPasswordPage/Newpassword';
-import Error from './views/ErrorPage/Error';
+import Notfound from './views/ErrorPage/Notfound';
+import ServerError from './views/ErrorPage/ServerError'
+import SettingMain from './views/SettingPage//main/Main';
+import SettingPassword from './views/SettingPage/change/Password';
+import SettingNick from './views/SettingPage/change/Nick';
+import SettingResign from './views/SettingPage/change/Resign';
 function App() {
     return (
         <Suspense>
@@ -31,11 +35,14 @@ function App() {
                     <Route exact path='/guestbook/:id' component={Auth(Frame(Guestbook), null)} /> 
                     <Route exact path='/study/:study' component={Auth(Frame(Study), null)} />
                     <Route exact path='/study/:study/edit' component={Auth(Frame(StudyEdit), true, true)} />
-                    <Route exact path='/setting' component={Auth(Frame(Setting), true)} />
-                    <Route exact path='/setting/:change' component={Auth(Frame(Setting), true)} />
+                    <Route exact path='/setting' component={Auth(Frame(SettingMain), true)} />
+                    <Route exact path='/setting/password' component={Auth(Frame(SettingPassword), true)} />
+                    <Route exact path='/setting/nick' component={Auth(Frame(SettingNick), true)} />
+                    <Route exact path='/setting/resign' component={Auth(Frame(SettingResign), true)} />
                     <Route exact path='/findPassword' component={Auth(FindPage, false)} />
                     <Route exact path='/newPassword' component={Auth(Newpassword, false)} />
-                    <Route component={Error} />
+                    <Route exact path='/error/500' component={ServerError} />
+                    <Route component={Notfound} />
                 </Switch>
             </BrowserRouter>
         </Suspense>

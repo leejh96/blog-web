@@ -53,6 +53,9 @@ function RecentPost() {
         .then(res => {
             setPosts(res.data);
         })
+        return () => {
+            setPosts([]);
+        }
     }, [dispatch, studyCount])
     return (
         <Box className={classes.area}>

@@ -6,17 +6,17 @@ const mongoose = require('mongoose')
 router.get('/', async(req, res) => {
     try {
         const notices = await Notice.find().populate('author').sort('-date');
-        return res.json({
-            success : true,
-            notices,
-        })
-    } catch (error) {
-        console.error(error);
+        if(notices){
+            return res.json({
+                success : true,
+                notices,
+            })
+        }
         return res.json({
             success : false,
-            message : '서버 에러!',
-            error,
-        });        
+        })
+    } catch (error) {
+        next(error);
     }
 
 });

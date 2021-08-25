@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../../../actions/UserAction';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
+import { AUTH_ERROR, LOGOUT_ERROR, LOGOUT_USER, SERVER_ERROR } from '../../../../actions/type';
 const Lists = () => {
     return [
         {
@@ -39,28 +40,34 @@ function AuthT() {
     }, [])
 
     const onClickLogout = () => {
-        // //구글로그아웃
-        // dispatch(oauthLogout())
-        // .then(res => {
-
-        // })
-        
-        //로컬로그아웃
-        dispatch(logoutUser())
+        let access = localStorage.getItem('access');
+        if(!access){
+            access = '';
+        }
+        dispatch(logoutUser(access))
         .then(res => {
-            if(res.data.success && !localStorage.getItem('access')){
-                //google 
+            if( res.type === LOGOUT_USER && !localStorage.getItem('access')){
+                //google 로그아웃
                 return history.push('/login');
             }
-            if(res.data.success){
+            if( res.type === LOGOUT_USER && localStorage.getItem('access')){
+                //로컬 로그아웃
                 localStorage.removeItem('access');
                 return history.push('/login');
             }
-            if(!res.data.auth){
+            if( res.type === AUTH_ERROR ){
+                //세션 만료나 auth에서 어떠한 오류 발생
                 localStorage.removeItem('access');
+                alert(res.data.message)
                 return history.push('/login')
             }
-            return history.push('/login')
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500')
+            }
+            if( res.type === LOGOUT_ERROR ){
+                alert(res.data.message)
+                return history.push('/')
+            }
         })
     }
     return (

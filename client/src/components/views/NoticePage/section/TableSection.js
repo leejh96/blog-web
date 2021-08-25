@@ -50,6 +50,10 @@ function TableSection() {
             setPost(res.data.slice((page-1)*10, page*10));
             setLoad(false);
         })
+        return () => {
+            setPost([]);
+            setLoad(false);
+        }
     }, [dispatch, page])
 
     useEffect(() => {
