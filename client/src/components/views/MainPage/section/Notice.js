@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => {
             width : '5%'
         },
         author : {
-            textAlign :'center',
+            textAlign :'right',
             width : '20%'
         },
         titleName : {

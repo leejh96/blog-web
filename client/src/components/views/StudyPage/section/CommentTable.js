@@ -69,7 +69,7 @@ function CommentTable() {
                 return setComment(res.data.comment);
             }
             if(res.type === LOAD_STUDY_COMMENT_ERROR){
-                return alert(res.data.message);
+                return  setComment([]);
             }
             if(res.type === SERVER_ERROR){
                 return history.push('/error/500');

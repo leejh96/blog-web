@@ -35,6 +35,7 @@ function Bookbox() {
             dispatch(createGuestBook(data))
             .then(res => {
                 if(res.type === CREATE_GUESTBOOK){
+                    document.querySelector('#text').value = '';
                     return history.push('/guestbook/1')
                 }
                 if(res.type === CREATE_GUESTBOOK_ERROR){
@@ -58,7 +59,7 @@ function Bookbox() {
     };
     return (
         <Box className={classes.area}>
-            <TextField className={classes.text} placeholder="방명록을 남겨보세요." onChange={onChangeText} variant="outlined" />
+            <TextField id='text' className={classes.text} placeholder="방명록을 남겨보세요." onChange={onChangeText} variant="outlined" />
             <Button variant="contained" onClick={onClickBtn}>등록</Button>
         </Box>
     )

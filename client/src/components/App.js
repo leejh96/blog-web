@@ -19,10 +19,12 @@ import SettingMain from './views/SettingPage//main/Main';
 import SettingPassword from './views/SettingPage/change/Password';
 import SettingNick from './views/SettingPage/change/Nick';
 import SettingResign from './views/SettingPage/change/Resign';
+import ScrollToTop from '../util/ScrollToTop';
 function App() {
     return (
         <Suspense>
             <BrowserRouter>
+                <ScrollToTop />
                 <Switch>
                     <Route exact path='/' component={Auth(Frame(Main), null)} />
                     <Route exact path='/login' component={Auth(Login, false)} />

@@ -24,7 +24,6 @@ import {
     CREATE_NOTICE_ERROR,
     SERVER_ERROR,
     UPDATE_NOTICE_ERROR,
-    UPDATE_NOTICE_VALID_ERROR,
     DELETE_NOTICE_ERROR,
     CREATE_NOTICE_COMMENT_ERROR,
     LOAD_LIKE_VALID_ERROR,
@@ -210,16 +209,6 @@ const NoticeReducer = (state = initialState, action) => {
                 error : true,
             }
         case UPDATE_NOTICE_ERROR:
-            return {
-                ...state,
-                notices : [],
-                commentLength : 0,
-                selectdNotice : {},
-                likeCount : 0,
-                searchNotices : [],
-                error : true,
-            }
-        case UPDATE_NOTICE_VALID_ERROR:
             return {
                 ...state,
                 notices : [],

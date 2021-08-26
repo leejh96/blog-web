@@ -23,7 +23,6 @@ import {
     LOAD_COMMENT_VALID_ERROR,
     CREATE_NOTICE_ERROR,
     UPDATE_NOTICE_ERROR,
-    UPDATE_NOTICE_VALID_ERROR,
     DELETE_NOTICE_ERROR,
     CREATE_NOTICE_COMMENT_ERROR,
     LOAD_LIKE_VALID_ERROR,
@@ -170,15 +169,9 @@ export const updateNotice = data => async dispatch => {
                 data : res.data 
             });
         }
-        if(!res.data.success && res.data.auth && res.data.valid){
+        if(!res.data.success && res.data.auth){
             return dispatch({
                 type : UPDATE_NOTICE_ERROR,
-                data : res.data,
-            })
-        }
-        if(!res.data.success && res.data.auth && !res.data.valid){
-            return dispatch({
-                type : UPDATE_NOTICE_VALID_ERROR,
                 data : res.data,
             })
         }

@@ -18,7 +18,7 @@ function Footer(){
     return (
         <FooterArea>
             <FooterText> 
-            Tel : 010-1111-1111<br />
+            Tel : 010-4850-0573<br />
             <Copyright />
             </FooterText>
         </FooterArea>

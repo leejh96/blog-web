@@ -150,14 +150,6 @@ router.post('/', auth, async(req, res, next)=>{
 
 router.put('/:id/updatenotice', auth, async(req, res, next) => {
     try {
-        const oid = mongoose.Types.ObjectId.isValid(req.params.id)
-        if(!oid){
-            return res.json({
-                auth : true,
-                valid : false,
-                success : false,
-            })
-        }
         const notice = await Notice.findOneAndUpdate({_id : req.params.id},{
             title : req.body.title,
             text : req.body.text,
@@ -172,7 +164,6 @@ router.put('/:id/updatenotice', auth, async(req, res, next) => {
         return res.json({
             auth : true,
             success : false,
-            valid : true,
             message : '공지사항 수정에 실패했습니다'
         })
     } catch (error) {

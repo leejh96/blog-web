@@ -86,7 +86,7 @@ function MarkdownSection() {
                 setLoad(false)
             }
             if(res.type === LOAD_ONE_STUDY_ERROR){
-                return alert(res.data.message);
+                return history.push('/Notfound')
             }
             if(res.type === SERVER_ERROR){
                 return history.push('/error/500');
