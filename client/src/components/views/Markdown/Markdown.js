@@ -9,6 +9,7 @@ import { loadOneStudy } from '../../../actions/StudyAction';
 import Loading from '../LoadingPage/Loading';
 import gfm from 'remark-gfm'
 import { makeStyles } from '@material-ui/core/styles';
+import { LOAD_ONE_STUDY, LOAD_ONE_STUDY_ERROR, SERVER_ERROR } from '../../../actions/type';
 
 const useStyles = makeStyles(theme => ({
     markdown : {
@@ -80,11 +81,16 @@ function MarkdownSection() {
         setLoad(true)
         dispatch(loadOneStudy(page))
         .then(res => {
-            if(!res.data.success){
-                return history.push('/Notfound')
+            if(res.type === LOAD_ONE_STUDY){
+                setText(res.data.page.text);
+                setLoad(false)
             }
-            setText(res.data.page.text);
-            setLoad(false)
+            if(res.type === LOAD_ONE_STUDY_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
+            }
         })
         return () => {
             setLoad(false);

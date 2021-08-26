@@ -5,6 +5,7 @@ import { Button, Container, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { loadStudyComment, deleteStudyComment } from '../../../../actions/StudyAction';
+import { AUTH_ERROR, DELETE_STUDY_COMMENT, DELETE_STUDY_COMMENT_ERROR, LOAD_STUDY_COMMENT, LOAD_STUDY_COMMENT_ERROR, SERVER_ERROR } from '../../../../actions/type';
 
 const useStyles = makeStyles(({
     area : {
@@ -64,8 +65,14 @@ function CommentTable() {
     useEffect(() => {
         dispatch(loadStudyComment(study))
         .then(res => {
-            if(res.data.success){
-                setComment(res.data.comment);
+            if(res.type === LOAD_STUDY_COMMENT){
+                return setComment(res.data.comment);
+            }
+            if(res.type === LOAD_STUDY_COMMENT_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
             }
         })
     },[dispatch, study, leng, history])
@@ -73,7 +80,19 @@ function CommentTable() {
     const onClickDelete = (commentId, study) => () => {
         dispatch(deleteStudyComment(commentId, study))
         .then(res => {
-            setComment(res.data);
+            if(res.type === DELETE_STUDY_COMMENT){
+                return setComment(res.data);
+            }
+            if(res.type === DELETE_STUDY_COMMENT_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === AUTH_ERROR){
+                alert(res.data.message)
+                return history.push('/login');
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
+            }
         })
     };
     return (
@@ -117,7 +136,7 @@ function CommentTable() {
                         ))}
                     </Box>
                 </Box>
-            )) }
+            ))}
         </Container>
     )
 }

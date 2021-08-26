@@ -5,6 +5,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { loadOneNotice } from '../../../../../actions/NoticeAction'; 
 import Loading from '../../../LoadingPage/Loading'; 
 import { makeStyles } from '@material-ui/core/styles';
+import { AUTH_ERROR, LOAD_ONE_NOTICE, LOAD_ONE_NOTICE_ERROR, LOAD_ONE_NOTICE_VALID_ERROR, SERVER_ERROR } from '../../../../../actions/type';
 
 const useStyles = makeStyles(theme => {
     return {
@@ -26,11 +27,23 @@ function TextArea() {
         setLoad(true);
         dispatch(loadOneNotice(id))
         .then(res => {
-            if(res.data.success){
+            if(res.type === LOAD_ONE_NOTICE){
                 setNotice(res.data.notice)
                 return setLoad(false);
             }
-            return history.push('/Notfound');
+            if(res.type === LOAD_ONE_NOTICE_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === LOAD_ONE_NOTICE_VALID_ERROR){
+                return history.push('/Notfound');
+            }
+            if(res.type === AUTH_ERROR){
+                alert(res.data.message);
+                return history.push('/login');
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
+            }
         })
     }, [dispatch, id, history])
     return (

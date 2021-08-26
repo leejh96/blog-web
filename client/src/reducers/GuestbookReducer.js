@@ -5,7 +5,10 @@ import {
     CREATE_GUESTBOOK, 
     DELETE_GUESTBOOK, 
     LOAD_GUESTBOOK, 
-    GUESTBOOK_ERROR
+    SERVER_ERROR,
+    CREATE_GUESTBOOK_ERROR,
+    DELETE_GUESTBOOK_ERROR,
+    LOAD_GUESTBOOK_ERROR,
 } from "../actions/type"
 
 const initialState = {
@@ -37,7 +40,28 @@ const GuestbookReducer = (state = initialState, action) => {
                 error : false,
 
             }
-        case GUESTBOOK_ERROR:
+        case SERVER_ERROR:
+            return {
+                ...state,
+                guestlength : 0,
+                guestbook : [],
+                error : true,
+            }
+        case CREATE_GUESTBOOK_ERROR:
+            return {
+                ...state,
+                guestlength : 0,
+                guestbook : [],
+                error : true,
+            }
+        case DELETE_GUESTBOOK_ERROR:
+            return {
+                ...state,
+                guestlength : 0,
+                guestbook : [],
+                error : true,
+            }
+        case LOAD_GUESTBOOK_ERROR:
             return {
                 ...state,
                 guestlength : 0,

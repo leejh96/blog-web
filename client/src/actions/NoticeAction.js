@@ -13,10 +13,23 @@ import {
     DELETE_NOTICE,
     SEARCH_NOTICE,
     NOTICE_ERROR,
-    LIKE_ERROR,
     LOAD_ONE_NOTICE_ERROR,
     LOAD_COMMENT_ERROR,
     LOAD_LIKE_ERROR,
+    SERVER_ERROR,
+    LOAD_NOTICE_ERROR,
+    AUTH_ERROR,
+    LOAD_ONE_NOTICE_VALID_ERROR,
+    LOAD_COMMENT_VALID_ERROR,
+    CREATE_NOTICE_ERROR,
+    UPDATE_NOTICE_ERROR,
+    UPDATE_NOTICE_VALID_ERROR,
+    DELETE_NOTICE_ERROR,
+    CREATE_NOTICE_COMMENT_ERROR,
+    LOAD_LIKE_VALID_ERROR,
+    ADD_LIKE_ERROR,
+    DELETE_LIKE_ERROR,
+    DELETE_NOTICE_COMMENT_ERROR,
 } from './type';
 
 
@@ -24,13 +37,22 @@ import {
 export const loadNotice = () => async dispatch => {
     try {
         const res = await axios.get('/api/notice');
+        if(res.data.success){
+            return dispatch({
+                type : LOAD_NOTICE,
+                data : res.data.notices,
+            });
+        }
         return dispatch({
-            type : LOAD_NOTICE,
-            data : res.data.notices,
-        });
+            type : LOAD_NOTICE_ERROR,
+            data : res.data.message
+        })
     } catch (error) {
         return dispatch({
-            type : NOTICE_ERROR,
+            type : SERVER_ERROR,
+            data : {
+                success : false,
+            }
         });
     }
 }
@@ -38,19 +60,33 @@ export const loadNotice = () => async dispatch => {
 export const loadOneNotice = (id) => async dispatch => {
     try {
         const res = await axios.get(`/api/notice/${id}`);
-        if(res.data.success){
+        if(res.data.success && res.data.auth){
             return dispatch({
                 type : LOAD_ONE_NOTICE,
                 data : res.data,
             });
         }
-        return dispatch({
-            type : LOAD_ONE_NOTICE_ERROR,
-            data : res.data,
-        })
+        if(!res.data.success && res.data.auth && res.data.valid){
+            return dispatch({
+                type : LOAD_ONE_NOTICE_ERROR,
+                data : res.data,
+            })
+        }
+        if(!res.data.success && res.data.auth && !res.data.valid){
+            return dispatch({
+                type : LOAD_ONE_NOTICE_VALID_ERROR,
+                data : res.data,
+            })
+        }
+        if(!res.data.success && !res.data.auth){
+            return dispatch({
+                type : AUTH_ERROR,
+                data : res.data,
+            })
+        }
     } catch (error) {
         return dispatch({
-            type : NOTICE_ERROR,
+            type : SERVER_ERROR,
             data : {
                 success : false,
             }
@@ -61,19 +97,33 @@ export const loadOneNotice = (id) => async dispatch => {
 export const loadComment = (id) => async dispatch => {
     try {
         const res = await axios.get(`/api/notice/${id}/comment`);
-        if(res.data.success){
+        if(res.data.success && res.data.auth){
             return dispatch({
                 type : LOAD_COMMENT,
                 data : res.data 
             });
         }
-        return dispatch({
-            type : LOAD_COMMENT_ERROR,
-            data : res.data 
-        })
+        if(!res.data.success && res.data.auth && res.data.valid){
+            return dispatch({
+                type : LOAD_COMMENT_ERROR,
+                data : res.data,
+            })
+        }
+        if(!res.data.success && res.data.auth && !res.data.valid){
+            return dispatch({
+                type : LOAD_COMMENT_VALID_ERROR,
+                data : res.data,
+            })
+        }
+        if(!res.data.success && !res.data.auth){
+            return dispatch({
+                type : AUTH_ERROR,
+                data : res.data,
+            })
+        }
     } catch (error) {
         return dispatch({
-            type : NOTICE_ERROR,
+            type : SERVER_ERROR,
             data : {
                 success : false,
             }
@@ -82,16 +132,31 @@ export const loadComment = (id) => async dispatch => {
 }
 export const createNotice = data => async dispatch => {
     try {
-        const res = await axios.post('/api/notice/', data);
-        return dispatch({
-            type : CREATE_NOTICE,
-            success : res.data.success,
-            data : res.data.notice,
-        });
+        const res = await axios.post('/api/notice', data);
+        if(res.data.success && res.data.auth){
+            return dispatch({
+                type : CREATE_NOTICE,
+                data : res.data,
+            });
+        }
+        if(res.data.auth && !res.data.success){
+            return dispatch({
+                type : CREATE_NOTICE_ERROR,
+                data : res.data,
+            });
+        }
+        if(!res.data.auth && !res.data.success){
+            return dispatch({
+                type : AUTH_ERROR,
+                data : res.data,
+            })
+        }
     } catch (error) {
-        console.error(error);
         return dispatch({
-            type : NOTICE_ERROR,
+            type : SERVER_ERROR,
+            data : {
+                success : false,
+            }
         });
     }
     
@@ -99,25 +164,60 @@ export const createNotice = data => async dispatch => {
 export const updateNotice = data => async dispatch => {
     try {
         const res = await axios.put(`/api/notice/${data.id}/updatenotice`,data);
-        return dispatch({
-            type : UPDATE_NOTICE,
-            success : res.data.success,
-            data : res.data.notice,
-        });
+        if(res.data.success && res.data.auth){
+            return dispatch({
+                type : UPDATE_NOTICE,
+                data : res.data 
+            });
+        }
+        if(!res.data.success && res.data.auth && res.data.valid){
+            return dispatch({
+                type : UPDATE_NOTICE_ERROR,
+                data : res.data,
+            })
+        }
+        if(!res.data.success && res.data.auth && !res.data.valid){
+            return dispatch({
+                type : UPDATE_NOTICE_VALID_ERROR,
+                data : res.data,
+            })
+        }
+        if(!res.data.success && !res.data.auth){
+            return dispatch({
+                type : AUTH_ERROR,
+                data : res.data,
+            })
+        }
     } catch (error) {
-        console.error(error);
         return dispatch({
-            type : NOTICE_ERROR,
+            type : SERVER_ERROR,
+            data : {
+                success : false,
+            }
         });
     }
 };
 export const deleteNotice = id => async dispatch => {
     try {
         const res = await axios.delete(`/api/notice/${id}/deletenotice`);
-        return dispatch({
-            type : DELETE_NOTICE,
-            data : res.data.success,
-        })
+        if(res.data.auth && res.data.success){
+            return dispatch({
+                type : DELETE_NOTICE,
+                data : res.data,
+            })
+        }
+        if(res.data.auth && !res.data.success){
+            return dispatch({
+                type : DELETE_NOTICE_ERROR,
+                data : res.data,
+            })
+        }
+        if(!res.data.auth && !res.data.success){
+            return dispatch({
+                type : AUTH_ERROR,
+                data : res.data,
+            })
+        }
     } catch (error) {
         console.error(error);
         return dispatch({
@@ -152,14 +252,30 @@ export const searchNotice = (arr, text, type) => async dispatch => {
 export const createNoticeComment = data => async dispatch => {
     try {
         const res = await axios.put(`/api/notice/comment`, data);
-        return dispatch({
-            type : CREATE_NOTICE_COMMENT,
-            success : res.data.success,
-        });
+        if(res.data.auth && res.data.success){
+            return dispatch({
+                type : CREATE_NOTICE_COMMENT,
+                data : res.data,
+            });
+        }
+        if(res.data.auth && !res.data.success){
+            return dispatch({
+                type : CREATE_NOTICE_COMMENT_ERROR,
+                data : res.data,
+            })
+        }
+        if(!res.data.auth && !res.data.success){
+            return dispatch({
+                type : AUTH_ERROR,
+                data : res.data,
+            })
+        }
     } catch (error) {
-        console.error(error);
         return dispatch({
-            type : NOTICE_ERROR,
+            type : SERVER_ERROR,
+            data : {
+                success : false,
+            }
         });
     }
     
@@ -168,19 +284,33 @@ export const createNoticeComment = data => async dispatch => {
 export const loadLike = (id) => async dispatch => {
     try {
         const res = await axios.get(`/api/notice/${id}/like`);
-        if(res.data.success){
+        if(res.data.success && res.data.auth){
             return dispatch({
                 type : LOAD_LIKE,
                 data : res.data,
             });
         }
-        return dispatch({
-            type : LOAD_LIKE_ERROR,
-            data : res.data,
-        })
+        if(!res.data.success && res.data.auth && res.data.valid){
+            return dispatch({
+                type : LOAD_LIKE_ERROR,
+                data : res.data,
+            })
+        }
+        if(!res.data.success && res.data.auth && !res.data.valid){
+            return dispatch({
+                type : LOAD_LIKE_VALID_ERROR,
+                data : res.data,
+            })
+        }
+        if(!res.data.success && !res.data.auth){
+            return dispatch({
+                type : AUTH_ERROR,
+                data : res.data,
+            })
+        }
     } catch (error) {
         return dispatch({
-            type : LIKE_ERROR,
+            type : SERVER_ERROR,
             data : {
                 success : false,
             }
@@ -192,14 +322,30 @@ export const loadLike = (id) => async dispatch => {
 export const addLike = (id) => async dispatch => {
     try {
         const res = await axios.put(`/api/notice/${id}/addlike`);
-        return dispatch({
-            type : ADD_LIKE,
-            data : res.data.notice.like.length,
-        });
+        if(res.data.success && res.data.auth){
+            return dispatch({
+                type : ADD_LIKE,
+                data : res.data,
+            });
+        }
+        if(res.data.auth && !res.data.success){
+            return dispatch({
+                type : ADD_LIKE_ERROR,
+                data : res.data,
+            });
+        }
+        if(!res.data.auth && !res.data.success){
+            return dispatch({
+                type : AUTH_ERROR,
+                data : res.data,
+            })
+        }
     } catch (error) {
-        console.error(error);
         return dispatch({
-            type : LIKE_ERROR,
+            type : SERVER_ERROR,
+            data : {
+                success : false,
+            }
         });
     }
     
@@ -208,14 +354,30 @@ export const addLike = (id) => async dispatch => {
 export const deleteLike = (id) => async dispatch => {
     try {
         const res = await axios.put(`/api/notice/${id}/deletelike`);
-        return dispatch({
-            type : DELETE_LIKE,
-            data : res.data.notice.like.length,
-        });
+        if(res.data.auth && res.data.success){
+            return dispatch({
+                type : DELETE_LIKE,
+                data : res.data,
+            });
+        }
+        if(res.data.auth && !res.data.success){
+            return dispatch({
+                type : DELETE_LIKE_ERROR,
+                data : res.data
+            })
+        }
+        if(!res.data.auth && !res.data.success){
+            return dispatch({
+                type : AUTH_ERROR,
+                data : res.data,
+            })
+        }
     } catch (error) {
-        console.error(error);
         return dispatch({
-            type : LIKE_ERROR,
+            type : SERVER_ERROR,
+            data : {
+                success : false,
+            }
         });
     }
     
@@ -226,14 +388,30 @@ export const deleteNoticeComment = (commentId, noticeId) => async dispatch => {
         const res = await axios.put(`/api/notice/${noticeId}/deletecomment`, {
             id : commentId
         });
-        return dispatch({
-            type : DELETE_NOTICE_COMMENT,
-            data : res.data.comment
-        })
+        if(res.data.auth && res.data.success){
+            return dispatch({
+                type : DELETE_NOTICE_COMMENT,
+                data : res.data
+            })
+        }
+        if(res.data.auth && !res.data.success){
+            return dispatch({
+                type : DELETE_NOTICE_COMMENT_ERROR,
+                data : res.data,
+            })
+        }
+        if(!res.data.auth && !res.data.success){
+            return dispatch({
+                type : AUTH_ERROR,
+                data : res.data,
+            })
+        }
     } catch (error) {
-        console.error(error);
         return dispatch({
-            type : NOTICE_ERROR,
+            type : SERVER_ERROR,
+            data : {
+                success : false,
+            }
         });
     }
 }

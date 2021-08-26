@@ -7,14 +7,20 @@ import {
     LOAD_STUDY,
     LOAD_ONE_STUDY,
     UPDATE_STUDY_TEXT,
-    STUDY_ERROR,
     CREATE_STUDY_COMMENT,
     LOAD_STUDY_COMMENT,
     DELETE_STUDY_COMMENT,
-    STUDY_COMMENT_ERROR,
     LOAD_RECENT_STUDY,
     LOAD_ONE_STUDY_ERROR,
-    LOAD_STUDY_COMMENT_ERROR
+    LOAD_STUDY_COMMENT_ERROR,
+    CREATE_STUDY_ERROR,
+    LOAD_STUDY_ERROR,
+    LOAD_RECENT_STUDY_ERROR,
+    UPDATE_STUDY_TEXT_ERROR,
+    DELETE_STUDY_ERROR,
+    CREATE_STUDY_COMMENT_ERROR,
+    DELETE_STUDY_COMMENT_ERROR,
+    SERVER_ERROR,
 } from "../actions/type"
 
 const initialState = {
@@ -45,13 +51,6 @@ const StudyReducer = (state = initialState, action) => {
                 error : false,
             }
         case LOAD_ONE_STUDY_ERROR:
-            return {
-                ...state,
-                studyCount : 0,
-                studies : [],
-                error : true,
-            }
-        case STUDY_ERROR:
             return {
                 ...state,
                 studyCount : 0,
@@ -92,15 +91,63 @@ const StudyReducer = (state = initialState, action) => {
                 ...state,
                 error : false,
             }
-        case STUDY_COMMENT_ERROR:
+        case LOAD_STUDY_COMMENT_ERROR:
             return {
                 ...state,
                 studyCount : 0,
                 studies : [],
                 error : true,
-                commentLength : 0,
             }
-        case LOAD_STUDY_COMMENT_ERROR:
+        case CREATE_STUDY_ERROR:
+            return {
+                ...state,
+                studyCount : 0,
+                studies : [],
+                error : true,
+            }
+        case LOAD_STUDY_ERROR:
+            return {
+                ...state,
+                studyCount : 0,
+                studies : [],
+                error : true,
+            }
+        case LOAD_RECENT_STUDY_ERROR:
+            return {
+                ...state,
+                studyCount : 0,
+                studies : [],
+                error : true,
+            }
+        case UPDATE_STUDY_TEXT_ERROR:
+            return {
+                ...state,
+                studyCount : 0,
+                studies : [],
+                error : true,
+            }
+        case DELETE_STUDY_ERROR:
+            return {
+                ...state,
+                studyCount : 0,
+                studies : [],
+                error : true,
+            }
+        case CREATE_STUDY_COMMENT_ERROR:
+            return {
+                ...state,
+                studyCount : 0,
+                studies : [],
+                error : true,
+            }
+        case DELETE_STUDY_COMMENT_ERROR:
+            return {
+                ...state,
+                studyCount : 0,
+                studies : [],
+                error : true,
+            }
+        case SERVER_ERROR:
             return {
                 ...state,
                 studyCount : 0,

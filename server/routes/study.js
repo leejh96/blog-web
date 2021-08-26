@@ -3,7 +3,7 @@ const router = express.Router();
 const { Study } = require('../models');
 const { auth } = require('../middleware/auth');
 
-router.get('/', async(req, res) => {
+router.get('/', async(req, res, next) => {
     try {
         const studies = await Study.find();
         if(studies){
@@ -14,18 +14,14 @@ router.get('/', async(req, res) => {
         }
         return res.json({
             success : false,
+            message : '스터디 목록을 조회하는데 실패했습니다'
         })
     } catch (error) {
-        console.error(error);
-        return res.json({
-            success : false,
-            message : '서버 에러!',
-            error,
-        });
+        next(error);
     }
 });
 
-router.get('/recent', async(req, res) => {
+router.get('/recent', async(req, res, next) => {
     try {
         const studies = await Study.find().sort({ 'updatedAt' : -1}).limit(8);
         if(studies){
@@ -35,19 +31,15 @@ router.get('/recent', async(req, res) => {
             })
         }
         return res.json({
+            message : '최근 게시물을 불러오는데 실패했습니다',
             success : false,
         })
     } catch (error) {
-        console.error(error);
-        return res.json({
-            success : false,
-            message : '서버 에러!',
-            error,
-        });
+        next(error);
     }
 });
 
-router.post('/', auth, async(req, res) => {
+router.post('/', auth, async(req, res, next) => {
     try {
         const study = await Study.create({
             subject : req.body.text,
@@ -55,47 +47,43 @@ router.post('/', auth, async(req, res) => {
         })
         if(study){
             return res.json({
+                auth : true,
                 success : true,
                 study,
             })
         }
         return res.json({
+            message : '추가항목 생성에 실패했습니다',
+            auth : true,
             success : false
         })
     } catch (error) {
-        console.error(error);
-        return res.json({
-            success : false,
-            message : '서버 에러!',
-            error,
-        });
+        next(error);
     }
 })
 
-router.delete('/', auth, async(req, res) => {
+router.delete('/', auth, async(req, res, next) => {
     try {
         const del = await Study.deleteOne({
             _id :  req.body.id
         })
-        if(del){
+        if(del.ok){
             return res.json({
+                auth : true,
                 success : true,
             })
         }
         return res.json({
+            message : '해당 데이터를 삭제하는데 실패했습니다',
+            auth : true,
             success : false,
         })
     } catch (error) {
-        console.error(error);
-        return res.json({
-            success : false,
-            message : '서버 에러!',
-            error,
-        });
+        next(error);
     }
 });
 
-router.get('/:page', async(req, res) => {
+router.get('/:page', async(req, res, next) => {
     try {
         const page = await Study.findOne({ subject :  req.params.page });
         if(page){
@@ -104,8 +92,8 @@ router.get('/:page', async(req, res) => {
                 page
             })
         }
-        return res
-        .json({
+        return res.json({
+            message : '해당 데이터를 불러오는데 실패했습니다',
             success : false,
         })
     } catch (error) {
@@ -113,7 +101,7 @@ router.get('/:page', async(req, res) => {
     }
 });
 
-router.get('/:study/comment', async(req, res) => {
+router.get('/:study/comment', async(req, res, next) => {
     try {
         const study = await Study.findOne({
                 subject : req.params.study
@@ -131,76 +119,72 @@ router.get('/:study/comment', async(req, res) => {
         }
         return res.json({
             success : false,
+            message : '댓글 데이터를 가져오는데 실패했습니다'
         })
     } catch (error) {
         next(error);
     }
 });
 
-router.post('/:study/create', auth, async(req, res) => {
+router.post('/:study/create', auth, async(req, res, next) => {
     try {
         const text = await Study.create({
             subject : req.body.study,
             text ,
         })
     } catch (error) {
-        console.error(error);
-        return res.json({
-            success : false,
-            message : '서버 에러!',
-            error,
-        });
+        next(error);
     }
 });
 
-router.put('/:study/comment', auth, async(req, res)=>{
+router.put('/:study/comment', auth, async(req, res, next)=>{
     try {
-        await Study.findOneAndUpdate({
+        const study = await Study.findOneAndUpdate({
             subject : req.params.study
         },{ '$push': { comment : {
             user : req.user._id,
             comment : req.body.comment,
             date : req.body.date,
         } }})
+        if(study){
+            return res.json({
+                auth : true,
+                success : true,
+            })
+        }
         return res.json({
-            success : true,
+            auth : true,
+            success : false,
+            message : '댓글 생성에 실패했습니다'
         })
     }
     catch (error) {
-        console.error(error);
-        return res.json({
-            success : false,
-            message : '서버 에러!',
-            error,
-        });
+        next(error);
     }    
 });
 
-router.put('/:page', auth, async(req, res)=> {
+router.put('/:page', auth, async(req, res, next)=> {
     try {
         const findStudy = await Study.findOneAndUpdate({ subject : req.params.page }, {
             text : req.body.text
         });
         if (findStudy){
             return res.json({
+                auth : true,
                 success : true
             })
         }
         return res.json({
+            auth : true,
             success : false,
         })
     } catch (error) {
-        console.error(error);
-        return res.json({
-            success : false,
-            message : '서버 에러!',
-            error,
-        });
+        next(error)
     }
 
 });
 
-router.put('/:study/deletecomment', auth, async(req, res) => {
+router.put('/:study/deletecomment', auth, async(req, res, next) => {
     try {
         const study = await Study.findOneAndUpdate({
             subject : req.params.study
@@ -210,19 +194,17 @@ router.put('/:study/deletecomment', auth, async(req, res) => {
         if(study){
             return res.json({
                 success : true,
+                auth : true,
                 comment : study.comment,
             })
         }
         return res.json({
+            message : '댓글을 삭제하는데 실패했습니다',
+            auth : true,
             success : false,
         })
     } catch (error) {
-        console.error(error);
-        return res.json({
-            success : false,
-            message : '서버 에러!',
-            error,
-        });
+        next(error);
     }
 });
 

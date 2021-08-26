@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { loadOneStudy, updateStudyText } from '../../../actions/StudyAction'
 import gfm from 'remark-gfm'
 import { makeStyles } from '@material-ui/core/styles';
+import { AUTH_ERROR, LOAD_ONE_STUDY, LOAD_ONE_STUDY_ERROR, SERVER_ERROR, UPDATE_STUDY_TEXT, UPDATE_STUDY_TEXT_ERROR } from '../../../actions/type';
 
 const useStyles = makeStyles(theme => ({
     edit : {
@@ -40,6 +41,7 @@ const useStyles = makeStyles(theme => ({
     buttonDiv :{
       display : 'flex',
       justifyContent : 'space-around',
+      marginBottom : '16px',
     },
     btn : {
       fontSize: '1.5rem',
@@ -87,21 +89,43 @@ function MarkdownEditor() {
     const history = useHistory();
     const dispatch = useDispatch();
     useEffect(() => {
-      dispatch(loadOneStudy(page))
-      .then(res => {
-        setText(res.data.text);
-      })
-    }, [dispatch, page])
+        dispatch(loadOneStudy(page))
+        .then(res => {
+            if(res.type === LOAD_ONE_STUDY){
+                setText(res.data.page.text);
+            }
+            if(res.type === LOAD_ONE_STUDY_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
+            }
+        })
+    }, [dispatch, page, history])
 
     const onChangeText = (e) => {
-      setText(e.target.value);
+        setText(e.target.value);
     };
     const onClickUpdate = () => {
-      dispatch(updateStudyText(page, text))
-      .then(history.push(`/study/${page}`))
+        dispatch(updateStudyText(page, text))
+        .then(res => {
+            if(res.type === UPDATE_STUDY_TEXT){
+                return history.push(`/study/${page}`)
+            }
+            if(res.type === UPDATE_STUDY_TEXT_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === AUTH_ERROR){
+                alert(res.data.message);
+                return history.push('/login');
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
+            }
+        })
     };
     const onClickCancel = () => {
-      history.push(`/study/${page}`)
+        history.push(`/study/${page}`)
     }
     return (
       <>

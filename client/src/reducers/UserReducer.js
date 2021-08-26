@@ -23,6 +23,7 @@ import {
     UPDATE_PASSWORD_ERROR,
     DELETE_USER_ERROR,
     UPDATE_IMAGE_ERROR,
+    SERVER_ERROR,
 } from '../actions/type';
 
 const initialState = {
@@ -182,6 +183,13 @@ const UserReducer = (state = initialState, action) => {
                 error : true,
             }
         case UPDATE_IMAGE_ERROR:
+            return {
+                ...state,
+                authToken : '',
+                user : {},
+                error : true,
+            }
+        case SERVER_ERROR:
             return {
                 ...state,
                 authToken : '',

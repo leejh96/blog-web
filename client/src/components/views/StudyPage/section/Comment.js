@@ -5,6 +5,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { createStudyComment } from '../../../../actions/StudyAction';
 import { makeStyles } from '@material-ui/core/styles';
+import { CREATE_STUDY_COMMENT, CREATE_STUDY_COMMENT_ERROR, SERVER_ERROR, AUTH_ERROR } from '../../../../actions/type';
 
 const useStyles = makeStyles(theme => ({
     area : {
@@ -35,14 +36,27 @@ function Comment() {
             date : moment().format('YYYY-MM-DD HH:mm:ss')
         }
         if(user._id){
-            return dispatch(createStudyComment(data))
-            .then(
-                document.querySelector('#comment').value = '',
-                setComment('')
-            );
+            dispatch(createStudyComment(data))
+            .then(res => {
+                if(res.type === CREATE_STUDY_COMMENT){
+                    document.querySelector('#comment').value = '';
+                    return setComment('')
+                }
+                if(res.type === CREATE_STUDY_COMMENT_ERROR){
+                    return alert(res.data.message);
+                }
+                if(res.type === AUTH_ERROR){
+                    alert(res.data.message);
+                    return history.push('/login');
+                }
+                if(res.type === SERVER_ERROR){
+                    return history.push('/error/500');
+                }
+            });
+        }else{
+            alert('로그인이 필요합니다');
+            return history.push('/login');
         }
-        alert('로그인이 필요합니다');
-        return history.push('/login');
     }
     const onChangeText = (e) => {
         setComment(e.target.value);

@@ -5,6 +5,7 @@ import { createStudy, loadStudy, deleteStudy } from '../../../../actions/StudyAc
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, IconButton, TextField, Typography } from '@material-ui/core'
 import { Delete, Create } from '@material-ui/icons'
+import { CREATE_STUDY, CREATE_STUDY_ERROR, AUTH_ERROR, SERVER_ERROR, LOAD_STUDY, LOAD_STUDY_ERROR, DELETE_STUDY, DELETE_STUDY_ERROR } from '../../../../actions/type';
 const useStyles = makeStyles(theme => {
     return {
         area : {
@@ -78,14 +79,22 @@ function Study() {
     useEffect(() => {
         dispatch(loadStudy())
         .then(res => {
-            setStudy(res.data);
+            if(res.type === LOAD_STUDY){
+                return setStudy(res.data);
+            }
+            if(res.type === LOAD_STUDY_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
+            }
         })
         return () => {
             setToggle(false)
             setText('')
             setStudy([])
         }
-    }, [dispatch, studyCount])
+    }, [dispatch, studyCount, history])
 
     const onChangeText = (e) => {
         setText(e.target.value);
@@ -97,13 +106,44 @@ function Study() {
         setToggle(true)
     }
     const onClickStudyCreateBtn = () => {
+        if(!text){
+            return alert('추가내용을 입력하세요')
+        }
         dispatch(createStudy(text))
-        .then(setToggle(false))
+        .then(res => {
+            if(res.type === CREATE_STUDY){
+                return setToggle(false)
+            }
+            if(res.type === CREATE_STUDY_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === AUTH_ERROR){
+                alert(res.data.message)
+                return history.push('/login');
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
+            }
+        })
     };
     const onClickDeleteBtn = (id) => {
         if(window.confirm('삭제 하시겠습니까?')){ 
             return dispatch(deleteStudy(id))
-            .then(history.push('/'))      
+            .then(res => {
+                if(res.type === DELETE_STUDY){
+                    return history.push('/')
+                }
+                if(res.type === DELETE_STUDY_ERROR){
+                    return alert(res.data.message);
+                }
+                if(res.type === AUTH_ERROR){
+                    alert(res.data.message)
+                    return history.push('/login');
+                }
+                if(res.type === SERVER_ERROR){
+                    return history.push('/error/500');
+                }
+            })      
         }
     };
 

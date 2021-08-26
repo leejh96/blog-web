@@ -5,6 +5,7 @@ import { deleteGuestBook, loadGuestBook } from '../../../../actions/GuestbookAct
 import Loading from '../../LoadingPage/Loading';
 import { makeStyles } from '@material-ui/core/styles'
 import { useHistory } from 'react-router-dom';
+import { SERVER_ERROR, AUTH_ERROR, DELETE_GUESTBOOK, DELETE_GUESTBOOK_ERROR, LOAD_GUESTBOOK, LOAD_GUESTBOOK_ERROR } from '../../../../actions/type';
 
 const useStyles = makeStyles(theme => ({
         area : {
@@ -47,21 +48,43 @@ function Tablesection({ page }) {
         setLoad(true);
         dispatch(loadGuestBook())
         .then(res => {
-            //page.id에 따라 slice 하기 시작 : (page.id-1)*10, 끝 : page.id*10 - 1
-            // slice는 끝이 undefined이면 배열 길이만큼만 리턴
-            setGuest(res.data.slice((page.id-1)*10, page.id*10 -1));
-            setLoad(false);
+            if(res.type === LOAD_GUESTBOOK){
+                //page.id에 따라 slice 하기 시작 : (page.id-1)*10, 끝 : page.id*10 - 1
+                // slice는 끝이 undefined이면 배열 길이만큼만 리턴
+                setGuest(res.data.slice((page.id-1)*10, page.id*10 -1));
+                return setLoad(false);
+            }
+            if(res.type === LOAD_GUESTBOOK_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
+            }
         })
         return () => {
             setLoad(false);
             setGuest([]);
         }
-    }, [dispatch, guestbookLength, page.id])
+    }, [dispatch, guestbookLength, page.id, history])
 
     const onClickDelete = (id) => {
         const data = { data : {id} };
         dispatch(deleteGuestBook(data))
-        .then(history.push('/guestbook/1'))
+        .then(res => {
+            if(res.type === DELETE_GUESTBOOK){
+                return history.push('/guestbook/1')
+            }
+            if(res.type === DELETE_GUESTBOOK_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === AUTH_ERROR){
+                alert(res.data.message)
+                return history.push('/login');
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
+            }
+        })
     }
 
     return (

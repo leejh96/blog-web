@@ -5,6 +5,7 @@ import { createNotice } from '../../../../../actions/NoticeAction';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
+import { AUTH_ERROR, CREATE_NOTICE, CREATE_NOTICE_ERROR, SERVER_ERROR } from '../../../../../actions/type';
 
 const useStyles = makeStyles(theme => ({
     title : {
@@ -44,8 +45,18 @@ function CreateContent() {
         }
         dispatch(createNotice(data))
         .then(res => {
-            if (res.success){
+            if(res.type === CREATE_NOTICE){
                 return history.push('/notice/1');
+            }
+            if(res.type === CREATE_NOTICE_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === AUTH_ERROR){
+                alert(res.data.message);
+                return history.push('/login');
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
             }
         })
     };

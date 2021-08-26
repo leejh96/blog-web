@@ -6,6 +6,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import moment from 'moment';
 import Loading from '../../../LoadingPage/Loading';
 import { makeStyles } from '@material-ui/core/styles';
+import { AUTH_ERROR, SERVER_ERROR, UPDATE_NOTICE, UPDATE_NOTICE_VALID_ERROR, UPDATE_NOTICE_ERROR } from '../../../../../actions/type';
 
 
 const useStyles = makeStyles(theme => ({
@@ -58,8 +59,21 @@ function UpdateContent() {
         }
         dispatch(updateNotice(data))
         .then(res => {
-            if (res.success){
+            if(res.type === UPDATE_NOTICE){
                 return history.push('/notice/1');
+            }
+            if(res.type === UPDATE_NOTICE_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === UPDATE_NOTICE_VALID_ERROR){
+                return history.push('/Notfound');
+            }
+            if(res.type === AUTH_ERROR){
+                alert(res.data.message);
+                return history.push('/login')
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
             }
         })
     };

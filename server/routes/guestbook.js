@@ -3,49 +3,25 @@ const router = express.Router();
 const { Guestbook } = require('../models');
 const {auth} = require('../middleware/auth');
 
-router.get('/', async(req, res) => {
+router.get('/', async(req, res, next) => {
     try {
         const guests = await Guestbook.find().populate('writer').sort('-date'); // -는 내림차순
-        return res.json({
-            success : true,
-            guests
-        })            
-    } catch (error) {
-        console.error(error);
-        return res.json({
-            success : false,
-            message : '서버 에러!',
-            error,
-        });
-    }
-});
-router.get('/count', async(req, res) => {
-    try {
-        const guestbook = await Guestbook.find();
-        const GuestbookCnt = guestbook.length;
-        let remainder = GuestbookCnt % 10 ? 1 : 0 ;
-        let cnt = parseInt(GuestbookCnt / 10) + remainder;
-        const pageArr = [1];
-        for(let i = 1; i< cnt; i++){
-            pageArr.push(i+1);
+        if(guests){
+            return res.json({
+                success : true,
+                guests
+            })            
         }
         return res.json({
-            success : true,
-            pageArr
-        })            
-    } catch (error) {
-        console.error(error);
-        return res.json({
             success : false,
-            message : '서버 에러!',
-            error,
-        });
+            message : '방명록을 불러오는데 실패했습니다'
+        })
+    } catch (error) {
+        next(error);
     }
 });
 
-
-
-router.post('/', auth, async(req, res) => {
+router.post('/', auth, async(req, res, next) => {
     try {
         const guestbook = await Guestbook.create({
             writer : req.user._id,
@@ -54,45 +30,39 @@ router.post('/', auth, async(req, res) => {
         })
         if(guestbook){
             return res.json({
+                auth : true,
                 success : true,
                 createContent : guestbook
             })
         }
         return res.json({
+            auth : true,
             success : false,
             message : '방명록 등록에 실패했습니다.'
         })
     } catch (error) {
-        console.error(error);
-        return res.json({
-            success : false,
-            message : '서버 에러!',
-            error,
-        });
+        next(error);
     }
 
 });
 
-router.delete('/', async(req, res) => {
+router.delete('/', auth, async(req, res, next) => {
     try {
         const guestbook = await Guestbook.findOneAndDelete({ _id : req.body.id });
         if(guestbook){
             return res.json({
+                auth : true,
                 success : true,
                 guestbook
             })
         }
         return res.json({
+            auth : true,
             success : false,
             message : '삭제하는데 실패했습니다.'
         })
     } catch (error) {
-        console.error(error);
-        return res.json({
-            success : false,
-            message : '서버 에러!',
-            error,
-        });
+        next(error);
     }
 
 });

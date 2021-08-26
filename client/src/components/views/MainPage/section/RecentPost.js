@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Box } from '@material-ui/core';
 import { loadRecentStudy } from '../../../../actions/StudyAction';
+import { LOAD_RECENT_STUDY, LOAD_RECENT_STUDY_ERROR, SERVER_ERROR } from '../../../../actions/type';
 const useStyles = makeStyles( theme => {
     return {
         area : {
@@ -48,15 +49,24 @@ function RecentPost() {
     const [posts, setPosts] = useState([]);
     const dispatch = useDispatch();
     const studyCount = useSelector(state => state.StudyReducer.studyCount);
+    const history = useHistory();
     useEffect(() => {
         dispatch(loadRecentStudy())
         .then(res => {
-            setPosts(res.data);
+            if(res.type === LOAD_RECENT_STUDY){
+                return setPosts(res.data);
+            }
+            if(res.type === LOAD_RECENT_STUDY_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
+            }
         })
         return () => {
             setPosts([]);
         }
-    }, [dispatch, studyCount])
+    }, [dispatch, studyCount, history])
     return (
         <Box className={classes.area}>
             <Typography variant='h5' align='center' className={classes.title}> 최근 게시물 </Typography>

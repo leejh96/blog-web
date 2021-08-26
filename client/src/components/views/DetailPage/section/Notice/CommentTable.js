@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector  } from 'react-redux';
 import { loadComment, deleteNoticeComment } from '../../../../../actions/NoticeAction';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Button, Box, Container, } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { AUTH_ERROR, DELETE_NOTICE_COMMENT, DELETE_NOTICE_COMMENT_ERROR, LOAD_COMMENT, LOAD_COMMENT_ERROR, LOAD_COMMENT_VALID_ERROR, SERVER_ERROR } from '../../../../../actions/type';
 
 const useStyles = makeStyles(theme => {
     return {
@@ -56,20 +57,46 @@ function CommentTable() {
     const [comment, setComment] = useState([]);
     const leng = useSelector(state => state.NoticeReducer.commentLength);
     const id = useParams().id;
+    const history = useHistory();
     const user = useSelector(state => state.UserReducer.user);
     useEffect(() => {
         dispatch(loadComment(id))
         .then(res => {
-            if(res.data.success){
+            if(res.type === LOAD_COMMENT){
                 return setComment(res.data.comment);
             }
+            if(res.type === LOAD_COMMENT_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === LOAD_COMMENT_VALID_ERROR){
+                return history.push('/Notfound');
+            }
+            if(res.type === AUTH_ERROR){
+                alert(res.data.message);
+                return history.push('/login');
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
+            }
         })
-    },[dispatch, id, leng])
+    },[dispatch, id, leng, history])
 
     const onClickDelete = (commentId, noticeId) => {
         dispatch(deleteNoticeComment(commentId, noticeId))
         .then(res => {
-            setComment(res.data);
+            if(res.type === DELETE_NOTICE_COMMENT){
+                return setComment(res.data.comment);
+            }
+            if(res.type === DELETE_NOTICE_COMMENT_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === AUTH_ERROR){
+                alert(res.data.message);
+                return history.push('/login');
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
+            }
         })
     };
     return (

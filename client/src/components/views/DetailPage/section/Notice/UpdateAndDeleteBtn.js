@@ -4,6 +4,7 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { deleteNotice } from '../../../../../actions/NoticeAction';
 import { makeStyles } from '@material-ui/core/styles';
+import { AUTH_ERROR, DELETE_NOTICE, DELETE_NOTICE_ERROR, SERVER_ERROR } from '../../../../../actions/type';
 
 const useStyles = makeStyles(theme => {
     return {
@@ -31,8 +32,18 @@ function UpdateAndDeleteBtn() {
     const onClickDelete = (id) => () => {
         dispatch(deleteNotice(id))
         .then(res => {
-            if(res.data){
-                history.push('/notice/1');
+            if(res.type === DELETE_NOTICE){
+                return history.push('/notice/1');
+            }
+            if(res.type === DELETE_NOTICE_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === AUTH_ERROR){
+                alert(res.data.message);
+                return history.push('/login');
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500');
             }
         })
     }
