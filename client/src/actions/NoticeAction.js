@@ -11,8 +11,6 @@ import {
     LOAD_COMMENT,
     DELETE_NOTICE_COMMENT,
     DELETE_NOTICE,
-    SEARCH_NOTICE,
-    NOTICE_ERROR,
     LOAD_ONE_NOTICE_ERROR,
     LOAD_COMMENT_ERROR,
     LOAD_LIKE_ERROR,
@@ -29,6 +27,8 @@ import {
     ADD_LIKE_ERROR,
     DELETE_LIKE_ERROR,
     DELETE_NOTICE_COMMENT_ERROR,
+    NOTICE_SEARCH,
+    NOTICE_SEARCH_ERROR,
 } from './type';
 
 
@@ -212,33 +212,34 @@ export const deleteNotice = id => async dispatch => {
             })
         }
     } catch (error) {
-        console.error(error);
         return dispatch({
-            type : NOTICE_ERROR,
+            type : SERVER_ERROR,
+            data : {
+                success : false,
+            }
         });
     }
 }
-export const searchNotice = (arr, text, type) => async dispatch => {
+export const searchNotice = (text, type) => async dispatch => {
     try {
-        let array = [];
-        if(type === 'title'){
-            array = await arr.filter((item) => {
-                return item.title.indexOf(text) > -1;
-            });
-        }
-        if(type === 'author'){
-            array = await arr.filter((item) => {
-                return item.author.nick.indexOf(text) > -1;
+        const data = { params : { type, text }}
+        const res = await axios.get(`/api/notice/search`, data);
+        if(res.data.success){
+            return dispatch({
+                type : NOTICE_SEARCH,
+                data : res.data,
             })
         }
         return dispatch({
-            type : SEARCH_NOTICE,
-            data : array,
+            type : NOTICE_SEARCH_ERROR,
+            data : res.data,
         })
     } catch (error) {
-        console.error(error);
         return dispatch({
-            type : NOTICE_ERROR,
+            type : SERVER_ERROR,
+            data : {
+                success : false,
+            }
         });
     }
 }

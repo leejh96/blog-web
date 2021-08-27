@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Box, TextField, Button, Select } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { searchNotice } from '../../../../actions/NoticeAction';
+import { NOTICE_SEARCH_ERROR, SERVER_ERROR } from '../../../../actions/type';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => {
     return {
@@ -10,6 +12,7 @@ const useStyles = makeStyles(theme => {
             display : 'flex',
             justifyContent : 'center',
             alignItems : 'baseline',
+            marginBottom : '16px',
         },
         text : {
             marginRight : '20px',
@@ -40,7 +43,7 @@ function Search() {
     const [text, setText] = useState('');
     const [selectedType, setSelectedType] = useState('title');
     const dispatch = useDispatch();
-    const notices = useSelector(state => state.NoticeReducer.notices)
+    const history = useHistory();
     useEffect(() => {
         setType(searchType());
     }, [])
@@ -54,12 +57,21 @@ function Search() {
 
     const onSubmithandler = (e) => {
         e.preventDefault();
-        dispatch(searchNotice(notices, text, selectedType))
+        dispatch(searchNotice(text, selectedType))
+        .then(res => {
+            if(res.type === NOTICE_SEARCH_ERROR){
+                return alert(res.data.message);
+            }
+            if(res.type === SERVER_ERROR){
+                return history.push('/error/500')
+            }
+        })
     }
     return (
         <Box className={classes.area}>    
             <form onSubmit={onSubmithandler}>
                 <Select
+                    name='type'
                     className={classes.select}
                     native
                     value={selectedType}
@@ -70,7 +82,7 @@ function Search() {
                         <option key={v+i} value={v.type}>{v.value}</option>
                     ))} 
                 </Select>
-                <TextField className={classes.text} onChange={onChangeText} placeholder="검색" variant="outlined" required />
+                <TextField className={classes.text} name='text' onChange={onChangeText} placeholder="검색" variant="outlined" required />
                 <Button type='submit' variant="contained">검색</Button>
             </form>
         </Box>

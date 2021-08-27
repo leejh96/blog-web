@@ -13,7 +13,6 @@ import {
     DELETE_NOTICE_COMMENT,
     UPDATE_NOTICE,
     DELETE_NOTICE,
-    SEARCH_NOTICE,
     NOTICE_ERROR,
     LOAD_COMMENT_ERROR,
     LOAD_LIKE_ERROR,
@@ -30,14 +29,17 @@ import {
     ADD_LIKE_ERROR,
     DELETE_LIKE_ERROR,
     DELETE_NOTICE_COMMENT_ERROR,
+    NOTICE_SEARCH_ERROR,
+    NOTICE_SEARCH,
 } from "../actions/type"
 
 const initialState = {
     notices : [],
     commentLength : 0,
-    selectdNotice : {},
+    searchNotice : [],
+    search : false,
+    selectedNotice : {},
     likeCount : 0,
-    searchNotices : [],
     error : false,
 }
 const NoticeReducer = (state = initialState, action) => {
@@ -45,13 +47,15 @@ const NoticeReducer = (state = initialState, action) => {
         case LOAD_NOTICE:
             return {
                 ...state,
+                search : false,
                 notices : [...action.data],
                 error : false,
             };
         case LOAD_ONE_NOTICE:
             return {
                 ...state,
-                selectdNotice : {...action.data},
+                searchNotice : [],
+                selectedNotice : {...action.data},
                 error : false,
 
             };
@@ -69,6 +73,12 @@ const NoticeReducer = (state = initialState, action) => {
                 error : false,
 
             };
+        case NOTICE_SEARCH:
+            return {
+                ...state,
+                search : true,
+                searchNotice : action.data.notices,
+            }
         case ADD_LIKE:
             return {
                 ...state,
@@ -102,12 +112,6 @@ const NoticeReducer = (state = initialState, action) => {
                 error : false,
 
             }
-        case SEARCH_NOTICE:
-            return {
-                ...state,
-                searchNotices : [...action.data],
-                error : false,
-            }
         case UPDATE_NOTICE:
             return {
                 ...state,
@@ -121,161 +125,171 @@ const NoticeReducer = (state = initialState, action) => {
         case NOTICE_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
                 error : true,
             }
         case LOAD_COMMENT_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
                 error : true,
             }
         case LOAD_LIKE_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
                 error : true,
             }
         case LOAD_ONE_NOTICE_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
                 error : true,
             }
         case LOAD_ONE_NOTICE_VALID_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
                 error : true,
             }
         case LOAD_NOTICE_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
                 error : true,
             }
         case LOAD_COMMENT_VALID_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
                 error : true,
             }
         case CREATE_NOTICE_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
                 error : true,
             }
         case SERVER_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
                 error : true,
             }
         case UPDATE_NOTICE_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
                 error : true,
             }
         case DELETE_NOTICE_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
                 error : true,
             }
         case CREATE_NOTICE_COMMENT_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
                 error : true,
             }
         case LOAD_LIKE_VALID_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
                 error : true,
             }
         case ADD_LIKE_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
                 error : true,
             }
         case DELETE_LIKE_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
                 error : true,
             }
         case DELETE_NOTICE_COMMENT_ERROR:
             return {
                 ...state,
+                searchNotice : [],
                 notices : [],
                 commentLength : 0,
-                selectdNotice : {},
+                selectedNotice : {},
                 likeCount : 0,
-                searchNotices : [],
+                error : true,
+            }
+        case NOTICE_SEARCH_ERROR:
+            return {
+                ...state,
+                searchNotice : [],
+                notices : [],
+                commentLength : 0,
+                selectedNotice : {},
+                likeCount : 0,
                 error : true,
             }
         default:

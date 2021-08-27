@@ -44,18 +44,6 @@ const useStyles = makeStyles(theme => {
                 color : '#999999',
             },
         },
-        number : {
-            textAlign :'left',
-            width : '5%'
-        },
-        author : {
-            textAlign :'right',
-            width : '20%'
-        },
-        titleName : {
-            textAlign :'center',
-            width : '75%'
-        },
     }
 });
 
@@ -88,9 +76,9 @@ function Notice() {
             <Typography variant='h5' align='center' className={classes.title}>공지사항</Typography>
             {posts.map((val, i) => (
                 <Box className={classes.post} display='flex' key={i}>
-                    <Box className={classes.number}>{i+1}</Box>
-                    <Box className={classes.titleName}><Link className={classes.postLink} to={user._id ? `/notice/1/${val._id}` : '/login'}  >{val.title}</Link></Box>
-                    <Box className={classes.author}>{val.author ? val.author.nick : '알수없음'}</Box>
+                    <Box>{i+1}</Box>
+                    <Box><Link className={classes.postLink} to={user._id ? `/notice/1/${val._id}` : '/login'}  >{val.title}</Link></Box>
+                    <Box>{val.author ? val.author.nick : '알수없음'}</Box>
                 </Box>
             ))}
         </Box>

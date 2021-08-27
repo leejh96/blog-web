@@ -5,6 +5,7 @@ import Search from './section/Search';
 import ButtonSection from './section/ButtonSection';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Box, Typography } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => {
     return {
@@ -22,13 +23,14 @@ const useStyles = makeStyles(theme => {
 function Notice() {
     document.title = 'NOTICE'
     const classes = useStyles();
+    const search = useSelector(state => state.NoticeReducer.search);
     return (
         <Box>
             <Typography className={classes.title} variant='h5'>공지사항</Typography>
             <Container className={classes.area} disableGutters>
                 <TableSection />
                 <ButtonSection />
-                <Pagination />
+                {!search && <Pagination />}
                 <Search />
             </Container>
         </Box>

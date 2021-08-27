@@ -90,3 +90,5 @@
 **`43일차 : sidebar 컴포넌트에서 cleanup function을 사용해서 state들을 초기값으로 바꿔줬더니 Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function. 에러가 해결되었다.`**
 
 **`44일차 : Cast to ObjectId failed for value 이란 오류를 발견했는데 찾아보니 req.params로 받은 값이 ObjectId가 아니기 때문에 나오는 오류였다 따라서 req.params 값을 mongoose에 있는 ObjectId.isValid 를 사용해서 ObjectId값이 아니라면 404 오류를 나타내도록 오류처리를 하였다.`**
+
+**`45일차 : 모든 에러처리를 완료했고 공지 검색기능시 mongoose에서는 like 효과를 나타내기 위해서 정규표현식을 쓴다는 것을 알았고 new RegExp(text, 'i')를 찾기위한 부분에 넣어주면 된다 이때 'i'는 대소문자 구별을 하지않는다는 표시이다.`**

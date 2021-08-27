@@ -22,6 +22,40 @@ router.get('/', async(req, res, next) => {
 
 });
 
+router.get('/search', async(req, res, next) => {
+    try {
+        const { type, text } = req.query;
+        if( type === 'title'){
+            const notices = await Notice.find({'title' : new RegExp(text, 'i')});
+            if(notices){
+                return res.json({
+                    success : true,
+                    notices,
+                })
+            }
+            return res.json({
+                success : false,
+                message : '검색에 실패했습니다'
+            })
+        }
+        if( type === 'author'){
+            const notices = await Notice.find({'author' : new RegExp(text, 'i')})
+            if(notices){
+                return res.json({
+                    success : true,
+                    notices,
+                })
+            }
+            return res.json({
+                success : false,
+                message : '검색에 실패했습니다'
+            })
+        }
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.get('/:id', auth, async(req, res, next) => {
     try {
         const oid = mongoose.Types.ObjectId.isValid(req.params.id)
