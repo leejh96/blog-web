@@ -3,7 +3,8 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = function (app){
     if(process.env.NODE_ENV === 'production'){
         app.use('/api', createProxyMiddleware({
-            target: 'https://julogpage.herokuapp.com/',
+            // target: 'https://julogpage.herokuapp.com/',
+            target: 'http://localhost:5000',
             changeOrigin: true,
         }));
     }else{
