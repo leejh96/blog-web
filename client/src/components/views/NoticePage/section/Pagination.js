@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => {
 })
 const pageCount = (cnt) => {
     let remainder = cnt % 10 ? 1 : 0 ;
-    let pageCnt = parseInt(cnt / 10) + remainder;
+    let pageCnt = parseInt(cnt / 10, 10) + remainder;
     return pageCnt;
 }
 
@@ -27,7 +27,7 @@ function Pagination() {
     const noticesCount = useSelector(state => state.NoticeReducer.notices).length;
     const [pageCnt , setPageCnt] = useState(1);
     const [page, setPage] = useState(1);
-    const paramsPage = parseInt(useParams().page);
+    const paramsPage = parseInt(useParams().page, 10);
     const history = useHistory();
     
     useEffect(() => {

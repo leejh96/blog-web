@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useHistory, useParams } from 'react-router';
 import ReactMarkdown from 'react-markdown';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 
 const Component = ({children, className}) => {
   return (
-    <>
+    <Fragment>
       {
         children[0].includes('\n') ? 
         <SyntaxHighlighter
@@ -77,7 +77,7 @@ const Component = ({children, className}) => {
           wrapLongLines={true}
         />
       }
-    </>
+    </Fragment>
 
   )
 };
@@ -128,7 +128,7 @@ function MarkdownEditor() {
         history.push(`/study/${page}`)
     }
     return (
-      <>
+      <Fragment>
         <Box className={classes.edit}>
           <TextareaAutosize  className={classes.text} variant='outlined' value={text} onChange={onChangeText} autoFocus />
           <ReactMarkdown className={classes.markdown} remarkPlugins={[gfm, {singleTilde: false}]} children={text} components= {{
@@ -139,7 +139,7 @@ function MarkdownEditor() {
           <Button className={classes.btn} variant="contained" onClick={onClickUpdate}>저장</Button>
           <Button className={classes.btn} variant="contained" onClick={onClickCancel}>취소</Button>
         </Box>
-      </>
+      </Fragment>
     )
 }
 

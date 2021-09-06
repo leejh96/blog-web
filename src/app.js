@@ -14,7 +14,7 @@ const AuthRouter = require('../routes/auth');
 require('dotenv').config();
 
 PassportConfig(passport);
-mongoose.connect(process.env.mongoURI, {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -30,7 +30,7 @@ mongoose.connect(process.env.mongoURI, {
 app.use(express.urlencoded({extended : true}));
 app.use(express.json());
 app.use(cookieParser());
-app.use(session({
+const option = {
     resave : false,
     saveUninitialized: false,
     secret: process.env.SESSION_SECRET,
@@ -38,9 +38,25 @@ app.use(session({
         httpOnly:true,
         secret: false,
     }
-}));
+}
+// if(process.env.NODE_ENV === 'production'){
+//     option.cookie.secret = true;
+// }
+app.use(session(option));
 app.use(passport.initialize());
 app.use(passport.session());
+
+// if(process.env.NODE_ENV === 'production'){
+//     app.use(express.static(('client/build')));
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+//     })
+// }
+app.use(express.static(('client/build')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+})
+
 app.use('/api/img', express.static('upload'));
 app.use('/api/user', UserRouter);
 app.use('/api/study', StudyRouter);
@@ -56,6 +72,7 @@ app.use((err, req, res, next) => {
         error : err,
     })
 })
-app.listen(process.env.PORT, (req, res) => {
+const port = process.env.PORT || 8080;
+app.listen(port, (req, res) => {
     console.log('server connected ...');
 })

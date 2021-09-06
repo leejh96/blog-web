@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,Fragment } from 'react'
 import { TextField, Box } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
@@ -47,7 +47,7 @@ function TextArea() {
         })
     }, [dispatch, id, history])
     return (
-        <>
+        <Fragment>
             {load ?
                 <Loading />
             :
@@ -63,7 +63,7 @@ function TextArea() {
                     } value={ notice.text || ''}/>
                 </Box>
             }
-        </>
+        </Fragment>
     )
 }
 

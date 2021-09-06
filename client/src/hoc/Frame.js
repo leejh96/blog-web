@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Navbar from '../components/views/NavBar/Navbar';
-import Sidebar from '../components/views/SideBar/Sidebar';
+import SideBar from '../components/views/SideBar/SideBar'
 import Footer from '../components/views/Footer/Footer';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
@@ -30,16 +30,16 @@ function Frame(Component) {
     function WithFrameComponent(){
         const classes = useStyles();
         return (        
-            <>
+            <Fragment>
                 <Navbar />
                 <Container className={classes.main} disableGutters>
-                    <Sidebar />
+                    <SideBar />
                     <Container className={classes.content}>
                         <Component />
                     </Container>
                 </Container>
                 <Footer />
-            </>
+            </Fragment>
         )
     }
     return WithFrameComponent

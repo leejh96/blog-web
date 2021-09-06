@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createStudy, loadStudy, deleteStudy } from '../../../../actions/StudyAction';
@@ -156,7 +156,7 @@ function Study() {
                   <Create />
                 </IconButton>
                 :
-                <></>
+                <Fragment></Fragment>
               }
             </Box>
             { toggle?
@@ -165,7 +165,7 @@ function Study() {
                 <Button size='small' variant='outlined' className={classes.createBtn} onClick={onClickStudyCreateBtn}>추가</Button>
             </Box>
             :
-            <></>
+            <Fragment></Fragment>
             }
             {study.map((val, i) => (
             <Box className={classes.studyDiv} key={val._id}>
@@ -177,7 +177,7 @@ function Study() {
                     <Delete />
                   </IconButton>
                   :
-                  <></>
+                  <Fragment></Fragment>
                 }
             </Box>
             ))}

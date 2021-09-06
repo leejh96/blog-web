@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Button, Box } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -24,7 +24,7 @@ function ButtonSection() {
             { user.role === 3 ?
                 <Link className={classes.link} to='/notice/edit'><Button variant="contained">글작성</Button></Link>  
                 :
-                <></>
+                <Fragment></Fragment>
             }
         </Box>
     )

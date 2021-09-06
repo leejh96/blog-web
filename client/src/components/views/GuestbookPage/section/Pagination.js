@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 
 const pageCount = (cnt) => {
     let remainder = cnt % 10 ? 1 : 0 ;
-    let pageCnt = parseInt(cnt / 10) + remainder;
+    let pageCnt = parseInt(cnt / 10, 10) + remainder;
     return pageCnt;
 }
 
@@ -25,7 +25,7 @@ function Pagination() {
     const [page, setPage] = useState(1);
     const [pageCnt , setPageCnt] = useState(1);
     const guestbookLength = useSelector(state => state.GuestbookReducer.guestlength);
-    const paramsPage = parseInt(useParams().id);
+    const paramsPage = parseInt(useParams().id, 10);
     const history = useHistory();
 
     useEffect(() => {

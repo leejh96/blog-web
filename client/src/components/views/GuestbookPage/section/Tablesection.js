@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, Fragment} from 'react'
 import { Box, Table, TableBody, TableCell, TableHead, TableRow, Button} from '@material-ui/core'
 import { useDispatch, useSelector  } from 'react-redux';
 import { deleteGuestBook, loadGuestBook } from '../../../../actions/GuestbookAction';
@@ -113,14 +113,14 @@ function Tablesection({ page }) {
                                                     user._id === val.writer._id || user.role === 3?
                                                         <TableCell className={classes.delete}><Button onClick={() => onClickDelete(val._id)}>X</Button> </TableCell>
                                                     :
-                                                        <></>
+                                                        <Fragment></Fragment>
                                                 :    
                                                     user.role === 3 ?
                                                         <TableCell className={classes.delete}><Button onClick={() => onClickDelete(val._id)}>X</Button> </TableCell>
                                                     :
-                                                        <></>
+                                                        <Fragment></Fragment>
                                             :
-                                                <></>
+                                                <Fragment></Fragment>
                                         }
                                     </TableRow>
                                 ) 

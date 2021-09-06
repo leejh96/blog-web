@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import { Divider, Container, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Study from './section/Study';
@@ -42,15 +42,15 @@ function Sidebar() {
         { pathname.indexOf('/setting') !== -1 ?
             <Setting />
             :
-            <>
-            <Typography className={classes.sidetitle}>
-                Menu
-            </Typography>
-            <Divider className={classes.divide1}/>
-            <Study />
-            <Divider className={classes.divide2}/>
-            <Board />
-            </>
+            <Fragment>
+                <Typography className={classes.sidetitle}>
+                    Menu
+                </Typography>
+                <Divider className={classes.divide1}/>
+                <Study />
+                <Divider className={classes.divide2}/>
+                <Board />
+            </Fragment>
         }
         </Container> 
     )

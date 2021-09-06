@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{Fragment} from 'react'
 import CreateContent from './section/CreateContent';
 import UpdateContent from './section/UpdateContent';
 import { useParams } from 'react-router-dom';
@@ -22,7 +22,7 @@ function NoticeEdit() {
     const classes = useStyles();
     const params = useParams();
     return (
-        <>
+        <Fragment>
             {!params.id ?
             <Box>
                 <Typography variant='h5' className={classes.title}>공지사항 작성</Typography>
@@ -38,7 +38,7 @@ function NoticeEdit() {
                 </Box>
             </Box>
             }
-        </>
+        </Fragment>
     )
 }
 

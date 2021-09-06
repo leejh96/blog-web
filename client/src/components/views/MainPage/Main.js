@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Intro from './section/Introduce';
 import Notice from './section/Notice';
 import RecentPost from './section/RecentPost';
@@ -24,13 +24,13 @@ function Main() {
     const classes = useStyles();
     document.title = 'JULOG'
     return (
-        <>
+        <Fragment>
             <Intro />
             <Container className={classes.area} disableGutters>
                 <Notice />
                 <RecentPost />
             </Container>
-        </>
+        </Fragment>
     )
 }
 export default Main

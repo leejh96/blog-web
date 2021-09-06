@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,Fragment } from 'react'
 import { TextField, Button, Box } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { loadOneNotice, updateNotice } from '../../../../../actions/NoticeAction';
@@ -92,7 +92,7 @@ function UpdateContent() {
     };
 
     return (
-        <>
+        <Fragment>
         {
             load ?
             <Loading />
@@ -107,7 +107,7 @@ function UpdateContent() {
                 </Box>
             </form>
         }
-        </>
+        </Fragment>
     )
 }
 

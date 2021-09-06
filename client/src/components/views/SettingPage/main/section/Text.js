@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Fragment } from 'react'
 import { Button, Container, TextField, Box } from '@material-ui/core';
 import { updateMotto } from '../../../../../actions/UserAction';
 import { useDispatch, useSelector } from 'react-redux';
@@ -67,7 +67,7 @@ function Text() {
             </Box>
             <form onSubmit={onSubmitText}>
                 <Box align='center'>
-                    {toggle ? <TextField className={classes.text} variant='outlined' fullWidth multiline onChange={onChangeText}/> : <></>}
+                    {toggle ? <TextField className={classes.text} variant='outlined' fullWidth multiline onChange={onChangeText}/> : <Fragment></Fragment>}
                     <Button className={classes.btn} type='submit'  variant='outlined'>{ toggle ? '저장' : '입력'}</Button>
                 </Box>
             </form>

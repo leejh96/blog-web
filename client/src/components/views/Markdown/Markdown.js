@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { materialLight  } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 }))
 const Component = ({children, className}) => {
     return (
-      <>
+      <Fragment>
         {
           children[0].includes('\n') ? 
           <SyntaxHighlighter
@@ -64,7 +64,7 @@ const Component = ({children, className}) => {
             children={children}
           />
         }
-      </>
+      </Fragment>
   
     )
   };
@@ -103,7 +103,7 @@ function MarkdownSection() {
             load ? 
                 <Loading />
             :
-            <>
+            <Fragment>
                 {text ? 
                 <ReactMarkdown className={classes.markdown} remarkPlugins={[gfm]} children={text} components= {{
                     code : Component
@@ -115,10 +115,10 @@ function MarkdownSection() {
                 { user.role === 3 ?                
                     <Link className={classes.link} to={`/study/${page}/edit`}><Button className={classes.btn} variant="contained" >{!text ? "글작성" : "글수정"}</Button></Link>
                     :
-                    <></>
+                    <Fragment></Fragment>
                 }
                 </Box>
-            </>
+            </Fragment>
             }
         </Box>
     )

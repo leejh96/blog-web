@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, Fragment} from 'react'
 import { useDispatch, useSelector  } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Button, Container, Box } from '@material-ui/core';
@@ -107,7 +107,7 @@ function CommentTable() {
                                 :
                                     <img className={classes.img} src={'/api/img/basic.png'} alt='userImg'/>
                             :
-                                <></>
+                                <Fragment></Fragment>
                             }
                             { val.user ? val.user.nick : '알수없음' }
                         </Box>
@@ -120,12 +120,12 @@ function CommentTable() {
                                     user._id === val.user._id || user.role === 3 ?
                                         <Button className={classes.deleteButton} onClick={onClickDelete(val._id, study)}>X</Button>
                                     :
-                                        <></>
+                                        <Fragment></Fragment>
                                 :
                                     user.role === 3 ?
                                         <Button className={classes.deleteButton} onClick={onClickDelete(val._id, study)}>X</Button>
                                     :
-                                        <></>
+                                        <Fragment></Fragment>
                                 }
                             </Box>
                         </Box>

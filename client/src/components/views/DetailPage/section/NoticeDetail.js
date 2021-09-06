@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import LikeButton from './Notice/LikeButton';
 import TextArea from './Notice/TextArea';
 import Comment from './Notice/Comment';
@@ -8,13 +8,13 @@ import { useSelector } from 'react-redux';
 function NoticeDetail() {
     const user = useSelector(state => state.UserReducer.user);
     return (
-        <>
+        <Fragment>
             <TextArea />
-            { user.role === 3 ? <UpdateAndDeleteBtn /> : <></>}
+            { user.role === 3 ? <UpdateAndDeleteBtn /> : <Fragment></Fragment>}
             <LikeButton />
             <CommentTable />
             <Comment />
-        </>
+        </Fragment>
     )
 }
 
