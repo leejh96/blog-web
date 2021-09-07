@@ -39,23 +39,19 @@ const option = {
         secret: false,
     }
 }
-// if(process.env.NODE_ENV === 'production'){
-//     option.cookie.secret = true;
-// }
+if(process.env.NODE_ENV === 'production'){
+    option.cookie.secret = true;
+}
 app.use(session(option));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// if(process.env.NODE_ENV === 'production'){
-//     app.use(express.static(('client/build')));
-//     app.get('*', (req, res) => {
-//         res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-//     })
-// }
-app.use(express.static(('client/build')));
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-})
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static(('client/build')));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+    })
+}
 
 app.use('/api/img', express.static('upload'));
 app.use('/api/user', UserRouter);
