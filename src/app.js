@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const session = require('express-session');
 const app = express();
+const path = require('path');
 
 const UserRouter = require('../routes/user');
 const StudyRouter = require('../routes/study');
