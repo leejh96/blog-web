@@ -54,7 +54,7 @@ if(process.env.NODE_ENV === 'production'){
     })
 }
 
-app.use('/api/img', express.static('upload'));
+app.use('/api/img', express.static('upload/'));
 app.use('/api/user', UserRouter);
 app.use('/api/study', StudyRouter);
 app.use('/api/guestbook', GuestbookRouter);

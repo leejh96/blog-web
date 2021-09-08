@@ -57,7 +57,6 @@ function Notice() {
     useEffect(() => {
         dispatch(loadNotice())
         .then(res => {
-            console.log(res);
             if(res.type === LOAD_NOTICE){
                 return setPosts(res.data.slice(0,8));
             }
