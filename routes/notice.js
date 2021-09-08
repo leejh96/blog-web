@@ -6,7 +6,6 @@ const mongoose = require('mongoose')
 router.get('/', async(req, res, next) => {
     try {
         const notices = await Notice.find().populate('author').sort('-date');
-        console.log(notices);
         if(notices){
             return res.json({
                 success : true,
