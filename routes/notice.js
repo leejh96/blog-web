@@ -12,11 +12,13 @@ router.get('/', async(req, res, next) => {
                 notices,
             })
         }
+        console.log('try error')
         return res.json({
             success : false,
             message : '공지사항을 불러오는데 실패했습니다'
         })
     } catch (error) {
+        console.log('catch error')
         next(error);
     }
 
