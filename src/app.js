@@ -63,7 +63,6 @@ app.use('/api/auth', AuthRouter);
 
 app.use((err, req, res, next) => {
     return res
-    .status(500)
     .json({
         error : err,
     })
