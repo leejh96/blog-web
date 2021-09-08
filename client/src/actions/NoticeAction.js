@@ -36,6 +36,7 @@ import {
 export const loadNotice = () => async dispatch => {
     try {
         const res = await axios.get('/api/notice');
+        console.log(res);
         if(res.data.success){
             return dispatch({
                 type : LOAD_NOTICE,
