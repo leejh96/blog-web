@@ -5,23 +5,43 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { auth } = require('../middleware/auth');
 const multer = require('multer');
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
 const path = require('path');
 const fs = require('fs');
 
-const upload = multer({
-    storage: multer.diskStorage({
-        destination(req, file, cb){
-            // 현재위치가 아닌 맨처음에서 시작하는 듯
-            cb(null, 'upload/');
-        },
+const s3 = new AWS.S3({
+    accessKeyId : process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+    region : process.env.AWS_REGION
+})
 
-        filename(req, file, cb){
+// const upload = multer({
+//     storage: multer.diskStorage({
+//         destination(req, file, cb){
+//             // 현재위치가 아닌 맨처음에서 시작하는 듯
+//             cb(null, 'upload/');
+//         },
+
+//         filename(req, file, cb){
+//             const ext = path.extname(file.originalname);
+//             cb(null, file.originalname.split('.')[0] + Date.now() + ext);    
+//         }
+//     }),
+//     limits: {fileSize: 5 * 1024 *1024}
+// });
+const upload = multer({
+    storage : multerS3({
+        s3,
+        bucket: 'julog-app',
+        contentType: multerS3.AUTO_CONTENT_TYPE,
+        acl: 'public-read', //읽기만 가능
+        key: (req, file, cb) => { //파일이름 설정하는 곳
             const ext = path.extname(file.originalname);
-            cb(null, file.originalname.split('.')[0] + Date.now() + ext);    
+            cb(null, file.originalname.split('.')[0] + Date.now() + ext);
         }
     }),
-    limits: {fileSize: 5 * 1024 *1024}
-});
+})
 
 router.post('/signup', async (req, res, next) => {
     try {
@@ -258,31 +278,45 @@ router.put('/password', auth, async(req, res, next) => {
 
 router.put('/img', auth, upload.single('file'), async(req, res, next) => {
     try {
-        const userImg = await User.findOne({ _id : req.user._id});
-        if(userImg.img !== ''){
-            fs.unlink(`upload/${req.user.img}`, err => {
-                if (err) {
-                    console.error(err);
-                    return res.json({
-                        auth : true,
-                        success : false,
-                        message : '이미지 삭제 에러!',
-                    });
-                }
-            });
-        }
-        const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : req.file.filename});
+        // const userImg = await User.findOne({ _id : req.user._id});
+        // if(userImg.img !== ''){
+        //     fs.unlink(`upload/${req.user.img}`, err => {
+        //         if (err) {
+        //             console.error(err);
+        //             return res.json({
+        //                 auth : true,
+        //                 success : false,
+        //                 message : '이미지 삭제 에러!',
+        //             });
+        //         }
+        //     });
+        // }
+        // const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : req.file.filename});
+        // if(user){
+        //     return res.json({
+        //         success : true,
+        //         auth : true,
+        //         file : req.file.filename,
+        //     }); 
+        // }
+        // return res.json({
+        //     auth : true,
+        //     success : false,
+        //     message : '이미지 변경에 실패했습니다.'
+        // })
+        console.log('req.file : ', req.file);
+        const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : req.file.fieldname.location});
         if(user){
             return res.json({
                 success : true,
                 auth : true,
                 file : req.file.filename,
-            }); 
+            });
         }
         return res.json({
             auth : true,
             success : false,
-            message : '이미지 변경에 실패했습니다.'
+            message : '이미지 변경에 실패했습니다',
         })
     } catch (error) {
         next(error);

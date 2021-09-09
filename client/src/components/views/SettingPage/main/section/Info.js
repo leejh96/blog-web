@@ -72,12 +72,13 @@ const useStyles = makeStyles(theme => ({
 }))
 function Info() {
     const classes = useStyles();
-    const [path, setPath] = useState('/api/img/basic.png');
+    const [path, setPath] = useState('');
     const user = useSelector(state => state.UserReducer.user);
     const dispatch = useDispatch();
     const history = useHistory();
     useEffect(() => {
-        user.img ? setPath(`/api/img/${user.img}`) : setPath(`/api/img/basic.png`)
+        console.log(user);
+        user.img ? setPath(user.img) : setPath(`https://julog-app.s3.ap-northeast-2.amazonaws.com/uploads/basic.png`)
     }, [user])
     const onChangeImage = (e) => {
         const formData = new FormData();
@@ -107,7 +108,7 @@ function Info() {
         dispatch(deleteImg(user.img))
         .then(res => {
             if(res.data.success){
-                return setPath('/api/img/basic.png');
+                return setPath('https://julog-app.s3.ap-northeast-2.amazonaws.com/uploads/basic.png');
             }
             return alert(res.data.message);
         })
