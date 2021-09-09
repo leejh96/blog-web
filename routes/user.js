@@ -33,7 +33,7 @@ const s3 = new AWS.S3({
 const upload = multer({
     storage : multerS3({
         s3,
-        bucket: 'julog-app',
+        bucket: 'julog-app/uploads',
         contentType: multerS3.AUTO_CONTENT_TYPE,
         acl: 'public-read', //읽기만 가능
         key: (req, file, cb) => { //파일이름 설정하는 곳
@@ -41,6 +41,7 @@ const upload = multer({
             cb(null, file.originalname.split('.')[0] + Date.now() + ext);
         }
     }),
+    limits: {fileSize: 5 * 1024 *1024}
 })
 
 router.post('/signup', async (req, res, next) => {
@@ -325,16 +326,16 @@ router.put('/img', auth, upload.single('file'), async(req, res, next) => {
 
 router.put('/deleteimg', auth, async(req, res, next) => {
     try {
-        fs.unlink(`upload/${req.body.img}`, err => {
-            if (err) {
-                console.error(err);
-                return res.json({
-                    auth : true,
-                    success : false,
-                    message : '이미지 삭제 에러!',
-                });
-            }
-        });
+        // fs.unlink(`upload/${req.body.img}`, err => {
+        //     if (err) {
+        //         console.error(err);
+        //         return res.json({
+        //             auth : true,
+        //             success : false,
+        //             message : '이미지 삭제 에러!',
+        //         });
+        //     }
+        // });
         const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : '' });
         if(user){
             return res.json({
