@@ -14,7 +14,7 @@ function OAuth() {
     const classes = useStyles();
     return (
         <Box className={classes.oauth} mt={2}>
-            <IconButton href='http://localhost:5000/api/auth/google'>{/*axios를 사용하면 오류가 떠서 링크로바꿔줌*/}
+            <IconButton href='https://julogpage.herokuapp.com/api/auth/google'>{/*axios를 사용하면 오류가 떠서 링크로바꿔줌*/}
                 <Icon className='fab fa-google'></Icon>
             </IconButton>
         </Box>
