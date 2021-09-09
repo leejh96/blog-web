@@ -50,14 +50,18 @@ const useStyles = makeStyles(theme => ({
         display : 'none',
     },
     label :{
-        padding: '6px 25px',
+        padding: '6px 24px',
         backgroundColor:'#c4c4c4',
         borderRadius: '4px',
         color: 'white',
         cursor: 'pointer',
+        marginRight : '4px',
         '&:hover' : {
             backgroundColor:'#b4b4b4',
-        }
+        },
+        [theme.breakpoints.down('sm')]: {
+            padding: '6px 6px'
+        },
     },
     btnArea : {
         display : 'flex',
