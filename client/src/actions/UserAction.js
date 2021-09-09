@@ -262,7 +262,6 @@ export const resignOAuthUser = () => async dispatch => {
 
 export const uploadImage = file => async dispatch => {
     try {
-        console.log(file);
         const res = await axios.put('/api/user/img', file,{ headers : { "Content-Type": "multipart/form-data" }});
         if(res.data.success && res.data.auth){
             return dispatch({

@@ -305,12 +305,12 @@ router.put('/img', auth, upload.single('file'), async(req, res, next) => {
         //     message : '이미지 변경에 실패했습니다.'
         // })
         console.log('req.file : ', req.file);
-        const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : req.file.fieldname.location});
+        const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : req.file.location});
         if(user){
             return res.json({
                 success : true,
                 auth : true,
-                file : req.file.filename,
+                file : req.file.location,
             });
         }
         return res.json({

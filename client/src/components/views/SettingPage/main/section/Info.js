@@ -77,7 +77,6 @@ function Info() {
     const dispatch = useDispatch();
     const history = useHistory();
     useEffect(() => {
-        console.log(user);
         user.img ? setPath(user.img) : setPath(`https://julog-app.s3.ap-northeast-2.amazonaws.com/uploads/basic.png`)
     }, [user])
     const onChangeImage = (e) => {
@@ -86,7 +85,7 @@ function Info() {
         dispatch(uploadImage(formData))
         .then(res => {
             if(res.type === UPDATE_IMAGE){
-                return setPath(`/api/img/${res.data.file}`);
+                return setPath(res.data.file);
             }
             if(res.type === UPDATE_IMAGE_ERROR){
                 return alert(res.data.message);
