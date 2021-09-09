@@ -47,14 +47,7 @@ app.use(session(option));
 app.use(passport.initialize());
 app.use(passport.session());
 
-if(process.env.NODE_ENV === 'production'){
-    app.use(express.static(('client/build')));
-    app.get('/', (req, res) => {
-        res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-    })
-}
 
-// app.use('/api/img', express.static('upload/'));
 app.use('/api/user', UserRouter);
 app.use('/api/study', StudyRouter);
 app.use('/api/guestbook', GuestbookRouter);
@@ -70,6 +63,14 @@ app.use((err, req, res, next) => {
         error : err,
     })
 })
+
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static(('client/build')));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+    })
+}
+
 const port = process.env.PORT || 8080;
 app.listen(port, (req, res) => {
     console.log('server connected ...');

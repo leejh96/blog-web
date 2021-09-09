@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => {
             textDecoration : 'none',
             color : 'black',
             marginRight: '5px', 
-            fontSize : '6px'
+            fontSize : '0.5rem'
         }
     }
 })
