@@ -22,7 +22,8 @@ module.exports = (passport) => {
           provider : 'google',
           username : profile._json.name,
           nick : profile._json.family_name,
-          email : profile.emails[0].value
+          email : profile.emails[0].value,
+          img : 'https://julog-app.s3.ap-northeast-2.amazonaws.com/uploads/basic.png'
         })
         cb(null, newUser);
       }
