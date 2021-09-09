@@ -18,7 +18,6 @@ const useStyles = makeStyles(theme => ({
         flexDirection : 'column',
         justifyContent : 'space-between',
         width : '40%',
-        boxSizing : 'border-box',
         height : '400px',
     },
     infoArea : {
@@ -28,7 +27,7 @@ const useStyles = makeStyles(theme => ({
         display : 'flex',
         flexDirection : 'column',
         justifyContent : 'space-between',
-        padding : '0 20px'
+        margin : '0 20px'
     },
     text : {
         paddingLeft : '10px',
@@ -60,7 +59,7 @@ const useStyles = makeStyles(theme => ({
             backgroundColor:'#b4b4b4',
         },
         [theme.breakpoints.down('sm')]: {
-            padding: '6px 6px'
+            padding: '6px 8px'
         },
     },
     btnArea : {
@@ -72,6 +71,11 @@ const useStyles = makeStyles(theme => ({
         justifyContent : 'center',
         width : '100%',
         height : '80%',
+    },
+    btn : {
+        [theme.breakpoints.down('sm')]: {
+            padding: '6px 6px'
+        },
     }
 }))
 function Info() {
@@ -127,7 +131,7 @@ function Info() {
                         <Box className={classes.btnArea}>
                             <label className={classes.label} htmlFor="input-file" id='label'>업로드</label>
                             <input className={classes.upload} type="file" name='file' id="input-file" onChange={onChangeImage}/>
-                            <Button variant='outlined' onClick={onClickDelete}>이미지 제거</Button>
+                            <Button className={classes.btn} variant='outlined' onClick={onClickDelete}>이미지 제거</Button>
                         </Box>
                     </form>
                 </Box>
