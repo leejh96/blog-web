@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Container, Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import SideSection from './section/SideSection';
 
 const useStyles = makeStyles(theme => {
     return {
@@ -23,12 +24,19 @@ const useStyles = makeStyles(theme => {
         },
         logo : {
             fontWeight : 'bold'
+        },
+        side : {
+            display: 'none',
+            [theme.breakpoints.down('sm')]: {
+                display : 'flex',
+            },
         }
     }
 })
 function Navbar() {
     const user = useSelector(state => state.UserReducer.user);
     const classes = useStyles();
+
     return (
         <Container className={classes.area} disableGutters maxWidth='xl'>
             {Object.keys(user).length > 0 ? <AuthT /> : <AuthF />}
@@ -36,6 +44,9 @@ function Navbar() {
                 <Typography variant='h4' className={classes.logo}>
                     <Link to='/' className={classes.link}>JULOG</Link>
                 </Typography>
+                <Box className={classes.side}>
+                    <SideSection />
+                </Box>
             </Box>
         </Container>
     )
