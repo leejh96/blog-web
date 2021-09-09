@@ -342,7 +342,7 @@ router.put('/deleteimg', auth, async(req, res, next) => {
             return res.json({
                 auth : true,
                 success : true,
-                img : '',
+                img : 'https://julog-app.s3.ap-northeast-2.amazonaws.com/uploads/basic.png',
             }); 
         }
         return res.json({
@@ -381,18 +381,18 @@ router.delete('/', auth, async(req, res, next) => {
         if(user){
             const TF = await bcrypt.compare(req.body.password, user.password);
             if(TF){
-                if(req.user.img){
-                    fs.unlink(`upload/${req.user.img}`, err => {
-                        if (err) {
-                            console.error(err);
-                            return res.json({
-                                success : false,
-                                auth : true,
-                                message : '이미지 제거에 실패했습니다.',
-                            });
-                        }
-                    });
-                }
+                // if(req.user.img){
+                //     fs.unlink(`upload/${req.user.img}`, err => {
+                //         if (err) {
+                //             console.error(err);
+                //             return res.json({
+                //                 success : false,
+                //                 auth : true,
+                //                 message : '이미지 제거에 실패했습니다.',
+                //             });
+                //         }
+                //     });
+                // }
                 await User.findOneAndDelete({ _id : req.user._id});
                 return res
                 .clearCookie('rft')
@@ -420,16 +420,16 @@ router.delete('/', auth, async(req, res, next) => {
 
 router.delete('/oauth', async(req, res, next) => {
     try {
-        if(req.user.img){
-            fs.unlink(`upload/${req.user.img}`, err => {
-                if (err) {
-                    return res.json({
-                        success : false,
-                        message : '이미지 제거에 실패했습니다'
-                    });
-                }
-            });
-        }
+        // if(req.user.img){
+        //     fs.unlink(`upload/${req.user.img}`, err => {
+        //         if (err) {
+        //             return res.json({
+        //                 success : false,
+        //                 message : '이미지 제거에 실패했습니다'
+        //             });
+        //         }
+        //     });
+        // }
         const user = await User.findOneAndDelete({ _id : req.user._id });
         if(user){
             req.logout();
