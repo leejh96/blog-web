@@ -12,6 +12,7 @@ const useStyles = makeStyles(theme => ({
         display : 'flex',
         height : '400px',
         marginBottom : '36px',
+        width : '100%'
     },
     imgBtn : {
         display : 'flex',
@@ -71,6 +72,7 @@ const useStyles = makeStyles(theme => ({
         justifyContent : 'center',
         width : '100%',
         height : '80%',
+        boxSizing: 'border-box',
     },
     btn : {
         [theme.breakpoints.down('sm')]: {
@@ -124,17 +126,15 @@ function Info() {
         <Container disableGutters className={classes.area}>
             <Box className={classes.imgBtn}>
                 <Box className={classes.imageArea}>
-                    <img src={path} alt='이미지' />
+                    <img src={path} alt='이미지' width='100%' height='100%' />
                 </Box>
-                <Box>
-                    <form>
-                        <Box className={classes.btnArea}>
-                            <label className={classes.label} htmlFor="input-file" id='label'>업로드</label>
-                            <input className={classes.upload} type="file" name='file' id="input-file" onChange={onChangeImage}/>
-                            <Button className={classes.btn} variant='outlined' onClick={onClickDelete}>이미지 제거</Button>
-                        </Box>
-                    </form>
-                </Box>
+                <form>
+                    <Box className={classes.btnArea}>
+                        <label className={classes.label} htmlFor="input-file" id='label'>업로드</label>
+                        <input className={classes.upload} type="file" name='file' id="input-file" onChange={onChangeImage}/>
+                        <Button className={classes.btn} variant='outlined' onClick={onClickDelete}>이미지 제거</Button>
+                    </Box>
+                </form>
             </Box>
             <Box className={classes.infoArea}>
                 <Box className={classes.text}>이름</Box>
