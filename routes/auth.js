@@ -9,9 +9,9 @@ router.get('/google',
 //구글에서 요청을 보내는 곳
 router.get('/google/callback', 
     passport.authenticate('google', {
-        failureRedirect: 'http://localhost:3000/login' 
+        failureRedirect: 'https://julogpage.herokuapp.com/login' 
     }),
-    (req, res) => ( res.redirect('http://localhost:3000') )
+    (req, res) => ( res.redirect('https://julogpage.herokuapp.com') )
 );
 
 module.exports = router;
