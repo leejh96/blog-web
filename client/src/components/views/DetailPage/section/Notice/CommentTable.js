@@ -106,10 +106,7 @@ function CommentTable() {
                     <Box className={classes.user}>
                         <Box className={classes.info}>
                             { val.user ?
-                                val.user.img ? 
-                                    <img className={classes.img} src={`/api/img/${val.user.img}`} alt='userImg'/>
-                                :
-                                    <img className={classes.img} src={'/api/img/basic.png'} alt='userImg'/>
+                                <img className={classes.img} src={val.user.img} alt='userImg'/>
                             :
                                 <Fragment></Fragment>
                             }

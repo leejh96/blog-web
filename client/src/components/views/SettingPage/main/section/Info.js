@@ -77,7 +77,7 @@ function Info() {
     const dispatch = useDispatch();
     const history = useHistory();
     useEffect(() => {
-        user.img ? setPath(user.img) : setPath(`https://julog-app.s3.ap-northeast-2.amazonaws.com/uploads/basic.png`)
+        setPath(user.img)
     }, [user])
     const onChangeImage = (e) => {
         const formData = new FormData();
@@ -101,13 +101,13 @@ function Info() {
     }
 
     const onClickDelete = () => {
-        if(user.img === ''){
+        if(user.img === 'https://julog-app.s3.ap-northeast-2.amazonaws.com/uploads/basic.png'){
             return ;
         }
         dispatch(deleteImg(user.img))
         .then(res => {
             if(res.data.success){
-                return setPath('https://julog-app.s3.ap-northeast-2.amazonaws.com/uploads/basic.png');
+                return setPath(res.data.img);
             }
             return alert(res.data.message);
         })

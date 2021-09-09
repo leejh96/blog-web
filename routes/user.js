@@ -60,6 +60,7 @@ router.post('/signup', async (req, res, next) => {
             password : hash,
             nick : req.body.nick,
             email : req.body.email,
+            img : 'https://julog-app.s3.ap-northeast-2.amazonaws.com/uploads/basic.png'
         });
         if(user){
             return res.status(200).json({
@@ -336,7 +337,7 @@ router.put('/deleteimg', auth, async(req, res, next) => {
         //         });
         //     }
         // });
-        const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : '' });
+        const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : 'https://julog-app.s3.ap-northeast-2.amazonaws.com/uploads/basic.png' });
         if(user){
             return res.json({
                 auth : true,
