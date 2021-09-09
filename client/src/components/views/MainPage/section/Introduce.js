@@ -34,8 +34,8 @@ function Introduce() {
                     <img src={imgAddress} alt='bloggerimage' width='100%' height= '100%'/>
                 </Avatar>
                 <Box>
-                    <Typography variant='body1' className={classes.info} noWrap>
-                        안녕하세요 블로그 개설자 이주혁 입니다.<br />
+                    <Typography variant='body1' className={classes.info} >
+                        안녕하세요 블로그 개설자 입니다.<br />
                         <b>공부 목적으로 만들어진 블로그 입니다.</b><br />
                         제가 아는 것을 알려드리고 잘못되거나 모르는 것은 같이 공유하는 <br />
                         그런 블로그가 되었으면 합니다.<br />
