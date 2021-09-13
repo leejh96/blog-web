@@ -151,16 +151,16 @@
             })
       ```
     - Mongoose의 populate는 관계형 DB의 join과 유사한 기능을 하는데 mongoDB의 필드가 배열이고 배열안의 값이 객체인 값 중에서 그 객체 안에 id값을 가지고 populate하기 위해서는 populate안에 객체로 path값과 populate 하고자 하는 필드를 입력하면 된다.
-      + ```javascript
-          const notice = await Notice.findOne({
-              _id : req.params.id
-          }).populate({
-              path : 'comment',
-              populate : {
-                  path : 'user',
-              }
-          })
-        ```
+      ```javascript
+        const notice = await Notice.findOne({
+            _id : req.params.id
+        }).populate({
+            path : 'comment',
+            populate : {
+                path : 'user',
+            }
+        })
+      ```
     #### JWT  
     - JWT 로컬 로그인 루틴
       1. 유저의 입력데이터를 서버에 송신
