@@ -8,7 +8,7 @@ const multer = require('multer');
 const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
 const path = require('path');
-const fs = require('fs');
+// const fs = require('fs');
 
 const s3 = new AWS.S3({
     accessKeyId : process.env.AWS_ACCESS_KEY_ID,
@@ -142,6 +142,7 @@ router.post('/login', async(req, res, next)=>{
                 status(200).
                 cookie('rft', refreshToken, {
                     httpOnly : true,
+                    secret : true,
                 }).
                 json({
                     success : true,

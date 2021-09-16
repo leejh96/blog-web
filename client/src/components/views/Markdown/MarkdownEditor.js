@@ -9,6 +9,7 @@ import { loadOneStudy, updateStudyText } from '../../../actions/StudyAction'
 import gfm from 'remark-gfm'
 import { makeStyles } from '@material-ui/core/styles';
 import { AUTH_ERROR, LOAD_ONE_STUDY, LOAD_ONE_STUDY_ERROR, SERVER_ERROR, UPDATE_STUDY_TEXT, UPDATE_STUDY_TEXT_ERROR } from '../../../actions/type';
+import rehypeRaw from 'rehype-raw' //markdown이 html을 읽을 수 있도록 함
 
 const useStyles = makeStyles(theme => ({
     edit : {
@@ -131,7 +132,7 @@ function MarkdownEditor() {
       <Fragment>
         <Box className={classes.edit}>
           <TextareaAutosize  className={classes.text} variant='outlined' value={text} onChange={onChangeText} autoFocus />
-          <ReactMarkdown className={classes.markdown} remarkPlugins={[gfm, {singleTilde: false}]} children={text} components= {{
+          <ReactMarkdown className={classes.markdown} rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm, {singleTilde: false}]} children={text} components= {{
             code : Component
           }}/>
         </Box>

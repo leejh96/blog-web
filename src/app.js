@@ -63,7 +63,7 @@ app.use((err, req, res, next) => {
         error : err,
     })
 })
-
+//api들보다 위에 있다면 api를 가기전에 get을 실행하기 때문에 db를 가져올 수 없다 따라서 api들과 err처리 미들웨어 밑에 넣어준다.
 if(process.env.NODE_ENV === 'production'){
     app.use(express.static(('client/build')));
     app.get('*', (req, res) => {

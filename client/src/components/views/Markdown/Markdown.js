@@ -10,6 +10,8 @@ import Loading from '../LoadingPage/Loading';
 import gfm from 'remark-gfm'
 import { makeStyles } from '@material-ui/core/styles';
 import { LOAD_ONE_STUDY, LOAD_ONE_STUDY_ERROR, SERVER_ERROR } from '../../../actions/type';
+import rehypeRaw from 'rehype-raw' //markdown이 html을 읽을 수 있도록 함
+import emoji from 'emoji-dictionary'; //이모티콘을 불러옴
 
 const useStyles = makeStyles(theme => ({
     markdown : {
@@ -41,33 +43,44 @@ const useStyles = makeStyles(theme => ({
 }))
 const Component = ({children, className}) => {
     return (
-      <Fragment>
-        {
-          children[0].includes('\n') ? 
-          <SyntaxHighlighter
-            language={ className === undefined ? '' : className.substring(9)} //특정언어지정
-            style={materialLight}
-            children={children}
-          /> 
-          :
-          <SyntaxHighlighter
-            customStyle ={{
-              height : 'auto',
-              padding : '5px 5px',
-            }}
-            codeTagProps={{
-              style : { color : '#7f5cc8'}
-            }}
-            style={materialLight}
-            PreTag = 'span' //pre태그 이름을 바꾸는 것
-            language={ className === undefined ? '' : className.substring(9)} //특정언어지정
-            children={children}
-          />
-        }
-      </Fragment>
+        <Fragment>
+            {
+            children[0].includes('\n') ? 
+            <SyntaxHighlighter
+                language={ className === undefined ? '' : className.substring(9)} //특정언어지정
+                style={materialLight}
+                children={children}
+            /> 
+            :
+            <SyntaxHighlighter
+                customStyle ={{
+                height : 'auto',
+                padding : '5px 5px',
+                }}
+                codeTagProps={{
+                style : { color : '#7f5cc8'}
+                }}
+                style={materialLight}
+                PreTag = 'span' //pre태그 이름을 바꾸는 것
+                language={ className === undefined ? '' : className.substring(9)} //특정언어지정
+                children={children}
+            />
+            }
+        </Fragment>
   
     )
   };
+
+const emojiSupport = text => {
+    return text.replace(/:\w+:/gi, name => {
+        if(emoji.getUnicode(name)){
+            return emoji.getUnicode(name);
+        }else{
+            return '';
+        }
+    })
+}
+
 
 function MarkdownSection() {
     const classes = useStyles();
@@ -77,12 +90,13 @@ function MarkdownSection() {
     const [text, setText] = useState('');
     const user = useSelector(state => state.UserReducer.user);
     const [load, setLoad] = useState(false);
+    
     useEffect(() => {
         setLoad(true)
         dispatch(loadOneStudy(page))
         .then(res => {
             if(res.type === LOAD_ONE_STUDY){
-                setText(res.data.page.text);
+                setText(emojiSupport(res.data.page.text));
                 setLoad(false)
             }
             if(res.type === LOAD_ONE_STUDY_ERROR){
@@ -105,7 +119,7 @@ function MarkdownSection() {
             :
             <Fragment>
                 {text ? 
-                <ReactMarkdown className={classes.markdown} remarkPlugins={[gfm]} children={text} components= {{
+                <ReactMarkdown className={classes.markdown} rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]} children={text} components= {{
                     code : Component
                 }}/>
                 :
