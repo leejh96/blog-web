@@ -46,7 +46,7 @@
       ```
       이런식으로 body안에 넣을 데이터를 객체로 한번 더 싸줘야 했다.
   #### Redux
-    - *redux와 redux-thunk를 사용시 루틴*  
+    - redux와 redux-thunk를 사용시 흐름  
       컴포넌트에서 dispatch -> action생성함수에서 axios -> api 서버에 요청 -> api 서버에서 응답 리턴  
       -> 리턴한 값을 action생성함수에서 받아서 다시 dispatch를 return -> **여기서 return 값은 원래 컴포넌트에서 dispatch보낸 위치의 비동기로 .then으로 받을 수 있으며 그와 동시에 return값은 reducer로 가게되어 type에 따른 행동을 취하게 된다**
       ```javascript
@@ -162,7 +162,7 @@
         })
       ```
     #### JWT  
-    - JWT 로컬 로그인 루틴
+    - JWT 로컬 로그인 흐름
       1. 유저의 입력데이터를 서버에 송신
       2. 해당유저가 있는지 확인 후 비밀번호 비교
       3. 비밀번호가 맞다면 accessToken과 refreshToken을 생성 후 해당 유저의 DB에 refreshToken을 저장
@@ -196,7 +196,7 @@
     ```
     #### Oauth(Passport)
     - passport Oauth Google을 사용할 시에 구글로 로그인 요청을 할 때 axios를 쓰면 proxy error가 발생한다. 따라서 a태그를 통해 직접 해당 주소로 들어가야 한다.
-    - Passport Oauth 로그인 루틴
+    - Passport Oauth 로그인 흐름
       1. a태그를 통해서 google에 요청을 보낸다.
       2. 구글에서 callback url로 데이터를 보낸다.
       3. 이 때 passport.authenticate('google')을 통해 GoogleStrategy로 이동하게 된다.
