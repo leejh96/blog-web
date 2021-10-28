@@ -1,20 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
-const Lists = () => {
-    return [
-        {
-            tag : "로그인",
-            link : "/login",
-        },
-        {
-            tag : '회원가입',
-            link : '/signup'
-        }
 
-    ];
-}
 const useStyles = makeStyles(theme => {
     return {
         area : {
@@ -30,20 +17,27 @@ const useStyles = makeStyles(theme => {
 })
 function AuthF() {
     const classes = useStyles();
-    const [list, setList] = useState([]);
-    useEffect(() => {
-        setList(Lists());
-    }, [])
+    const list = [
+        {
+            tag : "로그인",
+            link : "/login",
+        },
+        {
+            tag : '회원가입',
+            link : '/signup'
+        }
+
+    ];
     
     return (
-        <Box className={classes.area}>
+        <>
             { list.map((value, i) => (
                 <Link key={i} to={value.link} className={classes.link}>
                     {value.tag}
                 </Link>
 
             )) }
-        </Box>
+        </>
     )
 }
 
