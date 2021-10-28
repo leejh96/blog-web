@@ -18,7 +18,7 @@ function Copyright() {
         <Typography component={'span'} variant="body2" color="textSecondary">
             {'Copyright © '}
             <Link className={classes.link} to="/">
-            주혁's 블로그
+            JULOG
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
