@@ -38,11 +38,13 @@ const checkPassword = password => {
 }
 
 function Form() {
-    const [username, setUsername] = useState('');
-    const [nick, setNick] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
+    const [input, setInput] = useState({
+        username: '',
+        nick: '',
+        email: '',
+        password: '',
+    })
+    const { username, email, password, nick } = input
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -68,20 +70,13 @@ function Form() {
             return alert('비밀번호는 공백을 제외한 영문과 특수문자를 포함한 최소8자, 최대16자 입니다')
         }
     };
-
-    const onChangeUsername = (e) => {
-        setUsername(e.target.value);
-    };
-    const onChangeNick = (e) => {
-        setNick(e.target.value);
-    };
-    const onChangeEmail = (e) => {
-        setEmail(e.target.value);
-    };
-    const onChangePassword = (e) => {
-        setPassword(e.target.value);
-    };
-
+    const onChangeInput = (e) => {
+        const { name, value } = e.target;
+        setInput({
+            ...input,
+            [name]: value,
+        })
+    }
     const classes = useStyles();
     return (
         <Box>
@@ -96,7 +91,7 @@ function Form() {
                             label="이름"
                             name="username" //querystring값
                             autoComplete="username"
-                            onChange={onChangeUsername}
+                            onChange={onChangeInput}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -108,7 +103,7 @@ function Form() {
                             label="닉네임"
                             name="nick"
                             autoComplete="nick"
-                            onChange={onChangeNick}
+                            onChange={onChangeInput}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -121,7 +116,7 @@ function Form() {
                             label="이메일"
                             name="email"
                             autoComplete="email"
-                            onChange={onChangeEmail}
+                            onChange={onChangeInput}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -134,7 +129,7 @@ function Form() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            onChange={onChangePassword}
+                            onChange={onChangeInput}
                         />
                     </Grid>
                 </Grid>

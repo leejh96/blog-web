@@ -2,7 +2,9 @@ import React from 'react';
 import { Box, Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from '../Copyright/Copyright';
-import Form from './section/Form';
+// import Form from './section/Form';
+import FormEx from './section/FormEx';
+
 import Title from './section/Title'
 
 const useStyles = makeStyles(theme => ({
@@ -12,8 +14,8 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         alignItems: 'center',
     },
-    copyright : {
-        textAlign : 'center',
+    copyright: {
+        textAlign: 'center',
     }
 }));
 
@@ -22,8 +24,9 @@ function Signup() {
     return (
         <Container component="main" maxWidth="xs">
             <Box className={classes.paper}>
-                <Title/>
-                <Form />
+                <Title />
+                {/* <Form /> */}
+                <FormEx />
             </Box>
             <Box className={classes.copyright} mt={5}>
                 <Copyright />

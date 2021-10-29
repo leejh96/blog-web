@@ -4,7 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Copyright from '../Copyright/Copyright';
 import { loadCSS } from 'fg-loadcss';
 import Title from './section/Title';
-import Form from './section/Form';
+// import Form from './section/Form';
+import FormEx from './section/FormEx';
 import OAuth from './section/OAuth';
 
 const useStyles = makeStyles(theme => ({
@@ -14,8 +15,8 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         alignItems: 'center',
     },
-    copyright : {
-        textAlign : 'center',
+    copyright: {
+        textAlign: 'center',
     }
 }));
 
@@ -36,10 +37,11 @@ function Login() {
         <Container component="main" maxWidth="xs">
             <Box className={classes.paper}>
                 <Title />
-                <Form />
+                {/* <Form /> */}
+                <FormEx />
             </Box>
             <OAuth />
-            <Box className={classes.copyright}mt={8}>
+            <Box className={classes.copyright} mt={8}>
                 <Copyright />
             </Box>
         </Container>
