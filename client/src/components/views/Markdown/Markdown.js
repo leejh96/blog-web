@@ -48,23 +48,20 @@ const Component = ({ children, className }) => {
                 children[0].includes('\n') ?
                     <SyntaxHighlighter
                         language={className === undefined ? '' : className.substring(9)} //특정언어지정
-                        // language='javascript'
                         // style={materialLight}
                         children={children}
                     />
                     :
                     <SyntaxHighlighter
                         customStyle={{
-                            height: 'auto',
-                            padding: '5px 5px',
+                            padding: '0 1px',
                         }}
                         codeTagProps={{
                             style: { color: '#7f5cc8' }
                         }}
-                        // style={materialLight}
                         PreTag='span' //pre태그 이름을 바꾸는 것
                         language={className === undefined ? '' : className.substring(9)} //특정언어지정
-                        // language='javascript'
+                        // style={materialLight}
                         children={children}
                     />
             }
