@@ -1,16 +1,18 @@
 import React from 'react'
 import Tablesection from './section/Tablesection';
 import Pagination from './section/Pagination';
-import Bookbox from './section/Bookbox';
+// import Bookbox from './section/Bookbox';
+import BookboxEx from './section/BookboxEx';
+
 import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => {
     return {
-        title : {
-            margin : '16px 0',
-            fontWeight : 'bold'
+        title: {
+            margin: '16px 0',
+            fontWeight: 'bold'
         }
     }
 })
@@ -21,9 +23,9 @@ function Guestbook() {
     return (
         <Box>
             <Typography className={classes.title} variant='h5'>방명록</Typography>
-            <Tablesection page={page}/>
-            <Pagination pageNumber={page}/>
-            <Bookbox />
+            <Tablesection page={page} />
+            <Pagination pageNumber={page} />
+            <BookboxEx />
         </Box>
     )
 }

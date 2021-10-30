@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { Button, TextField, Grid, Box, } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,7 +30,8 @@ function Form() {
         email : '',
         password : '',
     });
-    const { email, password} = input;
+    const emailRef = useRef(null);
+    const { email, password } = input;
     const classes = useStyles();
 
     const onChangeInput = (e) => {
@@ -52,37 +53,42 @@ function Form() {
                 if(res.type === SERVER_ERROR){
                     return history.push('/error/500')
                 }else{
-                    return alert(res.data.message);
+                    alert(res.data.message);
+                    setInput({
+                        email : '',
+                        password : '',
+                    })
+                    return emailRef.current.focus();
                 }
             }
         })
     }
     return (
         <Box>
-            <form method='post' className={classes.form} noValidate onSubmit={onSubmitInfo}>
+            <form className={classes.form} onSubmit={onSubmitInfo}>
                 <TextField
+                    required
+                    type="email"
                     variant="outlined"
                     margin="normal"
-                    required
                     fullWidth
-                    id="email"
                     label="이메일"
                     name="email"
-                    autoComplete="email"
                     autoFocus
                     onChange={onChangeInput}
+                    value = {email}
+                    inputRef={emailRef}
                 />
                 <TextField
+                    required
                     variant="outlined"
                     margin="normal"
-                    required
                     fullWidth
                     name="password"
                     label="비밀번호"
                     type="password"
-                    id="password"
-                    autoComplete="current-password"
                     onChange={onChangeInput}
+                    value = {password}
                 />
                 <Button
                     type="submit"
@@ -93,19 +99,19 @@ function Form() {
                 >
                     로그인
                 </Button>
-                <Grid container style={{ justifyContent : 'space-between'}}>
-                    <Grid item>
+            </form>
+            <Grid container style={{ justifyContent : 'space-between'}}>
+                <Grid item>
                     <Link to="/signup" className={classes.signup}>
                         회원가입
                     </Link>
-                    </Grid>
-                    <Grid item>
+                </Grid>
+                <Grid item>
                     <Link to="/findPassword" className={classes.signup}>
                         비밀번호 찾기
                     </Link>
-                    </Grid>
                 </Grid>
-            </form>
+            </Grid>
         </Box>
     )
 }

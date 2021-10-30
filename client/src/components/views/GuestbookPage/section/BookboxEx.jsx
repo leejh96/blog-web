@@ -1,5 +1,5 @@
 import { Button, TextField, Box } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { createGuestBook } from '../../../../actions/GuestbookAction';
@@ -25,8 +25,8 @@ function Bookbox() {
     const [text, setText] = useState('');
     const user = useSelector(state => state.UserReducer.user);
     const history = useHistory();
-
-    const onClickBtn = (e) => {
+    const textRef = useRef(null);
+    const onClickBtn = () => {
         const data = {
             text,
             date: moment().format('YYYY-MM-DD HH:mm:ss')
@@ -35,11 +35,13 @@ function Bookbox() {
             dispatch(createGuestBook(data))
                 .then(res => {
                     if (res.type === CREATE_GUESTBOOK) {
-                        document.querySelector('#text').value = '';
-                        return history.push('/guestbook/1')
+                        setText('');
+                        return textRef.current.focus();
                     }
                     if (res.type === CREATE_GUESTBOOK_ERROR) {
-                        return alert(res.data.message);
+                        alert(res.data.message);
+                        setText('');
+                        return textRef.current.focus();
                     }
                     if (res.type === AUTH_ERROR) {
                         alert(res.data.message);
@@ -59,7 +61,7 @@ function Bookbox() {
     };
     return (
         <Box className={classes.area}>
-            <TextField id='text' className={classes.text} placeholder="방명록을 남겨보세요." onChange={onChangeText} variant="outlined" />
+            <TextField className={classes.text} inputRef={textRef} placeholder="방명록을 남겨보세요." autoFocus onChange={onChangeText} variant="outlined" value={text} />
             <Button variant="contained" onClick={onClickBtn}>등록</Button>
         </Box>
     )

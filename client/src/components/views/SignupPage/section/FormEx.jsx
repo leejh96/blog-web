@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button, TextField, Grid, Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
@@ -44,6 +44,7 @@ function Form() {
         email: '',
         password: '',
     })
+    const emailRef = useRef(null);
     const { username, email, password, nick } = input
     const dispatch = useDispatch();
     const history = useHistory();
@@ -62,7 +63,14 @@ function Form() {
                         if (res.type === SERVER_ERROR) {
                             return history.push('/error/500')
                         } else {
-                            return alert(res.data.message);
+                            alert(res.data.message);
+                            setInput({
+                                email : '',
+                                password : '',
+                                username : '',
+                                nick : ''
+                            })
+                            return emailRef.current.focus();
                         }
                     }
                 })
@@ -84,39 +92,16 @@ function Form() {
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <TextField
-                            variant="outlined" //네모칸 만들기
-                            required
-                            fullWidth
-                            id="username"
-                            label="이름"
-                            name="username" //querystring값
-                            autoComplete="username"
-                            onChange={onChangeInput}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            variant="outlined"
-                            fullWidth
-                            required
-                            id="nick"
-                            label="닉네임"
-                            name="nick"
-                            autoComplete="nick"
-                            onChange={onChangeInput}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
                             variant="outlined"
                             required
                             fullWidth
                             type="email"
-                            id="email"
                             label="이메일"
                             name="email"
-                            autoComplete="email"
                             onChange={onChangeInput}
+                            autoFocus
+                            value={email}
+                            inputRef={emailRef}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -127,9 +112,32 @@ function Form() {
                             name="password"
                             label="비밀번호"
                             type="password"
-                            id="password"
-                            autoComplete="current-password"
                             onChange={onChangeInput}
+                            value={password}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="outlined" //네모칸 만들기
+                            required
+                            fullWidth
+                            label="이름"
+                            name="username" //querystring값
+                            autoComplete="username"
+                            onChange={onChangeInput}
+                            value={username}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="outlined"
+                            fullWidth
+                            required
+                            label="닉네임"
+                            name="nick"
+                            autoComplete="nick"
+                            onChange={onChangeInput}
+                            value={nick}
                         />
                     </Grid>
                 </Grid>
@@ -142,14 +150,14 @@ function Form() {
                 >
                     회원가입
                 </Button>
-                <Grid container justifyContent="flex-end">
-                    <Grid item>
-                        <Link to="/login" className={classes.login}>
-                            로그인
-                        </Link>
-                    </Grid>
-                </Grid>
             </form>
+            <Grid container justifyContent="flex-end">
+                <Grid item>
+                    <Link to="/login" className={classes.login}>
+                        로그인
+                    </Link>
+                </Grid>
+            </Grid>
         </Box>
     )
 }
