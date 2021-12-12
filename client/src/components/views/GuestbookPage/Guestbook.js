@@ -1,5 +1,6 @@
 import React from 'react'
-import Tablesection from './section/Tablesection';
+// import Tablesection from './section/Tablesection';
+import TablesectionEx from './section/TablesectionEx';
 import Pagination from './section/Pagination';
 // import Bookbox from './section/Bookbox';
 import BookboxEx from './section/BookboxEx';
@@ -23,7 +24,8 @@ function Guestbook() {
     return (
         <Box>
             <Typography className={classes.title} variant='h5'>방명록</Typography>
-            <Tablesection page={page} />
+            {/* <Tablesection page={page} /> */}
+            <TablesectionEx page={page} />
             <Pagination pageNumber={page} />
             <BookboxEx />
         </Box>

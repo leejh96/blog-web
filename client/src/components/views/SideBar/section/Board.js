@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Typography } from '@material-ui/core';
@@ -34,8 +34,10 @@ const useStyles = makeStyles(theme => {
     }
 })
 
-const Category = () => {
-    return [
+
+function Board() {
+    const classes = useStyles();
+    const category = [
         {
             tag: '공지사항',
             link: '/notice/1'
@@ -44,15 +46,8 @@ const Category = () => {
             tag: '방명록',
             link: '/guestbook/1'
         }
-    ]
-}
+    ];
 
-function Board() {
-    const classes = useStyles();
-    const [category, setCategory] = useState([]);
-    useEffect(() => {
-        setCategory(Category());
-    }, [])
     return (
         <Box className={classes.area}>
             <Box className={classes.titleDiv}>
