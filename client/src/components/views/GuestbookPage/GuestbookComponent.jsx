@@ -1,37 +1,38 @@
-import React from 'react'
+import React from "react";
 // import Tablesection from './section/Tablesection';
-import TablesectionEx from './section/TablesectionEx';
-import Pagination from './section/Pagination';
+import TablesectionEx from "./section/TablesectionEx";
+import Pagination from "./section/Pagination";
 // import Bookbox from './section/Bookbox';
-import BookboxEx from './section/BookboxEx';
+import BookboxEx from "./section/BookboxEx";
 
-import { useParams } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import { Box, Typography } from '@material-ui/core';
+import { useParams } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import { Box, Typography } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => {
-    return {
-        title: {
-            margin: '16px 0',
-            fontWeight: 'bold'
-        }
-    }
-})
-function Guestbook() {
-    const classes = useStyles();
-    document.title = 'GUESTBOOK'
-    const page = useParams();
-    return (
-        <Box>
-            <Typography className={classes.title} variant='h5'>방명록</Typography>
-            {/* <Tablesection page={page} /> */}
-            <TablesectionEx page={page} />
-            <Pagination pageNumber={page} />
-            <BookboxEx />
-        </Box>
-    )
+const useStyles = makeStyles((theme) => {
+  return {
+    title: {
+      margin: "16px 0",
+      fontWeight: "bold",
+    },
+  };
+});
+function Guestbook({ load, guest, onClickDelete }) {
+  const classes = useStyles();
+  document.title = "GUESTBOOK";
+  const page = useParams();
+  return (
+    <Box>
+      <Typography className={classes.title} variant="h5">
+        방명록
+      </Typography>
+      {/* <Tablesection page={page} /> */}
+      <TablesectionEx page={page} />
+      <Pagination pageNumber={page} />
+      <BookboxEx />
+    </Box>
+  );
 }
-
 
 // connect는 컴포넌트를 Redux에 연결하는 또 다른 함수를 반환
 // connect([option])(컴포넌트);
@@ -48,14 +49,11 @@ function Guestbook() {
 // 해당 컴포넌트의 props로 연결
 
 // mergeProps는 state와 dispatch를 파라미터로 가지면서 컴포넌트에 연결해야할
-// props가 state와 dispatch를 동시에 사용해야 할 때 사용, 많이 사용x 
-
-
+// props가 state와 dispatch를 동시에 사용해야 할 때 사용, 많이 사용x
 
 // options 는 { pure = true, withRef = false} 등이 있다.
 // pure를 true로 주면 불필요한 업데이트를 안함 default 는 true,
 // withRef가 true라면 redux에 연결된 컴포넌트를 ref에 담아서 getWrappedInstance()
 // 함수를 통해서 접근할 수 있도록 한다. 거의 사용 x  default는 false
-
 
 export default Guestbook;

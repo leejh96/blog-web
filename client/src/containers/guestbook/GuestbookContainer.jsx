@@ -10,7 +10,8 @@ import {
   DELETE_GUESTBOOK_ERROR,
   LOAD_GUESTBOOK,
   LOAD_GUESTBOOK_ERROR,
-} from "../../../../actions/type";
+} from "../../actions/type";
+import GuestbookComponent from "../../components/views/GuestbookPage/GuestbookComponent.jsx";
 
 function GuestbookContainer() {
   const [load, setLoad] = useState(false);
@@ -18,11 +19,12 @@ function GuestbookContainer() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { page } = useParams();
+
   useEffect(() => {
     setLoad(true);
-    dispatch(loadGuestBook()).then((res) => {
+    dispatch(loadGuestBook(page)).then((res) => {
       if (res.type === LOAD_GUESTBOOK) {
-        console.log(res.data);
+        setGuest(res.data);
         return setLoad(false);
       }
       if (res.type === LOAD_GUESTBOOK_ERROR) {
@@ -36,7 +38,7 @@ function GuestbookContainer() {
       setLoad(false);
       setGuest([]);
     };
-  }, [dispatch, page.id, history]);
+  }, [dispatch, page, history]);
 
   const onClickDelete = (id) => {
     const data = { data: { id } };
@@ -57,7 +59,13 @@ function GuestbookContainer() {
     });
   };
 
-  return <div></div>;
+  return (
+    <GuestbookComponent
+      load={load}
+      guest={guest}
+      onClickDelete={onClickDelete}
+    />
+  );
 }
 
 export default GuestbookContainer;
