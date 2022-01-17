@@ -5,8 +5,10 @@ const {
   loadGuestBook,
   createGuestBook,
   deleteGusetBook,
+  countGuestBook,
 } = require("../../controllers/guestbookCtrl");
 
+router.get("/", countGuestBook);
 router.get("/:page", loadGuestBook);
 router.post("/", auth, createGuestBook);
 router.delete("/", auth, deleteGusetBook);

@@ -1,13 +1,12 @@
 import React from "react";
-// import Tablesection from './section/Tablesection';
-import TablesectionEx from "./section/TablesectionEx";
+import Tablesection from "./section/Tablesection";
 import Pagination from "./section/Pagination";
-// import Bookbox from './section/Bookbox';
-import BookboxEx from "./section/BookboxEx";
+import Bookbox from "./section/Bookbox";
 
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Typography } from "@material-ui/core";
+import Loading from "../LoadingPage/Loading";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -17,19 +16,30 @@ const useStyles = makeStyles((theme) => {
     },
   };
 });
-function Guestbook({ load, guest, onClickDelete }) {
+function Guestbook({
+  onClickCreateBtn,
+  onChangeText,
+  onClickDeleteBtn,
+  load,
+  guest,
+  page,
+  user,
+}) {
   const classes = useStyles();
-  document.title = "GUESTBOOK";
-  const page = useParams();
   return (
     <Box>
       <Typography className={classes.title} variant="h5">
         방명록
       </Typography>
-      {/* <Tablesection page={page} /> */}
-      <TablesectionEx page={page} />
+      <Tablesection
+        page={page}
+        guest={guest}
+        onClickDeleteBtn={onClickDeleteBtn}
+        load={load}
+        user={user}
+      />
       <Pagination pageNumber={page} />
-      <BookboxEx />
+      <Bookbox />
     </Box>
   );
 }

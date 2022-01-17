@@ -6,11 +6,10 @@ const session = require("express-session");
 const app = express();
 const path = require("path");
 const indexRouter = require("../routes");
-// const UserRouter = require("../routes/user");
-// const StudyRouter = require("../routes/study");
-// const GuestbookRouter = require("../routes/guestbook");
-// const NoticeRouter = require("../routes/notice");
-// const AuthRouter = require("../routes/auth");
+const UserRouter = require("../routes/user");
+const StudyRouter = require("../routes/study");
+const NoticeRouter = require("../routes/notice");
+const AuthRouter = require("../routes/auth");
 const PassportConfig = require("../passport");
 require("dotenv").config();
 
@@ -48,11 +47,10 @@ app.use(session(option));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use('/api/user', UserRouter);
-// app.use('/api/study', StudyRouter);
-// app.use('/api/guestbook', GuestbookRouter);
-// app.use('/api/notice', NoticeRouter);
-// app.use('/api/auth', AuthRouter);
+app.use("/api/user", UserRouter);
+app.use("/api/study", StudyRouter);
+app.use("/api/notice", NoticeRouter);
+app.use("/api/auth", AuthRouter);
 
 app.use("/api", indexRouter);
 
