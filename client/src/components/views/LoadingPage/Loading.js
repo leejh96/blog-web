@@ -1,19 +1,14 @@
-import React from 'react'
-import styled from 'styled-components';
-
-const Load = styled.div`
-    position : relative;
-    text-align :  center;
-    padding : 30%;
-    font-size : 2rem;
+import React from "react";
+import styled from "styled-components";
+import ReactLoading from "react-loading";
+const Loading = styled(ReactLoading)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
 `;
 
-function Loading() {
-    return (
-        <Load>
-            불러오는중 ...
-        </Load>
-    )
+function LoadingComponent() {
+  return <Loading type="spin" color="blue" />;
 }
 
-export default Loading
+export default LoadingComponent;

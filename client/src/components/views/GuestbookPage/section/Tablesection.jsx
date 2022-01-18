@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import Loading from "../../LoadingPage/Loading";
 import { makeStyles } from "@material-ui/core/styles";
+import TimeLib from "../../../../util/time";
 
 const useStyles = makeStyles((theme) => ({
   area: {
@@ -19,13 +20,14 @@ const useStyles = makeStyles((theme) => ({
     width: "15%",
   },
   content: {
-    width: "70%",
+    width: "60%",
   },
   time: {
-    width: "15%",
+    width: "25%",
   },
   delete: {
     width: "auto",
+    padding: "16px 0",
     "$:hover": {
       display: "inline",
     },
@@ -68,14 +70,16 @@ function Tablesection({ guest, onClickDeleteBtn, load, user }) {
                     {val.writer ? val.writer.nick : "알수없음"}
                   </TableCell>
                   <TableCell align="center">{val.text}</TableCell>
-                  <TableCell align="center">{val.date}</TableCell>
+                  <TableCell align="center">
+                    <TimeLib date={val.date} />
+                  </TableCell>
                   {user ? (
                     val.writer ? (
                       user._id === val.writer._id || user.role === 3 ? (
                         <TableCell className={classes.delete}>
                           <Button onClick={() => onClickDeleteBtn(val._id)}>
                             X
-                          </Button>{" "}
+                          </Button>
                         </TableCell>
                       ) : (
                         <Fragment></Fragment>
@@ -84,7 +88,7 @@ function Tablesection({ guest, onClickDeleteBtn, load, user }) {
                       <TableCell className={classes.delete}>
                         <Button onClick={() => onClickDeleteBtn(val._id)}>
                           X
-                        </Button>{" "}
+                        </Button>
                       </TableCell>
                     ) : (
                       <Fragment></Fragment>

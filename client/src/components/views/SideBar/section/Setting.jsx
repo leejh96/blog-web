@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => {
     },
     title: {
       margin: 0,
-      fontSize: "0.9rem",
       fontWeight: "bold",
+      fontSize: "1rem",
     },
     titleDiv: {
       display: "flex",
@@ -33,33 +33,22 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function Board() {
+function Setting({ settingList }) {
   const classes = useStyles();
-  const category = [
-    {
-      tag: "공지사항",
-      link: "/notice/1",
-    },
-    {
-      tag: "방명록",
-      link: "/guestbook/1",
-    },
-  ];
-
   return (
     <Box className={classes.area}>
       <Box className={classes.titleDiv}>
         <Typography variant="h4" className={classes.title}>
-          Board
+          목록
         </Typography>
       </Box>
-      {category.map((val, i) => (
-        <Link key={i} to={val.link} className={classes.link}>
-          {val.tag}{" "}
+      {settingList.map((val, i) => (
+        <Link className={classes.link} key={i} to={val.link}>
+          {val.tag}
         </Link>
       ))}
     </Box>
   );
 }
 
-export default Board;
+export default Setting;

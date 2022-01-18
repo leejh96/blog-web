@@ -52,7 +52,7 @@ function App() {
           />
           <Route
             exact
-            path="/guestbook/:id"
+            path="/guestbook/:page"
             component={Auth(Frame(Guestbook), null)}
           />
           <Route

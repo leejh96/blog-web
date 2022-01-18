@@ -2,8 +2,6 @@ import React from "react";
 import Tablesection from "./section/Tablesection";
 import Pagination from "./section/Pagination";
 import Bookbox from "./section/Bookbox";
-
-import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Typography } from "@material-ui/core";
 import Loading from "../LoadingPage/Loading";
@@ -16,7 +14,7 @@ const useStyles = makeStyles((theme) => {
     },
   };
 });
-function Guestbook({
+function GuestbookComponent({
   onClickCreateBtn,
   onChangeText,
   onClickDeleteBtn,
@@ -24,23 +22,32 @@ function Guestbook({
   guest,
   page,
   user,
+  pageCnt,
 }) {
   const classes = useStyles();
   return (
-    <Box>
-      <Typography className={classes.title} variant="h5">
-        방명록
-      </Typography>
-      <Tablesection
-        page={page}
-        guest={guest}
-        onClickDeleteBtn={onClickDeleteBtn}
-        load={load}
-        user={user}
-      />
-      <Pagination pageNumber={page} />
-      <Bookbox />
-    </Box>
+    <>
+      {load ? (
+        <Loading />
+      ) : (
+        <Box>
+          <Typography className={classes.title} variant="h5">
+            방명록
+          </Typography>
+          <Tablesection
+            page={page}
+            guest={guest}
+            onClickDeleteBtn={onClickDeleteBtn}
+            user={user}
+          />
+          <Pagination page={page} pageCnt={pageCnt} />
+          <Bookbox
+            onClickCreateBtn={onClickCreateBtn}
+            onChangeText={onChangeText}
+          />
+        </Box>
+      )}
+    </>
   );
 }
 
@@ -66,4 +73,4 @@ function Guestbook({
 // withRef가 true라면 redux에 연결된 컴포넌트를 ref에 담아서 getWrappedInstance()
 // 함수를 통해서 접근할 수 있도록 한다. 거의 사용 x  default는 false
 
-export default Guestbook;
+export default GuestbookComponent;

@@ -31,6 +31,10 @@ const GuestbookReducer = (state = initialState, action) => {
         guestlength: action.data.length,
         error: false,
       };
+    case LOAD_GUESTBOOK:
+      return {
+        ...state,
+      };
     case DELETE_GUESTBOOK:
       return {
         ...state,

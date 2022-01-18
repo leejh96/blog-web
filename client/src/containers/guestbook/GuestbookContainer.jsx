@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteGuestBook,
@@ -20,7 +20,13 @@ import {
   COUNT_GUESTBOOK,
   COUNT_GUESTBOOK_ERROR,
 } from "../../actions/type";
-import GuestbookComponent from "../../components/views/GuestbookPage/GuestbookComponent.jsx";
+import GuestbookComponent from "../../components/views/GuestbookPage/GuestbookComponent";
+
+const pageCount = (cnt) => {
+  let remainder = cnt % 10 ? 1 : 0;
+  let pageCnt = parseInt(cnt / 10, 10) + remainder;
+  return pageCnt;
+};
 
 function GuestbookContainer() {
   const [load, setLoad] = useState(false);
@@ -31,9 +37,24 @@ function GuestbookContainer() {
   const { page } = useParams();
   const [text, setText] = useState("");
   const user = useSelector((state) => state.UserReducer.user);
-  const textRef = useRef(null);
+  const guestlength = useSelector(
+    (state) => state.GuestbookReducer.guestlength
+  );
+
   useEffect(() => {
     setLoad(true);
+    dispatch(countGuestBook()).then((res) => {
+      if (res.type === COUNT_GUESTBOOK) {
+        setPageCnt(pageCount(res.data));
+        return setLoad(false);
+      }
+      if (res.type === COUNT_GUESTBOOK_ERROR) {
+        return alert(res.data.message);
+      }
+      if (res.type === SERVER_ERROR) {
+        return history.push("/error/500");
+      }
+    });
     dispatch(loadGuestBook(page)).then((res) => {
       if (res.type === LOAD_GUESTBOOK) {
         setGuest(res.data);
@@ -50,27 +71,7 @@ function GuestbookContainer() {
       setLoad(false);
       setGuest([]);
     };
-  }, [dispatch, page, history]);
-
-  useEffect(() => {
-    setLoad(true);
-    dispatch(countGuestBook()).then((res) => {
-      if (res.type === COUNT_GUESTBOOK) {
-        setPageCnt(res.data);
-        return setLoad(false);
-      }
-      if (res.type === COUNT_GUESTBOOK_ERROR) {
-        return alert(res.data.message);
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
-    });
-    return () => {
-      setLoad(false);
-      setGuest([]);
-    };
-  }, []);
+  }, [page, guestlength]);
 
   const onClickDeleteBtn = (id) => {
     const data = { data: { id } };
@@ -99,13 +100,11 @@ function GuestbookContainer() {
     if (user._id) {
       dispatch(createGuestBook(data)).then((res) => {
         if (res.type === CREATE_GUESTBOOK) {
-          setText("");
-          return textRef.current.focus();
+          return setText("");
         }
         if (res.type === CREATE_GUESTBOOK_ERROR) {
           alert(res.data.message);
-          setText("");
-          return textRef.current.focus();
+          return setText("");
         }
         if (res.type === AUTH_ERROR) {
           alert(res.data.message);
@@ -131,9 +130,9 @@ function GuestbookContainer() {
       onClickDeleteBtn={onClickDeleteBtn}
       load={load}
       guest={guest}
-      page={page}
+      page={parseInt(page)}
       user={user}
-      textRef={textRef}
+      pageCnt={pageCnt}
     />
   );
 }

@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React from "react";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
 import { PaginationItem } from "@material-ui/lab";
 import MaterialPagination from "@material-ui/lab/Pagination";
-
 const useStyles = makeStyles((theme) => ({
   area: {
     display: "flex",
@@ -14,44 +12,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const pageCount = (cnt) => {
-  let remainder = cnt % 10 ? 1 : 0;
-  let pageCnt = parseInt(cnt / 10, 10) + remainder;
-  return pageCnt;
-};
-
-function Pagination({ pageNumber }) {
+function Pagination({ page, pageCnt }) {
   const classes = useStyles();
-  const [page, setPage] = useState(1);
-  const [pageCnt, setPageCnt] = useState(1);
-  const guestbookLength = useSelector(
-    (state) => state.GuestbookReducer.guestlength
-  );
-  const paramsPage = parseInt(useParams().id, 10);
-  const history = useHistory();
-
-  useEffect(() => {
-    const pages = pageCount(guestbookLength);
-    if (pages !== 0 && (paramsPage > pages || isNaN(paramsPage))) {
-      return history.push("/Notfound");
-    }
-    if (pages !== 0 && paramsPage === 0) {
-      return history.push("/guestbook/1");
-    }
-    setPageCnt(pages);
-  }, [guestbookLength, paramsPage, history]);
-
-  const onChangeButton = (e, v) => {
-    setPage(v);
-  };
-
   return (
     <Box className={classes.area}>
       <MaterialPagination
         size="small"
         color="primary"
         page={page}
-        onChange={onChangeButton}
         count={pageCnt}
         showFirstButton
         showLastButton
