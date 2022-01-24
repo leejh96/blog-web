@@ -8,7 +8,6 @@ const path = require("path");
 const indexRouter = require("../routes");
 const UserRouter = require("../routes/user");
 const StudyRouter = require("../routes/study");
-const NoticeRouter = require("../routes/notice");
 const AuthRouter = require("../routes/auth");
 const PassportConfig = require("../passport");
 require("dotenv").config();
@@ -49,7 +48,6 @@ app.use(passport.session());
 
 app.use("/api/user", UserRouter);
 app.use("/api/study", StudyRouter);
-app.use("/api/notice", NoticeRouter);
 app.use("/api/auth", AuthRouter);
 
 app.use("/api", indexRouter);

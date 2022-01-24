@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Table,
   TableHead,
@@ -9,10 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link, useParams } from "react-router-dom";
-import Loading from "../../LoadingPage/Loading";
-import { useDispatch, useSelector } from "react-redux";
-import { loadNotice } from "../../../../actions/NoticeAction";
+import { Link } from "react-router-dom";
 import TimeLib from "../../../../util/time";
 const useStyles = makeStyles((theme) => {
   return {
@@ -50,35 +47,11 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function TableSection() {
+function TableSection({ posts, user, page, search }) {
   const classes = useStyles();
-  const page = useParams().page;
-  const dispatch = useDispatch();
-  const [post, setPost] = useState([]);
-  const [load, setLoad] = useState(false);
-  const searchData = useSelector((state) => state.NoticeReducer.searchNotice);
-  const user = useSelector((state) => state.UserReducer.user);
-  const search = useSelector((state) => state.NoticeReducer.search);
-  useEffect(() => {
-    setLoad(true);
-    dispatch(loadNotice()).then((res) => {
-      setPost(res.data.slice((page - 1) * 10, page * 10));
-      setLoad(false);
-    });
-    return () => {
-      setPost([]);
-      setLoad(false);
-    };
-  }, [dispatch, page]);
-
-  useEffect(() => {
-    setPost(searchData);
-  }, [searchData]);
   return (
-    <Box>
-      {load ? (
-        <Loading />
-      ) : post.length === 0 ? (
+    <>
+      {posts.length === 0 ? (
         <Box className={classes.noticeDiv}>
           <Typography variant="h3">게시물이 없습니다.</Typography>
         </Box>
@@ -101,7 +74,7 @@ function TableSection() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {post.map((val, i) => (
+            {posts.map((val, i) => (
               <TableRow key={val._id}>
                 {search ? (
                   <TableCell align="center">{i + 1}</TableCell>
@@ -113,7 +86,7 @@ function TableSection() {
                 <TableCell align="center">
                   <Link
                     className={classes.link}
-                    to={user._id ? `/notice/${page}/${val._id}` : `/login`}
+                    to={user._id ? `/notice/detail/${val._id}` : `/login`}
                   >
                     {val.title}
                   </Link>
@@ -129,7 +102,7 @@ function TableSection() {
           </TableBody>
         </Table>
       )}
-    </Box>
+    </>
   );
 }
 

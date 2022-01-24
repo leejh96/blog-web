@@ -1,14 +1,14 @@
 import React, { Suspense } from "react";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
-import Main from "./components/views/MainPage/Main";
+import Main from "./pages/main/Main";
 import Login from "./components/views/LoginPage/Login";
 import Signup from "./components/views/SignupPage/SignUp";
-import Notice from "./components/views/NoticePage/Notice";
+import Notice from "./pages/notice/Notice";
 import Guestbook from "./pages/guestbook/Guestbook";
 import Study from "./components/views/StudyPage/Study";
 import StudyEdit from "./components/views/EditPage/Study/StudyEdit";
 import NoticeEdit from "./components/views/EditPage/Notice/NoticeEdit";
-import Detail from "./components/views/DetailPage/Detail";
+import Detail from "./pages/notice/Detail";
 import Auth from "./hoc/Auth"; //hoc higherOrderComponent
 import Frame from "./hoc/Frame";
 import FindPage from "./components/views/FindPage/FindPage";
@@ -47,7 +47,7 @@ function App() {
           />
           <Route
             exact
-            path="/notice/:page/:id"
+            path="/notice/detail/:postId"
             component={Auth(Frame(Detail), true)}
           />
           <Route
