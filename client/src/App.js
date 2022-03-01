@@ -13,8 +13,8 @@ import Auth from "./hoc/Auth"; //hoc higherOrderComponent
 import Frame from "./hoc/Frame";
 import FindPage from "./components/views/FindPage/FindPage";
 import Newpassword from "./components/views/NewPasswordPage/Newpassword";
-import Notfound from "./components/views/ErrorPage/Notfound";
-import ServerError from "./components/views/ErrorPage/ServerError";
+import Notfound from "./components/views/ErrorPage/NotfoundComponent";
+import ServerError from "./components/views/ErrorPage/ServerErrorComponent";
 import SettingMain from "./components/views/SettingPage/main/Main";
 import SettingPassword from "./components/views/SettingPage/change/Password";
 import SettingNick from "./components/views/SettingPage/change/Nick";

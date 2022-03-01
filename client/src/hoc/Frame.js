@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import Navbar from "../containers/common/NavbarContainer";
 import SideBar from "../containers/common/SidebarContainer";
-import Footer from "../components/views/Footer/Footer";
+import Footer from "../components/views/Footer/FooterComponent";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container } from "@material-ui/core";
 
