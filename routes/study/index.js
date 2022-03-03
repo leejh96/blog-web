@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const { auth } = require("../../middleware/auth");
-const { mainLoadStudy } = require("../../controllers/studyCtrl");
+const {
+  mainLoadStudy,
+  loadCommentStudy,
+} = require("../../controllers/studyCtrl");
 const { Study } = require("../../models");
 
 router.get("/", async (req, res, next) => {
@@ -86,30 +89,7 @@ router.get("/:page", async (req, res, next) => {
   }
 });
 
-router.get("/:study/comment", async (req, res, next) => {
-  try {
-    const study = await Study.findOne({
-      subject: req.params.study,
-    }).populate({
-      path: "comment",
-      populate: {
-        path: "user",
-      },
-    });
-    if (study) {
-      return res.json({
-        success: true,
-        comment: study.comment,
-      });
-    }
-    return res.json({
-      success: false,
-      message: "댓글 데이터를 가져오는데 실패했습니다",
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+router.get("/:study/comment", loadCommentStudy);
 
 router.post("/:study/create", auth, async (req, res, next) => {
   try {

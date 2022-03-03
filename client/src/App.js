@@ -5,9 +5,9 @@ import Login from "./components/views/LoginPage/Login";
 import Signup from "./components/views/SignupPage/SignUp";
 import Notice from "./pages/notice/Notice";
 import Guestbook from "./pages/guestbook/Guestbook";
-import Study from "./components/views/StudyPage/Study";
+import Study from "./pages/study/Study";
 import StudyEdit from "./components/views/EditPage/Study/StudyEdit";
-import NoticeEdit from "./components/views/EditPage/Notice/NoticeEdit";
+import Edit from "./pages/notice/Edit";
 import Detail from "./pages/notice/Detail";
 import Auth from "./hoc/Auth"; //hoc higherOrderComponent
 import Frame from "./hoc/Frame";
@@ -33,12 +33,12 @@ function App() {
           <Route
             exact
             path="/notice/edit"
-            component={Auth(Frame(NoticeEdit), true, true)}
+            component={Auth(Frame(Edit), true, true)}
           />
           <Route
             exact
-            path="/notice/:id/edit"
-            component={Auth(Frame(NoticeEdit), true, true)}
+            path="/notice/:postId/edit"
+            component={Auth(Frame(Edit), true, true)}
           />
           <Route
             exact

@@ -214,7 +214,7 @@ export const loadStudyComment = (study) => async (dispatch) => {
 export const createStudyComment = (data) => async (dispatch) => {
   try {
     const res = await axios.put(`/api/study/${data.study}/comment`, {
-      comment: data.comment,
+      comment: data.text,
       date: data.date,
     });
     if (res.data.auth && res.data.success) {
