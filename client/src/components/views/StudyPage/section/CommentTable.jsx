@@ -49,8 +49,6 @@ const useStyles = makeStyles({
 
 function CommentTable({ onClickDelete, comment, user, study }) {
   const classes = useStyles();
-  console.log(comment);
-
   return (
     <Container disableGutters className={classes.area}>
       {comment.map((val) => (

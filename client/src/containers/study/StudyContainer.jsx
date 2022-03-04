@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import StudyComponent from "../../components/views/StudyPage/StudyComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
@@ -85,7 +85,6 @@ function StudyContainer() {
       study,
       date: moment().format("YYYY-MM-DD HH:mm:ss"),
     };
-    console.log(data);
 
     if (user._id) {
       dispatch(createStudyComment(data)).then((res) => {

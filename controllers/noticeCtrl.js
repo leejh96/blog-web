@@ -252,7 +252,7 @@ const noticeCtrl = {
   updateNotice: async (req, res) => {
     const { title, text } = req.body;
     try {
-      const notice = await Notice.findByIdAndUpdate(req.params.postId, {
+      await Notice.findByIdAndUpdate(req.params.postId, {
         title,
         text,
       });

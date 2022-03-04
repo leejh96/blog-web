@@ -213,7 +213,7 @@ export const loadStudyComment = (study) => async (dispatch) => {
 
 export const createStudyComment = (data) => async (dispatch) => {
   try {
-    const res = await axios.put(`/api/study/${data.study}/comment`, {
+    const res = await axios.post(`/api/study/${data.study}/comment`, {
       comment: data.text,
       date: data.date,
     });
@@ -247,9 +247,9 @@ export const createStudyComment = (data) => async (dispatch) => {
 
 export const deleteStudyComment = (commentId, study) => async (dispatch) => {
   try {
-    const res = await axios.put(`/api/study/${study}/deletecomment`, {
-      id: commentId,
-    });
+    const res = await axios.delete(
+      `/api/study/${study}/comment?commentId=${commentId}`
+    );
     if (res.data.auth && res.data.success) {
       return dispatch({
         type: DELETE_STUDY_COMMENT,

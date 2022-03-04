@@ -4,10 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import {
   loadOneNotice,
-  loadLike,
   addLike,
   deleteLike,
-  loadComment,
   deleteNoticeComment,
   createNoticeComment,
   deleteNotice,
@@ -22,18 +20,9 @@ import {
   ADD_LIKE_ERROR,
   DELETE_LIKE,
   DELETE_LIKE_ERROR,
-  LOAD_LIKE,
-  LOAD_LIKE_ERROR,
-  LOAD_LIKE_VALID_ERROR,
-  DELETE_NOTICE_COMMENT,
-  DELETE_NOTICE_COMMENT_ERROR,
-  LOAD_COMMENT,
-  LOAD_COMMENT_ERROR,
-  LOAD_COMMENT_VALID_ERROR,
   CREATE_NOTICE_COMMENT,
   CREATE_NOTICE_COMMENT_ERROR,
   DELETE_NOTICE,
-  DELETE_NOTICE_ERROR,
 } from "../../actions/type";
 import moment from "moment";
 

@@ -6,9 +6,6 @@ const session = require("express-session");
 const app = express();
 const path = require("path");
 const indexRouter = require("../routes");
-const UserRouter = require("../routes/user");
-const StudyRouter = require("../routes/study");
-const AuthRouter = require("../routes/auth");
 const PassportConfig = require("../passport");
 require("dotenv").config();
 
@@ -46,18 +43,8 @@ app.use(session(option));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/api/user", UserRouter);
-app.use("/api/study", StudyRouter);
-app.use("/api/auth", AuthRouter);
-
 app.use("/api", indexRouter);
 
-app.use((err, req, res, next) => {
-  console.log(err);
-  return res.status(500).json({
-    error: err,
-  });
-});
 //api들보다 위에 있다면 api를 가기전에 get을 실행하기 때문에 db를 가져올 수 없다 따라서 api들과 err처리 미들웨어 밑에 넣어준다.
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));

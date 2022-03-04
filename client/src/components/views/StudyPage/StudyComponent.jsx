@@ -1,11 +1,11 @@
 import React from "react";
-import MarkdownSection from "../Markdown/Markdown";
 import Comment from "./section/Comment";
 import CommentTable from "./section/CommentTable";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Box, Typography, Fab } from "@material-ui/core";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import MarkdownContainer from "../../../containers/study/MarkdownContainer";
 const useStyles = makeStyles((theme) => {
   return {
     area: {
@@ -45,7 +45,7 @@ function StudyComponent({
   return (
     <Box>
       <Container className={classes.area} disableGutters>
-        <MarkdownSection />
+        <MarkdownContainer />
         <CommentTable
           onClickDelete={onClickDelete}
           comment={comment}
@@ -55,6 +55,7 @@ function StudyComponent({
         <Comment
           onClickCreateComment={onClickCreateComment}
           onChangeText={onChangeText}
+          text={text}
         />
       </Container>
       <Typography id="bottom"></Typography>

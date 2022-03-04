@@ -19,14 +19,10 @@ import {
   AUTH_ERROR,
   LOAD_ONE_NOTICE_VALID_ERROR,
   LOAD_COMMENT_VALID_ERROR,
-  CREATE_NOTICE_ERROR,
   UPDATE_NOTICE_ERROR,
-  DELETE_NOTICE_ERROR,
   CREATE_NOTICE_COMMENT_ERROR,
   LOAD_LIKE_VALID_ERROR,
-  ADD_LIKE_ERROR,
   DELETE_LIKE_ERROR,
-  DELETE_NOTICE_COMMENT_ERROR,
   NOTICE_SEARCH,
   NOTICE_SEARCH_ERROR,
   MAIN_LOAD_NOTICE,
@@ -204,7 +200,7 @@ export const createNotice = (data) => async (dispatch) => {
 };
 export const updateNotice = (data) => async (dispatch) => {
   try {
-    const res = await axios.put(`/api/notice/${data.id}`, data);
+    const res = await axios.put(`/api/notice/${data.postId}`, data);
     if (res.data.success && res.data.auth) {
       return dispatch({
         type: UPDATE_NOTICE,

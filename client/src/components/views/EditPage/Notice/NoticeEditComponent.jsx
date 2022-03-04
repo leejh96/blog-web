@@ -1,7 +1,6 @@
 import React from "react";
 import CreateComponent from "./section/CreateComponent";
 import UpdateComponent from "./section/UpdateComponent";
-import { useParams } from "react-router-dom";
 import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LoadingComponent from "../../LoadingPage/Loading";
@@ -57,7 +56,7 @@ function NoticeEditComponent({
               </Typography>
               <Box className={classes.area}>
                 <UpdateComponent
-                  onUpdatehandler={onUpdateHandler}
+                  onUpdateHandler={onUpdateHandler}
                   onChangeTitle={onChangeTitle}
                   onChangeText={onChangeText}
                   title={title}

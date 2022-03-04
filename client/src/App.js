@@ -1,12 +1,12 @@
 import React, { Suspense } from "react";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Main from "./pages/main/Main";
-import Login from "./components/views/LoginPage/Login";
+import Login from "./pages/auth/Login";
 import Signup from "./components/views/SignupPage/SignUp";
 import Notice from "./pages/notice/Notice";
 import Guestbook from "./pages/guestbook/Guestbook";
 import Study from "./pages/study/Study";
-import StudyEdit from "./components/views/EditPage/Study/StudyEdit";
+import StudyEdit from "./pages/study/StudyEdit";
 import Edit from "./pages/notice/Edit";
 import Detail from "./pages/notice/Detail";
 import Auth from "./hoc/Auth"; //hoc higherOrderComponent
