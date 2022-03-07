@@ -20,7 +20,7 @@ import {
   COUNT_GUESTBOOK,
   COUNT_GUESTBOOK_ERROR,
 } from "../../actions/type";
-import GuestbookComponent from "../../components/views/GuestbookPage/GuestbookComponent";
+import GuestbookComponent from "../../components/GuestbookComponent/GuestbookComponent";
 
 const pageCount = (cnt) => {
   let remainder = cnt % 10 ? 1 : 0;

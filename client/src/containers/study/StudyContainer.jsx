@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import StudyComponent from "../../components/views/StudyPage/StudyComponent";
+import StudyComponent from "../../components/StudyComponent/StudyComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import {

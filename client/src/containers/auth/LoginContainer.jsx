@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import { loadCSS } from "fg-loadcss";
-import LoginComponent from "../../components/views/LoginPage/LoginComponent";
+import React, { useState, useRef } from "react";
+import LoginComponent from "../../components/LoginComponent/LoginComponent";
 import { useHistory } from "react-router-dom";
 import { loginUser } from "../../actions/UserAction";
 import { useDispatch } from "react-redux";
@@ -15,16 +14,6 @@ function LoginContainer() {
   });
   const emailRef = useRef(null);
   const { email, password } = input;
-
-  useEffect(() => {
-    const node = loadCSS(
-      "https://use.fontawesome.com/releases/v5.12.0/css/all.css",
-      document.querySelector("#font-awesome-css")
-    );
-    return () => {
-      node.parentNode.removeChild(node);
-    };
-  }, []);
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;

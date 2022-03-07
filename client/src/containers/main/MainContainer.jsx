@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MainComponent from "../../components/views/MainPage/MainComponent";
+import MainComponent from "../../components/MainComponent/MainComponent";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { mainLoadNotice } from "../../actions/NoticeAction";

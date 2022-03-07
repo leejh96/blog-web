@@ -55,5 +55,5 @@ if (process.env.NODE_ENV === "production") {
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
-  console.log("server connected ...");
+  console.log(`server ${port}port connected ...`);
 });

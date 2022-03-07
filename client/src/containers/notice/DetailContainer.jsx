@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import DetailComponent from "../../components/views/DetailPage/DetailComponent";
+import DetailComponent from "../../components/DetailComponent/DetailComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import {

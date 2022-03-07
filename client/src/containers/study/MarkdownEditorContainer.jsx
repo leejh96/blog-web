@@ -10,7 +10,7 @@ import {
   UPDATE_STUDY_TEXT,
   UPDATE_STUDY_TEXT_ERROR,
 } from "../../actions/type";
-import MarkdownEditorComponent from "../../components/views/EditPage/Study/MarkdownEditorComponent";
+import MarkdownEditorComponent from "../../components/EditComponent/Study/MarkdownEditorComponent";
 
 function MarkdownEditContainer() {
   const page = useParams().study;

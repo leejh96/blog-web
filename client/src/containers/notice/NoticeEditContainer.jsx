@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import NoticeEditComponent from "../../components/views/EditPage/Notice/NoticeEditComponent";
+import NoticeEditComponent from "../../components/EditComponent/Notice/NoticeEditComponent";
 import { useDispatch } from "react-redux";
 import {
   LOAD_ONE_NOTICE,

@@ -11,7 +11,6 @@ module.exports = function (app) {
       })
     );
   } else {
-    console.log("10");
     app.use(
       "/api",
       createProxyMiddleware({

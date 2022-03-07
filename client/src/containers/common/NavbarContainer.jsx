@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import NavbarComponent from "../../components/views/NavBar/NavbarComponent";
+import NavbarComponent from "../../components/NavBarComponent/NavbarComponent";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../actions/UserAction";

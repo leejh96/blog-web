@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import MarkdownComponent from "../../components/views/StudyPage/section/MarkdownComponent";
+import MarkdownComponent from "../../components/StudyComponent/section/MarkdownComponent";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loadOneStudy } from "../../actions/StudyAction";

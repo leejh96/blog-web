@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import NoticeComponent from "../../components/views/NoticePage/NoticeComponent";
+import NoticeComponent from "../../components/NoticeComponent/NoticeComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import {
