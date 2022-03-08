@@ -6,7 +6,6 @@ import { logoutUser } from "../../actions/UserAction";
 import { loadStudy, createStudy, deleteStudy } from "../../actions/StudyAction";
 import {
   AUTH_ERROR,
-  LOGOUT_ERROR,
   LOGOUT_USER,
   SERVER_ERROR,
   CREATE_STUDY,
@@ -21,7 +20,7 @@ function NavbarContainer() {
   const onList = [
     {
       tag: "내 정보",
-      link: "/setting",
+      link: "/mypage",
     },
     {
       tag: "로그아웃",
@@ -102,15 +101,10 @@ function NavbarContainer() {
       if (res.type === AUTH_ERROR) {
         //세션 만료나 auth에서 어떠한 오류 발생
         localStorage.removeItem("access");
-        alert(res.data.message);
         return history.push("/login");
       }
       if (res.type === SERVER_ERROR) {
         return history.push("/error/500");
-      }
-      if (res.type === LOGOUT_ERROR) {
-        alert(res.data.message);
-        return history.push("/");
       }
     });
   };

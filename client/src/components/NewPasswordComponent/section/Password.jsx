@@ -1,15 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Box, SvgIcon, Typography, Button, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { useHistory, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { newPassword } from "../../../actions/UserAction";
-import {
-  NEW_PASSWORD,
-  NEW_PASSWORD_FAIL,
-  SERVER_ERROR,
-} from "../../../actions/type";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -37,74 +29,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const checkPassword = (password) => {
-  const blank = /\s/;
-  const regex =
-    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
-  if (!blank.test(password)) {
-    if (regex.test(password)) {
-      return true;
-    } else {
-      return false;
-    }
-  } else {
-    return false;
-  }
-};
-
-function Password() {
-  const location = useLocation();
+function Password({ onChangeInput, onSubmitData, onClickClose, input }) {
   const classes = useStyles();
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
-  const history = useHistory();
-  const dispatch = useDispatch();
-
-  //메인페이지에서 바로 비밀번호를 입력하는곳으로 가는 걸 막기위함
-  useEffect(() => {
-    if (!location.state) {
-      history.push("/login");
-    }
-  }, [history, location.state]);
-
-  const onSubmitData = (e) => {
-    e.preventDefault();
-    if (checkPassword(password)) {
-      if (password !== confirm) {
-        return alert("비밀번호가 일치하지 않습니다");
-      }
-      dispatch(newPassword(password, location.state.userId)).then((res) => {
-        if (res.type === NEW_PASSWORD) {
-          return history.push("/login");
-        }
-        if (res.type === NEW_PASSWORD_FAIL) {
-          return alert(res.data.message);
-        }
-        if (res.type === SERVER_ERROR) {
-          return history.push("/error/500");
-        }
-      });
-    } else {
-      return alert(
-        "비밀번호는 공백을 제외한 영문과 특수문자를 포함한 최소8자, 최대16자 입니다"
-      );
-    }
-  };
-
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const onChangeConfirm = (e) => {
-    setConfirm(e.target.value);
-  };
-
-  const onClickClose = () => {
-    history.push("/login");
-  };
-
+  const { password, confirm } = input;
   return (
-    <Box className={classes.area}>
+    <>
       <Box className={classes.title}>
         <SvgIcon className={classes.icon}>
           <AccountCircleIcon />
@@ -115,22 +44,26 @@ function Password() {
         <Box className={classes.input}>
           <TextField
             type="password"
-            onChange={onChangePassword}
+            name="password"
+            onChange={onChangeInput}
             className={classes.text}
             fullWidth
             label="비밀번호"
             variant="outlined"
             autoComplete="off"
+            value={password}
             required
           />
           <TextField
             type="password"
-            onChange={onChangeConfirm}
+            name="confirm"
+            onChange={onChangeInput}
             fullWidth
             label="비밀번호 확인"
             variant="outlined"
             required
             autoComplete="off"
+            value={confirm}
           />
         </Box>
         <Box className={classes.btnArea}>
@@ -142,7 +75,7 @@ function Password() {
           </Button>
         </Box>
       </form>
-    </Box>
+    </>
   );
 }
 

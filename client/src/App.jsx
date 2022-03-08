@@ -11,14 +11,14 @@ import Edit from "./pages/notice/Edit";
 import Detail from "./pages/notice/Detail";
 import Auth from "./hoc/Auth"; // hoc higherOrderComponent
 import Frame from "./hoc/Frame";
-import Find from "./components/FindComponent/FindPage";
-import Newpassword from "./components/NewPasswordComponent/Newpassword";
+import FindPassword from "./pages/find/Find";
+import NewPassword from "./pages/new/NewPassword";
 import Notfound from "./components/ErrorComponent/NotfoundComponent";
 import ServerError from "./components/ErrorComponent/ServerErrorComponent";
-import SettingMain from "./components/SettingComponent/main/Main";
-import SettingPassword from "./components/SettingComponent/change/Password";
-import SettingNick from "./components/SettingComponent/change/Nick";
-import SettingResign from "./components/SettingComponent/change/Resign";
+import MyPage from "./pages/mypage/MyPage";
+import SettingPassword from "./components/MyPageComponent/section/change/Password";
+import SettingNick from "./components/MyPageComponent/section/change/Nick";
+import SettingResign from "./components/MyPageComponent/section/change/Resign";
 import ScrollToTop from "./util/ScrollToTop";
 function App() {
   return (
@@ -64,11 +64,7 @@ function App() {
           path="/study/:study/edit"
           component={Auth(Frame(StudyEdit), true, true)}
         />
-        <Route
-          exact
-          path="/setting"
-          component={Auth(Frame(SettingMain), true)}
-        />
+        <Route exact path="/mypage" component={Auth(Frame(MyPage), true)} />
         <Route
           exact
           path="/setting/password"
@@ -84,8 +80,8 @@ function App() {
           path="/setting/resign"
           component={Auth(Frame(SettingResign), true)}
         />
-        <Route exact path="/findPassword" component={Auth(Find, false)} />
-        <Route exact path="/newPassword" component={Auth(Newpassword, false)} />
+        <Route exact path="/find" component={Auth(FindPassword, false)} />
+        <Route exact path="/password" component={Auth(NewPassword, false)} />
         <Route exact path="/error/500" component={ServerError} />
         <Route component={Notfound} />
       </Switch>

@@ -1,6 +1,7 @@
 const { User } = require("../models");
 const { hashPassword, compare } = require("../modules/bcryptModule");
 const { expSetting, sign } = require("../modules/jwtModule");
+
 const userCtrl = {
   register: async (req, res) => {
     try {
@@ -71,17 +72,145 @@ const userCtrl = {
         }
         return res.status(401).json({
           success: false,
-          message: "아이디 및 비밀번호를 다시한번 확인해주시기 바랍니다",
+          message: "아이디 및 비밀번호를 다시한번 확인해주시기 바랍니다.",
         });
       }
-      return res.status(204).json({
+      return res.status(401).json({
+        success: false,
+        message: "아이디 및 비밀번호를 다시한번 확인해주시기 바랍니다.",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: "DB에러!",
+      });
+    }
+  },
+  getUser: (req, res) => {
+    if (req.user) {
+      return res.status(200).json({
+        success: true,
+        user: req.user || "",
+        token: req.token || "",
+        auth: true,
+      });
+    }
+    return res.status(401).json({
+      success: false,
+      auth: true,
+      message: "유저 인증에 실패했습니다",
+    });
+  },
+  logout: async (req, res) => {
+    if (req.user.provider === "local") {
+      try {
+        await User.findOneAndUpdate(
+          { _id: req.user._id },
+          {
+            refreshToken: "",
+            refreshTokenExp: 0,
+          }
+        );
+        return res.status(200).clearCookie("rft").json({
+          success: true,
+          auth: true,
+        });
+      } catch (error) {
+        return res.status(500).json({
+          success: false,
+          auth: true,
+          message: "DB서버 에러",
+        });
+      }
+    }
+    if (req.user.provider === "google") {
+      req.logout();
+      return res.clearCookie("connect.sid").status(200).json({
+        success: true,
+        auth: true,
+      });
+    }
+  },
+  findUser: async (req, res) => {
+    const { email, username } = req.query;
+    try {
+      const user = await User.findOne({
+        email,
+        username,
+      }).select("_id");
+      if (user) {
+        return res.status(200).json({
+          success: true,
+          user: user._id,
+        });
+      }
+      return res.status(400).json({
         success: false,
         message: "해당하는 유저가 없습니다",
       });
     } catch (error) {
       return res.status(500).json({
         success: false,
-        message: "DB에러!",
+        auth: true,
+        message: "DB서버 에러",
+      });
+    }
+  },
+  newPassword: async (req, res) => {
+    const { password, id } = req.body;
+    const hashData = await hashPassword(password);
+    if (!hashData.success) {
+      return res.status(510).json({
+        success: false,
+        message: "패스워드 암호화 오류",
+      });
+    }
+    try {
+      const user = await User.findOneAndUpdate(
+        { _id: id },
+        { password: hashData.password }
+      );
+      if (user) {
+        return res.status(200).json({
+          success: true,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "유저가 존재하지 않습니다.",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        auth: true,
+        message: "DB서버 에러",
+      });
+    }
+  },
+  uploadImage: async (req, res) => {
+    try {
+      console.log(req.file);
+      const user = await User.findOneAndUpdate(
+        { _id: req.user._id },
+        { img: req.file.location }
+      );
+      if (user) {
+        return res.status(200).json({
+          success: true,
+          auth: true,
+          file: req.file.location,
+        });
+      }
+      return res.status(400).json({
+        auth: true,
+        success: false,
+        message: "유저를 찾는데 실패했습니다.",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        auth: true,
+        message: "DB서버 에러",
       });
     }
   },

@@ -18,9 +18,8 @@ function Auth(Component, option, adminRoute = null) {
         dispatch(authUser(access)).then((res) => {
           if (res.type === AUTH_USER) {
             //재발급 시 토큰 교체
-            if (res.token !== access) {
-              localStorage.setItem("access", res.data.token);
-            }
+            localStorage.setItem("access", res.data.token);
+
             //로그인 한 상태 중 관리자가 아닌사람이
             //adminpage를 들어가려할때
             if (adminRoute && res.data.user.role !== 3) {
@@ -32,14 +31,8 @@ function Auth(Component, option, adminRoute = null) {
           }
           if (res.type === AUTH_ERROR) {
             localStorage.removeItem("access");
-            if (res.data.expire) {
-              alert(res.data.message);
-              return history.push("/login");
-            } else {
-              if (option) {
-                return history.push("/login");
-              }
-            }
+            alert(res.data.message);
+            return history.push("/login");
           }
           if (res.type === SERVER_ERROR) {
             localStorage.removeItem("access");

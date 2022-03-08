@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, TextField, Button, Typography } from "@material-ui/core";
 import { useHistory } from "react-router";
-import { changeNick } from "../../../actions/UserAction";
+import { changeNick } from "../../../../actions/UserAction";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   AUTH_ERROR,
   SERVER_ERROR,
   UPDATE_NICK,
   UPDATE_NICK_ERROR,
-} from "../../../actions/type";
+} from "../../../../actions/type";
 
 const useStyles = makeStyles((theme) => ({
   title: {

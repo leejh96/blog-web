@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Box, Typography } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { resignUser, resignOAuthUser } from "../../../actions/UserAction";
+import { resignUser, resignOAuthUser } from "../../../../actions/UserAction";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -9,7 +9,7 @@ import {
   DELETE_USER,
   DELETE_USER_ERROR,
   SERVER_ERROR,
-} from "../../../actions/type";
+} from "../../../../actions/type";
 
 const useStyles = makeStyles((theme) => ({
   title: {

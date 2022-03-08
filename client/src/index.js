@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createStore, applyMiddleware } from "redux";
 import reducer from "./reducers";
 import { Provider } from "react-redux";
+import App from "./App";
 // import { CssBaseline } from '@material-ui/core'; // material-ui에서 기본 css를 제공함 배경도 포함
 // import { ThemeProvider, createTheme } from '@material-ui/core/styles'; // 글로벌 css를 위함
 //redux-devtools와 middleware를 같이 사용하기 위해서 사용

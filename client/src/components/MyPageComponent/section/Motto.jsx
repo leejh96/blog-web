@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { Button, Container, TextField, Box } from "@material-ui/core";
-import { updateMotto } from "../../../../actions/UserAction";
+import { updateMotto } from "../../../actions/UserAction";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -8,7 +8,7 @@ import {
   SERVER_ERROR,
   UPDATE_MOTTO,
   UPDATE_MOTTO_ERROR,
-} from "../../../../actions/type";
+} from "../../../actions/type";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Text() {
+function Motto() {
   const classes = useStyles();
   const user = useSelector((state) => state.UserReducer.user);
   const dispatch = useDispatch();
@@ -95,4 +95,4 @@ function Text() {
   );
 }
 
-export default Text;
+export default Motto;

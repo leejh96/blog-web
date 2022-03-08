@@ -3,11 +3,11 @@ const jwt = require("jsonwebtoken");
 const jwtModule = {
   expSetting: (refresh) => {
     if (refresh) {
-      //   return Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7;
-      return Math.floor(Date.now() / 1000) + 10;
+      return Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7;
+      // return Math.floor(Date.now() / 1000) + 10;
     } else {
-      //   return Math.floor(Date.now() / 1000) + 60 * 30;
-      return Math.floor(Date.now() / 1000) + 5;
+      return Math.floor(Date.now() / 1000) + 60 * 30;
+      // return Math.floor(Date.now() / 1000) + 5;
     }
   },
   sign: (tokenExp, id, refresh) => {

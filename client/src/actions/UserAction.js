@@ -20,7 +20,6 @@ import {
   REGISTER_USER_ERROR,
   SERVER_ERROR,
   LOGIN_ERROR,
-  LOGOUT_ERROR,
   UPDATE_NICK_ERROR,
   UPDATE_PASSWORD_ERROR,
   DELETE_USER_ERROR,
@@ -61,17 +60,18 @@ export const loginUser = (email, password) => async (dispatch) => {
   try {
     const data = { email, password };
     const res = await axios.post("/api/user/login", data);
-    if (res.data.success) {
-      return dispatch({
-        type: LOGIN_USER,
-        data: res.data,
-      });
-    }
     return dispatch({
-      type: LOGIN_ERROR,
+      type: LOGIN_USER,
       data: res.data,
     });
   } catch (error) {
+    //비밀번호 다를 시
+    if (error.response.status === 401) {
+      return dispatch({
+        type: LOGIN_ERROR,
+        data: error.response.data,
+      });
+    }
     return dispatch({
       type: SERVER_ERROR,
       data: {
@@ -82,33 +82,24 @@ export const loginUser = (email, password) => async (dispatch) => {
 };
 
 export const logoutUser = (access) => async (dispatch) => {
+  const config = {
+    headers: {
+      authorization: access,
+    },
+  };
   try {
-    const config = {
-      headers: {
-        authorization: access,
-      },
-    };
     const res = await axios.get("/api/user/logout", config);
-    if (res.data.success && res.data.auth) {
-      return dispatch({
-        type: LOGOUT_USER,
-        data: res.data,
-      });
-    }
-    //middleware auth에서 오류
-    if (!res.data.auth && !res.data.success) {
+    return dispatch({
+      type: LOGOUT_USER,
+      data: res.data,
+    });
+  } catch (error) {
+    if (error.response.status === 401) {
       return dispatch({
         type: AUTH_ERROR,
-        data: res.data,
+        data: error.response.data,
       });
     }
-    if (res.data.auth && !res.data.success) {
-      return dispatch({
-        type: LOGOUT_ERROR,
-        data: res.data,
-      });
-    }
-  } catch (error) {
     return dispatch({
       type: SERVER_ERROR,
       data: {
@@ -119,26 +110,24 @@ export const logoutUser = (access) => async (dispatch) => {
 };
 
 export const authUser = (access) => async (dispatch) => {
+  const config = {
+    headers: {
+      authorization: access,
+    },
+  };
   try {
-    const config = {
-      headers: {
-        authorization: access,
-      },
-    };
-    const res = await axios.get("/api/user/auth", config);
-    if (res.data.success && res.data.auth) {
-      return dispatch({
-        type: AUTH_USER,
-        data: res.data,
-      });
-    }
+    const res = await axios.get("/api/user", config);
     return dispatch({
-      type: AUTH_ERROR,
+      type: AUTH_USER,
       data: res.data,
     });
   } catch (error) {
-    console.log(error.response);
-
+    if (error.response.status === 401) {
+      return dispatch({
+        type: AUTH_ERROR,
+        data: error.response.data,
+      });
+    }
     return dispatch({
       type: SERVER_ERROR,
       data: {
@@ -266,7 +255,7 @@ export const resignOAuthUser = () => async (dispatch) => {
 
 export const uploadImage = (file) => async (dispatch) => {
   try {
-    const res = await axios.put("/api/user/img", file, {
+    const res = await axios.post("/api/user/img", file, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     if (res.data.success && res.data.auth) {
@@ -359,20 +348,22 @@ export const updateMotto = (text) => async (dispatch) => {
   }
 };
 
-export const findPassword = (name, email) => async (dispatch) => {
+export const findUser = (name, email) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/user/findpassword", { email, name });
-    if (res.data.success) {
-      return dispatch({
-        type: FIND_PASSWORD,
-        data: res.data,
-      });
-    }
+    const res = await axios.get(
+      `/api/user/find?email=${email}&username=${name}`
+    );
     return dispatch({
-      type: NOT_FIND_PASSWORD,
+      type: FIND_PASSWORD,
       data: res.data,
     });
   } catch (error) {
+    if (error.response.status === 400) {
+      return dispatch({
+        type: NOT_FIND_PASSWORD,
+        data: error.response.data,
+      });
+    }
     return dispatch({
       type: SERVER_ERROR,
       data: {
@@ -384,18 +375,18 @@ export const findPassword = (name, email) => async (dispatch) => {
 
 export const newPassword = (password, id) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/user/newpassword", { password, id });
-    if (res.data.success) {
-      return dispatch({
-        type: NEW_PASSWORD,
-        data: res.data,
-      });
-    }
+    const res = await axios.post("/api/user/password", { password, id });
     return dispatch({
-      type: NEW_PASSWORD_FAIL,
+      type: NEW_PASSWORD,
       data: res.data,
     });
   } catch (error) {
+    if (error.response.status === 404) {
+      return dispatch({
+        type: NEW_PASSWORD_FAIL,
+        data: error.response.data,
+      });
+    }
     return dispatch({
       type: SERVER_ERROR,
       data: {

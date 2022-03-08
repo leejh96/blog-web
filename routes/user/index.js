@@ -1,105 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const { register, login } = require("../../controllers/userCtrl");
+const {
+  register,
+  login,
+  getUser,
+  logout,
+  findUser,
+  newPassword,
+  uploadImage,
+} = require("../../controllers/userCtrl");
 const { auth } = require("../../middleware/auth");
+const upload = require("../../modules/multerModule");
 
+router.get("/", auth, getUser);
+router.get("/logout", auth, logout);
+router.get("/find", findUser);
 router.post("/register", register);
 router.post("/login", login);
-router.get("/auth", auth, (req, res, next) => {
-  try {
-    if (req.user) {
-      return res.status(200).json({
-        success: true,
-        user: req.user || "",
-        token: req.token || "",
-        auth: true,
-      });
-    }
-    return res.json({
-      success: false,
-      auth: true,
-      message: "유저 인증에 실패했습니다",
-    });
-  } catch (error) {
-    next(error);
-  }
-});
-// router.post("/findpassword", async (req, res, next) => {
-//   try {
-//     const user = await User.findOne({
-//       email: req.body.email,
-//       username: req.body.name,
-//     });
-//     if (user) {
-//       return res.status(200).json({
-//         success: true,
-//         user: user._id,
-//       });
-//     }
-//     return res.json({
-//       success: false,
-//       message: "해당하는 유저가 없습니다",
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
-// router.post("/newpassword", async (req, res, next) => {
-//   try {
-//     const saltRounds = 10;
-//     const hash = await bcrypt.hash(req.body.password, saltRounds);
-//     const user = await User.findOneAndUpdate(
-//       { _id: req.body.id },
-//       { password: hash }
-//     );
-//     if (user) {
-//       return res.status(200).json({
-//         success: true,
-//       });
-//     }
-//     return res.json({
-//       success: false,
-//       message: "비밀번호 변경에 실패했습니다",
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
-// router.get("/logout", auth, async (req, res, next) => {
-//   try {
-//     if (req.user.provider === "local") {
-//       const user = await User.findOneAndUpdate(
-//         { _id: req.user._id },
-//         {
-//           refreshToken: "",
-//           refreshTokenExp: 0,
-//         }
-//       );
-//       if (user) {
-//         return res.status(200).clearCookie("rft").json({
-//           success: true,
-//           auth: true,
-//         });
-//       }
-//       return res.json({
-//         success: false,
-//         auth: true,
-//         message: "로그아웃에 실패했습니다.",
-//       });
-//     }
-//     if (req.user.provider === "google") {
-//       req.logout();
-//       return res.clearCookie("connect.sid").json({
-//         success: true,
-//         auth: true,
-//       });
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+router.post("/password", newPassword);
+router.post("/img", auth, upload.single("file"), uploadImage);
 
 // router.put("/nick", auth, async (req, res, next) => {
 //   try {
@@ -156,55 +75,6 @@ router.get("/auth", auth, (req, res, next) => {
 //       auth: true,
 //       success: false,
 //       message: "유저를 찾을 수 없습니다.",
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
-// router.put("/img", auth, upload.single("file"), async (req, res, next) => {
-//   try {
-//     // const userImg = await User.findOne({ _id : req.user._id});
-//     // if(userImg.img !== ''){
-//     //     fs.unlink(`upload/${req.user.img}`, err => {
-//     //         if (err) {
-//     //             console.error(err);
-//     //             return res.json({
-//     //                 auth : true,
-//     //                 success : false,
-//     //                 message : '이미지 삭제 에러!',
-//     //             });
-//     //         }
-//     //     });
-//     // }
-//     // const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : req.file.filename});
-//     // if(user){
-//     //     return res.json({
-//     //         success : true,
-//     //         auth : true,
-//     //         file : req.file.filename,
-//     //     });
-//     // }
-//     // return res.json({
-//     //     auth : true,
-//     //     success : false,
-//     //     message : '이미지 변경에 실패했습니다.'
-//     // })
-//     const user = await User.findOneAndUpdate(
-//       { _id: req.user._id },
-//       { img: req.file.location }
-//     );
-//     if (user) {
-//       return res.json({
-//         success: true,
-//         auth: true,
-//         file: req.file.location,
-//       });
-//     }
-//     return res.json({
-//       auth: true,
-//       success: false,
-//       message: "이미지 변경에 실패했습니다",
 //     });
 //   } catch (error) {
 //     next(error);
@@ -340,3 +210,30 @@ router.get("/auth", auth, (req, res, next) => {
 // });
 
 module.exports = router;
+
+// const userImg = await User.findOne({ _id : req.user._id});
+// if(userImg.img !== ''){
+//     fs.unlink(`upload/${req.user.img}`, err => {
+//         if (err) {
+//             console.error(err);
+//             return res.json({
+//                 auth : true,
+//                 success : false,
+//                 message : '이미지 삭제 에러!',
+//             });
+//         }
+//     });
+// }
+// const user = await User.findOneAndUpdate({ _id : req.user._id}, { img : req.file.filename});
+// if(user){
+//     return res.json({
+//         success : true,
+//         auth : true,
+//         file : req.file.filename,
+//     });
+// }
+// return res.json({
+//     auth : true,
+//     success : false,
+//     message : '이미지 변경에 실패했습니다.'
+// })

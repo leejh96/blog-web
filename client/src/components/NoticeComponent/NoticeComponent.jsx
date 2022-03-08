@@ -5,7 +5,7 @@ import Search from "./section/Search";
 import ButtonSection from "./section/ButtonSection";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Box, Typography } from "@material-ui/core";
-import Loading from "../LoadingComponent/Loading";
+import Loading from "../LoadingComponent/LoadingComponent";
 const useStyles = makeStyles((theme) => {
   return {
     area: {

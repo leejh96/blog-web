@@ -67,7 +67,7 @@ function Form({ email, password, onChangeInput, onSubmitInfo, emailRef }) {
           </Link>
         </Grid>
         <Grid item>
-          <Link to="/findPassword" className={classes.signup}>
+          <Link to="/find" className={classes.signup}>
             비밀번호 찾기
           </Link>
         </Grid>

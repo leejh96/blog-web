@@ -4,7 +4,7 @@ import Pagination from "./section/Pagination";
 import Bookbox from "./section/Bookbox";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Typography } from "@material-ui/core";
-import Loading from "../LoadingComponent/Loading";
+import Loading from "../LoadingComponent/LoadingComponent";
 
 const useStyles = makeStyles((theme) => {
   return {

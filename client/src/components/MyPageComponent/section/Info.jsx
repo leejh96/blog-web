@@ -1,16 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { uploadImage } from "../../../../actions/UserAction";
+import React from "react";
 import { Button, Container, Box } from "@material-ui/core";
-import { deleteImg } from "../../../../actions/UserAction";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  AUTH_ERROR,
-  SERVER_ERROR,
-  UPDATE_IMAGE,
-  UPDATE_IMAGE_ERROR,
-} from "../../../../actions/type";
-import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   area: {
@@ -85,49 +75,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-function Info() {
+function Info({ onChangeImage, onClickDeleteImage, path, user }) {
   const classes = useStyles();
-  const [path, setPath] = useState("");
-  const user = useSelector((state) => state.UserReducer.user);
-  const dispatch = useDispatch();
-  const history = useHistory();
-  useEffect(() => {
-    setPath(user.img);
-  }, [user]);
-  const onChangeImage = (e) => {
-    const formData = new FormData();
-    formData.append("file", e.target.files[0]);
-    dispatch(uploadImage(formData)).then((res) => {
-      if (res.type === UPDATE_IMAGE) {
-        return setPath(res.data.file);
-      }
-      if (res.type === UPDATE_IMAGE_ERROR) {
-        return alert(res.data.message);
-      }
-      if (res.type === AUTH_ERROR) {
-        alert(res.data.message);
-        return history.push("/login");
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
-    });
-  };
 
-  const onClickDelete = () => {
-    if (
-      user.img ===
-      "https://julog-app.s3.ap-northeast-2.amazonaws.com/uploads/basic.png"
-    ) {
-      return;
-    }
-    dispatch(deleteImg(user.img)).then((res) => {
-      if (res.data.success) {
-        return setPath(res.data.img);
-      }
-      return alert(res.data.message);
-    });
-  };
   return (
     <Container disableGutters className={classes.area}>
       <Box className={classes.imgBtn}>
@@ -149,7 +99,7 @@ function Info() {
             <Button
               className={classes.btn}
               variant="outlined"
-              onClick={onClickDelete}
+              onClick={onClickDeleteImage}
             >
               이미지 제거
             </Button>

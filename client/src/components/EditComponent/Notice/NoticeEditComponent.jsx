@@ -3,7 +3,7 @@ import CreateComponent from "./section/CreateComponent";
 import UpdateComponent from "./section/UpdateComponent";
 import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import LoadingComponent from "../../LoadingComponent/Loading";
+import LoadingComponent from "../../LoadingComponent/LoadingComponent";
 
 const useStyles = makeStyles((theme) => ({
   area: {

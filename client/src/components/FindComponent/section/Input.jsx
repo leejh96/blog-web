@@ -1,15 +1,8 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import { TextField, Box, Button, Typography, SvgIcon } from "@material-ui/core";
-import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { findPassword } from "../../../actions/UserAction";
-import { useHistory } from "react-router-dom";
-import {
-  FIND_PASSWORD,
-  NOT_FIND_PASSWORD,
-  SERVER_ERROR,
-} from "../../../actions/type";
+
 const useStyles = makeStyles((theme) => ({
   form: {
     display: "flex",
@@ -36,53 +29,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Input() {
+function Input({
+  onSubmitData,
+  onChangeInput,
+  onClickClose,
+  email,
+  username,
+  emailRef,
+}) {
   const classes = useStyles();
-  const history = useHistory();
-  const emailRef = useRef();
-  const [input, setInput] = useState({
-    email: "",
-    username: "",
-  });
-  const { email, username } = input;
-  const dispatch = useDispatch();
-
-  const onSubmitData = (e) => {
-    e.preventDefault();
-    dispatch(findPassword(username, email)).then((res) => {
-      if (res.type === FIND_PASSWORD) {
-        return history.push("/newPassword", {
-          userId: res.data.user,
-        });
-      }
-      if (res.type === NOT_FIND_PASSWORD) {
-        alert(res.data.message);
-        setInput({
-          email: "",
-          username: "",
-        });
-        return emailRef.current.focus();
-      }
-      if (res.type === SERVER_ERROR) {
-        history.push("/error/500");
-      }
-    });
-  };
-
-  const onChangeInput = (e) => {
-    const { name, value } = e.target;
-    setInput({
-      ...input,
-      [name]: value,
-    });
-  };
-
-  const onClickClose = () => {
-    history.push("/login");
-  };
-
   return (
-    <Box>
+    <>
       <Box className={classes.title}>
         <SvgIcon className={classes.icon}>
           <AccountCircleIcon />
@@ -123,7 +80,7 @@ function Input() {
           </Button>
         </Box>
       </form>
-    </Box>
+    </>
   );
 }
 
