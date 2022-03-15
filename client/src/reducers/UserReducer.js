@@ -23,6 +23,7 @@ import {
   DELETE_USER_ERROR,
   UPDATE_IMAGE_ERROR,
   SERVER_ERROR,
+  BCRYPT_ERROR,
 } from "../actions/type";
 
 const initialState = {
@@ -69,7 +70,7 @@ const UserReducer = (state = initialState, action) => {
     case UPDATE_NICK:
       return {
         ...state,
-        user: action.data.user,
+        error: false,
       };
     case UPDATE_PASSWORD:
       return {
@@ -163,8 +164,6 @@ const UserReducer = (state = initialState, action) => {
     case UPDATE_PASSWORD_ERROR:
       return {
         ...state,
-        authToken: "",
-        user: {},
         error: true,
       };
     case DELETE_USER_ERROR:
@@ -188,6 +187,12 @@ const UserReducer = (state = initialState, action) => {
         user: {},
         error: true,
       };
+    case BCRYPT_ERROR:
+      return {
+        ...state,
+        error: true,
+      };
+
     default:
       return state;
   }

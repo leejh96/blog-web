@@ -7,13 +7,19 @@ const studyCtrl = {
         .sort({ updatedAt: -1 })
         .select("subject link")
         .limit(8);
-      return res.status(200).json({
-        success: true,
-        studies,
+      if (studies) {
+        return res.status(200).json({
+          success: true,
+          studies,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "최근 게시물을 불러오는데 실패했습니다.",
       });
     } catch (error) {
       return res.status(500).json({
-        message: "최근 게시물을 불러오는데 실패했습니다",
+        message: "DB서버 에러!",
         success: false,
       });
     }
@@ -21,88 +27,101 @@ const studyCtrl = {
   loadStudy: async (req, res) => {
     try {
       const studies = await Study.find();
-      return res.status(200).json({
-        success: true,
-        studies,
+      if (studies) {
+        return res.status(200).json({
+          success: true,
+          studies,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "스터디 목록을 불러오는데 실패했습니다.",
       });
     } catch (error) {
       return res.status(500).json({
         success: false,
-        message: "스터디 목록을 조회하는데 실패했습니다",
+        message: "DB서버 에러!",
       });
     }
   },
   loadOneStudy: async (req, res) => {
     try {
-      const page = await Study.findOne({ subject: req.params.page });
-      return res.status(200).json({
-        success: true,
-        page,
+      const study = await Study.findOne({ subject: req.params.page }).populate({
+        path: "comment",
+        populate: {
+          path: "user",
+          select: "_id img nick",
+        },
+      });
+      if (study) {
+        return res.status(200).json({
+          success: true,
+          study,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "스터디 데이터를 불러오는데 실패했습니다.",
       });
     } catch (error) {
       return res.status(500).json({
-        message: "해당 데이터를 불러오는데 실패했습니다",
+        message: "DB서버 에러!",
         success: false,
       });
     }
   },
   createStudy: async (req, res) => {
     try {
-      const study = await Study.create({
+      await Study.create({
         subject: req.body.text,
         link: `/study/${req.body.text}`,
       });
-      if (study) {
-        return res.status(200).json({
-          auth: true,
-          success: true,
-          study,
-        });
-      }
+      return res.status(201).json({
+        success: true,
+      });
     } catch (error) {
       return res.status(500).json({
-        message: "추가항목 생성에 실패했습니다",
-        auth: true,
+        message: "DB서버 에러!",
         success: false,
       });
     }
   },
   updateStudy: async (req, res, next) => {
     try {
-      await Study.findOneAndUpdate(
+      const study = await Study.findOneAndUpdate(
         { subject: req.params.page },
         {
           text: req.body.text,
         }
       );
-      return res.status(200).json({
-        auth: true,
-
-        success: true,
+      if (study) {
+        return res.status(200).json({
+          success: true,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "컨텐츠를 업데이트 하는데 실패했습니다.",
       });
     } catch (error) {
       return res.status(500).json({
-        auth: true,
         success: false,
+        message: "DB서버 에러!",
       });
     }
   },
   deleteStudy: async (req, res) => {
     try {
-      const del = await Study.deleteOne({
-        _id: req.body.id,
+      await Study.deleteOne({
+        _id: req.query.id,
       });
-      if (del.ok) {
-        return res.status(200).json({
-          auth: true,
-          success: true,
-        });
-      }
+      return res.status(200).json({
+        success: true,
+      });
     } catch (error) {
       return res.status(500).json({
-        message: "해당 데이터를 삭제하는데 실패했습니다",
-        auth: true,
         success: false,
+        message: "DB서버 에러!",
       });
     }
   },
@@ -132,9 +151,9 @@ const studyCtrl = {
   },
   createComment: async (req, res) => {
     try {
-      await Study.findOneAndUpdate(
+      const study = await Study.findOneAndUpdate(
         {
-          subject: req.params.study,
+          subject: req.params.page,
         },
         {
           $push: {
@@ -146,15 +165,19 @@ const studyCtrl = {
           },
         }
       );
-      return res.status(200).json({
-        auth: true,
-        success: true,
+      if (study) {
+        return res.status(201).json({
+          success: true,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "댓글을 생성하는데 실패했습니다.",
       });
     } catch (error) {
       return res.status(500).json({
-        auth: true,
         success: false,
-        message: "댓글 생성에 실패했습니다",
+        message: "DB서버 에러!",
       });
     }
   },
@@ -163,7 +186,7 @@ const studyCtrl = {
     try {
       const study = await Study.findOneAndUpdate(
         {
-          subject: req.params.study,
+          subject: req.params.page,
         },
         {
           $pull: {
@@ -173,15 +196,18 @@ const studyCtrl = {
           },
         }
       );
-      return res.status(200).json({
-        success: true,
-        auth: true,
-        comment: study.comment,
+      if (study) {
+        return res.status(200).json({
+          success: true,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "댓글 삭제에 실패했습니다.",
       });
     } catch (error) {
       return res.status(500).json({
-        message: "댓글을 삭제하는데 실패했습니다",
-        auth: true,
+        message: "DB서버 에러!",
         success: false,
       });
     }

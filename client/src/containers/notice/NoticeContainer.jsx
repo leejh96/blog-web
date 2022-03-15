@@ -5,90 +5,104 @@ import { useHistory, useParams } from "react-router-dom";
 import {
   loadNotice,
   searchNotice,
-  noticeCount,
+  countNotice,
 } from "../../actions/NoticeAction";
-import {
-  NOTICE_SEARCH_ERROR,
-  SERVER_ERROR,
-  LOAD_NOTICE_ERROR,
-  LOAD_NOTICE,
-} from "../../actions/type";
 
-const pageCount = (cnt) => {
-  let remainder = cnt % 10 ? 1 : 0;
-  let pageCnt = parseInt(cnt / 10, 10) + remainder;
-  return pageCnt;
-};
+import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
+import pageCount from "../../util/pageCount";
 
 function NoticeContainer() {
   const { page } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [posts, setPosts] = useState([]);
-  const [load, setLoad] = useState(false);
   const user = useSelector((state) => state.UserReducer.user);
-  const search = useSelector((state) => state.NoticeReducer.search);
-  const noticesCount = useSelector((state) => state.NoticeReducer.noticeCount);
+  const { search, count, notices, countSearch } = useSelector(
+    (state) => state.NoticeReducer
+  );
   const [pageCnt, setPageCnt] = useState(1);
-  const [text, setText] = useState("");
-  const [type, setType] = useState("title");
+  const [input, setInput] = useState({
+    text: "",
+    type: "title",
+  });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setLoad(true);
+    dispatch(countNotice()).then((res) => {
+      if (res.data.success) {
+        return setPageCnt(pageCount(count));
+      }
+      return history.push({
+        pathname: "/error",
+        state: {
+          status: res.status,
+          message: res.data.message,
+          text: res.statusText,
+        },
+      });
+    });
     dispatch(loadNotice(page)).then((res) => {
-      if (res.type === LOAD_NOTICE_ERROR) {
-        return alert(res.data.message);
+      if (res.data.success) {
+        return setIsLoading(false);
       }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
-      if (res.type === LOAD_NOTICE) {
-        setPosts(res.data);
-        return setLoad(false);
-      }
+      return history.push({
+        pathname: "/error",
+        state: {
+          status: res.status,
+          message: res.data.message,
+          text: res.statusText,
+        },
+      });
     });
+
     return () => {
-      setPosts([]);
-      setLoad(false);
+      setIsLoading(true);
+      setPageCnt(1);
+      setInput({
+        text: "",
+        type: "title",
+      });
     };
-  }, [page]);
+  }, [page, count]);
 
-  useEffect(() => {
-    dispatch(noticeCount()).then((res) => {
-      setPageCnt(pageCount(res.data));
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+    setInput({
+      ...input,
+      [name]: value,
     });
-  }, [noticesCount]);
-
-  const onChangeSelect = (e) => {
-    setType(e.target.value);
-  };
-  const onChangeText = (e) => {
-    setText(e.target.value);
   };
 
   const onSubmithandler = (e) => {
+    setIsLoading(true);
     e.preventDefault();
-    dispatch(searchNotice(text, type)).then((res) => {
-      if (res.type === NOTICE_SEARCH_ERROR) {
-        return alert(res.data.message);
+    dispatch(searchNotice(input)).then((res) => {
+      if (res.data.success) {
+        return setIsLoading(false);
       }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
-      return setPosts(res.data);
+      return history.push({
+        pathname: "/error",
+        state: {
+          status: res.status,
+          message: res.data.message,
+          text: res.statusText,
+        },
+      });
     });
   };
-  return (
+
+  return isLoading ? (
+    <LoadingComponent />
+  ) : (
     <NoticeComponent
+      input={input}
       user={user}
       search={search}
-      load={load}
-      posts={posts}
+      notices={notices}
       pageCnt={pageCnt}
       page={page}
-      onChangeText={onChangeText}
+      countSearch={countSearch}
       onSubmithandler={onSubmithandler}
-      onChangeSelect={onChangeSelect}
+      onChangeInput={onChangeInput}
     />
   );
 }

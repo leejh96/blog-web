@@ -14,7 +14,7 @@ router.get(
     failureRedirect: "/login",
   }),
   (req, res) => {
-    res.redirect("http://localhost:3000");
+    res.cookie("oauth", true).redirect("http://localhost:3000");
   }
 );
 

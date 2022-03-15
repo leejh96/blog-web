@@ -4,7 +4,6 @@ import Pagination from "./section/Pagination";
 import Bookbox from "./section/Bookbox";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Typography } from "@material-ui/core";
-import Loading from "../LoadingComponent/LoadingComponent";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -15,39 +14,29 @@ const useStyles = makeStyles((theme) => {
   };
 });
 function GuestbookComponent({
-  onClickCreateBtn,
+  onSubmitCreate,
   onChangeText,
   onClickDeleteBtn,
-  load,
-  guest,
+  guestbooks,
   page,
   user,
   pageCnt,
 }) {
   const classes = useStyles();
   return (
-    <>
-      {load ? (
-        <Loading />
-      ) : (
-        <Box>
-          <Typography className={classes.title} variant="h5">
-            방명록
-          </Typography>
-          <Tablesection
-            page={page}
-            guest={guest}
-            onClickDeleteBtn={onClickDeleteBtn}
-            user={user}
-          />
-          <Pagination page={page} pageCnt={pageCnt} />
-          <Bookbox
-            onClickCreateBtn={onClickCreateBtn}
-            onChangeText={onChangeText}
-          />
-        </Box>
-      )}
-    </>
+    <Box>
+      <Typography className={classes.title} variant="h5">
+        방명록
+      </Typography>
+      <Tablesection
+        page={page}
+        guestbooks={guestbooks}
+        onClickDeleteBtn={onClickDeleteBtn}
+        user={user}
+      />
+      <Pagination page={page} pageCnt={pageCnt} />
+      <Bookbox onSubmitCreate={onSubmitCreate} onChangeText={onChangeText} />
+    </Box>
   );
 }
 

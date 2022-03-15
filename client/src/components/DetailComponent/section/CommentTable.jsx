@@ -47,8 +47,9 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function CommentTable({ comments, user, onClickDeleteComment }) {
+function CommentTable({ notice, user, onClickDeleteComment }) {
   const classes = useStyles();
+  const comments = notice.comment || [];
   return (
     <Container disableGutters className={classes.area}>
       {comments.map((comment) => (

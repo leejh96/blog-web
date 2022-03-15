@@ -38,6 +38,7 @@ function Form({ email, password, onChangeInput, onSubmitInfo, emailRef }) {
           onChange={onChangeInput}
           value={email}
           inputRef={emailRef}
+          autoComplete="on"
         />
         <TextField
           required

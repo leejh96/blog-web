@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function LikeButton({ toggle, cnt, onClickLike }) {
+function LikeButton({ toggle, countLike, onClickLike }) {
   const classes = useStyles();
   return (
     <Box className={classes.area}>
@@ -32,12 +32,12 @@ function LikeButton({ toggle, cnt, onClickLike }) {
           onClick={onClickLike}
         >
           <ThumbUpIcon className={classes.icon} />
-          {`${cnt}`}
+          {`${countLike}`}
         </IconButton>
       ) : (
         <IconButton variant="contained" onClick={onClickLike}>
           <ThumbUpIcon className={classes.icon} />
-          {`${cnt}`}
+          {`${countLike}`}
         </IconButton>
       )}
     </Box>

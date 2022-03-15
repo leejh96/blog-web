@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { uploadImage } from "../../actions/UserAction";
+import { uploadImage, deleteImage } from "../../actions/UserAction";
 import MyPageComponent from "../../components/MyPageComponent/MyPageComponent";
-import { deleteImg } from "../../actions/UserAction";
 import {
   AUTH_ERROR,
   SERVER_ERROR,
@@ -16,6 +15,7 @@ function MyPageContainer() {
   const user = useSelector((state) => state.UserReducer.user);
   const dispatch = useDispatch();
   const history = useHistory();
+
   useEffect(() => {
     setPath(user.img);
   }, [user]);
@@ -46,7 +46,7 @@ function MyPageContainer() {
     ) {
       return;
     }
-    dispatch(deleteImg(user.img)).then((res) => {
+    dispatch(deleteImage(user.img)).then((res) => {
       if (res.data.success) {
         return setPath(res.data.img);
       }

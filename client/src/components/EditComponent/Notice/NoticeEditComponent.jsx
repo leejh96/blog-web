@@ -3,7 +3,6 @@ import CreateComponent from "./section/CreateComponent";
 import UpdateComponent from "./section/UpdateComponent";
 import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import LoadingComponent from "../../LoadingComponent/LoadingComponent";
 
 const useStyles = makeStyles((theme) => ({
   area: {
@@ -20,52 +19,41 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function NoticeEditComponent({
-  load,
   postId,
-  title,
-  text,
+  input,
   onCreateHandler,
   onUpdateHandler,
-  onChangeTitle,
-  onChangeText,
+  onChangeInput,
 }) {
   const classes = useStyles();
   return (
     <>
-      {load ? (
-        <LoadingComponent />
+      {!postId ? (
+        <Box>
+          <Typography variant="h5" className={classes.title}>
+            공지사항 작성
+          </Typography>
+          <Box className={classes.area}>
+            <CreateComponent
+              onCreateHandler={onCreateHandler}
+              onChangeInput={onChangeInput}
+              input={input}
+            />
+          </Box>
+        </Box>
       ) : (
-        <>
-          {!postId ? (
-            <Box>
-              <Typography variant="h5" className={classes.title}>
-                공지사항 작성
-              </Typography>
-              <Box className={classes.area}>
-                <CreateComponent
-                  onCreateHandler={onCreateHandler}
-                  onChangeTitle={onChangeTitle}
-                  onChangeText={onChangeText}
-                />
-              </Box>
-            </Box>
-          ) : (
-            <Box>
-              <Typography variant="h5" className={classes.title}>
-                공지사항 수정
-              </Typography>
-              <Box className={classes.area}>
-                <UpdateComponent
-                  onUpdateHandler={onUpdateHandler}
-                  onChangeTitle={onChangeTitle}
-                  onChangeText={onChangeText}
-                  title={title}
-                  text={text}
-                />
-              </Box>
-            </Box>
-          )}
-        </>
+        <Box>
+          <Typography variant="h5" className={classes.title}>
+            공지사항 수정
+          </Typography>
+          <Box className={classes.area}>
+            <UpdateComponent
+              onUpdateHandler={onUpdateHandler}
+              onChangeInput={onChangeInput}
+              input={input}
+            />
+          </Box>
+        </Box>
       )}
     </>
   );

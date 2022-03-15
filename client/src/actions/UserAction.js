@@ -24,6 +24,7 @@ import {
   UPDATE_PASSWORD_ERROR,
   DELETE_USER_ERROR,
   UPDATE_IMAGE_ERROR,
+  BCRYPT_ERROR,
 } from "./type";
 
 export const registerUser =
@@ -109,6 +110,29 @@ export const logoutUser = (access) => async (dispatch) => {
   }
 };
 
+export const logoutOauth = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/user/logout");
+    return dispatch({
+      type: LOGOUT_USER,
+      data: res.data,
+    });
+  } catch (error) {
+    if (error.response.status === 401) {
+      return dispatch({
+        type: AUTH_ERROR,
+        data: error.response.data,
+      });
+    }
+    return dispatch({
+      type: SERVER_ERROR,
+      data: {
+        success: false,
+      },
+    });
+  }
+};
+
 export const authUser = (access) => async (dispatch) => {
   const config = {
     headers: {
@@ -137,28 +161,51 @@ export const authUser = (access) => async (dispatch) => {
   }
 };
 
-export const changeNick = (text) => async (dispatch) => {
+export const OauthUser = () => async (dispatch) => {
   try {
-    const res = await axios.put(`/api/user/nick`, { nick: text });
+    const res = await axios.get("/api/user");
+    return dispatch({
+      type: AUTH_USER,
+      data: res.data,
+    });
+  } catch (error) {
+    if (error.response.status === 401) {
+      return dispatch({
+        type: AUTH_ERROR,
+        data: error.response.data,
+      });
+    }
+    return dispatch({
+      type: SERVER_ERROR,
+      data: {
+        success: false,
+      },
+    });
+  }
+};
+
+export const changeNick = (nick) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/api/user/nick`, { nick });
     if (res.data.success && res.data.auth) {
       return dispatch({
         type: UPDATE_NICK,
         data: res.data,
       });
     }
-    if (!res.data.success && res.data.auth) {
+  } catch (error) {
+    if (error.response.status === 400) {
       return dispatch({
         type: UPDATE_NICK_ERROR,
-        data: res.data,
+        data: error.response.data,
       });
     }
-    if (!res.data.success && !res.data.auth) {
+    if (error.response.status === 401) {
       return dispatch({
         type: AUTH_ERROR,
-        data: res.data,
+        data: error.response.data,
       });
     }
-  } catch (error) {
     return dispatch({
       type: SERVER_ERROR,
       data: {
@@ -177,19 +224,25 @@ export const changePassword = (text) => async (dispatch) => {
         data: res.data,
       });
     }
-    if (!res.data.success && !res.data.auth) {
-      return dispatch({
-        type: AUTH_ERROR,
-        data: res.data,
-      });
-    }
-    if (!res.data.success && res.data.auth) {
+  } catch (error) {
+    if (error.response.status === 400 || error.response.status === 410) {
       return dispatch({
         type: UPDATE_PASSWORD_ERROR,
-        data: res.data,
+        data: error.response.data,
       });
     }
-  } catch (error) {
+    if (error.response.status === 401) {
+      return dispatch({
+        type: AUTH_ERROR,
+        data: error.response.data,
+      });
+    }
+    if (error.response.status === 509 || error.response.status === 510) {
+      return dispatch({
+        type: BCRYPT_ERROR,
+        data: error.response.data,
+      });
+    }
     return dispatch({
       type: SERVER_ERROR,
       data: {
@@ -208,19 +261,25 @@ export const resignUser = (password) => async (dispatch) => {
         data: res.data,
       });
     }
-    if (!res.data.success && !res.data.auth) {
-      return dispatch({
-        type: AUTH_ERROR,
-        data: res.data,
-      });
-    }
-    if (!res.data.success && res.data.auth) {
+  } catch (error) {
+    if (error.response.status === 411 || error.response.status === 400) {
       return dispatch({
         type: DELETE_USER_ERROR,
-        data: res.data,
+        data: error.response.data,
       });
     }
-  } catch (error) {
+    if (error.response.status === 401) {
+      return dispatch({
+        type: AUTH_ERROR,
+        data: error.response.data,
+      });
+    }
+    if (error.response.status === 509) {
+      return dispatch({
+        type: BCRYPT_ERROR,
+        data: error.response.data,
+      });
+    }
     return dispatch({
       type: SERVER_ERROR,
       data: {
@@ -264,19 +323,19 @@ export const uploadImage = (file) => async (dispatch) => {
         data: res.data,
       });
     }
-    if (!res.data.success && res.data.auth) {
+  } catch (error) {
+    if (error.response.status === 400) {
       return dispatch({
         type: UPDATE_IMAGE_ERROR,
-        data: res.data,
+        data: error.response.data,
       });
     }
-    if (!res.data.success && !res.data.auth) {
+    if (error.response.status === 401) {
       return dispatch({
         type: AUTH_ERROR,
-        data: res.data,
+        data: error.response.data,
       });
     }
-  } catch (error) {
     return dispatch({
       type: SERVER_ERROR,
       data: {
@@ -286,28 +345,28 @@ export const uploadImage = (file) => async (dispatch) => {
   }
 };
 
-export const deleteImg = (img) => async (dispatch) => {
+export const deleteImage = (img) => async (dispatch) => {
   try {
-    const res = await axios.put("/api/user/deleteimg", { img });
+    const res = await axios.delete("/api/user/img", { img });
     if (res.data.success && res.data.auth) {
       return dispatch({
         type: DELETE_IMAGE,
         data: res.data,
       });
     }
-    if (!res.data.success && res.data.auth) {
+  } catch (error) {
+    if (error.response.status === 400) {
       return dispatch({
         type: DELETE_IMAGE_ERROR,
-        data: res.data,
+        data: error.response.data,
       });
     }
-    if (!res.data.success && !res.data.auth) {
+    if (error.response.status === 401) {
       return dispatch({
         type: AUTH_ERROR,
-        data: res.data,
+        data: error.response.data,
       });
     }
-  } catch (error) {
     return dispatch({
       type: SERVER_ERROR,
       data: {
@@ -326,19 +385,19 @@ export const updateMotto = (text) => async (dispatch) => {
         data: res.data,
       });
     }
-    if (!res.data.success && res.data.auth) {
+  } catch (error) {
+    if (error.response.status === 400) {
       return dispatch({
         type: UPDATE_MOTTO_ERROR,
-        data: res.data,
+        data: error.response.data,
       });
     }
-    if (!res.data.success && !res.data.auth) {
+    if (error.response.status === 401) {
       return dispatch({
         type: AUTH_ERROR,
-        data: res.data,
+        data: error.response.data,
       });
     }
-  } catch (error) {
     return dispatch({
       type: SERVER_ERROR,
       data: {

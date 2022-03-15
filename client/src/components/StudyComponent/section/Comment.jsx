@@ -13,22 +13,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Comment({ onClickCreateComment, onChangeText, text }) {
+function Comment({ onSubmitCreateComment, onChangeText, text }) {
   const classes = useStyles();
   return (
-    <Box className={classes.area}>
+    <form className={classes.area} onSubmit={onSubmitCreateComment}>
       <TextField
         className={classes.text}
         multiline={true}
-        placeholder="댓글을 남겨보세요"
+        placeholder="댓글을 남겨보세요."
         onChange={onChangeText}
         variant="outlined"
         value={text}
       />
-      <Button variant="contained" onClick={onClickCreateComment}>
+      <Button variant="contained" type="submit">
         등록
       </Button>
-    </Box>
+    </form>
   );
 }
 

@@ -41,14 +41,14 @@ function SidebarComponent({
   onClickCreateStudy,
   onClickPlusBtn,
   onChangeText,
-  study,
+  studies,
   user,
   toggle,
 }) {
   const classes = useStyles();
   return (
     <Container className={classes.area} disableGutters>
-      {pathname.indexOf("/setting") !== -1 ? (
+      {pathname.indexOf("mypage") !== -1 ? (
         <Setting settingList={settingList} />
       ) : (
         <>
@@ -59,7 +59,7 @@ function SidebarComponent({
             onClickCreateStudy={onClickCreateStudy}
             onClickPlusBtn={onClickPlusBtn}
             onChangeText={onChangeText}
-            study={study}
+            studies={studies}
             user={user}
             toggle={toggle}
           />

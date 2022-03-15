@@ -10,119 +10,105 @@ import {
   createNoticeComment,
   deleteNotice,
 } from "../../actions/NoticeAction";
-import {
-  AUTH_ERROR,
-  LOAD_ONE_NOTICE,
-  LOAD_ONE_NOTICE_ERROR,
-  LOAD_ONE_NOTICE_VALID_ERROR,
-  SERVER_ERROR,
-  ADD_LIKE,
-  ADD_LIKE_ERROR,
-  DELETE_LIKE,
-  DELETE_LIKE_ERROR,
-  CREATE_NOTICE_COMMENT,
-  CREATE_NOTICE_COMMENT_ERROR,
-  DELETE_NOTICE,
-} from "../../actions/type";
 import moment from "moment";
+import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
 
 function DetailContainer() {
   const { postId } = useParams();
   const dispatch = useDispatch();
-  const [notice, setNotice] = useState({});
   const history = useHistory();
-  const [load, setLoad] = useState(false);
   const user = useSelector((state) => state.UserReducer.user);
-  const [cnt, setCnt] = useState(0);
   const [toggle, setToggle] = useState(false);
-  const [comments, setComments] = useState([]);
   const [text, setText] = useState("");
-  const leng = useSelector((state) => state.NoticeReducer.commentLength);
-  useEffect(() => {
-    setLoad(true);
-    dispatch(loadOneNotice(postId)).then((res) => {
-      if (res.type === LOAD_ONE_NOTICE) {
-        setNotice(res.data);
-        res.data.like.includes(user._id) ? setToggle(true) : setToggle(false);
-        setCnt(res.data.like.length);
-        setComments(res.data.comment);
-        return setLoad(false);
-      }
-      if (res.type === LOAD_ONE_NOTICE_ERROR) {
-        return alert(res.data.message);
-      }
-      if (res.type === LOAD_ONE_NOTICE_VALID_ERROR) {
-        return history.push("/Notfound");
-      }
-      if (res.type === AUTH_ERROR) {
-        alert(res.data.message);
-        return history.push("/login");
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
-    });
-  }, [postId, leng, toggle]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { notice, countComment, countLike } = useSelector(
+    (state) => state.NoticeReducer
+  );
 
-  const onClickDeleteNotice = (postId) => () => {
+  useEffect(() => {
+    dispatch(loadOneNotice(postId)).then((res) => {
+      if (res.data.success) {
+        !res.data.notice.like.includes(user._id)
+          ? setToggle(false)
+          : setToggle(true);
+        return setIsLoading(false);
+      }
+      return history.push({
+        pathname: "/error",
+        state: {
+          status: res.status,
+          message: res.data.message,
+          text: res.statusText,
+        },
+      });
+    });
+    return () => {
+      setToggle(false);
+      setText("");
+      setIsLoading(true);
+    };
+  }, [postId, countLike, countComment]);
+
+  const onClickDeleteNotice = (postId) => {
     dispatch(deleteNotice(postId)).then((res) => {
-      if (res.type === DELETE_NOTICE) {
+      if (res.data.success) {
         return history.push("/notice/1");
       }
-      if (res.type === AUTH_ERROR) {
-        alert(res.data.message);
-        return history.push("/login");
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
+      return history.push({
+        pathname: "/error",
+        state: {
+          status: res.status,
+          message: res.data.message,
+          text: res.statusText,
+        },
+      });
     });
   };
 
   const onClickLike = () => {
-    if (toggle === false) {
+    if (!toggle) {
       dispatch(addLike(postId)).then((res) => {
-        if (res.type === ADD_LIKE) {
+        if (res.data.success) {
           return setToggle(true);
         }
-        if (res.type === ADD_LIKE_ERROR) {
-          return alert(res.data.message);
-        }
-        if (res.type === AUTH_ERROR) {
-          alert(res.data.message);
-          return history.push("/login");
-        }
-        if (res.type === SERVER_ERROR) {
-          return history.push("/error/500");
-        }
+        return history.push({
+          pathname: "/error",
+          state: {
+            status: res.status,
+            message: res.data.message,
+            text: res.statusText,
+          },
+        });
       });
     } else {
       dispatch(deleteLike(postId)).then((res) => {
-        if (res.type === DELETE_LIKE) {
-          return setToggle(false);
+        if (res.data.success) {
+          setToggle(false);
+          return setIsLoading(false);
         }
-        if (res.type === DELETE_LIKE_ERROR) {
-          return alert(res.data.message);
-        }
-        if (res.type === AUTH_ERROR) {
-          alert(res.data.message);
-          return history.push("/login");
-        }
-        if (res.type === SERVER_ERROR) {
-          return history.push("/error/500");
-        }
+        return history.push({
+          pathname: "/error",
+          state: {
+            status: res.status,
+            message: res.data.message,
+            text: res.statusText,
+          },
+        });
       });
     }
   };
 
   const onClickDeleteComment = (commentId) => {
     dispatch(deleteNoticeComment(commentId, postId)).then((res) => {
-      if (res.type === AUTH_ERROR) {
-        alert(res.data.message);
-        return history.push("/login");
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
+      if (!res.data.success) {
+        return history.push({
+          pathname: "/error",
+          state: {
+            status: res.status,
+            message: res.data.message,
+            text: res.statusText,
+          },
+        });
       }
     });
   };
@@ -137,34 +123,32 @@ function DetailContainer() {
       date: moment().format("YYYY-MM-DD HH:mm:ss"),
     };
     dispatch(createNoticeComment(data)).then((res) => {
-      if (res.type === CREATE_NOTICE_COMMENT) {
-        document.querySelector("#comment").value = "";
+      if (res.data.success) {
         return setText("");
       }
-      if (res.type === CREATE_NOTICE_COMMENT_ERROR) {
-        return alert(res.data.message);
-      }
-      if (res.type === AUTH_ERROR) {
-        alert(res.data.message);
-        return history.push("/login");
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
+      return history.push({
+        pathname: "/error",
+        state: {
+          status: res.status,
+          message: res.data.message,
+          text: res.statusText,
+        },
+      });
     });
   };
   const onChangeText = (e) => {
     setText(e.target.value);
   };
-  return (
+  return isLoading ? (
+    <LoadingComponent />
+  ) : (
     <DetailComponent
       notice={notice}
       user={user}
-      load={load}
       toggle={toggle}
-      cnt={cnt}
+      countLike={countLike}
       postId={postId}
-      comments={comments}
+      text={text}
       onClickDeleteNotice={onClickDeleteNotice}
       onClickLike={onClickLike}
       onClickDeleteComment={onClickDeleteComment}

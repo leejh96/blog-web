@@ -3,21 +3,12 @@ import StudyComponent from "../../components/StudyComponent/StudyComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import {
-  loadStudyComment,
   deleteStudyComment,
   createStudyComment,
+  loadOneStudy,
 } from "../../actions/StudyAction";
-import {
-  AUTH_ERROR,
-  DELETE_STUDY_COMMENT,
-  DELETE_STUDY_COMMENT_ERROR,
-  LOAD_STUDY_COMMENT,
-  LOAD_STUDY_COMMENT_ERROR,
-  CREATE_STUDY_COMMENT,
-  CREATE_STUDY_COMMENT_ERROR,
-  SERVER_ERROR,
-} from "../../actions/type";
 import moment from "moment";
+import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
 
 function handleBottom() {
   document.querySelector("#bottom").scrollIntoView({
@@ -33,41 +24,46 @@ function handleTop() {
 }
 
 function StudyContainer() {
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
-  const [comment, setComment] = useState([]);
   const [text, setText] = useState("");
-  const leng = useSelector((state) => state.StudyReducer.commentLength);
-  const { study } = useParams();
+  const { countComment, study } = useSelector((state) => state.StudyReducer);
+  const page = useParams().study;
   const user = useSelector((state) => state.UserReducer.user);
   const history = useHistory();
-  useEffect(() => {
-    dispatch(loadStudyComment(study)).then((res) => {
-      if (res.type === LOAD_STUDY_COMMENT) {
-        return setComment(res.data.comment);
-      }
-      if (res.type === LOAD_STUDY_COMMENT_ERROR) {
-        return setComment([]);
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
-    });
-  }, [study, leng]);
 
-  const onClickDelete = (commentId, study) => () => {
-    dispatch(deleteStudyComment(commentId, study)).then((res) => {
-      if (res.type === DELETE_STUDY_COMMENT) {
-        return setComment(res.data);
+  useEffect(() => {
+    dispatch(loadOneStudy(page)).then((res) => {
+      if (res.data.success) {
+        return setIsLoading(false);
       }
-      if (res.type === DELETE_STUDY_COMMENT_ERROR) {
-        return alert(res.data.message);
-      }
-      if (res.type === AUTH_ERROR) {
-        alert(res.data.message);
-        return history.push("/login");
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
+      return history.push({
+        pathname: "/error",
+        state: {
+          status: res.status,
+          message: res.data.message,
+          text: res.statusText,
+        },
+      });
+    });
+
+    return () => {
+      setText("");
+      setIsLoading(true);
+    };
+  }, [page, countComment]);
+
+  const onClickDeleteComment = (commentId, page) => {
+    dispatch(deleteStudyComment(commentId, page)).then((res) => {
+      if (!res.data.success) {
+        return history.push({
+          pathname: "/error",
+          state: {
+            status: res.status,
+            message: res.data.message,
+            text: res.statusText,
+          },
+        });
       }
     });
   };
@@ -76,31 +72,30 @@ function StudyContainer() {
     setText(e.target.value);
   };
 
-  const onClickCreateComment = () => {
+  const onSubmitCreateComment = (e) => {
+    e.preventDefault();
     if (!text) {
       return alert("댓글을 입력하세요");
     }
     const data = {
       text,
-      study,
+      page,
       date: moment().format("YYYY-MM-DD HH:mm:ss"),
     };
 
     if (user._id) {
       dispatch(createStudyComment(data)).then((res) => {
-        if (res.type === CREATE_STUDY_COMMENT) {
+        if (res.data.success) {
           return setText("");
         }
-        if (res.type === CREATE_STUDY_COMMENT_ERROR) {
-          return alert(res.data.message);
-        }
-        if (res.type === AUTH_ERROR) {
-          alert(res.data.message);
-          return history.push("/login");
-        }
-        if (res.type === SERVER_ERROR) {
-          return history.push("/error/500");
-        }
+        return history.push({
+          pathname: "/error",
+          state: {
+            status: res.status,
+            message: res.data.message,
+            text: res.statusText,
+          },
+        });
       });
     } else {
       alert("로그인이 필요합니다");
@@ -108,17 +103,19 @@ function StudyContainer() {
     }
   };
 
-  return (
+  return isLoading ? (
+    <LoadingComponent />
+  ) : (
     <StudyComponent
       handleTop={handleTop}
       handleBottom={handleBottom}
-      onClickDelete={onClickDelete}
-      onClickCreateComment={onClickCreateComment}
+      onClickDeleteComment={onClickDeleteComment}
+      onSubmitCreateComment={onSubmitCreateComment}
       onChangeText={onChangeText}
-      comment={comment}
       user={user}
       study={study}
       text={text}
+      page={page}
     />
   );
 }

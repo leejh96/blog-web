@@ -12,10 +12,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Bookbox({ onClickCreateBtn, onChangeText }) {
+function Bookbox({ onSubmitCreate, onChangeText }) {
   const classes = useStyles();
   return (
-    <Box className={classes.area}>
+    <form className={classes.area} onSubmit={onSubmitCreate}>
       <TextField
         autoFocus
         className={classes.text}
@@ -23,10 +23,10 @@ function Bookbox({ onClickCreateBtn, onChangeText }) {
         onChange={onChangeText}
         variant="outlined"
       />
-      <Button variant="contained" onClick={onClickCreateBtn}>
+      <Button type="submit" variant="contained">
         등록
       </Button>
-    </Box>
+    </form>
   );
 }
 

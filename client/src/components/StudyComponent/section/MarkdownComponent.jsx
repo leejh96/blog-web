@@ -1,12 +1,12 @@
-import React from "react";
+import React, { memo } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { Button, Box, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import Loading from "../../LoadingComponent/LoadingComponent";
 import gfm from "remark-gfm";
 import { makeStyles } from "@material-ui/core/styles";
 import rehypeRaw from "rehype-raw"; //markdown이 html을 읽을 수 있도록 함
+import emojiSupport from "../../../util/MarkdownEmoji";
 
 const useStyles = makeStyles((theme) => ({
   markdown: {
@@ -61,42 +61,36 @@ const Component = ({ children, className }) => {
   );
 };
 
-function MarkdownComponent({ load, text, user, page }) {
+function MarkdownComponent({ study, user }) {
   const classes = useStyles();
   return (
     <Box className={classes.markdownDiv}>
-      {load ? (
-        <Loading />
+      {study.text ? (
+        <ReactMarkdown
+          className={classes.markdown}
+          rehypePlugins={[rehypeRaw]}
+          remarkPlugins={[gfm]}
+          children={emojiSupport(study.text)}
+          components={{
+            code: Component,
+          }}
+        />
       ) : (
-        <>
-          {text ? (
-            <ReactMarkdown
-              className={classes.markdown}
-              rehypePlugins={[rehypeRaw]}
-              remarkPlugins={[gfm]}
-              children={text}
-              components={{
-                code: Component,
-              }}
-            />
-          ) : (
-            <Box className={classes.textDiv}>
-              <Typography variant="h3">게시물이 없습니다.</Typography>
-            </Box>
-          )}
-          <Box className={classes.buttonDiv}>
-            {user.role === 3 ? (
-              <Link className={classes.link} to={`/study/${page}/edit`}>
-                <Button className={classes.btn} variant="contained">
-                  {!text ? "글작성" : "글수정"}
-                </Button>
-              </Link>
-            ) : null}
-          </Box>
-        </>
+        <Box className={classes.textDiv}>
+          <Typography variant="h3">게시물이 없습니다.</Typography>
+        </Box>
       )}
+      <Box className={classes.buttonDiv}>
+        {user.role === 3 ? (
+          <Link className={classes.link} to={`/study/${study.subject}/edit`}>
+            <Button className={classes.btn} variant="contained">
+              {!study.text ? "글작성" : "글수정"}
+            </Button>
+          </Link>
+        ) : null}
+      </Box>
     </Box>
   );
 }
 
-export default MarkdownComponent;
+export default memo(MarkdownComponent);

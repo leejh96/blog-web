@@ -2,7 +2,9 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { AUTH_ERROR, AUTH_USER, SERVER_ERROR } from "../actions/type";
-import { authUser } from "../actions/UserAction";
+import { authUser, OauthUser } from "../actions/UserAction";
+import getCookie from "../util/getCookie";
+
 function Auth(Component, option, adminRoute = null) {
   //component => hoc를 적용할 컴포넌트
   //option => null: 아무나 출입,
@@ -39,6 +41,13 @@ function Auth(Component, option, adminRoute = null) {
             return history.push("/error/500");
           }
         });
+      }
+      // oauth
+      if (document.cookie) {
+        const { key, value } = getCookie(document.cookie);
+        if (key === "oauth" && value === true) {
+          dispatch(OauthUser());
+        }
       }
     }, [dispatch, history]);
 

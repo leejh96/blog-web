@@ -2,8 +2,8 @@ const { User } = require("../models/");
 const { verify, expSetting, sign } = require("../modules/jwtModule");
 
 const auth = async (req, res, next) => {
-  //구글 로그인
-  if (req.user && !req.headers.authorization) {
+  // 구글 로그인
+  if (req.cookies["connect.sid"]) {
     return next();
   }
   try {
@@ -19,7 +19,7 @@ const auth = async (req, res, next) => {
       return res.clearCookie("rft").status(500).json({
         success: false,
         auth: false,
-        message: "DB에러!",
+        message: "DB서버 에러!",
       });
     }
   } catch (error) {
@@ -40,7 +40,7 @@ const auth = async (req, res, next) => {
         return res.clearCookie("rft").status(500).json({
           success: false,
           auth: false,
-          message: "DB에러!",
+          message: "DB서버 에러!",
         });
       }
     } catch (error) {

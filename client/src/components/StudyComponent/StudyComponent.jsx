@@ -5,7 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Container, Box, Typography, Fab } from "@material-ui/core";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import MarkdownContainer from "../../containers/study/MarkdownContainer";
+import MarkdownComponent from "../StudyComponent/section/MarkdownComponent";
+
 const useStyles = makeStyles((theme) => {
   return {
     area: {
@@ -32,28 +33,27 @@ const useStyles = makeStyles((theme) => {
 function StudyComponent({
   handleBottom,
   handleTop,
-  onClickDelete,
-  onClickCreateComment,
+  onClickDeleteComment,
+  onSubmitCreateComment,
   onChangeText,
-  comment,
   user,
   study,
   text,
+  page,
 }) {
   const classes = useStyles();
   document.title = "STUDY";
   return (
     <Box>
       <Container className={classes.area} disableGutters>
-        <MarkdownContainer />
+        <MarkdownComponent study={study} user={user} />
         <CommentTable
-          onClickDelete={onClickDelete}
-          comment={comment}
+          onClickDeleteComment={onClickDeleteComment}
           user={user}
           study={study}
         />
         <Comment
-          onClickCreateComment={onClickCreateComment}
+          onSubmitCreateComment={onSubmitCreateComment}
           onChangeText={onChangeText}
           text={text}
         />

@@ -5,9 +5,10 @@ const passport = require("passport");
 const session = require("express-session");
 const app = express();
 const path = require("path");
-const indexRouter = require("../routes");
-const PassportConfig = require("../passport");
 require("dotenv").config();
+
+const PassportConfig = require("../passport");
+const indexRouter = require("../routes");
 
 PassportConfig(passport);
 mongoose

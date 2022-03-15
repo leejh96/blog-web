@@ -27,12 +27,12 @@ function Introduce() {
     "https://officen.azureedge.net/upload/editor/b26ade75-1e49-4082-8a3f-1d95299d86bb.jpg";
   return (
     <Container className={classes.area} disableGutters>
-      <Box my={3}>
+      <Box my={1}>
         <Typography component="h1" variant="h5" className={classes.title}>
           <b>간단한 자기소개</b>
         </Typography>
       </Box>
-      <Box display="flex" flexWrap="nowrap">
+      <Box display="flex" flexWrap="nowrap" alignItems="center">
         <Avatar variant="rounded" className={classes.avatar}>
           <img src={imgAddress} alt="bloggerimage" width="100%" height="100%" />
         </Avatar>
@@ -40,13 +40,9 @@ function Introduce() {
           <Typography variant="body1" className={classes.info}>
             안녕하세요 블로그 개설자 입니다.
             <br />
-            <b>공부 목적으로 만들어진 블로그 입니다.</b>
+            <b>프로젝트 기록을 위해 만들어진 블로그 입니다.</b>
             <br />
-            제가 아는 것을 알려드리고 잘못되거나 모르는 것은 같이 공유하는{" "}
-            <br />
-            그런 블로그가 되었으면 합니다.
-            <br />
-            찾아주셔서 감사드리고 오늘 하루도 좋은 시간 보내셨으면 좋겠습니다~!!
+            오늘 하루도 좋은 시간 보내세요~~!!
           </Typography>
         </Box>
       </Box>

@@ -29,6 +29,9 @@ function ServerError() {
     history.push("/");
   };
   const onClickBack = () => {
+    if (!localStorage.getItem("access")) {
+      return history.push("/");
+    }
     history.goBack();
   };
   return (

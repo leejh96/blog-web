@@ -15,12 +15,13 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function Comment({ onChangeText, onClickCreateComment }) {
+function Comment({ text, onChangeText, onClickCreateComment }) {
   const classes = useStyles();
 
   return (
     <Box className={classes.area}>
       <TextField
+        value={text}
         className={classes.text}
         multiline={true}
         placeholder="댓글을 남겨보세요"

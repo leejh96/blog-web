@@ -25,7 +25,7 @@ function UpdateAndDeleteBtn({ postId, onClickDeleteNotice }) {
       <Link className={classes.link} to={`/notice/${postId}/edit`}>
         <Button variant="outlined">수정</Button>
       </Link>
-      <Button variant="outlined" onClick={onClickDeleteNotice(postId)}>
+      <Button variant="outlined" onClick={() => onClickDeleteNotice(postId)}>
         삭제
       </Button>
     </Box>

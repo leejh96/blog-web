@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 //     delGuestbook : state.GuestbookReducer.delGuestbook
 // }));
 
-function Tablesection({ guest, onClickDeleteBtn, load, user }) {
+function Tablesection({ guestbooks, onClickDeleteBtn, user }) {
   const classes = useStyles();
   return (
     <Box className={classes.area}>
@@ -59,7 +59,7 @@ function Tablesection({ guest, onClickDeleteBtn, load, user }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {guest.map((val, idx) => {
+          {guestbooks.map((val, idx) => {
             return (
               <TableRow key={val._id}>
                 <TableCell align="center">

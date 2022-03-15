@@ -2,8 +2,7 @@ import React from "react";
 import Info from "./section/Info";
 import Motto from "./section/Motto";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Typography } from "@material-ui/core";
-
+import { Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   title: {
     margin: "16px 0",
@@ -14,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 function MyPageComponent({ onChangeImage, onClickDeleteImage, path, user }) {
   const classes = useStyles();
   return (
-    <Box>
+    <>
       <Typography variant="h5" className={classes.title}>
         내 정보
       </Typography>
@@ -25,7 +24,7 @@ function MyPageComponent({ onChangeImage, onClickDeleteImage, path, user }) {
         user={user}
       />
       <Motto />
-    </Box>
+    </>
   );
 }
 

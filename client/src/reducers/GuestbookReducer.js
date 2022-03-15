@@ -5,76 +5,34 @@ import {
   CREATE_GUESTBOOK,
   DELETE_GUESTBOOK,
   LOAD_GUESTBOOK,
-  SERVER_ERROR,
-  CREATE_GUESTBOOK_ERROR,
-  DELETE_GUESTBOOK_ERROR,
-  LOAD_GUESTBOOK_ERROR,
   COUNT_GUESTBOOK,
-  COUNT_GUESTBOOK_ERROR,
 } from "../actions/type";
 
 const initialState = {
-  guestlength: 0,
-  error: false,
+  guestbooks: [],
+  count: 0,
 };
 const GuestbookReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_GUESTBOOK:
       return {
         ...state,
-        guestlength: state.guestlength + 1,
-        error: false,
+        count: state.count + 1,
       };
     case COUNT_GUESTBOOK:
       return {
         ...state,
-        guestlength: action.data.length,
-        error: false,
+        count: action.data.count,
       };
     case LOAD_GUESTBOOK:
       return {
         ...state,
+        guestbooks: action.data.guestbooks,
       };
     case DELETE_GUESTBOOK:
       return {
         ...state,
-        guestlength: state.guestlength - 1,
-        error: false,
-      };
-    case COUNT_GUESTBOOK_ERROR:
-      return {
-        ...state,
-        guestlength: 0,
-        guestbook: [],
-        error: true,
-      };
-    case SERVER_ERROR:
-      return {
-        ...state,
-        guestlength: 0,
-        guestbook: [],
-        error: true,
-      };
-    case CREATE_GUESTBOOK_ERROR:
-      return {
-        ...state,
-        guestlength: 0,
-        guestbook: [],
-        error: true,
-      };
-    case DELETE_GUESTBOOK_ERROR:
-      return {
-        ...state,
-        guestlength: 0,
-        guestbook: [],
-        error: true,
-      };
-    case LOAD_GUESTBOOK_ERROR:
-      return {
-        ...state,
-        guestlength: 0,
-        guestbook: [],
-        error: true,
+        count: state.count - 1,
       };
     default:
       return state;

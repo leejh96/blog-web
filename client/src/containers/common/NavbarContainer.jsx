@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavbarComponent from "../../components/NavBarComponent/NavbarComponent";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../../actions/UserAction";
+import { logoutUser, logoutOauth } from "../../actions/UserAction";
 import { loadStudy, createStudy, deleteStudy } from "../../actions/StudyAction";
 import {
   AUTH_ERROR,
@@ -58,6 +58,7 @@ function NavbarContainer() {
     studyCount: state.StudyReducer.studyCount,
   }));
   const [createToggle, setCreateToggle] = useState(false);
+
   const onClickMenu = () => {
     if (toggle) {
       setToggle(false);
@@ -83,30 +84,28 @@ function NavbarContainer() {
       setStudy([]);
     };
   }, [studyCount]);
+
   const onClickLogout = () => {
-    let access = localStorage.getItem("access");
-    if (!access) {
-      access = "";
+    const access = localStorage.getItem("access");
+    if (access) {
+      dispatch(logoutUser(access)).then((res) => {
+        if (res.type === LOGOUT_USER && localStorage.getItem("access")) {
+          //로컬 로그아웃
+          localStorage.removeItem("access");
+          return history.push("/login");
+        }
+        if (res.type === AUTH_ERROR) {
+          //세션 만료나 auth에서 어떠한 오류 발생
+          localStorage.removeItem("access");
+          return history.push("/login");
+        }
+        if (res.type === SERVER_ERROR) {
+          return history.push("/error/500");
+        }
+      });
+    } else {
+      dispatch(logoutOauth()).then(history.push("/"));
     }
-    dispatch(logoutUser(access)).then((res) => {
-      if (res.type === LOGOUT_USER && !localStorage.getItem("access")) {
-        //google 로그아웃
-        return history.push("/login");
-      }
-      if (res.type === LOGOUT_USER && localStorage.getItem("access")) {
-        //로컬 로그아웃
-        localStorage.removeItem("access");
-        return history.push("/login");
-      }
-      if (res.type === AUTH_ERROR) {
-        //세션 만료나 auth에서 어떠한 오류 발생
-        localStorage.removeItem("access");
-        return history.push("/login");
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
-    });
   };
 
   const onChangeText = (e) => {

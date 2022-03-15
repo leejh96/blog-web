@@ -75,11 +75,12 @@ function Study({
   onClickCreateStudy,
   onClickPlusBtn,
   onChangeText,
-  study,
+  studies,
   user,
   toggle,
 }) {
   const classes = useStyles();
+
   return (
     <Box className={classes.area}>
       <Box className={classes.titleDiv}>
@@ -109,7 +110,7 @@ function Study({
           </Button>
         </Box>
       ) : null}
-      {study.map((val, i) => (
+      {studies.map((val) => (
         <Box className={classes.studyDiv} key={val._id}>
           <Link to={val.link} className={classes.link}>
             {val.subject}

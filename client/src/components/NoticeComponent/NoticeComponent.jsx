@@ -5,7 +5,6 @@ import Search from "./section/Search";
 import ButtonSection from "./section/ButtonSection";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Box, Typography } from "@material-ui/core";
-import Loading from "../LoadingComponent/LoadingComponent";
 const useStyles = makeStyles((theme) => {
   return {
     area: {
@@ -22,43 +21,38 @@ const useStyles = makeStyles((theme) => {
 function NoticeComponent({
   user,
   search,
-  load,
-  posts,
+  notices,
   pageCnt,
   page,
-  onChangeText,
+  input,
   onSubmithandler,
-  onChangeSelect,
+  onChangeInput,
+  countSearch,
 }) {
   const classes = useStyles();
-
   return (
-    <>
-      {load ? (
-        <Loading />
-      ) : (
-        <Box>
-          <Typography className={classes.title} variant="h5">
-            공지사항
-          </Typography>
-          <Container className={classes.area} disableGutters>
-            <TableSection
-              page={parseInt(page)}
-              search={search}
-              posts={posts}
-              user={user}
-            />
-            <ButtonSection user={user} />
-            {!search && <Pagination pageCnt={pageCnt} page={parseInt(page)} />}
-            <Search
-              onChangeText={onChangeText}
-              onSubmithandler={onSubmithandler}
-              onChangeSelect={onChangeSelect}
-            />
-          </Container>
-        </Box>
-      )}
-    </>
+    <Box>
+      <Typography className={classes.title} variant="h5">
+        공지사항
+      </Typography>
+      <Container className={classes.area} disableGutters>
+        <TableSection
+          page={parseInt(page)}
+          search={search}
+          notices={notices}
+          user={user}
+        />
+        <ButtonSection user={user} />
+        {!search && <Pagination pageCnt={pageCnt} page={parseInt(page)} />}
+        <Search
+          search={search}
+          onChangeInput={onChangeInput}
+          onSubmithandler={onSubmithandler}
+          input={input}
+          countSearch={countSearch}
+        />
+      </Container>
+    </Box>
   );
 }
 

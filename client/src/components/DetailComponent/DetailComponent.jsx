@@ -26,11 +26,10 @@ const useStyles = makeStyles((theme) => {
 function DetailComponent({
   notice,
   user,
-  load,
   toggle,
-  cnt,
+  countLike,
   postId,
-  comments,
+  text,
   onClickDeleteNotice,
   onClickLike,
   onClickDeleteComment,
@@ -39,36 +38,35 @@ function DetailComponent({
 }) {
   const classes = useStyles();
   return (
-    <>
-      {load ? (
-        <Loading />
-      ) : (
-        <Box>
-          <Typography variant="h5" className={classes.title}>
-            공지사항
-          </Typography>
-          <Container className={classes.area} disableGutters>
-            <TextArea notice={notice} />
-            {user.role === 3 ? (
-              <UpdateAndDeleteBtn
-                postId={postId}
-                onClickDeleteNotice={onClickDeleteNotice}
-              />
-            ) : null}
-            <LikeButton toggle={toggle} cnt={cnt} onClickLike={onClickLike} />
-            <CommentTable
-              user={user}
-              comments={comments}
-              onClickDeleteComment={onClickDeleteComment}
-            />
-            <Comment
-              onChangeText={onChangeText}
-              onClickCreateComment={onClickCreateComment}
-            />
-          </Container>
-        </Box>
-      )}
-    </>
+    <Box>
+      <Typography variant="h5" className={classes.title}>
+        공지사항
+      </Typography>
+      <Container className={classes.area} disableGutters>
+        <TextArea notice={notice} />
+        {user.role === 3 ? (
+          <UpdateAndDeleteBtn
+            postId={postId}
+            onClickDeleteNotice={onClickDeleteNotice}
+          />
+        ) : null}
+        <LikeButton
+          toggle={toggle}
+          countLike={countLike}
+          onClickLike={onClickLike}
+        />
+        <CommentTable
+          user={user}
+          notice={notice}
+          onClickDeleteComment={onClickDeleteComment}
+        />
+        <Comment
+          text={text}
+          onChangeText={onChangeText}
+          onClickCreateComment={onClickCreateComment}
+        />
+      </Container>
+    </Box>
   );
 }
 export default DetailComponent;

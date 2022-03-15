@@ -1,7 +1,8 @@
 import React from "react";
 import { Button, Container, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
+import Time from "../../../util/time";
+import ClearIcon from "@mui/icons-material/Clear";
 const useStyles = makeStyles({
   area: {
     display: "flex",
@@ -34,8 +35,8 @@ const useStyles = makeStyles({
   },
   dateBtn: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
   },
   comment: {
     padding: "10px 20px",
@@ -47,11 +48,11 @@ const useStyles = makeStyles({
   },
 });
 
-function CommentTable({ onClickDelete, comment, user, study }) {
+function CommentTable({ onClickDeleteComment, user, study }) {
   const classes = useStyles();
   return (
     <Container disableGutters className={classes.area}>
-      {comment.map((val) => (
+      {study.comment.map((val) => (
         <Box className={classes.commentArea} key={val._id}>
           <Box className={classes.user}>
             <Box className={classes.info}>
@@ -61,23 +62,27 @@ function CommentTable({ onClickDelete, comment, user, study }) {
               {val.user ? val.user.nick : "알수없음"}
             </Box>
             <Box className={classes.dateBtn}>
-              <Box align="center">{val.date}</Box>
-              <Box align="center">
+              <Box display="flex" alignItems="center">
+                <Time date={val.date} />
+              </Box>
+              <Box>
                 {val.user ? (
                   user._id === val.user._id || user.role === 3 ? (
                     <Button
                       className={classes.deleteButton}
-                      onClick={onClickDelete(val._id, study)}
+                      onClick={() =>
+                        onClickDeleteComment(val._id, study.subject)
+                      }
                     >
-                      X
+                      <ClearIcon />
                     </Button>
                   ) : null
                 ) : user.role === 3 ? (
                   <Button
                     className={classes.deleteButton}
-                    onClick={onClickDelete(val._id, study)}
+                    onClick={() => onClickDeleteComment(val._id, study.subject)}
                   >
-                    X
+                    <ClearIcon />
                   </Button>
                 ) : null}
               </Box>

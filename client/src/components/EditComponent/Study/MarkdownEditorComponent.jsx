@@ -5,6 +5,7 @@ import { Button, Box, TextareaAutosize } from "@material-ui/core";
 import gfm from "remark-gfm";
 import { makeStyles } from "@material-ui/core/styles";
 import rehypeRaw from "rehype-raw"; //markdown이 html을 읽을 수 있도록 함
+import MarkdownEmoji from "../../../util/MarkdownEmoji";
 
 const useStyles = makeStyles((theme) => ({
   edit: {
@@ -75,7 +76,7 @@ const Component = ({ children, className }) => {
 
 function MarkdownEditorComponent({
   onChangeText,
-  onClickUpdate,
+  onClickUpdateStudy,
   onClickCancel,
   text,
 }) {
@@ -94,7 +95,7 @@ function MarkdownEditorComponent({
           className={classes.markdown}
           rehypePlugins={[rehypeRaw]}
           remarkPlugins={[gfm, { singleTilde: false }]}
-          children={text}
+          children={MarkdownEmoji(text)}
           components={{
             code: Component,
           }}
@@ -104,7 +105,7 @@ function MarkdownEditorComponent({
         <Button
           className={classes.btn}
           variant="contained"
-          onClick={onClickUpdate}
+          onClick={onClickUpdateStudy}
         >
           저장
         </Button>

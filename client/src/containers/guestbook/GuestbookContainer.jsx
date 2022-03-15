@@ -8,128 +8,109 @@ import {
 } from "../../actions/GuestbookAction";
 import { useHistory, useParams } from "react-router-dom";
 import moment from "moment";
-import {
-  SERVER_ERROR,
-  AUTH_ERROR,
-  DELETE_GUESTBOOK,
-  DELETE_GUESTBOOK_ERROR,
-  LOAD_GUESTBOOK,
-  LOAD_GUESTBOOK_ERROR,
-  CREATE_GUESTBOOK,
-  CREATE_GUESTBOOK_ERROR,
-  COUNT_GUESTBOOK,
-  COUNT_GUESTBOOK_ERROR,
-} from "../../actions/type";
 import GuestbookComponent from "../../components/GuestbookComponent/GuestbookComponent";
-
-const pageCount = (cnt) => {
-  let remainder = cnt % 10 ? 1 : 0;
-  let pageCnt = parseInt(cnt / 10, 10) + remainder;
-  return pageCnt;
-};
+import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
+import pageCount from "../../util/pageCount";
 
 function GuestbookContainer() {
-  const [load, setLoad] = useState(false);
-  const [guest, setGuest] = useState([]);
   const [pageCnt, setPageCnt] = useState(1);
+  const [text, setText] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const user = useSelector((state) => state.UserReducer.user);
+  const { guestbooks, count } = useSelector((state) => state.GuestbookReducer);
   const dispatch = useDispatch();
   const history = useHistory();
   const { page } = useParams();
-  const [text, setText] = useState("");
-  const user = useSelector((state) => state.UserReducer.user);
-  const guestlength = useSelector(
-    (state) => state.GuestbookReducer.guestlength
-  );
 
   useEffect(() => {
-    setLoad(true);
     dispatch(countGuestBook()).then((res) => {
-      if (res.type === COUNT_GUESTBOOK) {
-        setPageCnt(pageCount(res.data));
-        return setLoad(false);
+      if (res.data.success) {
+        return setPageCnt(pageCount(res.data.count));
       }
-      if (res.type === COUNT_GUESTBOOK_ERROR) {
-        return alert(res.data.message);
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
+      return history.push({
+        pathname: "/error",
+        state: {
+          status: res.status,
+          message: res.data.message,
+          text: res.statusText,
+        },
+      });
     });
-    dispatch(loadGuestBook(page)).then((res) => {
-      if (res.type === LOAD_GUESTBOOK) {
-        setGuest(res.data);
-        return setLoad(false);
-      }
-      if (res.type === LOAD_GUESTBOOK_ERROR) {
-        return alert(res.data.message);
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
-    });
-    return () => {
-      setLoad(false);
-      setGuest([]);
-    };
-  }, [page, guestlength]);
 
-  const onClickDeleteBtn = (id) => {
-    const data = { data: { id } };
-    dispatch(deleteGuestBook(data)).then((res) => {
-      if (res.type === DELETE_GUESTBOOK) {
-        return history.push("/guestbook/1");
+    dispatch(loadGuestBook(page)).then((res) => {
+      if (res.data.success) {
+        return setIsLoading(false);
       }
-      if (res.type === DELETE_GUESTBOOK_ERROR) {
-        return alert(res.data.message);
-      }
-      if (res.type === AUTH_ERROR) {
-        alert(res.data.message);
-        return history.push("/login");
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
+      return history.push({
+        pathname: "/error",
+        state: {
+          status: res.status,
+          message: res.data.message,
+          text: res.statusText,
+        },
+      });
+    });
+
+    return () => {
+      setPageCnt(1);
+      setIsLoading(true);
+      setText("");
+    };
+  }, [page, count]);
+
+  const onClickDeleteBtn = (guestbookId) => {
+    dispatch(deleteGuestBook(guestbookId)).then((res) => {
+      if (!res.data.success) {
+        return history.push({
+          pathname: "/error",
+          state: {
+            status: res.status,
+            message: res.data.message,
+            text: res.statusText,
+          },
+        });
       }
     });
   };
 
-  const onClickCreateBtn = () => {
+  const onSubmitCreate = (e) => {
+    e.preventDefault();
     const data = {
       text,
       date: moment().format("YYYY-MM-DD HH:mm:ss"),
     };
     if (user._id) {
       dispatch(createGuestBook(data)).then((res) => {
-        if (res.type === CREATE_GUESTBOOK) {
+        if (res.data.success) {
           return setText("");
         }
-        if (res.type === CREATE_GUESTBOOK_ERROR) {
-          alert(res.data.message);
-          return setText("");
-        }
-        if (res.type === AUTH_ERROR) {
-          alert(res.data.message);
-          return history.push("/login");
-        }
-        if (res.type === SERVER_ERROR) {
-          return history.push("/error/500");
-        }
+        return history.push({
+          pathname: "/error",
+          state: {
+            status: res.status,
+            message: res.data.message,
+            text: res.statusText,
+          },
+        });
       });
     } else {
       alert("로그인이 필요합니다");
       return history.push("/login");
     }
   };
+
   const onChangeText = (e) => {
     setText(e.target.value);
   };
 
-  return (
+  return isLoading ? (
+    <LoadingComponent />
+  ) : (
     <GuestbookComponent
-      onClickCreateBtn={onClickCreateBtn}
+      onSubmitCreate={onSubmitCreate}
       onChangeText={onChangeText}
       onClickDeleteBtn={onClickDeleteBtn}
-      load={load}
-      guest={guest}
+      guestbooks={guestbooks}
       page={parseInt(page)}
       user={user}
       pageCnt={pageCnt}

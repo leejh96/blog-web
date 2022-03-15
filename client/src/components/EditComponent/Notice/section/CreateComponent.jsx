@@ -15,29 +15,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CreateComponent({ onChangeTitle, onChangeText, onCreateHandler }) {
+function CreateComponent({ input, onChangeInput, onCreateHandler }) {
   const classes = useStyles();
-
+  const { title, text } = input;
   return (
     <form onSubmit={onCreateHandler}>
       <Box>
         <TextField
           className={classes.title}
-          onChange={onChangeTitle}
+          onChange={onChangeInput}
           variant="outlined"
           placeholder="제목을 입력하세요"
           required
           fullWidth
+          name="title"
+          value={title}
         />
         <TextField
           className={classes.text}
           variant="outlined"
-          onChange={onChangeText}
+          onChange={onChangeInput}
           placeholder="내용을 입력하세요"
           rows="30"
           fullWidth
           multiline={true}
           required
+          value={text}
+          name="text"
         />
       </Box>
       <Box className={classes.buttonArea}>

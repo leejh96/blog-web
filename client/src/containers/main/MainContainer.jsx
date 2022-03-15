@@ -2,59 +2,60 @@ import React, { useState, useEffect } from "react";
 import MainComponent from "../../components/MainComponent/MainComponent";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { mainLoadNotice } from "../../actions/NoticeAction";
+import { loadMainNotice } from "../../actions/NoticeAction";
 import { loadMainStudy } from "../../actions/StudyAction";
-
-import {
-  MAIN_LOAD_NOTICE,
-  MAIN_LOAD_NOTICE_ERROR,
-  SERVER_ERROR,
-  LOAD_MAIN_STUDY,
-  LOAD_MAIN_STUDY_ERROR,
-} from "../../actions/type";
+import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
 
 function MainContainer() {
   const [notices, setNotices] = useState([]);
   const [posts, setPosts] = useState([]);
+  const { count } = useSelector((state) => state.StudyReducer);
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.UserReducer.user);
-  const studyCount = useSelector((state) => state.StudyReducer.studyCount);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(mainLoadNotice()).then((res) => {
-      if (res.type === MAIN_LOAD_NOTICE) {
-        return setNotices(res.data);
+    dispatch(loadMainNotice()).then((res) => {
+      if (res.data.success) {
+        return setNotices(res.data.notices);
       }
-      if (res.type === MAIN_LOAD_NOTICE_ERROR) {
-        return alert(res.data.message);
+      return history.push({
+        pathname: "/error",
+        state: {
+          status: res.status,
+          message: res.data.message,
+          text: res.statusText,
+        },
+      });
+    });
+
+    dispatch(loadMainStudy()).then((res) => {
+      if (res.data.success) {
+        setPosts(res.data.studies);
+        return setIsLoading(false);
       }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
+      return history.push({
+        pathname: "/error",
+        state: {
+          status: res.status,
+          message: res.data.message,
+          text: res.statusText,
+        },
+      });
     });
     return () => {
       setNotices([]);
-    };
-  }, []);
-
-  useEffect(() => {
-    dispatch(loadMainStudy()).then((res) => {
-      if (res.type === LOAD_MAIN_STUDY) {
-        return setPosts(res.data);
-      }
-      if (res.type === LOAD_MAIN_STUDY_ERROR) {
-        return alert(res.data.message);
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
-    });
-    return () => {
       setPosts([]);
+      setIsLoading(true);
     };
-  }, [studyCount]);
-  return <MainComponent notices={notices} user={user} posts={posts} />;
+  }, [count]);
+
+  return isLoading ? (
+    <LoadingComponent />
+  ) : (
+    <MainComponent notices={notices} user={user} posts={posts} />
+  );
 }
 
 export default MainContainer;

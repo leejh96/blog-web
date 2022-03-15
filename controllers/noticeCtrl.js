@@ -10,14 +10,20 @@ const noticeCtrl = {
         .sort("-date")
         .skip((parseInt(page) - 1) * 10)
         .limit(10);
-      return res.status(200).json({
-        success: true,
-        notices,
+      if (notices) {
+        return res.status(200).json({
+          success: true,
+          notices,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "공지사항을 불러오는데 실패했습니다.",
       });
     } catch (error) {
       return res.status(500).json({
         success: false,
-        message: "공지사항을 불러오는데 실패했습니다.",
+        message: "DB서버 에러!",
       });
     }
   },
@@ -25,14 +31,20 @@ const noticeCtrl = {
   countNotice: async (req, res) => {
     try {
       const notices = await Notice.find();
-      return res.status(200).json({
-        success: true,
-        count: notices.length,
+      if (notices) {
+        return res.status(200).json({
+          success: true,
+          count: notices.length,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "공지사항 갯수를 불러오는데 실패했습니다.",
       });
     } catch (error) {
       return res.status(500).json({
         success: false,
-        message: "총 공지사항 갯수를 가져오는데 실패했습니다.",
+        message: "DB서버 에러!",
       });
     }
   },
@@ -43,14 +55,20 @@ const noticeCtrl = {
         .populate({ path: "author", select: "nick" })
         .sort("-date")
         .limit(8);
-      return res.status(200).json({
-        success: true,
-        notices,
+      if (notices) {
+        return res.status(200).json({
+          success: true,
+          notices,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "공지사항 데이터를 불러오는데 실패했습니다.",
       });
     } catch (error) {
       return res.status(500).json({
         success: false,
-        message: "공지사항을 불러오는데 실패했습니다.",
+        message: "DB서버 에러!",
       });
     }
   },
@@ -64,9 +82,15 @@ const noticeCtrl = {
         })
           .sort("-date")
           .populate({ path: "author", select: "_id nick" });
-        return res.status(200).json({
-          success: true,
-          notices,
+        if (notices) {
+          return res.status(200).json({
+            success: true,
+            notices,
+          });
+        }
+        return res.status(404).json({
+          success: false,
+          message: "검색한 데이터를 찾을 수 없습니다.",
         });
       }
       // find에 바로 regex를 줄 수 없는 것은 author는 objectId이고
@@ -75,19 +99,24 @@ const noticeCtrl = {
         const notices = await Notice.find()
           .sort("-date")
           .populate({ path: "author", select: "_id nick" });
-
-        const searchNotices = notices.filter((notice) => {
-          return notice.author.nick.search(regex) !== -1;
-        });
-        return res.status(200).json({
-          success: true,
-          notices: searchNotices,
+        if (notices) {
+          const searchNotices = notices.filter((notice) => {
+            return notice.author.nick.search(regex) !== -1;
+          });
+          return res.status(200).json({
+            success: true,
+            notices: searchNotices,
+          });
+        }
+        return res.status(404).json({
+          success: false,
+          message: "검색한 데이터를 찾을 수 없습니다.",
         });
       }
     } catch (error) {
       return res.status(500).json({
         success: false,
-        message: "검색한 데이터를 조회하는데 실패했습니다.",
+        message: "DB서버 에러!",
       });
     }
   },
@@ -98,9 +127,8 @@ const noticeCtrl = {
       const oid = mongoose.Types.ObjectId.isValid(postId);
       if (!oid) {
         return res.status(400).json({
-          auth: true,
           success: false,
-          valid: false,
+          message: "부정확한 요청입니다.",
         });
       }
       const notice = await Notice.findOne({
@@ -114,22 +142,27 @@ const noticeCtrl = {
             select: "img nick _id role",
           },
         });
-      return res.status(200).json({
-        auth: true,
-        success: true,
-        notice,
+
+      if (notice) {
+        return res.status(200).json({
+          success: true,
+          notice,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "공지사항을 불러오는데 실패했습니다.",
       });
     } catch (error) {
       return res.status(500).json({
-        auth: true,
         success: false,
-        valid: true,
-        message: "공지사항을 불러오는데 실패했습니다",
+        message: "DB서버 에러!",
       });
     }
   },
   createNotice: async (req, res) => {
-    const { title, text, date } = req.body;
+    const { input, date } = req.body;
+    const { title, text } = input;
     try {
       await Notice.create({
         title,
@@ -137,22 +170,20 @@ const noticeCtrl = {
         date,
         author: req.user._id,
       });
-      return res.status(200).json({
-        auth: true,
+      return res.status(201).json({
         success: true,
       });
     } catch (error) {
       return res.status(500).json({
-        auth: true,
         success: false,
-        message: "공지사항을 만드는 데 실패했습니다",
+        message: "DB서버 에러!",
       });
     }
   },
   createComment: async (req, res) => {
     const { text, postId, date } = req.body;
     try {
-      await Notice.findByIdAndUpdate(postId, {
+      const notice = await Notice.findByIdAndUpdate(postId, {
         $push: {
           comment: {
             user: req.user._id,
@@ -161,37 +192,45 @@ const noticeCtrl = {
           },
         },
       });
-      return res.status(200).json({
-        auth: true,
-        success: true,
+      if (notice) {
+        return res.status(201).json({
+          success: true,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "댓글작성에 실패했습니다.",
       });
     } catch (error) {
       return res.status(500).json({
-        auth: true,
         success: false,
-        message: "댓글 작성에 실패했습니다",
+        message: "DB서버 에러!",
       });
     }
   },
   deleteCommnet: async (req, res) => {
     const { postId, commentId } = req.params;
     try {
-      await Notice.findByIdAndUpdate(postId, {
+      const notice = await Notice.findByIdAndUpdate(postId, {
         $pull: {
           comment: {
             _id: commentId,
           },
         },
       });
-      return res.status(200).json({
-        auth: true,
-        success: true,
+      if (notice) {
+        return res.status(200).json({
+          success: true,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "댓글 삭제에 실패했습니다.",
       });
     } catch (error) {
       return res.status(500).json({
-        auth: true,
         success: false,
-        message: "댓글을 지우는데 실패했습니다",
+        message: "DB서버 에러!",
       });
     }
   },
@@ -201,70 +240,82 @@ const noticeCtrl = {
         _id: req.params.postId,
       });
       return res.status(200).json({
-        auth: true,
         success: true,
       });
     } catch (error) {
       return res.status(500).json({
-        auth: true,
         success: false,
-        message: "공지사항을 지우는데 실패했습니다",
+        message: "DB서버 에러!",
       });
     }
   },
 
   addLike: async (req, res) => {
     try {
-      await Notice.findByIdAndUpdate(req.params.postId, {
+      const notice = await Notice.findByIdAndUpdate(req.params.postId, {
         $addToSet: { like: req.user._id },
       });
-      return res.status(200).json({
-        auth: true,
-        success: true,
+      if (notice) {
+        return res.status(200).json({
+          success: true,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "좋아요를 실패했습니다.",
       });
     } catch (error) {
       return res.status(500).json({
-        auth: true,
         success: false,
-        message: "좋아요에 실패했습니다",
+        message: "DB서버 에러!",
       });
     }
   },
 
   deleteLike: async (req, res) => {
     try {
-      await Notice.findByIdAndUpdate(req.params.postId, {
+      const notice = await Notice.findByIdAndUpdate(req.params.postId, {
         $pull: { like: req.user._id },
       });
-      return res.status(200).json({
-        auth: true,
-        success: true,
+      if (notice) {
+        return res.status(200).json({
+          success: true,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "좋아요 취소를 실패했습니다.",
       });
     } catch (error) {
       return res.status(500).json({
-        auth: true,
         success: false,
-        message: "좋아요를 취소하는데 실패했습니다",
+        message: "DB서버 에러!",
       });
     }
   },
 
   updateNotice: async (req, res) => {
-    const { title, text } = req.body;
+    const { date, input } = req.body;
+    const { title, text } = input;
     try {
-      await Notice.findByIdAndUpdate(req.params.postId, {
+      const notice = await Notice.findByIdAndUpdate(req.params.postId, {
         title,
         text,
+        date,
       });
-      return res.status(200).json({
-        auth: true,
-        success: true,
+      if (notice) {
+        return res.status(200).json({
+          success: true,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: "공지사항 수정에 실패했습니다.",
       });
     } catch (error) {
       return res.status(500).json({
-        auth: true,
         success: false,
-        message: "공지사항 수정에 실패했습니다",
+        message: "DB서버 에러!",
       });
     }
   },

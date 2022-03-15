@@ -15,36 +15,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function UpdateContent({
-  onUpdateHandler,
-  onChangeTitle,
-  onChangeText,
-  title,
-  text,
-}) {
+function UpdateContent({ onUpdateHandler, onChangeInput, input }) {
   const classes = useStyles();
+  const { title, text } = input;
   return (
     <form onSubmit={onUpdateHandler}>
       <Box>
         <TextField
           className={classes.title}
-          onChange={onChangeTitle}
+          onChange={onChangeInput}
           variant="outlined"
           placeholder="제목을 입력하세요"
           required
           fullWidth
           value={title}
+          name="title"
         />
         <TextField
           className={classes.text}
           variant="outlined"
-          onChange={onChangeText}
+          onChange={onChangeInput}
           placeholder="내용을 입력하세요"
           rows="30"
           fullWidth
           multiline={true}
           required
           value={text}
+          name="text"
         />
       </Box>
       <Box className={classes.buttonArea}>

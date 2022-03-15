@@ -47,11 +47,11 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function TableSection({ posts, user, page, search }) {
+function TableSection({ notices, user, page, search }) {
   const classes = useStyles();
   return (
     <>
-      {posts.length === 0 ? (
+      {notices.length === 0 ? (
         <Box className={classes.noticeDiv}>
           <Typography variant="h3">게시물이 없습니다.</Typography>
         </Box>
@@ -74,7 +74,7 @@ function TableSection({ posts, user, page, search }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {posts.map((val, i) => (
+            {notices.map((val, i) => (
               <TableRow key={val._id}>
                 {search ? (
                   <TableCell align="center">{i + 1}</TableCell>

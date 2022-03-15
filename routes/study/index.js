@@ -19,9 +19,9 @@ router.get("/main", mainLoadStudy);
 router.get("/:page", loadOneStudy);
 router.get("/:study/comment", loadCommentStudy);
 router.post("/", auth, createStudy);
-router.post("/:study/comment", auth, createComment);
+router.post("/:page/comment", auth, createComment);
 router.put("/:page", auth, updateStudy);
 router.delete("/", auth, deleteStudy);
-router.delete("/:study/comment", auth, deleteComment);
+router.delete("/:page/comment", auth, deleteComment);
 
 module.exports = router;

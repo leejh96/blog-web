@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, TextField, Button, Select } from "@material-ui/core";
+import { Box, TextField, Button, Select, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => {
@@ -19,7 +19,14 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function Search({ onChangeText, onSubmithandler, onChangeSelect }) {
+function Search({
+  onChangeInput,
+  onSubmithandler,
+  input,
+  countSearch,
+  search,
+}) {
+  const { text, type } = input;
   const classes = useStyles();
   const types = [
     {
@@ -39,7 +46,8 @@ function Search({ onChangeText, onSubmithandler, onChangeSelect }) {
           className={classes.select}
           native
           variant="outlined"
-          onChange={onChangeSelect}
+          value={type}
+          onChange={onChangeInput}
         >
           {types.map((v, i) => (
             <option key={v + i} value={v.type}>
@@ -50,14 +58,16 @@ function Search({ onChangeText, onSubmithandler, onChangeSelect }) {
         <TextField
           className={classes.text}
           name="text"
-          onChange={onChangeText}
+          onChange={onChangeInput}
           placeholder="검색"
           variant="outlined"
           required
+          value={text}
         />
         <Button type="submit" variant="contained">
           검색
         </Button>
+        {search ? <Typography>검색결과 : {countSearch}건</Typography> : null}
       </form>
     </Box>
   );

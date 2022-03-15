@@ -6,152 +6,50 @@ import {
   DELETE_STUDY,
   LOAD_STUDY,
   LOAD_ONE_STUDY,
-  UPDATE_STUDY_TEXT,
   CREATE_STUDY_COMMENT,
-  LOAD_STUDY_COMMENT,
   DELETE_STUDY_COMMENT,
-  LOAD_MAIN_STUDY,
-  LOAD_ONE_STUDY_ERROR,
-  LOAD_STUDY_COMMENT_ERROR,
-  CREATE_STUDY_ERROR,
-  LOAD_STUDY_ERROR,
-  LOAD_MAIN_STUDY_ERROR,
-  UPDATE_STUDY_TEXT_ERROR,
-  DELETE_STUDY_ERROR,
-  CREATE_STUDY_COMMENT_ERROR,
-  DELETE_STUDY_COMMENT_ERROR,
-  SERVER_ERROR,
 } from "../actions/type";
 
 const initialState = {
-  studyCount: 0,
+  count: 0,
   studies: [],
-  error: false,
-  commentLength: 0,
+  countComment: 0,
+  study: {},
 };
 const StudyReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CREATE_STUDY:
-      return {
-        ...state,
-        studyCount: state.studyCount + 1,
-        error: false,
-      };
-    case LOAD_STUDY:
-      return {
-        ...state,
-        study: action.data,
-        studyCount: action.data.length,
-        error: false,
-      };
-    case DELETE_STUDY:
-      return {
-        ...state,
-        studyCount: state.studyCount - 1,
-        error: false,
-      };
-    case LOAD_ONE_STUDY_ERROR:
-      return {
-        ...state,
-        studyCount: 0,
-        studies: [],
-        error: true,
-      };
     case LOAD_ONE_STUDY:
       return {
         ...state,
-        error: false,
-      };
-    case UPDATE_STUDY_TEXT:
-      return {
-        ...state,
-        error: false,
-      };
-    case LOAD_STUDY_COMMENT:
-      return {
-        ...state,
-        commentLength: action.data.length,
-        error: false,
+        countComment: action.data.study.comment.length,
+        study: action.data.study,
       };
     case CREATE_STUDY_COMMENT:
       return {
         ...state,
-        commentLength: state.commentLength + 1,
-        error: false,
+        countComment: state.countComment + 1,
       };
     case DELETE_STUDY_COMMENT:
       return {
         ...state,
-        commentLength: state.commentLength - 1,
-        error: false,
+        countComment: state.countComment - 1,
       };
-    case LOAD_MAIN_STUDY:
+    case LOAD_STUDY:
       return {
         ...state,
-        error: false,
+        studies: action.data.studies,
+        count: action.data.studies.length,
       };
-    case LOAD_STUDY_COMMENT_ERROR:
+
+    case CREATE_STUDY:
       return {
         ...state,
-        studyCount: 0,
-        studies: [],
-        error: true,
+        count: state.count + 1,
       };
-    case CREATE_STUDY_ERROR:
+    case DELETE_STUDY:
       return {
         ...state,
-        studyCount: 0,
-        studies: [],
-        error: true,
-      };
-    case LOAD_STUDY_ERROR:
-      return {
-        ...state,
-        studyCount: 0,
-        studies: [],
-        error: true,
-      };
-    case LOAD_MAIN_STUDY_ERROR:
-      return {
-        ...state,
-        studyCount: 0,
-        studies: [],
-        error: true,
-      };
-    case UPDATE_STUDY_TEXT_ERROR:
-      return {
-        ...state,
-        studyCount: 0,
-        studies: [],
-        error: true,
-      };
-    case DELETE_STUDY_ERROR:
-      return {
-        ...state,
-        studyCount: 0,
-        studies: [],
-        error: true,
-      };
-    case CREATE_STUDY_COMMENT_ERROR:
-      return {
-        ...state,
-        studyCount: 0,
-        studies: [],
-        error: true,
-      };
-    case DELETE_STUDY_COMMENT_ERROR:
-      return {
-        ...state,
-        studyCount: 0,
-        studies: [],
-        error: true,
-      };
-    case SERVER_ERROR:
-      return {
-        ...state,
-        studyCount: 0,
-        studies: [],
-        error: true,
+        count: state.count - 1,
       };
     default:
       return state;
