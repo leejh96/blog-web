@@ -1,301 +1,91 @@
 // redux의 reducer 함수는 순수함수여야 한다.
 // 즉 Date 나 random 같이 변하는 값은 사용하면 안되고 DB에 접근하는 것도 안된다.
 
-import { 
-    LOAD_NOTICE,
-    CREATE_NOTICE,
-    LOAD_COMMENT,
-    LOAD_ONE_NOTICE,
-    CREATE_NOTICE_COMMENT,
-    LOAD_LIKE,
-    ADD_LIKE,
-    DELETE_LIKE,
-    DELETE_NOTICE_COMMENT,
-    UPDATE_NOTICE,
-    DELETE_NOTICE,
-    NOTICE_ERROR,
-    LOAD_COMMENT_ERROR,
-    LOAD_LIKE_ERROR,
-    LOAD_NOTICE_ERROR,
-    LOAD_ONE_NOTICE_VALID_ERROR,
-    LOAD_ONE_NOTICE_ERROR,
-    LOAD_COMMENT_VALID_ERROR,
-    CREATE_NOTICE_ERROR,
-    SERVER_ERROR,
-    UPDATE_NOTICE_ERROR,
-    DELETE_NOTICE_ERROR,
-    CREATE_NOTICE_COMMENT_ERROR,
-    LOAD_LIKE_VALID_ERROR,
-    ADD_LIKE_ERROR,
-    DELETE_LIKE_ERROR,
-    DELETE_NOTICE_COMMENT_ERROR,
-    NOTICE_SEARCH_ERROR,
-    NOTICE_SEARCH,
-} from "../actions/type"
+import {
+  LOAD_NOTICE,
+  CREATE_NOTICE,
+  LOAD_ONE_NOTICE,
+  CREATE_NOTICE_COMMENT,
+  ADD_LIKE,
+  DELETE_LIKE,
+  DELETE_NOTICE_COMMENT,
+  DELETE_NOTICE,
+  SEARCH_NOTICE,
+  COUNT_NOTICE,
+} from "../actions/type";
 
 const initialState = {
-    notices : [],
-    commentLength : 0,
-    searchNotice : [],
-    search : false,
-    selectedNotice : {},
-    likeCount : 0,
-    error : false,
-}
+  count: 0,
+  notices: [],
+  search: false,
+  countSearch: 0,
+
+  countComment: 0,
+  countLike: 0,
+  notice: {},
+};
 const NoticeReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case LOAD_NOTICE:
-            return {
-                ...state,
-                search : false,
-                notices : [...action.data],
-                error : false,
-            };
-        case LOAD_ONE_NOTICE:
-            return {
-                ...state,
-                searchNotice : [],
-                selectedNotice : {...action.data},
-                error : false,
-
-            };
-        case CREATE_NOTICE_COMMENT:
-            return {
-                ...state,
-                commentLength : state.commentLength + 1,
-                error : false,
-
-            }
-        case LOAD_LIKE:
-            return {
-                ...state,
-                likeCount : action.data.length,
-                error : false,
-
-            };
-        case NOTICE_SEARCH:
-            return {
-                ...state,
-                search : true,
-                searchNotice : action.data.notices,
-            }
-        case ADD_LIKE:
-            return {
-                ...state,
-                likeCount : action.data.notice.like.length,
-                error : false,
-
-            };
-        case DELETE_LIKE:
-            return {
-                ...state,
-                likeCount : action.data.notice.like.length,
-                error : false,
-            };
-        case CREATE_NOTICE:
-            return {
-                ...state,
-                notices : [...state.notices, action.data.notice],
-                error : false,
-            };
-        case LOAD_COMMENT:
-            return {
-                ...state,
-                commentLength : action.data.length,
-                error : false,
-
-            }
-        case DELETE_NOTICE_COMMENT:
-            return {
-                ...state,
-                commentLength : state.commentLength - 1,
-                error : false,
-
-            }
-        case UPDATE_NOTICE:
-            return {
-                ...state,
-                error : false,
-            }
-        case DELETE_NOTICE:
-            return {
-                ...state,
-                error : false,
-            }
-        case NOTICE_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case LOAD_COMMENT_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case LOAD_LIKE_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case LOAD_ONE_NOTICE_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case LOAD_ONE_NOTICE_VALID_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case LOAD_NOTICE_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case LOAD_COMMENT_VALID_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case CREATE_NOTICE_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case SERVER_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case UPDATE_NOTICE_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case DELETE_NOTICE_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case CREATE_NOTICE_COMMENT_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case LOAD_LIKE_VALID_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case ADD_LIKE_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case DELETE_LIKE_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case DELETE_NOTICE_COMMENT_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        case NOTICE_SEARCH_ERROR:
-            return {
-                ...state,
-                searchNotice : [],
-                notices : [],
-                commentLength : 0,
-                selectedNotice : {},
-                likeCount : 0,
-                error : true,
-            }
-        default:
-            return state;
-    }
-}
-
+  switch (action.type) {
+    case LOAD_NOTICE:
+      return {
+        ...state,
+        notices: action.data.notices,
+        search: false,
+      };
+    case LOAD_ONE_NOTICE:
+      return {
+        ...state,
+        notice: action.data.notice,
+        countLike: action.data.notice.like.length,
+        countComment: action.data.notice.comment.length,
+      };
+    case CREATE_NOTICE_COMMENT:
+      return {
+        ...state,
+        countComment: state.countComment + 1,
+      };
+    case SEARCH_NOTICE:
+      return {
+        ...state,
+        search: true,
+        notices: action.data.notices,
+        countSearch: action.data.notices.length,
+      };
+    case ADD_LIKE:
+      return {
+        ...state,
+        countLike: state.countLike + 1,
+      };
+    case DELETE_LIKE:
+      return {
+        ...state,
+        countLike: state.countLike - 1,
+      };
+    case CREATE_NOTICE:
+      return {
+        ...state,
+        count: state.count + 1,
+      };
+    case DELETE_NOTICE_COMMENT:
+      return {
+        ...state,
+        countComment: state.countComment - 1,
+      };
+    case DELETE_NOTICE:
+      return {
+        ...state,
+        countComment: 0,
+        countLike: 0,
+        notice: {},
+      };
+    case COUNT_NOTICE:
+      return {
+        ...state,
+        count: action.data.count,
+      };
+    default:
+      return state;
+  }
+};
 
 export default NoticeReducer;
