@@ -14,7 +14,7 @@ router.get(
     failureRedirect: "/login",
   }),
   (req, res) => {
-    res.cookie("oauth", true).redirect("/");
+    res.cookie("oauth", true).redirect("https://julogpage.herokuapp.com");
   }
 );
 
