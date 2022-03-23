@@ -14,7 +14,7 @@ router.get(
     failureRedirect: "/login",
   }),
   (req, res) => {
-    res.cookie("oauth", true).redirect(req.headers.referer);
+    res.cookie("oauth", true).redirect("/");
   }
 );
 
