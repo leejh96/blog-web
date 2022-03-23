@@ -1,7 +1,7 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Button } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -25,55 +25,18 @@ const useStyles = makeStyles((theme) => {
     },
   };
 });
-const Category = () => {
-  return [
-    {
-      tag: "닉네임 변경",
-      link: "/mypage/nick",
-    },
-    {
-      tag: "비밀번호 변경",
-      link: "/mypage/password",
-    },
-    {
-      tag: "회원 탈퇴",
-      link: "/mypage/resign",
-    },
-  ];
-};
 
-function MyPage() {
+function MyPage({ categories }) {
   const classes = useStyles();
-  const [category, setCategory] = useState([]);
-  const [toggle, setToggle] = useState(false);
-  useEffect(() => {
-    setCategory(Category());
-  }, []);
 
-  const onClickBtn = () => {
-    if (toggle) {
-      setToggle(false);
-    } else {
-      setToggle(true);
-    }
-  };
   return (
-    <>
-      <Box>
-        <Button onClick={onClickBtn} variant="text" className={classes.title}>
-          목록
-        </Button>
-      </Box>
-      {toggle ? (
-        <Box className={classes.area}>
-          {category.map((val, i) => (
-            <Link className={classes.link} key={i} to={val.link}>
-              {val.tag}{" "}
-            </Link>
-          ))}
-        </Box>
-      ) : null}
-    </>
+    <Box className={classes.area}>
+      {categories.map((category, i) => (
+        <Link className={classes.link} key={i} to={category.link}>
+          {category.tag}
+        </Link>
+      ))}
+    </Box>
   );
 }
 

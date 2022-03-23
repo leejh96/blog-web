@@ -28,13 +28,14 @@ function SideSection({
   studies,
   createToggle,
   boardList,
+  categories,
 }) {
   const classes = useStyles();
 
   return (
     <Container className={classes.area} disableGutters>
       {pathname.indexOf("/mypage") !== -1 ? (
-        <MyPage />
+        <MyPage categories={categories} />
       ) : (
         <Box>
           <Divider className={classes.divide1} />

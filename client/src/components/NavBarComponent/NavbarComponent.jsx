@@ -59,6 +59,7 @@ function NavbarComponent({
   boardList,
   access,
   OauthCookie,
+  categories,
 }) {
   const classes = useStyles();
   return (
@@ -95,6 +96,7 @@ function NavbarComponent({
               studies={studies}
               createToggle={createToggle}
               boardList={boardList}
+              categories={categories}
             />
           </Box>
         ) : null}

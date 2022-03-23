@@ -39,6 +39,22 @@ function NavbarContainer() {
       link: "/guestbook/1",
     },
   ];
+
+  const categories = [
+    {
+      tag: "닉네임 변경",
+      link: "/mypage/nick",
+    },
+    {
+      tag: "비밀번호 변경",
+      link: "/mypage/password",
+    },
+    {
+      tag: "회원 탈퇴",
+      link: "/mypage/resign",
+    },
+  ];
+
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.UserReducer.user);
@@ -162,6 +178,7 @@ function NavbarContainer() {
       boardList={boardList}
       access={access}
       OauthCookie={OauthCookie}
+      categories={categories}
     />
   );
 }
