@@ -5,6 +5,7 @@ const passport = require("passport");
 const session = require("express-session");
 const app = express();
 const path = require("path");
+const cors = require("cors");
 require("dotenv").config();
 
 const PassportConfig = require("../passport");
@@ -25,6 +26,12 @@ mongoose
     console.error(err);
   });
 
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
@@ -34,7 +41,6 @@ const option = {
   secret: process.env.SESSION_SECRET,
   cookie: {
     httpOnly: true,
-    secret: false,
   },
 };
 if (process.env.NODE_ENV === "production") {

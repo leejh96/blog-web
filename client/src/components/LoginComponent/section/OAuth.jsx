@@ -13,7 +13,7 @@ function OAuth() {
   const classes = useStyles();
   return (
     <Box className={classes.oauth} mt={2}>
-      <IconButton href="/api/auth/google">
+      <IconButton href="http://localhost:5000/api/auth/google">
         <Google />
       </IconButton>
     </Box>

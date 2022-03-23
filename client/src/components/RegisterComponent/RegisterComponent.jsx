@@ -25,6 +25,8 @@ function RegisterComponent({
   emailRef,
 }) {
   const classes = useStyles();
+  document.title = "회원가입";
+
   return (
     <Container component="main" maxWidth="xs">
       <Box className={classes.paper}>

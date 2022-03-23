@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { auth } = require("../../middleware/auth");
-const detailRouter = require("./detail");
 const {
   loadNotice,
   countNotice,
@@ -14,12 +13,13 @@ const {
   createNotice,
   updateNotice,
   deleteCommnet,
+  loadOneNotice,
 } = require("../../controllers/noticeCtrl");
 
 // 페이지네이션을 위한 전체 갯수
 router.get("/count", countNotice);
 // main에 공지사항 가져오기
-router.use("/detail", detailRouter);
+router.get("/detail/:postId", loadOneNotice);
 router.get("/main", mainNotice);
 router.get("/search", searchNotice);
 router.get("/:page", loadNotice);

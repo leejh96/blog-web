@@ -18,6 +18,8 @@ function NewPasswordComponent({
   input,
 }) {
   const classes = useStyles();
+  document.title = "비밀번호 설정";
+
   return (
     <Container className={classes.area} maxWidth="xs" disableGutters>
       <Password

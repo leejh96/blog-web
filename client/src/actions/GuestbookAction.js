@@ -1,4 +1,4 @@
-import axios from "axios";
+import Axios from "../util/Axios";
 import {
   CREATE_GUESTBOOK,
   DELETE_GUESTBOOK,
@@ -8,7 +8,7 @@ import {
 //camelCase
 export const createGuestBook = (data) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/guestbook", data);
+    const res = await Axios.post("/api/guestbook", data);
     if (res.status === 201) {
       return dispatch({
         type: CREATE_GUESTBOOK,
@@ -22,7 +22,7 @@ export const createGuestBook = (data) => async (dispatch) => {
 
 export const deleteGuestBook = (guestbookId) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/guestbook?id=${guestbookId}`);
+    const res = await Axios.delete(`/api/guestbook?id=${guestbookId}`);
     if (res.status === 200) {
       return dispatch({
         type: DELETE_GUESTBOOK,
@@ -36,7 +36,7 @@ export const deleteGuestBook = (guestbookId) => async (dispatch) => {
 
 export const loadGuestBook = (page) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/guestbook/${page}`);
+    const res = await Axios.get(`/api/guestbook/${page}`);
     if (res.status === 200) {
       return dispatch({
         type: LOAD_GUESTBOOK,
@@ -50,7 +50,7 @@ export const loadGuestBook = (page) => async (dispatch) => {
 
 export const countGuestBook = () => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/guestbook`);
+    const res = await Axios.get(`/api/guestbook`);
     if (res.status === 200) {
       return dispatch({
         type: COUNT_GUESTBOOK,

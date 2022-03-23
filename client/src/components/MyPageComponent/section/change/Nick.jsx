@@ -31,6 +31,8 @@ function Nick({
   onChangeNick,
 }) {
   const classes = useStyles();
+  document.title = "닉네임 변경";
+
   return (
     <Box>
       <Typography variant="h5" className={classes.title}>

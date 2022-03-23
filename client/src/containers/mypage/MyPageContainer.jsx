@@ -1,64 +1,108 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { uploadImage, deleteImage } from "../../actions/UserAction";
-import MyPageComponent from "../../components/MyPageComponent/MyPageComponent";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import {
-  AUTH_ERROR,
-  SERVER_ERROR,
-  UPDATE_IMAGE,
-  UPDATE_IMAGE_ERROR,
-} from "../../actions/type";
+  uploadImage,
+  deleteImage,
+  updateMotto,
+} from "../../actions/UserAction";
+import MyPageComponent from "../../components/MyPageComponent/MyPageComponent";
 import { useHistory } from "react-router-dom";
+import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
 
 function MyPageContainer() {
-  const [path, setPath] = useState("");
-  const user = useSelector((state) => state.UserReducer.user);
-  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.UserReducer);
   const history = useHistory();
-
+  const [path, setPath] = useState("");
+  const [motto, setMotto] = useState("");
+  const [toggle, setToggle] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setPath(user.img);
-  }, [user]);
-  const onChangeImage = (e) => {
+    setMotto(user.motto);
+    return () => {
+      setPath("");
+      setMotto("");
+      setIsLoading(false);
+    };
+  }, [user.img, user.motto]);
+
+  const onChangeImage = async (e) => {
+    setIsLoading(true);
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
-    dispatch(uploadImage(formData)).then((res) => {
-      if (res.type === UPDATE_IMAGE) {
-        return setPath(res.data.file);
-      }
-      if (res.type === UPDATE_IMAGE_ERROR) {
-        return alert(res.data.message);
-      }
-      if (res.type === AUTH_ERROR) {
-        alert(res.data.message);
-        return history.push("/login");
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
+    const res = await uploadImage(formData);
+    if (res.data.success) {
+      setPath(res.data.file);
+      return setIsLoading(false);
+    }
+    return history.push({
+      pathname: "/error",
+      state: {
+        status: res.status,
+        message: res.data.message,
+        text: res.statusText,
+      },
     });
   };
 
-  const onClickDeleteImage = () => {
+  const onClickDeleteImage = async () => {
     if (
       user.img ===
       "https://julog-app.s3.ap-northeast-2.amazonaws.com/uploads/basic.png"
     ) {
       return;
     }
-    dispatch(deleteImage(user.img)).then((res) => {
-      if (res.data.success) {
-        return setPath(res.data.img);
-      }
-      return alert(res.data.message);
+    setIsLoading(true);
+    const res = await deleteImage(user.img);
+    if (res.data.success) {
+      setPath(res.data.img);
+      return setIsLoading(false);
+    }
+    return history.push({
+      pathname: "/error",
+      state: {
+        status: res.status,
+        message: res.data.message,
+        text: res.statusText,
+      },
     });
   };
-  return (
+
+  const onChangeMotto = (e) => {
+    setMotto(e.target.value);
+  };
+
+  const onSubmitMotto = async (e) => {
+    e.preventDefault();
+    if (!toggle) {
+      return setToggle(true);
+    }
+    const res = await updateMotto(motto);
+    if (res.data.success) {
+      setMotto(res.data.motto);
+      return setToggle(false);
+    }
+    return history.push({
+      pathname: "/error",
+      state: {
+        status: res.status,
+        message: res.data.message,
+        text: res.statusText,
+      },
+    });
+  };
+  return isLoading ? (
+    <LoadingComponent />
+  ) : (
     <MyPageComponent
       onChangeImage={onChangeImage}
       onClickDeleteImage={onClickDeleteImage}
       path={path}
+      motto={motto}
       user={user}
+      onChangeMotto={onChangeMotto}
+      onSubmitMotto={onSubmitMotto}
+      toggle={toggle}
     />
   );
 }

@@ -1,4 +1,4 @@
-import axios from "axios";
+import Axios from "../util/Axios";
 import {
   CREATE_STUDY,
   LOAD_STUDY,
@@ -11,7 +11,7 @@ import {
 export const createStudy = (text) => async (dispatch) => {
   try {
     const data = { text };
-    const res = await axios.post("/api/study", data);
+    const res = await Axios.post("/api/study", data);
     if (res.status === 201) {
       return dispatch({
         type: CREATE_STUDY,
@@ -25,7 +25,7 @@ export const createStudy = (text) => async (dispatch) => {
 
 export const loadStudy = () => async (dispatch) => {
   try {
-    const res = await axios.get("/api/study");
+    const res = await Axios.get("/api/study");
     if (res.status === 200) {
       return dispatch({
         type: LOAD_STUDY,
@@ -39,7 +39,7 @@ export const loadStudy = () => async (dispatch) => {
 
 export const loadMainStudy = () => async () => {
   try {
-    const res = await axios.get("/api/study/main");
+    const res = await Axios.get("/api/study/main");
     if (res.data.success) {
       return res;
     }
@@ -50,7 +50,7 @@ export const loadMainStudy = () => async () => {
 
 export const loadOneStudy = (page) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/study/${page}`);
+    const res = await Axios.get(`/api/study/${page}`);
     if (res.status === 200) {
       return dispatch({
         type: LOAD_ONE_STUDY,
@@ -65,7 +65,7 @@ export const loadOneStudy = (page) => async (dispatch) => {
 export const updateStudy = async (page, text) => {
   try {
     const data = { text };
-    const res = await axios.put(`/api/study/${page}`, data);
+    const res = await Axios.put(`/api/study/${page}`, data);
     if (res.status === 200) {
       return {
         data: res.data,
@@ -78,7 +78,7 @@ export const updateStudy = async (page, text) => {
 
 export const deleteStudy = (id) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/study?id=${id}`);
+    const res = await Axios.delete(`/api/study?id=${id}`);
     if (res.status === 200) {
       return dispatch({
         type: DELETE_STUDY,
@@ -92,7 +92,7 @@ export const deleteStudy = (id) => async (dispatch) => {
 
 export const createStudyComment = (data) => async (dispatch) => {
   try {
-    const res = await axios.post(`/api/study/${data.page}/comment`, {
+    const res = await Axios.post(`/api/study/${data.page}/comment`, {
       comment: data.text,
       date: data.date,
     });
@@ -109,7 +109,7 @@ export const createStudyComment = (data) => async (dispatch) => {
 
 export const deleteStudyComment = (commentId, page) => async (dispatch) => {
   try {
-    const res = await axios.delete(
+    const res = await Axios.delete(
       `/api/study/${page}/comment?commentId=${commentId}`
     );
     if (res.status === 200) {

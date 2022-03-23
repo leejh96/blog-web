@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Auth from "../hoc/Auth";
 import Edit from "../pages/notice/Edit";
@@ -10,7 +10,6 @@ import Study from "../pages/study/Study";
 import StudyEdit from "../pages/study/StudyEdit";
 import MyPage from "../pages/mypage/MyPage";
 import Change from "../pages/mypage/Change";
-
 function FrameRoutes() {
   return (
     <Switch>
@@ -41,4 +40,4 @@ function FrameRoutes() {
   );
 }
 
-export default memo(FrameRoutes);
+export default FrameRoutes;

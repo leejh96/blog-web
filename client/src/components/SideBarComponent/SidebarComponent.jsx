@@ -3,7 +3,7 @@ import { Divider, Container, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Study from "./section/Study";
 import Board from "./section/Board";
-import Setting from "./section/Setting";
+import MyPage from "./section/MyPage";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -49,7 +49,7 @@ function SidebarComponent({
   return (
     <Container className={classes.area} disableGutters>
       {pathname.indexOf("mypage") !== -1 ? (
-        <Setting settingList={settingList} />
+        <MyPage settingList={settingList} />
       ) : (
         <>
           <Typography className={classes.sidetitle}>Menu</Typography>

@@ -39,10 +39,10 @@ function StudyComponent({
   user,
   study,
   text,
-  page,
 }) {
   const classes = useStyles();
-  document.title = "STUDY";
+  document.title = study.subject;
+
   return (
     <Box>
       <Container className={classes.area} disableGutters>

@@ -18,9 +18,9 @@ const {
 const { auth } = require("../../middleware/auth");
 const upload = require("../../modules/multerModule");
 router.get("/", auth, getUser);
-router.get("/logout", auth, logout);
 router.get("/find", findUser);
-router.post("/register", register);
+router.post("/", register);
+router.post("/logout", auth, logout);
 router.post("/login", login);
 router.post("/password", newPassword);
 router.post("/img", auth, upload.single("file"), uploadImage);

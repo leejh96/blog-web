@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => {
 function PathCheck(path) {
   switch (path) {
     case "/login":
-    case "/signup":
+    case "/register":
     case "/find":
     case "/password":
     case "/error":
@@ -49,7 +49,6 @@ function Wrapper() {
   useEffect(() => {
     setFrame(PathCheck(pathname));
   }, [pathname]);
-
   return frame ? (
     <>
       <NavbarContainer />

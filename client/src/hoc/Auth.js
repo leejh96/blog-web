@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { AUTH_ERROR, AUTH_USER, SERVER_ERROR } from "../actions/type";
-import { authUser, OauthUser } from "../actions/UserAction";
+import { authUser } from "../actions/UserAction";
 import getCookie from "../util/getCookie";
-
 function Auth(Component, option, adminRoute = null) {
   //component => hoc를 적용할 컴포넌트
   //option => null: 아무나 출입,
@@ -14,43 +12,76 @@ function Auth(Component, option, adminRoute = null) {
   function AuthenticationCheck() {
     const dispatch = useDispatch();
     const history = useHistory();
+    const { user } = useSelector((state) => state.UserReducer);
     useEffect(() => {
       const access = localStorage.getItem("access");
-      if (access) {
-        dispatch(authUser(access)).then((res) => {
-          if (res.type === AUTH_USER) {
-            //재발급 시 토큰 교체
-            localStorage.setItem("access", res.data.token);
+      const OauthCookie = getCookie(document.cookie).find(
+        (cookie) => cookie.key === "oauth"
+      );
 
-            //로그인 한 상태 중 관리자가 아닌사람이
-            //adminpage를 들어가려할때
-            if (adminRoute && res.data.user.role !== 3) {
-              return history.push("/");
-            }
+      if (access) {
+        dispatch(authUser()).then((res) => {
+          if (res.data.success) {
+            localStorage.setItem("access", res.data.token);
             if (option === false) {
+              alert("로그인 한 유저는 접근이 제한됩니다.");
               return history.push("/");
             }
-          }
-          if (res.type === AUTH_ERROR) {
-            localStorage.removeItem("access");
-            alert(res.data.message);
-            return history.push("/login");
-          }
-          if (res.type === SERVER_ERROR) {
-            localStorage.removeItem("access");
-            return history.push("/error/500");
+            if (adminRoute && user.role !== 3) {
+              alert("해당 유저는 접근할 수 없습니다.");
+              return history.push("/");
+            }
+          } else {
+            if (res.status === 401) {
+              alert(res.data.message);
+              return history.push("/login");
+            }
+            return history.push({
+              pathname: "/error",
+              state: {
+                status: res.status,
+                message: res.data.message,
+                text: res.statusText,
+              },
+            });
           }
         });
       }
-      // oauth
-      if (document.cookie) {
-        const { key, value } = getCookie(document.cookie);
-        if (key === "oauth" && value === true) {
-          dispatch(OauthUser());
+
+      if (OauthCookie) {
+        dispatch(authUser()).then((res) => {
+          if (res.data.success) {
+            if (option === false) {
+              alert("로그인 한 유저는 접근이 제한됩니다.");
+              return history.push("/");
+            }
+            if (adminRoute && user.role !== 3) {
+              alert("해당 유저는 접근할 수 없습니다.");
+              return history.push("/");
+            }
+          } else {
+            if (res.status === 401) {
+              alert(res.data.message);
+              return history.push("/login");
+            }
+            return history.push({
+              pathname: "/error",
+              state: {
+                status: res.status,
+                message: res.data.message,
+                text: res.statusText,
+              },
+            });
+          }
+        });
+      }
+      if (!access && !OauthCookie) {
+        if (option === true) {
+          alert("로그인이 필요합니다.");
+          history.push("/login");
         }
       }
-    }, [dispatch, history]);
-
+    }, []);
     return <Component />;
   }
   return AuthenticationCheck;

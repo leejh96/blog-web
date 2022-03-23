@@ -6,7 +6,6 @@ import CommentTable from "./section/CommentTable";
 import UpdateAndDeleteBtn from "./section/UpdateAndDeleteBtn";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Container, Typography } from "@material-ui/core";
-import Loading from "../LoadingComponent/LoadingComponent";
 const useStyles = makeStyles((theme) => {
   return {
     area: {
@@ -37,6 +36,7 @@ function DetailComponent({
   onClickCreateComment,
 }) {
   const classes = useStyles();
+  document.title = notice.title;
   return (
     <Box>
       <Typography variant="h5" className={classes.title}>

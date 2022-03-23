@@ -33,6 +33,10 @@ function DetailContainer() {
           : setToggle(true);
         return setIsLoading(false);
       }
+      if (res.status === 401) {
+        alert(res.data.message);
+        return history.push("/login");
+      }
       return history.push({
         pathname: "/error",
         state: {

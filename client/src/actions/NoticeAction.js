@@ -1,4 +1,4 @@
-import axios from "axios";
+import Axios from "../util/Axios";
 import {
   LOAD_NOTICE,
   LOAD_ONE_NOTICE,
@@ -15,7 +15,7 @@ import {
 //camelCase
 export const loadNotice = (page) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/notice/${page}`);
+    const res = await Axios.get(`/api/notice/${page}`);
     if (res.status === 200) {
       return dispatch({
         type: LOAD_NOTICE,
@@ -29,7 +29,7 @@ export const loadNotice = (page) => async (dispatch) => {
 
 export const loadMainNotice = () => async () => {
   try {
-    const res = await axios.get("/api/notice/main");
+    const res = await Axios.get("/api/notice/main");
     if (res.status === 200) {
       return res;
     }
@@ -40,7 +40,7 @@ export const loadMainNotice = () => async () => {
 
 export const countNotice = () => async (dispatch) => {
   try {
-    const res = await axios.get("/api/notice/count");
+    const res = await Axios.get("/api/notice/count");
     if (res.status === 200) {
       return dispatch({
         type: COUNT_NOTICE,
@@ -54,7 +54,7 @@ export const countNotice = () => async (dispatch) => {
 
 export const loadOneNotice = (postId) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/notice/detail/${postId}`);
+    const res = await Axios.get(`/api/notice/detail/${postId}`);
     if (res.status === 200) {
       return dispatch({
         type: LOAD_ONE_NOTICE,
@@ -68,7 +68,7 @@ export const loadOneNotice = (postId) => async (dispatch) => {
 
 export const createNotice = (data) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/notice", data);
+    const res = await Axios.post("/api/notice", data);
     if (res.status === 201) {
       return dispatch({
         type: CREATE_NOTICE,
@@ -82,7 +82,7 @@ export const createNotice = (data) => async (dispatch) => {
 
 export const updateNotice = async (data) => {
   try {
-    const res = await axios.put(`/api/notice/${data.postId}`, data);
+    const res = await Axios.put(`/api/notice/${data.postId}`, data);
     if (res.status === 200) {
       return {
         data: res.data,
@@ -95,7 +95,7 @@ export const updateNotice = async (data) => {
 
 export const deleteNotice = (postId) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/notice/${postId}`);
+    const res = await Axios.delete(`/api/notice/${postId}`);
     if (res.status === 200) {
       return dispatch({
         type: DELETE_NOTICE,
@@ -109,7 +109,7 @@ export const deleteNotice = (postId) => async (dispatch) => {
 export const searchNotice = (input) => async (dispatch) => {
   const { text, type } = input;
   try {
-    const res = await axios.get(`/api/notice/search?text=${text}&type=${type}`);
+    const res = await Axios.get(`/api/notice/search?text=${text}&type=${type}`);
     if (res.status === 200) {
       return dispatch({
         type: SEARCH_NOTICE,
@@ -122,7 +122,7 @@ export const searchNotice = (input) => async (dispatch) => {
 };
 export const createNoticeComment = (data) => async (dispatch) => {
   try {
-    const res = await axios.post(`/api/notice/comment`, data);
+    const res = await Axios.post(`/api/notice/comment`, data);
     if (res.status === 201) {
       return dispatch({
         type: CREATE_NOTICE_COMMENT,
@@ -136,7 +136,7 @@ export const createNoticeComment = (data) => async (dispatch) => {
 
 export const addLike = (postId) => async (dispatch) => {
   try {
-    const res = await axios.post(`/api/notice/${postId}/like`);
+    const res = await Axios.post(`/api/notice/${postId}/like`);
     if (res.status === 200) {
       return dispatch({
         type: ADD_LIKE,
@@ -150,7 +150,7 @@ export const addLike = (postId) => async (dispatch) => {
 
 export const deleteLike = (postId) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/notice/${postId}/like`);
+    const res = await Axios.delete(`/api/notice/${postId}/like`);
     if (res.status === 200) {
       return dispatch({
         type: DELETE_LIKE,
@@ -164,7 +164,7 @@ export const deleteLike = (postId) => async (dispatch) => {
 
 export const deleteNoticeComment = (commentId, postId) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/notice/${postId}/${commentId}`);
+    const res = await Axios.delete(`/api/notice/${postId}/${commentId}`);
     if (res.status === 200) {
       return dispatch({
         type: DELETE_NOTICE_COMMENT,

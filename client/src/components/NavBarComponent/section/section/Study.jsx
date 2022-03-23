@@ -75,7 +75,7 @@ function Study({
   onClickPlusBtn,
   onChangeText,
   user,
-  study,
+  studies,
   createToggle,
 }) {
   const classes = useStyles();
@@ -87,9 +87,7 @@ function Study({
           <IconButton size="small" onClick={onClickPlusBtn}>
             <Create />
           </IconButton>
-        ) : (
-          <></>
-        )}
+        ) : null}
       </Box>
       {createToggle ? (
         <Box className={classes.plusField}>
@@ -109,10 +107,8 @@ function Study({
             추가
           </Button>
         </Box>
-      ) : (
-        <></>
-      )}
-      {study.map((val, i) => (
+      ) : null}
+      {studies.map((val, i) => (
         <Box className={classes.studyDiv} key={val._id}>
           <Link to={val.link} className={classes.link}>
             {val.subject}
@@ -124,9 +120,7 @@ function Study({
             >
               <Delete />
             </IconButton>
-          ) : (
-            <></>
-          )}
+          ) : null}
         </Box>
       ))}
     </Box>

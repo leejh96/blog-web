@@ -1,20 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import NavbarComponent from "../../components/NavBarComponent/NavbarComponent";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, logoutOauth } from "../../actions/UserAction";
-import { loadStudy, createStudy, deleteStudy } from "../../actions/StudyAction";
-import {
-  AUTH_ERROR,
-  LOGOUT_USER,
-  SERVER_ERROR,
-  CREATE_STUDY,
-  CREATE_STUDY_ERROR,
-  LOAD_STUDY,
-  LOAD_STUDY_ERROR,
-  DELETE_STUDY,
-  DELETE_STUDY_ERROR,
-} from "../../actions/type";
+import { createStudy, deleteStudy } from "../../actions/StudyAction";
+import getCookie from "../../util/getCookie";
 
 function NavbarContainer() {
   const onList = [
@@ -27,6 +17,7 @@ function NavbarContainer() {
       link: "#",
     },
   ];
+
   const offList = [
     {
       tag: "로그인",
@@ -34,9 +25,10 @@ function NavbarContainer() {
     },
     {
       tag: "회원가입",
-      link: "/signup",
+      link: "/register",
     },
   ];
+
   const boardList = [
     {
       tag: "공지사항",
@@ -53,12 +45,12 @@ function NavbarContainer() {
   const [toggle, setToggle] = useState(false);
   const { pathname } = useLocation();
   const [text, setText] = useState("");
-  const [study, setStudy] = useState([]);
-  const { studyCount } = useSelector((state) => ({
-    studyCount: state.StudyReducer.studyCount,
-  }));
+  const { studies } = useSelector((state) => state.StudyReducer);
   const [createToggle, setCreateToggle] = useState(false);
-
+  const access = localStorage.getItem("access");
+  const OauthCookie = getCookie(document.cookie).find(
+    (cookie) => cookie.key === "oauth"
+  );
   const onClickMenu = () => {
     if (toggle) {
       setToggle(false);
@@ -66,93 +58,92 @@ function NavbarContainer() {
       setToggle(true);
     }
   };
-  useEffect(() => {
-    dispatch(loadStudy()).then((res) => {
-      if (res.type === LOAD_STUDY) {
-        return setStudy(res.data);
-      }
-      if (res.type === LOAD_STUDY_ERROR) {
-        return alert(res.data.message);
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
-    });
-    return () => {
-      setToggle(false);
-      setText("");
-      setStudy([]);
-    };
-  }, [studyCount]);
 
   const onClickLogout = () => {
-    const access = localStorage.getItem("access");
     if (access) {
-      dispatch(logoutUser(access)).then((res) => {
-        if (res.type === LOGOUT_USER && localStorage.getItem("access")) {
-          //로컬 로그아웃
+      dispatch(logoutUser()).then((res) => {
+        if (res.data.success) {
           localStorage.removeItem("access");
           return history.push("/login");
         }
-        if (res.type === AUTH_ERROR) {
-          //세션 만료나 auth에서 어떠한 오류 발생
-          localStorage.removeItem("access");
+        if (res.status === 401) {
+          alert(res.data.message);
           return history.push("/login");
         }
-        if (res.type === SERVER_ERROR) {
-          return history.push("/error/500");
-        }
+        return history.push({
+          pathname: "/error",
+          state: {
+            status: res.status,
+            message: res.data.message,
+            text: res.statusText,
+          },
+        });
       });
-    } else {
-      dispatch(logoutOauth()).then(history.push("/"));
+    }
+    if (OauthCookie) {
+      dispatch(logoutOauth()).then((res) => {
+        if (res.data.success) {
+          return history.push("/login");
+        }
+        return history.push({
+          pathname: "/error",
+          state: {
+            status: res.status,
+            message: res.data.message,
+            text: res.statusText,
+          },
+        });
+      });
     }
   };
 
   const onChangeText = (e) => {
     setText(e.target.value);
   };
+
   const onClickPlusBtn = () => {
     createToggle ? setCreateToggle(false) : setCreateToggle(true);
   };
+
   const onClickCreateStudy = () => {
     if (!text) {
       return alert("추가내용을 입력하세요");
     }
+
     dispatch(createStudy(text)).then((res) => {
-      if (res.type === CREATE_STUDY) {
-        return setToggle(false);
+      if (res.data.success) {
+        setToggle(false);
+        return setCreateToggle(false);
       }
-      if (res.type === CREATE_STUDY_ERROR) {
-        return alert(res.data.message);
-      }
-      if (res.type === AUTH_ERROR) {
-        alert(res.data.message);
-        return history.push("/login");
-      }
-      if (res.type === SERVER_ERROR) {
-        return history.push("/error/500");
-      }
+      return history.push({
+        pathname: "/error",
+        state: {
+          status: res.status,
+          message: res.data.message,
+          text: res.statusText,
+        },
+      });
     });
   };
+
   const onClickDeleteStudy = (id) => {
     if (window.confirm("삭제 하시겠습니까?")) {
       return dispatch(deleteStudy(id)).then((res) => {
-        if (res.type === DELETE_STUDY) {
+        if (res.data.success) {
           return history.push("/");
         }
-        if (res.type === DELETE_STUDY_ERROR) {
-          return alert(res.data.message);
-        }
-        if (res.type === AUTH_ERROR) {
-          alert(res.data.message);
-          return history.push("/login");
-        }
-        if (res.type === SERVER_ERROR) {
-          return history.push("/error/500");
-        }
+        return history.push({
+          pathname: "/error",
+          state: {
+            status: res.status,
+            message: res.data.message,
+            text: res.statusText,
+          },
+        });
       });
     }
   };
+
   return (
     <NavbarComponent
       onList={onList}
@@ -166,9 +157,11 @@ function NavbarContainer() {
       onClickCreateStudy={onClickCreateStudy}
       onClickPlusBtn={onClickPlusBtn}
       onChangeText={onChangeText}
-      study={study}
+      studies={studies}
       createToggle={createToggle}
       boardList={boardList}
+      access={access}
+      OauthCookie={OauthCookie}
     />
   );
 }

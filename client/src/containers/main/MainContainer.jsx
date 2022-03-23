@@ -50,7 +50,6 @@ function MainContainer() {
       setIsLoading(true);
     };
   }, [count]);
-
   return isLoading ? (
     <LoadingComponent />
   ) : (

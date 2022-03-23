@@ -2,7 +2,7 @@ import React from "react";
 import AuthF from "./section/AuthF";
 import AuthT from "./section/AuthT";
 import { Link } from "react-router-dom";
-import { Container, Box, Typography } from "@material-ui/core";
+import { Container, Box, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SideSection from "./section/SideSection";
 
@@ -30,6 +30,16 @@ const useStyles = makeStyles((theme) => {
         display: "flex",
       },
     },
+
+    btn: {
+      display: "none",
+      [theme.breakpoints.down("sm")]: {
+        display: "flex",
+        margin: "0 auto",
+        minWidth: "32px",
+        fontSize: "24px",
+      },
+    },
   };
 });
 function NavbarComponent({
@@ -44,14 +54,16 @@ function NavbarComponent({
   onClickCreateStudy,
   onClickPlusBtn,
   onChangeText,
-  study,
+  studies,
   createToggle,
   boardList,
+  access,
+  OauthCookie,
 }) {
   const classes = useStyles();
   return (
     <Container className={classes.area} disableGutters maxWidth="xl">
-      {Object.keys(user).length > 0 ? (
+      {access || OauthCookie ? (
         <AuthT onList={onList} onClickLogout={onClickLogout} />
       ) : (
         <AuthF offList={offList} />
@@ -63,21 +75,29 @@ function NavbarComponent({
             JULOG
           </Link>
         </Typography>
-        <Box className={classes.side}>
-          <SideSection
-            onClickDeleteStudy={onClickDeleteStudy}
-            onClickCreateStudy={onClickCreateStudy}
-            onClickPlusBtn={onClickPlusBtn}
-            onChangeText={onChangeText}
-            pathname={pathname}
-            onClickMenu={onClickMenu}
-            toggle={toggle}
-            user={user}
-            study={study}
-            createToggle={createToggle}
-            boardList={boardList}
-          />
-        </Box>
+        <Button
+          size="small"
+          className={classes.btn}
+          onClick={onClickMenu}
+          variant="text"
+        >
+          Menu
+        </Button>
+        {toggle ? (
+          <Box className={classes.side}>
+            <SideSection
+              onClickDeleteStudy={onClickDeleteStudy}
+              onClickCreateStudy={onClickCreateStudy}
+              onClickPlusBtn={onClickPlusBtn}
+              onChangeText={onChangeText}
+              pathname={pathname}
+              user={user}
+              studies={studies}
+              createToggle={createToggle}
+              boardList={boardList}
+            />
+          </Box>
+        ) : null}
       </Box>
     </Container>
   );

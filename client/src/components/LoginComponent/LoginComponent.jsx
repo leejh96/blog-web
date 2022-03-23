@@ -20,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
 
 function Login({ email, password, onChangeInput, onSubmitInfo, emailRef }) {
   const classes = useStyles();
+  document.title = "로그인";
+
   return (
     <Container component="main" maxWidth="xs">
       <Box className={classes.paper}>

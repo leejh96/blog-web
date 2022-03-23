@@ -86,7 +86,7 @@ function TableSection({ notices, user, page, search }) {
                 <TableCell align="center">
                   <Link
                     className={classes.link}
-                    to={user._id ? `/notice/detail/${val._id}` : `/login`}
+                    to={`/notice/detail/${val._id}`}
                   >
                     {val.title}
                   </Link>

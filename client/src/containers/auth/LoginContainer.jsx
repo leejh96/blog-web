@@ -2,11 +2,8 @@ import React, { useState, useRef } from "react";
 import LoginComponent from "../../components/LoginComponent/LoginComponent";
 import { useHistory } from "react-router-dom";
 import { loginUser } from "../../actions/UserAction";
-import { useDispatch } from "react-redux";
-import { SERVER_ERROR } from "../../actions/type";
 
 function LoginContainer() {
-  const dispatch = useDispatch();
   const history = useHistory();
   const [input, setInput] = useState({
     email: "",
@@ -23,24 +20,27 @@ function LoginContainer() {
     });
   };
 
-  const onSubmitInfo = (e) => {
+  const onSubmitInfo = async (e) => {
     e.preventDefault();
-    dispatch(loginUser(email, password)).then((res) => {
-      if (res.data.success) {
-        localStorage.setItem("access", res.data.accessToken);
-        return history.push("/");
-      } else {
-        if (res.type === SERVER_ERROR) {
-          return history.push("/error/500");
-        } else {
-          alert(res.data.message);
-          setInput({
-            email: "",
-            password: "",
-          });
-          return emailRef.current.focus();
-        }
-      }
+    const res = await loginUser(email, password);
+    if (res.data.success) {
+      localStorage.setItem("access", res.data.accessToken);
+      return history.push("/");
+    }
+    if (res.status === 401 || res.status === 404) {
+      alert(res.data.message);
+      return setInput({
+        email: "",
+        password: "",
+      });
+    }
+    return history.push({
+      pathname: "/error",
+      state: {
+        status: res.status,
+        message: res.data.message,
+        text: res.statusText,
+      },
     });
   };
   return (

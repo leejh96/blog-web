@@ -19,6 +19,10 @@ function SidebarContainer() {
 
   const settingList = [
     {
+      tag: "내 정보",
+      link: "/mypage",
+    },
+    {
       tag: "닉네임 변경",
       link: "/mypage/nick",
     },
@@ -86,16 +90,17 @@ function SidebarContainer() {
   const onClickDeleteStudy = (id) => {
     if (window.confirm("삭제 하시겠습니까?")) {
       return dispatch(deleteStudy(id)).then((res) => {
-        if (!res.data.success) {
-          return history.push({
-            pathname: "/error",
-            state: {
-              status: res.status,
-              message: res.data.message,
-              text: res.statusText,
-            },
-          });
+        if (res.data.success) {
+          return history.push("/");
         }
+        return history.push({
+          pathname: "/error",
+          state: {
+            status: res.status,
+            message: res.data.message,
+            text: res.statusText,
+          },
+        });
       });
     }
   };

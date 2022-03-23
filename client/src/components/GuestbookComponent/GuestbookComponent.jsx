@@ -23,6 +23,8 @@ function GuestbookComponent({
   pageCnt,
 }) {
   const classes = useStyles();
+  document.title = "방명록";
+
   return (
     <Box>
       <Typography className={classes.title} variant="h5">

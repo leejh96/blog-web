@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Component = ({ children, className }) => {
+  document.title = "포스트 작성";
   return (
     <>
       {children[0].includes("\n") ? (

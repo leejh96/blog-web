@@ -1,456 +1,190 @@
-import axios from "axios";
+import Axios from "../util/Axios";
 import {
   AUTH_USER,
-  LOGIN_USER,
   LOGOUT_USER,
-  REGISTER_USER,
   AUTH_ERROR,
-  UPDATE_NICK,
   UPDATE_PASSWORD,
   DELETE_USER,
-  UPDATE_IMAGE,
-  DELETE_IMAGE_ERROR,
-  DELETE_IMAGE,
-  UPDATE_MOTTO_ERROR,
-  UPDATE_MOTTO,
-  FIND_PASSWORD,
-  NOT_FIND_PASSWORD,
-  NEW_PASSWORD,
-  NEW_PASSWORD_FAIL,
-  REGISTER_USER_ERROR,
-  SERVER_ERROR,
-  LOGIN_ERROR,
-  UPDATE_NICK_ERROR,
-  UPDATE_PASSWORD_ERROR,
-  DELETE_USER_ERROR,
-  UPDATE_IMAGE_ERROR,
-  BCRYPT_ERROR,
 } from "./type";
 
-export const registerUser =
-  ({ username, nick, email, password }) =>
-  async (dispatch) => {
-    try {
-      const res = await axios.post("/api/user/register", {
-        username,
-        nick,
-        email,
-        password,
-      });
-      if (res.data.success) {
-        return dispatch({
-          type: REGISTER_USER,
-          data: res.data,
-        });
-      }
-      return dispatch({
-        type: REGISTER_USER_ERROR,
-        data: res.data,
-      });
-    } catch (error) {
-      return dispatch({
-        type: SERVER_ERROR,
-        data: {
-          success: false,
-        },
-      });
-    }
-  };
-
-export const loginUser = (email, password) => async (dispatch) => {
+export const registerUser = async (data) => {
   try {
-    const data = { email, password };
-    const res = await axios.post("/api/user/login", data);
-    return dispatch({
-      type: LOGIN_USER,
-      data: res.data,
-    });
-  } catch (error) {
-    //비밀번호 다를 시
-    if (error.response.status === 401) {
-      return dispatch({
-        type: LOGIN_ERROR,
-        data: error.response.data,
-      });
+    const res = await Axios.post("/api/user", data);
+    if (res.status === 201) {
+      return res;
     }
-    return dispatch({
-      type: SERVER_ERROR,
-      data: {
-        success: false,
-      },
-    });
+  } catch (error) {
+    return error.response;
   }
 };
 
-export const logoutUser = (access) => async (dispatch) => {
-  const config = {
-    headers: {
-      authorization: access,
-    },
-  };
+export const loginUser = async (email, password) => {
   try {
-    const res = await axios.get("/api/user/logout", config);
-    return dispatch({
-      type: LOGOUT_USER,
-      data: res.data,
-    });
+    const data = { email, password };
+    const res = await Axios.post("/api/user/login", data);
+    if (res.status === 200) {
+      Axios.defaults.headers.Authorization = res.data.accessToken;
+      return res;
+    }
   } catch (error) {
-    if (error.response.status === 401) {
+    return error.response;
+  }
+};
+
+export const logoutUser = () => async (dispatch) => {
+  try {
+    const res = await Axios.post("/api/user/logout");
+    if (res.status === 200) {
+      Axios.defaults.headers.Authorization = null;
       return dispatch({
-        type: AUTH_ERROR,
-        data: error.response.data,
+        type: LOGOUT_USER,
+        data: res.data,
       });
     }
-    return dispatch({
-      type: SERVER_ERROR,
-      data: {
-        success: false,
-      },
-    });
+  } catch (error) {
+    return error.response;
   }
 };
 
 export const logoutOauth = () => async (dispatch) => {
   try {
-    const res = await axios.get("/api/user/logout");
-    return dispatch({
-      type: LOGOUT_USER,
-      data: res.data,
-    });
-  } catch (error) {
-    if (error.response.status === 401) {
+    const res = await Axios.post("/api/user/logout");
+    if (res.status === 200) {
       return dispatch({
-        type: AUTH_ERROR,
-        data: error.response.data,
-      });
-    }
-    return dispatch({
-      type: SERVER_ERROR,
-      data: {
-        success: false,
-      },
-    });
-  }
-};
-
-export const authUser = (access) => async (dispatch) => {
-  const config = {
-    headers: {
-      authorization: access,
-    },
-  };
-  try {
-    const res = await axios.get("/api/user", config);
-    return dispatch({
-      type: AUTH_USER,
-      data: res.data,
-    });
-  } catch (error) {
-    if (error.response.status === 401) {
-      return dispatch({
-        type: AUTH_ERROR,
-        data: error.response.data,
-      });
-    }
-    return dispatch({
-      type: SERVER_ERROR,
-      data: {
-        success: false,
-      },
-    });
-  }
-};
-
-export const OauthUser = () => async (dispatch) => {
-  try {
-    const res = await axios.get("/api/user");
-    return dispatch({
-      type: AUTH_USER,
-      data: res.data,
-    });
-  } catch (error) {
-    if (error.response.status === 401) {
-      return dispatch({
-        type: AUTH_ERROR,
-        data: error.response.data,
-      });
-    }
-    return dispatch({
-      type: SERVER_ERROR,
-      data: {
-        success: false,
-      },
-    });
-  }
-};
-
-export const changeNick = (nick) => async (dispatch) => {
-  try {
-    const res = await axios.put(`/api/user/nick`, { nick });
-    if (res.data.success && res.data.auth) {
-      return dispatch({
-        type: UPDATE_NICK,
+        type: LOGOUT_USER,
         data: res.data,
       });
     }
   } catch (error) {
-    if (error.response.status === 400) {
-      return dispatch({
-        type: UPDATE_NICK_ERROR,
-        data: error.response.data,
-      });
-    }
-    if (error.response.status === 401) {
-      return dispatch({
-        type: AUTH_ERROR,
-        data: error.response.data,
-      });
-    }
-    return dispatch({
-      type: SERVER_ERROR,
-      data: {
-        success: false,
-      },
-    });
+    return error.response;
   }
 };
 
-export const changePassword = (text) => async (dispatch) => {
+export const authUser = () => async (dispatch) => {
   try {
-    const res = await axios.put(`/api/user/password`, { password: text });
-    if (res.data.success && res.data.auth) {
+    const res = await Axios.get("/api/user");
+    if (res.status === 200) {
+      return dispatch({
+        type: AUTH_USER,
+        data: res.data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+    return error.response;
+  }
+};
+
+export const changeNick = async (nick) => {
+  try {
+    const res = await Axios.put(`/api/user/nick`, { nick });
+    if (res.status === 200) {
+      return res;
+    }
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const changePassword = (password) => async (dispatch) => {
+  try {
+    const res = await Axios.put(`/api/user/password`, { password });
+    if (res.status === 200) {
       return dispatch({
         type: UPDATE_PASSWORD,
         data: res.data,
       });
     }
   } catch (error) {
-    if (error.response.status === 400 || error.response.status === 410) {
-      return dispatch({
-        type: UPDATE_PASSWORD_ERROR,
-        data: error.response.data,
-      });
-    }
-    if (error.response.status === 401) {
-      return dispatch({
-        type: AUTH_ERROR,
-        data: error.response.data,
-      });
-    }
-    if (error.response.status === 509 || error.response.status === 510) {
-      return dispatch({
-        type: BCRYPT_ERROR,
-        data: error.response.data,
-      });
-    }
-    return dispatch({
-      type: SERVER_ERROR,
-      data: {
-        success: false,
-      },
-    });
+    return error.response;
   }
 };
 
-export const resignUser = (password) => async (dispatch) => {
+export const resignUser = (id) => async (dispatch) => {
   try {
-    const res = await axios.delete("/api/user", { data: { password } });
-    if (res.data.success && res.data.auth) {
+    const res = await Axios.delete(`/api/user?id=${id}`);
+    if (res.status === 200) {
       return dispatch({
         type: DELETE_USER,
         data: res.data,
       });
     }
   } catch (error) {
-    if (error.response.status === 411 || error.response.status === 400) {
-      return dispatch({
-        type: DELETE_USER_ERROR,
-        data: error.response.data,
-      });
-    }
-    if (error.response.status === 401) {
-      return dispatch({
-        type: AUTH_ERROR,
-        data: error.response.data,
-      });
-    }
-    if (error.response.status === 509) {
-      return dispatch({
-        type: BCRYPT_ERROR,
-        data: error.response.data,
-      });
-    }
-    return dispatch({
-      type: SERVER_ERROR,
-      data: {
-        success: false,
-      },
-    });
+    return error.response;
   }
 };
 
 export const resignOAuthUser = () => async (dispatch) => {
   try {
-    const res = await axios.delete("/api/user/oauth");
-    if (res.data.success) {
+    const res = await Axios.delete("/api/user/oauth");
+    if (res.status === 200) {
       return dispatch({
         type: DELETE_USER,
         data: res.data,
       });
     }
-    return dispatch({
-      type: DELETE_USER_ERROR,
-      data: res.data,
-    });
   } catch (error) {
-    return dispatch({
-      type: SERVER_ERROR,
-      data: {
-        success: false,
-      },
-    });
+    return error.response;
   }
 };
 
-export const uploadImage = (file) => async (dispatch) => {
+export const uploadImage = async (file) => {
   try {
-    const res = await axios.post("/api/user/img", file, {
+    const res = await Axios.post("/api/user/img", file, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-    if (res.data.success && res.data.auth) {
-      return dispatch({
-        type: UPDATE_IMAGE,
-        data: res.data,
-      });
+    if (res.status === 200) {
+      return res;
     }
   } catch (error) {
-    if (error.response.status === 400) {
-      return dispatch({
-        type: UPDATE_IMAGE_ERROR,
-        data: error.response.data,
-      });
-    }
-    if (error.response.status === 401) {
-      return dispatch({
-        type: AUTH_ERROR,
-        data: error.response.data,
-      });
-    }
-    return dispatch({
-      type: SERVER_ERROR,
-      data: {
-        success: false,
-      },
-    });
+    return error.response;
   }
 };
 
-export const deleteImage = (img) => async (dispatch) => {
+export const deleteImage = async (img) => {
   try {
-    const res = await axios.delete("/api/user/img", { img });
-    if (res.data.success && res.data.auth) {
-      return dispatch({
-        type: DELETE_IMAGE,
-        data: res.data,
-      });
+    const res = await Axios.delete("/api/user/img", { img });
+    if (res.status === 200) {
+      return res;
     }
   } catch (error) {
-    if (error.response.status === 400) {
-      return dispatch({
-        type: DELETE_IMAGE_ERROR,
-        data: error.response.data,
-      });
-    }
-    if (error.response.status === 401) {
-      return dispatch({
-        type: AUTH_ERROR,
-        data: error.response.data,
-      });
-    }
-    return dispatch({
-      type: SERVER_ERROR,
-      data: {
-        success: false,
-      },
-    });
+    return error.response;
   }
 };
 
-export const updateMotto = (text) => async (dispatch) => {
+export const updateMotto = async (text) => {
   try {
-    const res = await axios.put("/api/user/motto", { text });
-    if (res.data.success && res.data.auth) {
-      return dispatch({
-        type: UPDATE_MOTTO,
-        data: res.data,
-      });
+    const res = await Axios.put("/api/user/motto", { text });
+    if (res.status === 200) {
+      return res;
     }
   } catch (error) {
-    if (error.response.status === 400) {
-      return dispatch({
-        type: UPDATE_MOTTO_ERROR,
-        data: error.response.data,
-      });
-    }
-    if (error.response.status === 401) {
-      return dispatch({
-        type: AUTH_ERROR,
-        data: error.response.data,
-      });
-    }
-    return dispatch({
-      type: SERVER_ERROR,
-      data: {
-        success: false,
-      },
-    });
+    return error.response;
   }
 };
 
-export const findUser = (name, email) => async (dispatch) => {
+export const findUser = async (name, email) => {
   try {
-    const res = await axios.get(
+    const res = await Axios.get(
       `/api/user/find?email=${email}&username=${name}`
     );
-    return dispatch({
-      type: FIND_PASSWORD,
-      data: res.data,
-    });
-  } catch (error) {
-    if (error.response.status === 400) {
-      return dispatch({
-        type: NOT_FIND_PASSWORD,
-        data: error.response.data,
-      });
+    if (res.status === 200) {
+      return res;
     }
-    return dispatch({
-      type: SERVER_ERROR,
-      data: {
-        success: false,
-      },
-    });
+  } catch (error) {
+    return error.response;
   }
 };
 
-export const newPassword = (password, id) => async (dispatch) => {
+export const newPassword = async (password, id) => {
   try {
-    const res = await axios.post("/api/user/password", { password, id });
-    return dispatch({
-      type: NEW_PASSWORD,
-      data: res.data,
-    });
-  } catch (error) {
-    if (error.response.status === 404) {
-      return dispatch({
-        type: NEW_PASSWORD_FAIL,
-        data: error.response.data,
-      });
+    const res = await Axios.post("/api/user/password", { password, id });
+    if (res.status === 200) {
+      return res;
     }
-    return dispatch({
-      type: SERVER_ERROR,
-      data: {
-        success: false,
-      },
-    });
+  } catch (error) {
+    return error.response;
   }
 };

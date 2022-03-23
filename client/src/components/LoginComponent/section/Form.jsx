@@ -50,6 +50,7 @@ function Form({ email, password, onChangeInput, onSubmitInfo, emailRef }) {
           type="password"
           onChange={onChangeInput}
           value={password}
+          autoComplete="off"
         />
         <Button
           type="submit"
@@ -63,7 +64,7 @@ function Form({ email, password, onChangeInput, onSubmitInfo, emailRef }) {
       </form>
       <Grid container style={{ justifyContent: "space-between" }}>
         <Grid item>
-          <Link to="/signup" className={classes.signup}>
+          <Link to="/register" className={classes.signup}>
             회원가입
           </Link>
         </Grid>

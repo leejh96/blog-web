@@ -20,6 +20,8 @@ function FindPasswordComponent({
   emailRef,
 }) {
   const classes = useStyles();
+  document.title = "비밀번호 찾기";
+
   return (
     <Container className={classes.area} maxWidth="xs" disableGutters>
       <Input

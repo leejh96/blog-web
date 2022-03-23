@@ -115,7 +115,6 @@ function StudyContainer() {
       user={user}
       study={study}
       text={text}
-      page={page}
     />
   );
 }

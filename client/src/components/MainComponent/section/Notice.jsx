@@ -36,10 +36,7 @@ function Notice({ title, notices, user }) {
         <Box className={classes.post} display="flex" key={i}>
           <Box>{i + 1}</Box>
           <Box>
-            <Link
-              className={classes.postLink}
-              to={user._id ? `/notice/detail/${val._id}` : "/login"}
-            >
+            <Link className={classes.postLink} to={`/notice/detail/${val._id}`}>
               {val.title}
             </Link>
           </Box>

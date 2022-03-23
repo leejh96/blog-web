@@ -30,6 +30,8 @@ function Password({
   user,
 }) {
   const classes = useStyles();
+  document.title = "비밀번호 변경";
+
   const { password, confirm } = input;
   return (
     <Box>

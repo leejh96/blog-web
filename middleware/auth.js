@@ -3,9 +3,10 @@ const { verify, expSetting, sign } = require("../modules/jwtModule");
 
 const auth = async (req, res, next) => {
   // 구글 로그인
-  if (req.cookies["connect.sid"]) {
+  if (req.user) {
     return next();
   }
+
   try {
     const token = verify(req.headers.authorization, false);
     try {
@@ -18,7 +19,6 @@ const auth = async (req, res, next) => {
     } catch (error) {
       return res.clearCookie("rft").status(500).json({
         success: false,
-        auth: false,
         message: "DB서버 에러!",
       });
     }
@@ -39,17 +39,19 @@ const auth = async (req, res, next) => {
       } catch (error) {
         return res.clearCookie("rft").status(500).json({
           success: false,
-          auth: false,
           message: "DB서버 에러!",
         });
       }
     } catch (error) {
-      return res.status(401).clearCookie("rft").json({
-        expire: true,
-        success: false,
-        auth: false,
-        message: "세션 만료! 재로그인 해주세요",
-      });
+      return res
+        .status(401)
+        .clearCookie("rft")
+        .clearCookie("oauth")
+        .clearCookie("connect.sid")
+        .json({
+          success: false,
+          message: "토큰 만료! 재로그인 해주세요",
+        });
     }
   }
 };

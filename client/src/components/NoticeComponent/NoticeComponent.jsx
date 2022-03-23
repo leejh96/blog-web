@@ -30,6 +30,8 @@ function NoticeComponent({
   countSearch,
 }) {
   const classes = useStyles();
+  document.title = "공지사항";
+
   return (
     <Box>
       <Typography className={classes.title} variant="h5">

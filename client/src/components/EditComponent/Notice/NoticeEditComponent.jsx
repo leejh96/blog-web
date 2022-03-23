@@ -26,6 +26,8 @@ function NoticeEditComponent({
   onChangeInput,
 }) {
   const classes = useStyles();
+  document.title = postId ? "공지사항 수정" : "공지사항 작성";
+
   return (
     <>
       {!postId ? (

@@ -1,23 +1,14 @@
 import React from "react";
-import { Divider, Container, Box, Button } from "@material-ui/core";
+import { Divider, Container, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Study from "./section/Study";
 import Board from "./section/Board";
-import Setting from "./section/Setting";
+import MyPage from "./section/MyPage";
 
 const useStyles = makeStyles((theme) => {
   return {
     area: {
       width: "100%",
-    },
-    titlediv: {
-      display: "flex",
-      justifyContent: "center",
-    },
-    btn: {
-      margin: 0,
-      minWidth: "32px",
-      fontSize: "24px",
     },
     divide1: {
       marginBottom: "10px",
@@ -29,14 +20,12 @@ const useStyles = makeStyles((theme) => {
 });
 function SideSection({
   pathname,
-  onClickMenu,
-  toggle,
   onClickDeleteStudy,
   onClickCreateStudy,
   onClickPlusBtn,
   onChangeText,
   user,
-  study,
+  studies,
   createToggle,
   boardList,
 }) {
@@ -44,39 +33,23 @@ function SideSection({
 
   return (
     <Container className={classes.area} disableGutters>
-      {pathname.indexOf("/setting") !== -1 ? (
-        <Setting />
+      {pathname.indexOf("/mypage") !== -1 ? (
+        <MyPage />
       ) : (
-        <>
-          <Box className={classes.titlediv}>
-            <Button
-              size="small"
-              className={classes.btn}
-              onClick={onClickMenu}
-              variant="text"
-            >
-              Menu
-            </Button>
-          </Box>
-          {toggle ? (
-            <Box>
-              <Divider className={classes.divide1} />
-              <Study
-                onClickDeleteStudy={onClickDeleteStudy}
-                onClickCreateStudy={onClickCreateStudy}
-                onClickPlusBtn={onClickPlusBtn}
-                onChangeText={onChangeText}
-                user={user}
-                study={study}
-                createToggle={createToggle}
-              />
-              <Divider className={classes.divide2} />
-              <Board boardList={boardList} />
-            </Box>
-          ) : (
-            <></>
-          )}
-        </>
+        <Box>
+          <Divider className={classes.divide1} />
+          <Study
+            onClickDeleteStudy={onClickDeleteStudy}
+            onClickCreateStudy={onClickCreateStudy}
+            onClickPlusBtn={onClickPlusBtn}
+            onChangeText={onChangeText}
+            user={user}
+            studies={studies}
+            createToggle={createToggle}
+          />
+          <Divider className={classes.divide2} />
+          <Board boardList={boardList} />
+        </Box>
       )}
     </Container>
   );

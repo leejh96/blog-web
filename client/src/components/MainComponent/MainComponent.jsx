@@ -5,7 +5,6 @@ import RecentPost from "./section/RecentPost";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container } from "@material-ui/core";
 import BoxWrap from "./section/BoxWrap";
-import LoadingComponent from "../LoadingComponent/LoadingComponent";
 
 const useStyles = makeStyles((theme) => {
   return {

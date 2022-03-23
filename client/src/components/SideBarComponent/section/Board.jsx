@@ -45,7 +45,7 @@ function Board({ boardList }) {
       </Box>
       {boardList.map((val, i) => (
         <Link key={i} to={val.link} className={classes.link}>
-          {val.tag}{" "}
+          {val.tag}
         </Link>
       ))}
     </Box>

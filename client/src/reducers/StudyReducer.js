@@ -40,7 +40,6 @@ const StudyReducer = (state = initialState, action) => {
         studies: action.data.studies,
         count: action.data.studies.length,
       };
-
     case CREATE_STUDY:
       return {
         ...state,

@@ -1,12 +1,6 @@
 import React, { useState, useRef } from "react";
 import { findUser } from "../../actions/UserAction";
 import { useHistory } from "react-router-dom";
-import {
-  FIND_PASSWORD,
-  NOT_FIND_PASSWORD,
-  SERVER_ERROR,
-} from "../../actions/type";
-import { useDispatch } from "react-redux";
 import FindPasswordComponent from "../../components/FindComponent/FindPasswordComponent";
 
 function PasswordContainer() {
@@ -17,27 +11,30 @@ function PasswordContainer() {
     username: "",
   });
   const { email, username } = input;
-  const dispatch = useDispatch();
 
-  const onSubmitData = (e) => {
+  const onSubmitData = async (e) => {
     e.preventDefault();
-    dispatch(findUser(username, email)).then((res) => {
-      if (res.type === FIND_PASSWORD) {
-        return history.push("/password", {
-          userId: res.data.user,
-        });
-      }
-      if (res.type === NOT_FIND_PASSWORD) {
-        alert(res.data.message);
-        setInput({
-          email: "",
-          username: "",
-        });
-        return emailRef.current.focus();
-      }
-      if (res.type === SERVER_ERROR) {
-        history.push("/error/500");
-      }
+    const res = await findUser(username, email);
+    if (res.data.success) {
+      return history.push("/password", {
+        userId: res.data.user,
+      });
+    }
+    if (res.status === 404) {
+      alert(res.data.message);
+      setInput({
+        email: "",
+        username: "",
+      });
+      return emailRef.current.focus();
+    }
+    return history.push({
+      pathname: "/error",
+      state: {
+        status: res.status,
+        message: res.data.message,
+        text: res.statusText,
+      },
     });
   };
 

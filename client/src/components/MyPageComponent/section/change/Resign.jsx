@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Resign({ onClickResign }) {
   const classes = useStyles();
+  document.title = "회원탈퇴";
 
   return (
     <Box>

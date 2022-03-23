@@ -1,25 +1,9 @@
 import React, { useState, useRef } from "react";
 import RegisterComponent from "../../components/RegisterComponent/RegisterComponent";
-import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { registerUser } from "../../actions/UserAction";
-import { SERVER_ERROR } from "../../actions/type";
-
-const checkPassword = (password) => {
-  const blank = /\s/;
-  const regex =
-    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
-  if (!blank.test(password)) {
-    if (regex.test(password)) {
-      return true;
-    } else {
-      return false;
-    }
-  } else {
-    return false;
-  }
-};
-
+import checkPassword from "../../util/CheckPassword";
+import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
 function RegisterContainer() {
   const [input, setInput] = useState({
     username: "",
@@ -29,11 +13,11 @@ function RegisterContainer() {
   });
   const emailRef = useRef(null);
   const { username, email, password, nick } = input;
-  const dispatch = useDispatch();
   const history = useHistory();
-
-  const onSubmitRegister = (e) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const onSubmitRegister = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (checkPassword(password)) {
       const data = {
         username,
@@ -41,25 +25,33 @@ function RegisterContainer() {
         email,
         password,
       };
-      dispatch(registerUser(data)).then((res) => {
-        if (res.data.success) {
-          return history.push("/login");
-        } else {
-          if (res.type === SERVER_ERROR) {
-            return history.push("/error/500");
-          } else {
-            alert(res.data.message);
-            setInput({
-              email: "",
-              password: "",
-              username: "",
-              nick: "",
-            });
-            return emailRef.current.focus();
-          }
+      const res = await registerUser(data);
+      if (res.data.success) {
+        alert("회원가입이 완료 되었습니다.");
+        setIsLoading(false);
+        return history.push("/login");
+      } else {
+        if (res.status === 400) {
+          alert(res.data.message);
+          setInput({
+            username: "",
+            nick: "",
+            email: "",
+            password: "",
+          });
+          return setIsLoading(false);
         }
-      });
+        return history.push({
+          pathname: "/error",
+          state: {
+            status: res.status,
+            message: res.data.message,
+            text: res.statusText,
+          },
+        });
+      }
     } else {
+      setIsLoading(false);
       return alert(
         "비밀번호는 공백을 제외한 영문과 특수문자를 포함한 최소8자, 최대16자 입니다"
       );
@@ -72,7 +64,9 @@ function RegisterContainer() {
       [name]: value,
     });
   };
-  return (
+  return isLoading ? (
+    <LoadingComponent />
+  ) : (
     <RegisterComponent
       input={input}
       onSubmitRegister={onSubmitRegister}

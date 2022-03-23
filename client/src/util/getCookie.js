@@ -1,14 +1,15 @@
-const getCookie = (cookie) => {
-  const key = cookie.split("=")[0];
-  let value = cookie.split("=")[1];
+const getCookie = (data) => {
+  let cookies = data.replace(/(\s*)/g, "");
+  cookies = cookies.split(";");
 
-  if (value === "true") {
-    value = true;
-  } else {
-    value = false;
-  }
+  const splitCookies = cookies.map((cookie) => {
+    return {
+      key: cookie.split("=")[0],
+      value: cookie.split("=")[1],
+    };
+  });
 
-  return { key, value };
+  return splitCookies;
 };
 
 export default getCookie;

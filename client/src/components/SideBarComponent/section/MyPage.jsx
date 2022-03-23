@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function Setting({ settingList }) {
+function MyPage({ settingList }) {
   const classes = useStyles();
   return (
     <Box className={classes.area}>
@@ -51,4 +51,4 @@ function Setting({ settingList }) {
   );
 }
 
-export default Setting;
+export default MyPage;
