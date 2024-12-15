@@ -1,4 +1,5 @@
 upload
+build/static
 node_modules
 .env
 .vscode
