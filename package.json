@@ -1,39 +1,63 @@
 {
-  "name": "blog-server",
-  "version": "1.0.1",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "concurrently \"nodemon ./src/app.js\" \"npm run start --prefix client\"",
-    "start": "pm2-runtime start ecosystem.config.js --env production",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
-  },
-  "author": "Lee",
-  "license": "MIT",
-  "devDependencies": {
-    "concurrently": "^6.2.0",
-    "nodemon": "^2.0.7"
-  },
+  "name": "blog",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "aws-sdk": "^2.985.0",
-    "bcrypt": "^5.0.1",
-    "cookie-parser": "^1.4.5",
-    "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "express-session": "^1.17.2",
-    "jsonwebtoken": "^8.5.1",
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.60",
+    "@mui/icons-material": "^5.4.4",
+    "@mui/material": "^5.4.4",
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.21.1",
+    "emoji-dictionary": "^1.0.11",
+    "http-proxy-middleware": "^2.0.1",
     "moment": "^2.29.1",
-    "mongoose": "^5.12.12",
-    "multer": "^1.4.2",
-    "multer-s3": "^2.9.0",
-    "passport": "^0.4.1",
-    "passport-google-oauth20": "^2.0.0",
-    "pm2": "^5.2.0"
+    "query-string": "^4.3.4",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-loading": "^2.0.3",
+    "react-markdown": "^6.0.2",
+    "react-mde": "^11.5.0",
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "react-syntax-highlighter": "^15.4.3",
+    "redux": "^4.1.0",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "rehype-raw": "^6.1.0",
+    "remark-gfm": "^1.0.0",
+    "styled-components": "^5.3.0",
+    "web-vitals": "^1.1.2"
   },
-  "engines": {
-    "node": "v16.13.0",
-    "npm": "8.1.4"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
